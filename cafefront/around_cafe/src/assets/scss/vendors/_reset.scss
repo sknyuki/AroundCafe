@@ -1,0 +1,98 @@
+* {
+  margin: 0;
+  font-family: $font-main;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html {
+  font-family: $font-main;
+  font-size: $font-size-16;
+}
+
+body {
+  font-family: $font-main;
+  color: $primary;
+}
+
+h1 {
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+select,
+textarea {
+  background-color: transparent;
+  border: 0;
+
+  &:focus {
+    outline: none;
+    box-shadow: none;
+  }
+}
+
+a,
+button {
+  cursor: pointer;
+}
+
+button {
+  padding: 0;
+}
+
+ul,
+ol {
+  padding-left: 0;
+  list-style: none;
+}
+
+address {
+  font-style: normal;
+}
+
+.v-application {
+  a {
+    color: inherit !important;
+    cursor: pointer;
+  }
+}
+
+.swiper-pagination {
+  margin-bottom: 16px;
+}
+
+.swiper-pagination-bullet {
+  background: $white !important;
+}
+
+.swiper-pagination-bullet-active {
+  background-color: $white !important;
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+  color: $black !important;
+  background-size: 10px 20px;
+}
+
+.swiper-button-next,
+.swiper-container-rtl .swiper-button-prev {
+  background-image: none;
+}
+
+.swiper-button-prev,
+.swiper-container-rtl .swiper-button-prev {
+  background-image: none;
+}
+
+.swiper-button-next.swiper-button-disabled,
+.swiper-button-prev.swiper-button-disabled {
+  display: none;
+}
