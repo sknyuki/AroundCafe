@@ -1,0 +1,45 @@
+%form-base {
+  @include text-style(16, $primary);
+  display: block;
+  width: 100%;
+  height: 40px;
+  padding: 0 16px;
+  background-color: $white;
+  border: 1px solid $border;
+  border-radius: 4px;
+  transition: background-color 200ms ease-in-out;
+  appearance: none;
+
+  &::placeholder {
+    color: $tertiary;
+  }
+
+  &:not(:disabled):hover {
+    background-color: $background;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.4;
+  }
+}
+
+.form-input {
+  @extend %form-base;
+}
+
+// NOTE: Input
+.input-group {
+  position: relative;
+
+  .form-input {
+    padding-left: 40px;
+  }
+
+  .icSearch {
+    @include pos-center-y;
+    left: 10px;
+    font-size: 20px;
+    color: $secondary;
+  }
+}
