@@ -1,1 +1,14 @@
 @charset "UTF-8";
+
+
+//Components
+@import "~@/assets/scss/components/header/global-header";
+@import "~@/assets/scss/components/header/gnb-icon";
+@import "~@/assets/scss/components/my-menu";
+
+//Layouts
+@import "~@/assets/scss/layouts/FooterLayout";
+@import "~@/assets/scss/layouts/HeaderLayout";
+@import "~@/assets/scss/layouts/NavLayout";
+
+
