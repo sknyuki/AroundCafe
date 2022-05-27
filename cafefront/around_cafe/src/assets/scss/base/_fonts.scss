@@ -1,0 +1,11 @@
+@font-face {
+  font-family: "Test";
+  src: url("@/assets/fonts/Test.eot");
+  src: url("@/assets/fonts/Test.eot#iefix") format("embedded-opentype"),
+    url("@/assets/fonts/Test.ttf") format("truetype"),
+    url("@/assets/fonts/Test.woff") format("woff"),
+    url("@/assets/fonts/Test.svg#Test") format("svg");
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}

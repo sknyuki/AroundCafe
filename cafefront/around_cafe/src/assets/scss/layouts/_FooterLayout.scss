@@ -1,0 +1,104 @@
+.global-footer {
+  padding-top: 32px;
+  padding-bottom: 16px;
+  background-color: $background;
+  &-top {
+    @include flexbox(between);
+  }
+
+  &-title {
+    @include text-style(13, $dark);
+    font-weight: 700;
+  }
+
+  &-contact {
+    @include text-style(24, $dark);
+    font-weight: 700;
+  }
+
+  &-time {
+    @include text-style(12, $primary);
+    margin-bottom: 24px;
+  }
+
+  &-outbound {
+    margin: -3px -7px 26px;
+    a {
+      margin-right: 8px;
+    }
+  }
+
+  &-list {
+    @include flexbox(start);
+    margin: 0 -28px 10px;
+
+    li {
+      a {
+        @include text-style(12, $dark);
+        display: inline-block;
+        margin: 0 4px;
+      }
+    }
+  }
+
+  &-info {
+    font-size: 10px;
+    line-height: 16px;
+    letter-spacing: -0.01em;
+    color: $secondary;
+    margin-bottom: 4px;
+  }
+
+  &-info-item {
+    @include flexbox(start);
+
+    address {
+      display: inline;
+    }
+
+    dt::after {
+      margin: 0 2px;
+      content: ":";
+    }
+  }
+  span {
+    font-size: 10px;
+    line-height: 16px;
+    letter-spacing: -0.01em;
+    color: $secondary;
+    margin-bottom: 8px;
+  }
+  p {
+    font-size: 10px;
+    line-height: 16px;
+    letter-spacing: -0.01em;
+    color: $dark;
+  }
+
+  @include responsive(D) {
+    margin-bottom: 0;
+
+    &-title {
+      @include text-style(14);
+    }
+
+    &-contact:hover {
+      opacity: 0.5;
+    }
+
+    &-info {
+      @include flexbox(start);
+    }
+
+    &-info-item {
+      a:hover {
+        text-decoration: underline;
+      }
+
+      &:not(:last-child)::after {
+        margin: 0 8px;
+        content: "|";
+      }
+    }
+  }
+}
