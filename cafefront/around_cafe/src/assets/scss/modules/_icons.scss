@@ -1,0 +1,111 @@
+i {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: "Test" !important;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icBell:before {
+  content: "\e900";
+}
+.icBookmark:before {
+  content: "\e901";
+}
+.icBookmarkFilled:before {
+  content: "\e902";
+}
+.icCaret:before {
+  content: "\e903";
+}
+.icCart:before {
+  content: "\e904";
+}
+.icCheck:before {
+  content: "\e905";
+}
+.icChevron:before {
+  content: "\e906";
+}
+.icClose:before {
+  content: "\e907";
+}
+.icCommunity:before {
+  content: "\e908";
+}
+.icExpert:before {
+  content: "\e909";
+}
+.icFacebook:before {
+  content: "\e90a";
+  color: #3c5a99;
+}
+.icHeartFilled:before {
+  content: "\e90b";
+}
+.icHeart:before {
+  content: "\e90c";
+}
+.icGoogle .path1:before {
+  content: "\e90d";
+  color: rgb(66, 133, 244);
+}
+.icGoogle .path2:before {
+  content: "\e90e";
+  margin-left: -1em;
+  color: rgb(52, 168, 83);
+}
+.icGoogle .path3:before {
+  content: "\e90f";
+  margin-left: -1em;
+  color: rgb(251, 188, 5);
+}
+.icGoogle .path4:before {
+  content: "\e910";
+  margin-left: -1em;
+  color: rgb(234, 67, 53);
+}
+.icKaKao:before {
+  content: "\e911";
+}
+.icKaKaoTalk:before {
+  content: "\e912";
+}
+.icLock:before {
+  content: "\e913";
+}
+.icMenu:before {
+  content: "\e914";
+}
+.icNaver:before {
+  content: "\e915";
+  color: #1ec800;
+}
+.icNew:before {
+  content: "\e916";
+}
+.icLocation:before {
+  content: "\e917";
+}
+.icSearch:before {
+  content: "\e918";
+}
+.icStar:before {
+  content: "\e919";
+}
+.icStore:before {
+  content: "\e91a";
+}
+.icTwitter:before {
+  content: "\e91b";
+  color: #1da1f2;
+}
+.icYoutube:before {
+  content: "\ea9d";
+}
