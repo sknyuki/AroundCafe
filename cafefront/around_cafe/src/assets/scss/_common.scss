@@ -1,10 +1,12 @@
 @charset "UTF-8";
 
-
 //Components
 @import "~@/assets/scss/components/header/global-header";
 @import "~@/assets/scss/components/header/gnb-icon";
 @import "~@/assets/scss/components/my-menu";
+@import "~@/assets/scss/components/gallery/cafe-gallery";
+@import "~@/assets/scss/components/gallery/cafe-recommendation";
+@import "~@/assets/scss/components/gallery/cafe-list";
 
 //Layouts
 @import "~@/assets/scss/layouts/FooterLayout";

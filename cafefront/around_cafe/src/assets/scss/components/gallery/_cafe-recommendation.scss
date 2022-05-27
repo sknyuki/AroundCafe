@@ -1,0 +1,49 @@
+.cafe {
+  &-list {
+    @include flexbox(between, start);
+    flex-wrap: wrap;
+  }
+
+  &-item {
+    position: relative;
+
+    width: 100%; // (100% - 20px) / 2
+    &:nth-child(1),
+    &:nth-child(2) {
+      margin-bottom: 20px;
+    }
+    a {
+      display: block;
+    }
+
+    &-btn {
+      background: none;
+
+      :hover {
+        opacity: 0.5;
+      }
+      i {
+        position: absolute;
+        top: 1;
+        right: 0;
+        margin: 16px;
+        font-size: 24px;
+        z-index: 10;
+      }
+    }
+  }
+
+  @include responsive(T) {
+    &-item {
+      width: calc(50% - 11px); // (100% - 32px) / 3
+      margin-bottom: 0 !important;
+    }
+  }
+
+  @include responsive(D) {
+    &-item {
+      width: calc(25% - 11px); // (100% - 32px) / 3
+      margin-bottom: 0 !important;
+    }
+  }
+}

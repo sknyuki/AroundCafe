@@ -1,0 +1,34 @@
+.cafe-list {
+  &-title {
+    @include text-style(16, $dark);
+    font-weight: 400;
+  }
+  &-location,
+  &-time {
+    @include text-style(14, $primary);
+  }
+  &-rating {
+    margin-bottom: 8px;
+
+    .rating {
+      @include flexbox(start);
+    }
+
+    dt {
+      @include flexbox;
+      width: 12px;
+      height: 12px;
+      margin-right: 4px;
+    }
+
+    i {
+      font-size: 12px;
+      color: $yellow;
+    }
+
+    dd {
+      @include text-style(12, $primary);
+      font-weight: 700;
+    }
+  }
+}
