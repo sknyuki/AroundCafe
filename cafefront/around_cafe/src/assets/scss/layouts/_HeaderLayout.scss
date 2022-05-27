@@ -1,0 +1,106 @@
+.gnb {
+  position: relative;
+  background-color: $white;
+  border-bottom: 1px solid $border;
+
+  &-wrapper {
+    @include flexbox(between);
+    height: $gnb-height-sm - 1px;
+  }
+
+  &-right {
+    .button-group {
+      @include flexbox(end);
+    }
+
+    .gnb-icon-button.is-search {
+      margin-right: 4px;
+    }
+  }
+
+  .logo {
+    @include pos-center;
+    img {
+      display: block;
+      width: auto;
+      height: 20px;
+    }
+  }
+
+  @include responsive(T) {
+    &-wrapper {
+      height: $gnb-height-md - 1px;
+    }
+    &-left {
+      @include flexbox(start);
+      margin-left: 24px;
+    }
+
+    &-right {
+      @include flexbox(end);
+
+      .button-group {
+        margin-right: 24px;
+
+        .gnb-icon-button {
+          margin-right: 8px;
+        }
+
+        .gnb-auth {
+          margin-left: 8px;
+
+          a {
+            @include text-style(14, $secondary);
+            font-weight: 700;
+
+            &:first-child {
+              margin-right: 12px;
+            }
+
+            &:hover {
+              color: $indigo;
+            }
+          }
+        }
+      }
+    }
+
+    .logo {
+      position: static;
+      padding-right: 32px;
+      transform: none;
+
+      img {
+        height: 24px;
+      }
+    }
+    &-login {
+      @include text-style(16, $primary);
+      &-item {
+        &:not(:last-child)::after {
+          margin: 0 8px;
+          content: "|";
+        }
+      }
+    }
+  }
+
+  @include responsive(D) {
+    &-search {
+      position: relative;
+      width: 264px;
+      margin-right: 24px;
+
+      .input-group {
+        width: 100%;
+      }
+    }
+
+    &-login-item {
+      &:not(:last-child)::after {
+        margin: 0 8px;
+        content: "|";
+      }
+    }
+  }
+}
