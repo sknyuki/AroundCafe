@@ -687,10 +687,7 @@ export default {
 @import "~@/assets/scss/components/gallery/cafe-recommendation";
 @import "~@/assets/scss/components/gallery/cafe-gallery";
 @import "~@/assets/scss/components/gallery/cafe-list";
-
-.swiper-container {
-  border-radius: 16px;
-}
+@import "~@/assets/scss/components/gallery/swiper";
 
 .prev-next,
 .prev-prev {
@@ -700,36 +697,4 @@ export default {
   opacity: 1;
 }
 
-.swiper-button {
-  &-prev,
-  &-next {
-    display: none;
-  }
-
-  @include responsive(D) {
-    &-prev,
-    &-next {
-      @include flexbox;
-
-      width: 30px;
-      height: 30px;
-      font-size: 20px;
-      transition: background-color 100ms ease-in-out, color 100ms ease-in-out;
-
-      &.is-prev {
-        i {
-          margin-left: -2px;
-          transform: rotate(90deg);
-        }
-      }
-
-      &.is-next {
-        i {
-          margin-right: -2px;
-          transform: rotate(-90deg);
-        }
-      }
-    }
-  }
-}
 </style>
