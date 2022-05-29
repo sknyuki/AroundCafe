@@ -1,5 +1,6 @@
 package com.example.demo.mypage.cafe.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -48,6 +49,22 @@ public class Cafe {
     @ToString.Exclude
     @OneToMany(mappedBy = "cafe", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private List<CafeImg> cafeImgs = new ArrayList<>();
+
+    @ManyToOne
+    @JsonIgnore
+    @JoinColumn(name = "member_no")
+    private Member memberInfo;
+
+    public Cafe(String cafe_name, String cafe_time, String cafe_content, String cafe_call, String cafe_adr1, String cafe_adr2, String cafe_adr3, Member member) {
+        this.cafe_name = cafe_name;
+        this.cafe_time = cafe_time;
+        this.cafe_content = cafe_content;
+        this.cafe_call = cafe_call;
+        this.cafe_adr1 = cafe_adr1;
+        this.cafe_adr2 = cafe_adr2;
+        this.cafe_adr3 = cafe_adr3;
+        memberInfo = member;
+    }
 
     /*
     추가해야할 것
