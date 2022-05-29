@@ -1,5 +1,5 @@
 <template>
-  <header class="global-header" app=app>
+  <header class="global-header" app="app">
     <div class="gnb">
       <div class="container">
         <div class="row">
@@ -7,7 +7,9 @@
             <div class="gnb-wrapper">
               <div class="gnb-left">
                 <h1 class="logo">
-                  <a href="/" alt="로고">로고</a>
+                  <router-link :to="{ name: 'MainPage' }" alt="로고"
+                    >로고</router-link
+                  >
                 </h1>
 
                 <v-btn
@@ -56,8 +58,16 @@
 
                   <!-- 로그인을 하지 않은 경우 -->
                   <div class="gnb-login sm-hidden">
-                    <a class="gnb-login-item" href="">로그인</a>
-                    <a class="gnb-login-item" href="">회원가입</a>
+                    <router-link
+                      :to="{ name: 'LoginPage' }"
+                      class="gnb-login-item"
+                      >로그인</router-link
+                    >
+                    <router-link
+                      :to="{ name: 'SignUpPage' }"
+                      class="gnb-login-item"
+                      >회원가입</router-link
+                    >
                     <a class="gnb-login-item lg-only" href="">고객센터</a>
                   </div>
 

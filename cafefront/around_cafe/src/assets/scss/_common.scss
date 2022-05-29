@@ -4,13 +4,15 @@
 @import "~@/assets/scss/components/header/global-header";
 @import "~@/assets/scss/components/header/gnb-icon";
 @import "~@/assets/scss/components/my-menu";
+
 @import "~@/assets/scss/components/gallery/cafe-gallery";
 @import "~@/assets/scss/components/gallery/cafe-recommendation";
 @import "~@/assets/scss/components/gallery/cafe-list";
+@import "~@/assets/scss/components/gallery/swiper";
+
+@import "~@/assets/scss/components/account/login";
 
 //Layouts
 @import "~@/assets/scss/layouts/FooterLayout";
 @import "~@/assets/scss/layouts/HeaderLayout";
 @import "~@/assets/scss/layouts/NavLayout";
-
-
