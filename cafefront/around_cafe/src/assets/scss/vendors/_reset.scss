@@ -64,9 +64,7 @@ address {
   }
 }
 
-.swiper-pagination {
-  margin-bottom: 16px;
-}
+
 
 .swiper-pagination-bullet {
   background: $white !important;
@@ -74,12 +72,6 @@ address {
 
 .swiper-pagination-bullet-active {
   background-color: $white !important;
-}
-
-.swiper-button-next,
-.swiper-button-prev {
-  color: $black !important;
-  background-size: 10px 20px;
 }
 
 .swiper-button-next,
