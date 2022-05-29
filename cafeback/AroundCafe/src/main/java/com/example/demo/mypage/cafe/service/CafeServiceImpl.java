@@ -45,7 +45,7 @@ public class CafeServiceImpl implements CafeService{
         repository.save(cafe);
 
         //방금 저장한 cafe의 정보 가지고 오기, 이걸 안해도 문제가 없나?(desc로 조회하면 마지막에 저장한게 확인될 것임)
-        Optional<Cafe> findCafe = repository.findAll(Sort.by(Sort.Direction.DESC, "cafe_no"));
+        Optional<Cafe> findCafe = repository.findOne();
         Cafe cafe1 = findCafe.get();
 
         //카페 이미지 테이블에 list로 만들어놓은 이미지 이름들을 하나씩 저장하기
