@@ -9,4 +9,7 @@ import java.util.Optional;
 public interface CafeRepository extends JpaRepository<Cafe, Long> {
     @Query(value = "select * from cafe order by cafe_no desc", nativeQuery = true)
     Optional<Cafe> findOne();
+
+    @Query(value = "select * from cafe where member_no : memNo",nativeQuery = true)
+    Optional<Cafe> findByMemberNo(Long memNo);
 }
