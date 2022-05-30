@@ -28,6 +28,15 @@
   @extend %form-base;
 }
 
+.account-input {
+  .form-input {
+    margin-bottom: 24px;
+    height: 48px !important;
+    margin-top: 8px;
+    border-radius: 8px;
+  }
+}
+
 // NOTE: Input
 .input-group {
   position: relative;
