@@ -2,7 +2,6 @@ package com.example.demo.mypage.cafe.service;
 
 import com.example.demo.member.entity.Member;
 import com.example.demo.member.repository.MemberRepository;
-import com.example.demo.mypage.cafe.dto.CafeDto;
 import com.example.demo.mypage.cafe.entity.Cafe;
 import com.example.demo.mypage.cafe.entity.CafeImg;
 import com.example.demo.mypage.cafe.repository.CafeImgRepository;
@@ -76,5 +75,13 @@ public class CafeServiceImpl implements CafeService{
 
         Cafe cafe = new Cafe(info.getCafe_name(), findCafe1.getCafe_bis_no(), info.getCafe_time(), info.getCafe_content(), info.getCafe_call(), info.getCafe_adr1(),info.getCafe_adr2(),info.getCafe_adr3(),member);
         repository.save(cafe);
+    }
+
+    @Override
+    public Cafe read(Integer membNo) {
+        Optional<Cafe> findCafe = repository.findByMemberNo(Long.valueOf(membNo));
+        Cafe cafe = findCafe.get();
+
+        return cafe;
     }
 }

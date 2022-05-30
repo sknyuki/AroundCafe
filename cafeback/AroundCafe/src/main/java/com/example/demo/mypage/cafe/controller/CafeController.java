@@ -54,7 +54,12 @@ public class CafeController {
         return "등록이 완료되었습니다!";
     }
 
-//    @GetMapping("/mypage/{cafeNo}")
-//    public Cafe ()
+    @GetMapping("/mypage/read/{membNo}")
+    public Cafe read(@PathVariable("membNo") Integer membNo) {
+        log.info("read Page no : "+ membNo);
+        return service.read(membNo);
+
+
+    }
 
 }
