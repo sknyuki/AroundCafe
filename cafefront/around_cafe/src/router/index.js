@@ -5,6 +5,10 @@ import MainPage from "../views/MainPage.vue"
 // Account 회원
 import SignUpPage from "../views/account/SignUpPage.vue"
 import LoginPage from "../views/account/LoginPage.vue"
+import PasswordPage from "../views/account/PasswordPage.vue"
+
+// Policy 정책
+import UsePolicyPage from "../views/policy/UsePolicyPage.vue"
 
 Vue.use(VueRouter)
 
@@ -23,6 +27,16 @@ const routes = [
     path: "/login",
     name: "LoginPage",
     component: LoginPage,
+  },
+  {
+    path: "/password",
+    name: "PasswordPage",
+    component: PasswordPage,
+  },
+  {
+    path: "/usepolicy",
+    name: "UsePolicyPage",
+    component: UsePolicyPage,
   },
 ]
 
