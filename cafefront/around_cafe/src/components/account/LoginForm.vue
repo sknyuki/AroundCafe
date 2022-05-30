@@ -9,20 +9,24 @@
         <form class="login-form" action="/" method="POST">
           <div class="login-form-member">
             <div class="login-form-id">
-              <input
-                class="login-input"
-                type="email"
-                placeholder="이메일"
-                required
-              />
+              <div class="account-input">
+                <input
+                  class="form-input"
+                  type="email"
+                  placeholder="이메일"
+                  required
+                />
+              </div>
             </div>
             <div class="login-form-pw">
-              <input
-                class="login-input"
-                type="password"
-                placeholder="비밀번호"
-                required
-              />
+              <div class="account-input">
+                <input
+                  class="form-input"
+                  type="password"
+                  placeholder="비밀번호"
+                  required
+                />
+              </div>
             </div>
           </div>
 
@@ -34,7 +38,9 @@
             <div class="login-util-content">
               <ul>
                 <li class="login-util-pw">
-                  <a href="">비밀번호 찾기</a>
+                  <router-link :to="{ name: 'PasswordPage' }"
+                    >비밀번호 재설정</router-link
+                  >
                 </li>
                 <li class="login-util-sign">
                   <router-link :to="{ name: 'SignUpPage' }"
