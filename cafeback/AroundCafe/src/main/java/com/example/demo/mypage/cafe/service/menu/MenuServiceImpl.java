@@ -7,12 +7,14 @@ import com.example.demo.mypage.cafe.repository.cafe.CafeRepository;
 import com.example.demo.mypage.cafe.repository.menu.MenuRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -86,5 +88,14 @@ public class MenuServiceImpl implements MenuService{
             repository.save(info);
         }
 
+    }
+
+    @Override
+    public List<CafeMenu> list(Integer membNo) {
+        Optional<Cafe> findCafeNo = cafeRepository.findByMemberNo(Long.valueOf(membNo));
+        Cafe cafe = findCafeNo.get();
+        Long CafeNo = cafe.getCafeNo();
+
+        return repository.findByCafeNo(CafeNo);
     }
 }

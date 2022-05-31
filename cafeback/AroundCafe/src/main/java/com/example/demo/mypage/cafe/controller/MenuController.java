@@ -52,7 +52,7 @@ public class MenuController {
     }
 
     @ResponseBody
-    @PostMapping(value = "/modify/{cafeName}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
+    @PutMapping(value = "/modify/{cafeName}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
     public String menuModify(@PathVariable("cafeName") String cafeName,
                                @RequestPart(value = "info", required = false) CafeMenu info,
                                @RequestPart(value = "fileList", required = false) List<MultipartFile> fileList) {
@@ -82,5 +82,11 @@ public class MenuController {
         return "modify complete!!";
     }
 
+    @GetMapping("/list/{membNo}")
+    public List<CafeMenu> menuList(@PathVariable("membNo") Integer membNo) {
+        log.info("get menu list");
 
+        return service.list(membNo);
     }
+
+}
