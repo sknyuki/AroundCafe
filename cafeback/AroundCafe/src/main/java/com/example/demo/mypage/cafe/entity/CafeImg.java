@@ -21,9 +21,4 @@ public class CafeImg {
     @JsonIgnore
     @JoinColumn(name = "cafe_no")
     private Cafe cafe;
-
-    public CafeImg(String img, Cafe cafe1) {
-        cafe_img = img;
-        cafe = cafe1;
-    }
 }

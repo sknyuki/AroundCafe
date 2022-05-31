@@ -11,7 +11,6 @@ public class CafeDto {
     private String id;
     private String cafe_name;
     private String cafe_time;
-    private String cafe_content;
     private String cafe_call;
     private String cafe_adr1;
     private String cafe_adr2;

@@ -1,7 +1,6 @@
 package com.example.demo.mypage.cafe.controller;
 
 import com.example.demo.mypage.cafe.dto.CafeDto;
-import com.example.demo.mypage.cafe.entity.Cafe;
 import com.example.demo.mypage.cafe.service.CafeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,10 +21,9 @@ public class CafeController {
     private CafeService service;
 
     @ResponseBody
-    @PostMapping(value = "/modify/{membNo}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
-    public String  cafeRegister (@PathVariable("membNo") Integer membNo,
-                              @RequestPart(value = "info", required = false) Cafe info,
-                              @RequestPart(value = "fileList", required = false)List<MultipartFile> fileList) {
+    @PostMapping(value = "/register", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
+    public String  cafeRegister (@RequestPart(value = "info", required = false) CafeDto info,
+                                 @RequestPart(value = "fileList", required = false)List<MultipartFile> fileList) {
 
         log.info("uploadContents()" + info);
         log.info("uploadImg()"+fileList);
@@ -42,19 +40,16 @@ public class CafeController {
                     writer.write(multipartFile.getBytes());
                     writer.close();
                 }
-                service.includeFileRegisterCafe(membNo,info,fileList);
+                service.includeFileRegisterCafe(info,fileList);
             } catch (Exception e) {
                 return "register fail!";
             }
         }else if (fileList == null) {
-            service.notIncludeFileRegisterCafe(membNo,info);
+            service.notIncludeFileRegisterCafe(info);
         }
 
         log.info("requestUpload(): Success!!!");
         return "등록이 완료되었습니다!";
     }
-
-//    @GetMapping("/mypage/{cafeNo}")
-//    public Cafe ()
 
 }
