@@ -9,6 +9,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Optional;
 
 @Slf4j
@@ -46,5 +50,41 @@ public class MenuServiceImpl implements MenuService{
 
         CafeMenu cafeMenu = new CafeMenu(info.getMenu_name(), info.getMenu_price(), info.getMenu_content(), cafe);
         repository.save(cafeMenu);
+    }
+
+    @Override
+    public void includeImgModify(CafeMenu info, String originalFilename, String cafeName) throws IOException {
+        String file = cafeName+"." +originalFilename;
+
+        log.info("include img modify");
+        log.info("file: " +file);
+        log.info("memu no : " +info.getMenu_no());
+
+        Optional<CafeMenu> findCafeMenu = repository.findById(info.getMenu_no());
+        CafeMenu cafeMenu = findCafeMenu.get();
+
+        if(cafeMenu.getMenu_img() != null) {
+            Path filePath = Paths.get("../../cafefront/around_cafe/src/asserts/cafeMenu" + info.getMenu_img());
+            Files.delete(filePath);
+        }
+
+        info.setMenu_img(file);
+        repository.save(info);
+    }
+
+    @Override
+    public void exceptImgModify(CafeMenu info) {
+        log.info("except img modify");
+
+        Optional<CafeMenu> findCafeMenu = repository.findById(info.getMenu_no());
+        CafeMenu cafeMenu = findCafeMenu.get();
+
+        if(cafeMenu.getMenu_img() != null) {
+            info.setMenu_img(cafeMenu.getMenu_img());
+            repository.save(info);
+        }else if(cafeMenu.getMenu_img() == null) {
+            repository.save(info);
+        }
+
     }
 }
