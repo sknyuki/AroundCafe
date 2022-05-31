@@ -1,4 +1,4 @@
-package com.example.demo.mypage.cafe.repository;
+package com.example.demo.mypage.cafe.repository.cafe;
 
 import com.example.demo.mypage.cafe.entity.Cafe;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,5 +11,5 @@ public interface CafeRepository extends JpaRepository<Cafe, Long> {
     Optional<Cafe> findOne();
 
     @Query(value = "select * from cafe where member_no : memNo",nativeQuery = true)
-    Optional<Cafe> findByMemberNo(Long memNo);
+    Optional<Cafe> findByMemberNo(Integer memNo);
 }

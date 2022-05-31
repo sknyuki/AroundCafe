@@ -1,8 +1,7 @@
 package com.example.demo.mypage.cafe.controller;
 
-import com.example.demo.mypage.cafe.dto.CafeDto;
 import com.example.demo.mypage.cafe.entity.Cafe;
-import com.example.demo.mypage.cafe.service.CafeService;
+import com.example.demo.mypage.cafe.service.cafe.CafeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -42,19 +41,21 @@ public class CafeController {
                     writer.write(multipartFile.getBytes());
                     writer.close();
                 }
-                service.includeFileRegisterCafe(membNo,info,fileList);
+                service.includeFileModifyCafe(membNo,info,fileList);
             } catch (Exception e) {
                 return "register fail!";
             }
         }else if (fileList == null) {
-            service.notIncludeFileRegisterCafe(membNo,info);
+            service.notIncludeFileModifyCafe(membNo,info);
         }
 
         log.info("requestUpload(): Success!!!");
         return "등록이 완료되었습니다!";
     }
 
-//    @GetMapping("/mypage/{cafeNo}")
-//    public Cafe ()
-
+    @GetMapping("/mypage/read/{membNo}")
+    public Cafe myPageRead(@PathVariable("membNo") Integer membNo) {
+        log.info("read Page no : "+ membNo);
+        return service.cafeMypageread(membNo);
+    }
 }
