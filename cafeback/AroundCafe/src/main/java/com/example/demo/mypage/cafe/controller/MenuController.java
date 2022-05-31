@@ -89,4 +89,11 @@ public class MenuController {
         return service.list(membNo);
     }
 
+    @DeleteMapping("/delete/{menuNo}")
+    public void deleteMenu (@PathVariable("menuNo") Integer menuNo) {
+        log.info("delete no : "+menuNo);
+
+        service.delete(menuNo);
+    }
+
 }

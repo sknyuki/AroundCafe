@@ -16,4 +16,6 @@ public interface MenuService {
     public void exceptImgModify(CafeMenu info);
 
     public List<CafeMenu> list(Integer membNo);
+
+    public void delete(Integer menuNo) throws IOException;
 }

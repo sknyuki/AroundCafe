@@ -98,4 +98,18 @@ public class MenuServiceImpl implements MenuService{
 
         return repository.findByCafeNo(CafeNo);
     }
+
+    @Override
+    public void delete(Integer menuNo) throws IOException {
+        Optional<CafeMenu> findMenu = repository.findById(Long.valueOf(menuNo));
+        CafeMenu menu = findMenu.get();
+
+        if(menu.getMenu_img() != null) {
+            Path file = Paths.get("../../cafefront/around_cafe/src/asserts/cafeMenu" + menu.getMenu_img());
+            Files.delete(file);
+        }
+
+        repository.deleteById(Long.valueOf(menuNo));
+    }
+
 }
