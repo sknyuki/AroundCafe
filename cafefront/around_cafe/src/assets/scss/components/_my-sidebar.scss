@@ -1,0 +1,30 @@
+.mysidebar {
+  border: 1px solid $border;
+  border-radius: 8px;
+  padding: 16px;
+  h1 {
+    @include text-style(14, $secondary);
+    padding: 4px;
+  }
+  &-list {
+    @include flexbox(between);
+    a {
+      width: 100%;
+      border-radius: 2px;
+      &:hover {
+        background-color: $background;
+      }
+    }
+  }
+  &-test {
+    display: flex;
+    padding: 8px;
+
+    p {
+      @include text-style(16, $dark);
+
+      margin-bottom: 0;
+      margin-left: 8px;
+    }
+  }
+}
