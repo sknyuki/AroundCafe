@@ -1,0 +1,3 @@
+//CafeMyPage 
+/*export const FETCH_CAFE_BOARD_LIST = 'FETCH_CAFE_BOARD_LIST'
+export const FETCH_CAFE_BOARD = 'FETCH_CAFE_BOARD'*/

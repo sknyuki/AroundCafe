@@ -10,6 +10,9 @@ import PasswordPage from "../views/account/PasswordPage.vue"
 // Policy 정책
 import UsePolicyPage from "../views/policy/UsePolicyPage.vue"
 
+//CafeMyPage
+import CafeModifyView from "../views/CafeMyPageViews/CafeModifyView"
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -38,6 +41,15 @@ const routes = [
     name: "UsePolicyPage",
     component: UsePolicyPage,
   },
+  {
+    path: "/CafeModifyView",
+    name: "CafeModifyView",
+    components:{CafeModifyView,
+  },
+  props:{
+    default: true
+  }
+}
 ]
 
 const router = new VueRouter({
