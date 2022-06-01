@@ -43,6 +43,7 @@ public class CafeServiceImpl implements CafeService{
         Cafe cafe = new Cafe(info.getCafe_name(), info.getCafe_bis_no(), info.getCafe_time(), info.getCafe_content(), info.getCafe_call(), info.getCafe_adr1(),info.getCafe_adr2(),info.getCafe_adr3(),member);
         repository.save(cafe);
 
+        //이미지 db에서 파일 삭제, 추가 저장 메소드
         deleteAndSaveImg(info, fileList, cafe);
 
         /*
@@ -66,11 +67,11 @@ public class CafeServiceImpl implements CafeService{
         }
 
         //카페이미지에서 카페 관련해서 이미지가 있나 찾아보기 -> 있으면 삭제 후 저장, 없으면 그냥 저장
-        Optional<CafeImg> havingImg = cafeImgRepository.findByCafe_no(Math.toIntExact(info.getCafeNo()));
+        Optional<CafeImg> havingImg = cafeImgRepository.findByCafeNo(info.getCafeNo());
         CafeImg havingImg2 = havingImg.get();
 
         if(havingImg2.getCafe_img() != null) {
-            List<String> findMyImg = cafeImgRepository.findByCafe_img(Math.toIntExact(info.getCafeNo()));
+            List<String> findMyImg = cafeImgRepository.findByCafeImg(info.getCafeNo());
             List<String> deleteImg = new ArrayList<>();
             //파일 찾기..
             for(int i = 0; i < findMyImg.size(); i++) {
@@ -98,7 +99,7 @@ public class CafeServiceImpl implements CafeService{
         Optional<Member> findMemberNo = memberRepository.findById(Long.valueOf(membNo));
         Member member = findMemberNo.get();
 
-        Optional<Cafe> findCafe = repository.findByMemberNo(membNo);
+        Optional<Cafe> findCafe = repository.findByMemberNo(Long.valueOf(membNo));
         Cafe findCafe1 = findCafe.get();
 
         Cafe cafe = new Cafe(info.getCafe_name(), findCafe1.getCafe_bis_no(), info.getCafe_time(), info.getCafe_content(), info.getCafe_call(), info.getCafe_adr1(),info.getCafe_adr2(),info.getCafe_adr3(),member);
@@ -107,7 +108,7 @@ public class CafeServiceImpl implements CafeService{
 
     @Override
     public Cafe cafeMypageread(Integer membNo) {
-        Optional<Cafe> findCafe = repository.findByMemberNo(membNo);
+        Optional<Cafe> findCafe = repository.findByMemberNo(Long.valueOf(membNo));
         Cafe cafe = findCafe.get();
 
         return cafe;

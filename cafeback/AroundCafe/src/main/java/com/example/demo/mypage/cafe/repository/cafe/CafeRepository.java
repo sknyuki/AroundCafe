@@ -11,5 +11,5 @@ public interface CafeRepository extends JpaRepository<Cafe, Long> {
     Optional<Cafe> findOne();
 
     @Query(value = "select * from cafe where member_no : memNo",nativeQuery = true)
-    Optional<Cafe> findByMemberNo(Integer memNo);
+    Optional<Cafe> findByMemberNo(Long memNo);
 }
