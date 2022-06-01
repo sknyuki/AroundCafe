@@ -7,8 +7,13 @@ import lombok.ToString;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @Entity
@@ -44,10 +49,20 @@ public class  Cafe {
     @Column(length = 128, nullable = true)
     private String regDate;
 
+    @PrePersist
+    public void onPrePersist(){
+        this.regDate = LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE);
+    }
+
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @OneToMany(mappedBy = "cafe", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
-    private List<CafeImg> cafeImgs = new ArrayList<>();
+    private Set<CafeImg> cafeImgs = new HashSet<>();
+
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    @OneToMany(mappedBy = "cafe", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    private Set<CafeMenu> cafeMenus = new HashSet<>();
 
     /*
     추가해야할 것

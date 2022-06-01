@@ -17,8 +17,8 @@ public class CafeImg {
     @Column(length = 128, nullable = true)
     private String cafe_img;
 
-    @ManyToOne
-    @JsonIgnore
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "cafe_no")
+    @JsonIgnore
     private Cafe cafe;
 }
