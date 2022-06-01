@@ -10,10 +10,18 @@ import PasswordPage from "../views/account/PasswordPage.vue"
 // Policy 정책
 import UsePolicyPage from "../views/policy/UsePolicyPage.vue"
 
+// MyPage 마이페이지
+import MyPage from "../views/mypage/MyPage.vue"
+
+// Admin 관리자페이지
+import AdminPage from "../views/admin/AdminPage.vue"
+
+// Cafe 카페페이지
+import MyCafePage from "../views/mycafe/MyCafePage.vue"
+
 //CafeMyPage
 import CafeModifyView from "../views/CafeMyPageViews/CafeModifyView.vue"
 import CafeMenuRegister from "../views/MyPageViews/CafeMyPageViews/CafeMenuRegister.vue"
-
 
 Vue.use(VueRouter)
 
@@ -44,20 +52,32 @@ const routes = [
     component: UsePolicyPage,
   },
   {
+    path: "/my",
+    name: "MyPage",
+    component: MyPage,
+  },
+  {
     path: "/CafeModifyView",
     name: "CafeModifyView",
-    components:{CafeModifyView,
-  },
-  props:{
-    default: true
-    }
+    components: { CafeModifyView },
+    props: {
+      default: true,
+    },
   },
   {
     path: "/cafeMenuRegister",
     name: "CafeMenuRegister",
-    components:{
-      CafeMenuRegister,
-    }
+    component: CafeMenuRegister,
+  },
+  {
+    path: "/admin",
+    name: "AdminPage",
+    component: AdminPage,
+  },
+  {
+    path: "/mycafe",
+    name: "MyCafePage",
+    component: MyCafePage,
   },
 ]
 
