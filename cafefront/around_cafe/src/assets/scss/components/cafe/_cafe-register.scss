@@ -1,0 +1,25 @@
+.cafe-register {
+  &-int {
+    @include text-style(16);
+    font-weight: 700;
+
+    textarea {
+      @include text-style(14, $primary);
+      width: 100%;
+      min-height: 110px;
+      resize: none;
+      padding-top: 4px;
+      padding-left: 8px;
+      border: 1px solid $border;
+      border-radius: 8px;
+      color: $dark;
+      height: 40px;
+    }
+  }
+  &-img {
+    &-content {
+      border: 1px stroke $border;
+      color: $border;
+    }
+  }
+}

@@ -79,6 +79,8 @@ $gnb-height-md: 80px;
 $lnb-height-sm: 40px;
 $lnb-height-md: 50px;
 
+$DashboardSidebar-shadow: 0 4px 6px rgba(0, 0, 0, 0.18);
+
 // visually-hidden은 안보이게 하는거임 ex) <div class="visually-hidden">test</div> 이러면 div태그에 속한게 아예 안보임
 .visually-hidden {
   position: absolute !important;
