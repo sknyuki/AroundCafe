@@ -1,11 +1,13 @@
 package com.example.demo.member.entity;
 
-import common.entity.BaseDateTime;
+import com.example.demo.mypage.cafe.entity.Cafe;
+import com.example.demo.common.entity.BaseDateTime;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Date;
 
 
 @Getter
@@ -35,6 +37,9 @@ public class Member extends BaseDateTime {
     @Column(unique = true)
     private String phoneNum;
 
+    private String memBirth;
+
+
     // ManyToMany 형태로 연결할지, OneToOne형태로 연결할지 고민중
     // ManyToMany의 경우 Role 컬럼의 isMemberOnBlacklist를 Member 컬럼으로 옮겨야함.
     // Set<E>형태로 여러가지 권한을 보유할 수 있게할 수 있음. 우리 서비스에서는 필요없을듯?
@@ -42,14 +47,23 @@ public class Member extends BaseDateTime {
     @JoinColumn(name = "role_id")
     private MemberRole role;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "cafe_no")
+    private Cafe cafe;
+
+    private SocialType socialType;
+
 
     @Builder
-    public Member(String memId, String memPw, String memNick, String memImg, String phoneNum, MemberRole role) {
+    public Member(Long memNo, String memId, String memPw, String memNick, String memImg, String phoneNum, String memBirth, SocialType socialType, MemberRole role) {
+        this.memNo = memNo;
         this.memId = memId;
         this.memPw = memPw;
         this.memNick = memNick;
         this.memImg = memImg;
         this.phoneNum = phoneNum;
+        this.memBirth = memBirth;
+        this.socialType = socialType;
         this.role = role;
     }
 

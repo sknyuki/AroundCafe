@@ -2,7 +2,7 @@ package com.example.demo.member.service;
 
 import com.example.demo.member.entity.Member;
 import com.example.demo.member.repository.MemberRepository;
-import common.exception.ResourceNotFoundException;
+import com.example.demo.common.exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
