@@ -11,10 +11,9 @@ import PasswordPage from "../views/account/PasswordPage.vue"
 import UsePolicyPage from "../views/policy/UsePolicyPage.vue"
 
 //CafeMyPage
-import CafeModifyView from "../views/MyPageViews/CafeMyPageViews/CafeModifyView"
+import CafeModifyView from "../views/CafeMyPageViews/CafeModifyView.vue"
+import CafeMenuRegister from "../views/CafeMyPageViews/CafeMenuRegister.vue"
 
-//Cafesite
-import CafeSiteList from "../views/CafeSiteViews/CafeSiteList"
 
 Vue.use(VueRouter)
 
@@ -51,14 +50,13 @@ const routes = [
   },
   props:{
     default: true
-  }
-},
-{
-  path: "/CafeSiteList",
-  name: "CafeSiteList",
-  component: CafeSiteList,
-},
-
+    }
+  },
+  {
+    path: "/cafeMenuRegister",
+    name: "CafeMenuRegister",
+    component: CafeMenuRegister
+  },
 ]
 
 const router = new VueRouter({
