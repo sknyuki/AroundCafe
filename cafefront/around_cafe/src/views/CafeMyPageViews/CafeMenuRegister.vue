@@ -43,9 +43,9 @@ import { mapState, mapActions } from 'vuex'
 
                 formData.append(
                     "info", new Blob([JSON.stringify(fileInfo)], {type:"application/json"})
-                )
+                );
 
-                if(files1 != 0) {
+                if(files1.length > 0) {
                     for(let idx= 0; idx < 1; idx ++) {
                         formData.append('fileList',files1[idx])
                     }
