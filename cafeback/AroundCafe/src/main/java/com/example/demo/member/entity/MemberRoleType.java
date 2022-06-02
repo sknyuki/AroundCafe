@@ -4,7 +4,6 @@ public enum MemberRoleType {
 
 
     ROLE_USER("USER"),
-    //카페 RoleName을 뭘로할까요?
     ROLE_CAFE("CAFE"),
     ROLE_ADMIN("ADMIN");
 
@@ -15,6 +14,7 @@ public enum MemberRoleType {
         this.value = value;
     }
 
+    // toUpperCase == 대문자로 변환
     public String getRoleType() {
         return ROLE_PREFIX + value.toUpperCase();
     }
