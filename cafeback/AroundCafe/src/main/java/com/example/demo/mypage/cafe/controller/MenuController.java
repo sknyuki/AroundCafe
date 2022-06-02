@@ -51,7 +51,7 @@ public class MenuController {
             service.exceptImgSave(info);
         }
 
-        return "upload complete!";
+        return "메뉴 등록을 성공했습니다!";
     }
 
     @ResponseBody
@@ -99,6 +99,20 @@ public class MenuController {
         return service.list1();
     }
 
+    @GetMapping("/signatureList")
+    public List<CafeMenu> signatureList() {
+        log.info("get menu list");
+
+        return service.sigList();
+    }
+
+    @GetMapping("/soldOutList")
+    public List<CafeMenu> soldOutList() {
+        log.info("get menu list");
+
+        return service.soldList();
+    }
+
     @DeleteMapping("/delete/{menuNo}")
     public void deleteMenu (@PathVariable("menuNo") Integer menuNo) throws IOException {
         log.info("delete no : "+menuNo);
@@ -132,6 +146,30 @@ public class MenuController {
 
         log.info("modify is complete");
         return "modify complete!!";
+    }
+
+    @PostMapping("/changeSignature/{menuNo}")
+    public String registerSignature(@PathVariable("menuNo") Integer menuNo) {
+        log.info("register signature");
+        return service.changeSignature(menuNo);
+    }
+
+    @PostMapping("/delSignature/{menuNo}")
+    public String deleteSignature(@PathVariable("menuNo") Integer menuNo) {
+        log.info("delete signature");
+        return service.deleteSignature(menuNo);
+    }
+
+    @PostMapping("/changeSoldOut/{menuNo}")
+    public String registerSoldOut(@PathVariable("menuNo") Integer menuNo) {
+        log.info("register sold out");
+        return service.changeSoldOut(menuNo);
+    }
+
+    @PostMapping("/delSoldOut/{menuNo}")
+    public String deleteSoldOut(@PathVariable("menuNo") Integer menuNo) {
+        log.info("delete sold out");
+        return service.deleteSoldOut(menuNo);
     }
 
 }

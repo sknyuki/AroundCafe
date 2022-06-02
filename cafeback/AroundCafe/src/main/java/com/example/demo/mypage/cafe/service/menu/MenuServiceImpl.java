@@ -131,4 +131,71 @@ public class MenuServiceImpl implements MenuService{
         return repository.findAll();
     }
 
+    @Transactional
+    @Override
+    public String changeSignature(Integer menuNo) {
+
+        Integer countSignature = repository.countSignature();
+        
+        if(countSignature >=2) {
+            return "시그니처가 두개가 넘었습니다.";
+        }else {
+            Optional<CafeMenu> findMenu = repository.findById(Long.valueOf(menuNo));
+            CafeMenu menu = findMenu.get();
+            
+            menu.setSignature(true);
+            repository.save(menu);
+            return "시그니처가 등록되었습니다.";
+        }
+        
+    }
+    
+    @Transactional
+    @Override
+    public String deleteSignature(Integer menuNo) {
+        
+        Optional<CafeMenu> findMenu = repository.findById(Long.valueOf(menuNo));
+        CafeMenu menu = findMenu.get();
+
+        menu.setSignature(false);
+        repository.save(menu);
+        return "시그니처가 삭제되었습니다.";
+        
+    }
+
+    @Override
+    public String changeSoldOut(Integer menuNo) {
+        Optional<CafeMenu> findMenu = repository.findById(Long.valueOf(menuNo));
+        CafeMenu menu = findMenu.get();
+
+        menu.setSold_out(true);
+        repository.save(menu);
+        return "솔드아웃 메뉴로 등록되었습니다.";
+        
+    }
+
+    @Override
+    public String deleteSoldOut(Integer menuNo) {
+        Optional<CafeMenu> findMenu = repository.findById(Long.valueOf(menuNo));
+        CafeMenu menu = findMenu.get();
+
+        menu.setSold_out(false);
+        repository.save(menu);
+        return "솔드아웃 메뉴가 삭제되었습니다.";
+    }
+
+    @Override
+    public List<CafeMenu> soldList() {
+        log.info("sold out list");
+        return repository.findBySoldTrue();
+    }
+
+    @Override
+    public List<CafeMenu> sigList() {
+        log.info("signature list");
+        return repository.findBySignatureTrue();
+    }
+
+    
+
 }

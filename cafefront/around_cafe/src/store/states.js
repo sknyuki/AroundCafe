@@ -3,4 +3,6 @@ export default {
     cafeBoards:[],
     cafeBoard:[],*/
     menuLists: [],
+    menuSigLists:[],
+    menuSoldOutLists:[]
 }

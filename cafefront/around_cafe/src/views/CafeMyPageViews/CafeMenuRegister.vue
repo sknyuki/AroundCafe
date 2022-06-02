@@ -1,7 +1,7 @@
 <template>
     <div>
        <cafe-menu-register-form @submit="onSubmit"/>
-       <cafe-menu-list-form :menuLists="menuLists" @submit="modifySubmit"/>
+       <cafe-menu-list-form :menuLists="menuLists" :menuSigLists="menuSigLists" :menuSoldOutLists="menuSoldOutLists" @submit="modifySubmit"/>
     </div>
 </template>
 
@@ -19,16 +19,20 @@ import { mapState, mapActions } from 'vuex'
         },
         data() {
             return {
+                signatureArr:[]
             }
         },
         computed: {
-            ...mapState(['menuLists'])
+            ...mapState(['menuLists','menuSigLists','menuSoldOutLists']),
+            
         },
         mounted(){
             this.fetchMenuLists()
+            this.fetchMenuSigLists()
+            this.fetchMenuSoldOutLists()
         },
         methods: {
-            ...mapActions(['fetchMenuLists']),
+            ...mapActions(['fetchMenuLists', 'fetchMenuSigLists','fetchMenuSoldOutLists']),
             onSubmit(payload) {
                 const {menu_name, menu_price, menu_content, files1} = payload
 
