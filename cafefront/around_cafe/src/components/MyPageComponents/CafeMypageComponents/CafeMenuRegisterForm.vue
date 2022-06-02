@@ -22,8 +22,8 @@
                 </v-row>
                 <v-row justify="center">
                     <v-col cols="12" sm="6">
-                        <input type="file" id="files1" ref="files1"
-                        multiple v-on:change="handleFileUpliad()"/>
+                        <input type="file" id="files1" ref="files1" 
+                        multiple v-on:change="handleFileUpload()"/>
                     </v-col>
                 </v-row>
                 <v-row justify="center">
@@ -50,7 +50,7 @@
             }
         },
         methods: {
-            handleFileUpliad() {
+            handleFileUpload () {
                 this.files1 = this.$refs.files1.files
             },
             onSubmit() {

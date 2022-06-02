@@ -36,7 +36,7 @@ public class CafeController {
                             multipartFile.getOriginalFilename());
 
                     FileOutputStream writer = new FileOutputStream(
-                            "../../cafefront/around_cafe/src/asserts/cafeMypage" + info.getCafe_name() + "."+ multipartFile.getOriginalFilename());
+                            "../../cafefront/around_cafe/src/asserts/cafe/cafeMypage" + info.getCafe_name() + "."+ multipartFile.getOriginalFilename());
 
                     writer.write(multipartFile.getBytes());
                     writer.close();

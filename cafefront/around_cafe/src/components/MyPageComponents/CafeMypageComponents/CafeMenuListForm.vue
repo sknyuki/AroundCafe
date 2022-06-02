@@ -4,18 +4,12 @@
             <h4>시그니처 메뉴 확인</h4>
             <v-card>
             <v-card-title>
-            <v-text-field
-                v-model="search"
-                append-icon="mdi-magnify"
-                label="Search"
-                single-line
-                hide-details
-            ></v-text-field>
             </v-card-title>
-            <v-data-table :headers="headerTitle" :items="cakeLists" :search="search"  class="elevation-0" >
+            <v-data-table :headers="headerTitle" :items="menuLists" class="elevation-0" >
                     
                     <template v-slot:[`item.linkInfo`]="{ item }" >
                         <img v-if="item.linkInfo != null" v-bind:src="require(`@/assets/cafe/cafeMenu/${item.menu_img}`)" height="230px"/>
+                        <img v-if="item.linkInfo == null" v-bind:src="require(`@/assets/cafe/cafeMenu/imgNull.png`)" height="230px"/>
                     </template>   
 
                     <template v-slot:[`item.actions`] ="{ item }" >
@@ -36,7 +30,7 @@
             </v-data-table>
             </v-card>
 
-            <form @submit.prevent="modifySubmit">
+            <!-- <form @submit.prevent="modifySubmit">
                 <v-dialog v-model="dialog" >
                     <v-card >
                         <v-card-title >수정하기</v-card-title>
@@ -75,7 +69,7 @@
                     <v-btn color="white" type="button" @click="deleteReview">삭제합니다</v-btn>
                     </v-card-actions>
                 </v-card>   
-            </v-dialog>
+            </v-dialog> -->
         </div>
         <br>
         <div>
@@ -85,12 +79,12 @@
             <v-text-field
                 v-model="search"
                 append-icon="mdi-magnify"
-                label="Search"
+                label="메뉴 찾기"
                 single-line
                 hide-details
             ></v-text-field>
             </v-card-title>
-            <v-data-table :headers="headerTitle" :items="cakeLists" :search="search"  class="elevation-0" >
+            <v-data-table :headers="headerTitle" :items="menuLists" :search="search"  class="elevation-0" >
                     
                     <template v-slot:[`item.linkInfo`]="{ item }" >
                         <img v-if="item.linkInfo != null" v-bind:src="require(`@/assets/cafe/cafeMenu/${item.menu_img}`)" height="230px"/>
@@ -114,7 +108,7 @@
             </v-data-table>
             </v-card>
 
-            <form @submit.prevent="modifySubmit">
+            <!-- <form @submit.prevent="modifySubmit">
                 <v-dialog v-model="dialog" >
                     <v-card >
                         <v-card-title >수정하기</v-card-title>
@@ -153,7 +147,7 @@
                     <v-btn color="white" type="button" @click="deleteReview">삭제합니다</v-btn>
                     </v-card-actions>
                 </v-card>   
-            </v-dialog>
+            </v-dialog> -->
         </div>
     </div>
 </template>
@@ -163,14 +157,21 @@
         name: 'CafeMenuListForm',
         data () {
             return {
-                heatherTitle : [
+                headerTitle : [
                     {text: 'no', value: 'menu_no', width: '20px'},
                     {text: 'image', vlaue: 'menu_img', width: '70px' },
                     {text: 'name', value: 'menu_name', width:'70px'},
                     {text: 'price', value: 'menu_price', width:'70px'},
                     {text: 'content', value: 'menu_content', width:'100px'},
                     { text: 'Actions', value: 'actions', sortable: false ,  width: "70px" }
-                ]
+                ],
+                search: ''
+            }
+        },
+        props: {
+            menuLists: {
+                type: Array,
+                required: true
             }
         }
     }
