@@ -21,7 +21,7 @@ import MyCafePage from "../views/mycafe/MyCafePage.vue"
 
 //CafeMyPage
 import CafeModifyView from "../views/CafeMyPageViews/CafeModifyView.vue"
-import CafeMenuRegister from "../views/MyPageViews/CafeMyPageViews/CafeMenuRegister.vue"
+import CafeMenuRegister from "../views/CafeMyPageViews/CafeMenuRegister.vue"
 
 Vue.use(VueRouter)
 
