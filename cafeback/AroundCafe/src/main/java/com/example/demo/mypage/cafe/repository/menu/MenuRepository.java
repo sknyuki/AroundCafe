@@ -9,4 +9,5 @@ import java.util.List;
 public interface MenuRepository extends JpaRepository<CafeMenu, Long> {
     @Query(value = "select * from cafe_menu where cafe_no : cafeNo order by menu_no desc", nativeQuery = true)
     public List<CafeMenu> findByCafeNo(Long cafeNo);
+
 }

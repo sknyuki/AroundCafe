@@ -19,5 +19,5 @@ public interface MenuService {
 
     public void delete(Integer menuNo) throws IOException;
 
-    List<CafeMenu> list1();
+    public List<CafeMenu> list1();
 }
