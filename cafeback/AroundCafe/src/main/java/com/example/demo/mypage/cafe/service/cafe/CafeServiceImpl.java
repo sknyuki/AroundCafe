@@ -80,17 +80,17 @@ public class CafeServiceImpl implements CafeService{
             }
             //파일 삭제..
             for(int i = 0; i < deleteImg.size(); i++) {
-                Path filePath = Paths.get("../../cafefront/around_cafe/src/asserts/cafeMypage"+findMyImg.get(i));
+                Path filePath = Paths.get("../../cafefront/around_cafe/src/asserts/cafe/cafeMypage"+findMyImg.get(i));
                 Files.delete(filePath);
             }
         }
 
         //카페 이미지 테이블에 list로 만들어놓은 이미지 이름들을 하나씩 저장하기
-        for(int i = 0; i < findImg.size(); i++) {
-            String img = (String) findImg.get(i);
-            CafeImg cafeImg = new CafeImg(img,cafe);
-            cafeImgRepository.save(cafeImg);
-        }
+//        for(int i = 0; i < findImg.size(); i++) {
+//            String img = (String) findImg.get(i);
+//            CafeImg cafeImg = new CafeImg(img,cafe);
+//            cafeImgRepository.save(cafeImg);
+//        }
 
     }
 
