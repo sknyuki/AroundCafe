@@ -9,12 +9,13 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.FileNotFoundException;
+
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 
 @Slf4j
+@RestController
 @RequestMapping("/menu")
 @CrossOrigin(origins = "http://localhost:8080", allowedHeaders = "*")
 public class MenuController {
@@ -33,7 +34,7 @@ public class MenuController {
             try{
                 for(MultipartFile multipartFile: fileList) {
                     FileOutputStream writer = new FileOutputStream(
-                            "../../cafefront/around_cafe/src/asserts/cafeMenu" + info.getCafe_name() + "." + multipartFile.getOriginalFilename());
+                            "../../cafefront/around_cafe/src/asserts/cafe/cafeMenu" + info.getCafe_name() + "." + multipartFile.getOriginalFilename());
                     log.info("save complete!");
 
                     writer.write(multipartFile.getBytes());
@@ -65,7 +66,7 @@ public class MenuController {
             try{
                 for(MultipartFile multipartFile : fileList) {
                     FileOutputStream writer = new FileOutputStream(
-                            "../../cafefront/around_cafe/src/asserts/cafeMenu" + cafeName + "." + multipartFile.getOriginalFilename());
+                            "../../cafefront/around_cafe/src/asserts/cafe/cafeMenu" + cafeName + "." + multipartFile.getOriginalFilename());
 
                     writer.write(multipartFile.getBytes());
                     writer.close();
@@ -89,8 +90,15 @@ public class MenuController {
         return service.list(membNo);
     }
 
+    @GetMapping("/list")
+    public List<CafeMenu> menuList1() {
+        log.info("get menu list");
+
+        return service.list1();
+    }
+
     @DeleteMapping("/delete/{menuNo}")
-    public void deleteMenu (@PathVariable("menuNo") Integer menuNo) {
+    public void deleteMenu (@PathVariable("menuNo") Integer menuNo) throws IOException {
         log.info("delete no : "+menuNo);
 
         service.delete(menuNo);
