@@ -54,9 +54,17 @@
                 this.files1 = this.$refs.files1.files
             },
             onSubmit() {
-                const {menu_name, menu_price, menu_content, files1} = this
-                this.$emit('submit',{menu_name, menu_price, menu_content, files1})
+                if(this.files1.length > 0) {
+                    const {menu_name, menu_price, menu_content, files1} = this
+                    this.$emit('submit',{menu_name, menu_price, menu_content, files1})
+                }else {
+                    this.files1 = 0
+                    
+                    const {menu_name, menu_price, menu_content, files1} = this
+                    this.$emit('submit',{menu_name, menu_price, menu_content, files1})
+                }
             }
+                
         }
     }
 </script>
