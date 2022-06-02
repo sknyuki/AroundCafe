@@ -20,4 +20,16 @@ public interface MenuService {
     public void delete(Integer menuNo) throws IOException;
 
     public List<CafeMenu> list1();
+
+    public String changeSignature(Integer menuNo);
+
+    public List<CafeMenu> sigList();
+
+    public String deleteSignature(Integer menuNo);
+
+    public String changeSoldOut(Integer menuNo);
+
+    public String deleteSoldOut(Integer menuNo);
+
+    public List<CafeMenu> soldList();
 }

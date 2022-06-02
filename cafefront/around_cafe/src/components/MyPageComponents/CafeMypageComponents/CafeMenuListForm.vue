@@ -5,27 +5,50 @@
             <v-card>
             <v-card-title>
             </v-card-title>
-            <v-data-table :headers="headerTitle2" :items="signatureArr" class="elevation-0" >
+            <v-data-table :headers="headerTitle2" :items="menuSigLists" class="elevation-0" >
                     
                     <template v-slot:[`item.menu_img`]="{ item }" >
                         <v-img v-if="item.menu_img != null" v-bind:src="require(`@/assets/cafe/cafeMenu/${item.menu_img}`)" height="50px"/>
                         <v-img v-if="item.menu_img == null" src="@/assets/cafe/cafeMenu/imgNull.png" height="50px"/>
                     </template>   
-                    <template v-slot:[`item.actions`] ="{ item }" >
-                    <v-icon
+
+                    <template v-slot:[`item.signature`]="{ item }"  >
+                        <v-icon
                         small
                         class="mr-2"
-                        @click="editItem(item)"
+                        @click="deleteSignature(item)"
                     >
-                        mdi-pencil
+                     mdi-cards-heart
                     </v-icon>
-                    <v-icon
+                    </template> 
+                    
+            </v-data-table>
+            </v-card>
+            
+        </div>
+        <br>
+        <div>
+            <h4>SOLD OUT 메뉴 확인</h4>
+            <v-card>
+            <v-card-title>
+            </v-card-title>
+            <v-data-table :headers="headerTitle2" :items="menuSoldOutLists" class="elevation-0" >
+                    
+                    <template v-slot:[`item.menu_img`]="{ item }" >
+                        <v-img v-if="item.menu_img != null" v-bind:src="require(`@/assets/cafe/cafeMenu/${item.menu_img}`)" height="50px"/>
+                        <v-img v-if="item.menu_img == null" src="@/assets/cafe/cafeMenu/imgNull.png" height="50px"/>
+                    </template>   
+
+                    <template v-slot:[`item.sold_out`]="{ item }"  >
+                        <v-icon
                         small
-                        @click="deleteItem(item)"
+                        class="mr-2"
+                        @click="deleteSoldOut(item)"
                     >
-                        mdi-delete
+                     mdi-pail-off-outline
                     </v-icon>
-                    </template>
+                    </template> 
+                    
             </v-data-table>
             </v-card>
             
@@ -65,6 +88,26 @@
                         mdi-delete
                     </v-icon>
                     </template>
+
+                    <template v-slot:[`item.signature`]="{ item }"  >
+                        <v-icon
+                        small
+                        class="mr-2"
+                        @click="checkSignature(item)"
+                    >
+                        mdi-cards-heart
+                    </v-icon>
+                    </template> 
+
+                    <template v-slot:[`item.sold_out`]="{ item }" >
+                        <v-icon
+                        small
+                        class="mr-2"
+                        @click="checkSoldOut(item)"
+                    >
+                        mdi-pail-off-outline
+                    </v-icon>
+                    </template> 
             </v-data-table>
             </v-card>
 
@@ -108,6 +151,49 @@
                     </v-card-actions>
                 </v-card>   
             </v-dialog> 
+
+            <v-dialog v-model="signatureDialog">
+                <v-card>
+                    <v-card-title class="headline">해당 아이템을 시그니처로 등록하시겠습니까?</v-card-title>
+                    <v-card-title >시그니처 등록은 최대 두개만 가능합니다.</v-card-title>
+                    <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="white" @click="signatureDialog = false">돌아가기</v-btn>
+                    <v-btn color="white" type="button" @click="changeSignature">등록합니다</v-btn>
+                    </v-card-actions>
+                </v-card>   
+            </v-dialog> 
+            <v-dialog v-model="deleteSigDialog">
+                <v-card>
+                    <v-card-title class="headline">해당 시그니처를 삭제하시겠습니까?</v-card-title>
+                    <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="white" @click="deleteSigDialog = false">돌아가기</v-btn>
+                    <v-btn color="white" type="button" @click="deleteSig">삭제합니다</v-btn>
+                    </v-card-actions>
+                </v-card>   
+            </v-dialog> 
+            <v-dialog v-model="soldOutDialog">
+                <v-card>
+                    <v-card-title class="headline">해당 아이템을 솔드아웃 처리하시겠습니까?</v-card-title>
+                    <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="white" @click="soldOutDialog = false">돌아가기</v-btn>
+                    <v-btn color="white" type="button" @click="changeSoldOut">솔드아웃</v-btn>
+                    </v-card-actions>
+                </v-card>   
+            </v-dialog> 
+            <v-dialog v-model="deleteSolDialog">
+                <v-card>
+                    <v-card-title class="headline">솔드아웃을 취소하겠습니까??</v-card-title>
+                    <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="white" @click="deleteSolDialog = false">돌아가기</v-btn>
+                    <v-btn color="white" type="button" @click="changeSoldOut">취소하기</v-btn>
+                    </v-card-actions>
+                </v-card>   
+            </v-dialog> 
+
         </div>
     </div>
 </template>
@@ -120,32 +206,40 @@ import axios from 'axios'
             return {
                 headerTitle1 : [
                     {text: 'no', value: 'menu_no', width: '20px'},
-                    {text: 'image', vlaue: 'menu_img', width: '70px' },
-                    {text: 'name', value: 'menu_name', width:'70px'},
-                    {text: 'price', value: 'menu_price', width:'70px'},
-                    {text: 'content', value: 'menu_content', width:'100px'},
-                    { text: 'Actions', value: 'actions', sortable: false ,  width: "70px" },
-                    { text: 'Signature', value: 'signature', sortable: false ,  width: "40px" },
-                    { text: 'SoldOut', value: 'sold_out', sortable: false ,  width: "40px" }
+                    {text: 'image', vlaue: 'menu_img', width: '120px' },
+                    {text: 'name', value: 'menu_name', width:'100px'},
+                    {text: 'price', value: 'menu_price', width:'100px'},
+                    {text: 'content', value: 'menu_content', width:'150px'},
+                    { text: 'Actions', value: 'actions', sortable: false ,  width: "40px" },
+                    { text: 'Signature', value: 'signature', sortable: false ,  width: "10px" },
+                    { text: 'SoldOut', value: 'sold_out', sortable: false ,  width: "10px" }
                 ],
                 headerTitle2 : [
                     {text: 'no', value: 'menu_no', width: '20px'},
-                    {text: 'image', vlaue: 'menu_img', width: '70px' },
-                    {text: 'name', value: 'menu_name', width:'70px'},
-                    {text: 'price', value: 'menu_price', width:'70px'},
+                    {text: 'image', vlaue: 'menu_img', width: '120px' },
+                    {text: 'name', value: 'menu_name', width:'100px'},
+                    {text: 'price', value: 'menu_price', width:'100px'},
                     {text: 'content', value: 'menu_content', width:'100px'},
-                    { text: 'Signature', value: 'signature', sortable: false ,  width: "70px" }
+                    { text: 'Signature', value: 'signature', sortable: false ,  width: "20px" }
                 ],
                 search: '',
                 dialog:false,
                 deleteDialog:false,
+                signatureDialog: false,
+                deleteSigDialog: false,
+                soldOutDialog:false,
+                deleteSolDialog: false,
                 modifyNo:'',
                 deleteNo:'',
                 files2:'',
-                signatureArr:[],
                 modify_name :'',
                 modify_price : '',
-                modify_content :''
+                modify_content :'',
+                soldOutNo:'',
+                signatureNo:'',
+                signatureArr:[],
+                deleteSigNo:'',
+                deleteSoldNo:''
 
             }
         },
@@ -153,16 +247,14 @@ import axios from 'axios'
             menuLists: {
                 type: Array,
                 required: true
-            }
-        },
-        mounted() {
-            for(let idx=0; idx < this.menuLists.length ; idx++) {
-                let count = 0
-
-                if(this.menuLists[idx].signature == true) {
-                    this.signatureArr[count]
-                    count ++ 
-                }
+            },
+            menuSigLists:{
+                type: Array,
+                required: true
+            },
+            menuSoldOutLists:{
+                type: Array,
+                required: true
             }
         },
         methods: {
@@ -196,7 +288,72 @@ import axios from 'axios'
                         .catch(() => {
                             alert('삭제실패!')
                         })
-            }
+            },
+            checkSignature(item){
+                this.signatureDialog = true
+                this.signatureNo = item.menu_no
+            },
+            changeSignature(){
+                this.menuNo = this.signatureNo
+
+                axios.post(`http://localhost:7777/menu/changeSignature/${this.menuNo}`)
+                        .then((res) => {
+                            alert(res.data)
+                            this.$router.go()
+                        })
+                        .catch(() => {
+                            alert('등록실패!')
+                        })
+            },
+            deleteSignature(item) {
+                this.deleteSigDialog = true
+                this.deleteSigNo = item.menu_no
+            },
+            deleteSig() {
+                this.menuNo = this.deleteSigNo
+
+                axios.post(`http://localhost:7777/menu/delSignature/${this.menuNo}`)
+                        .then((res) => {
+                            alert(res.data)
+                            this.$router.go()
+                        })
+                        .catch(() => {
+                            alert('삭제 실패!')
+                        })
+            },
+            checkSoldOut(item){
+                this.soldOutDialog = true
+                this.soldOutNo = item.menu_no
+
+            },
+            changeSoldOut() {
+                this.menuNo = this.soldOutNo
+
+                axios.post(`http://localhost:7777/menu/changeSoldOut/${this.menuNo}`)
+                        .then((res) => {
+                            alert(res.data)
+                            this.$router.go()
+                        })
+                        .catch(() => {
+                            alert('삭제 실패!')
+                        })
+            },
+            deleteSoldOut(item) {
+                this.deleteSolDialog = true
+                this.deleteSoldNo = item.menu_no
+            },
+            deleteSold() {
+                this.menuNo = this.deleteSoldNo
+
+                axios.post(`http://localhost:7777/menu/delSoldOut/${this.menuNo}`)
+                        .then((res) => {
+                            alert(res.data)
+                            this.$router.go()
+                        })
+                        .catch(() => {
+                            alert('변경 실패!')
+                        })
+            },
         }
     }
 </script>
