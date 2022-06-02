@@ -14,7 +14,6 @@ import UsePolicyPage from "../views/policy/UsePolicyPage.vue"
 import CafeModifyView from "../views/CafeMyPageViews/CafeModifyView.vue"
 import CafeMenuRegister from "../views/MyPageViews/CafeMyPageViews/CafeMenuRegister.vue"
 
-
 Vue.use(VueRouter)
 
 const routes = [
@@ -46,18 +45,17 @@ const routes = [
   {
     path: "/CafeModifyView",
     name: "CafeModifyView",
-    components:{CafeModifyView,
-  },
-  props:{
-    default: true
-    }
+    components: { CafeModifyView },
+    props: {
+      default: true,
+    },
   },
   {
     path: "/cafeMenuRegister",
     name: "CafeMenuRegister",
-    components:{
+    components: {
       CafeMenuRegister,
-    }
+    },
   },
 ]
 
