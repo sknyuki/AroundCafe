@@ -10,9 +10,19 @@ import PasswordPage from "../views/account/PasswordPage.vue"
 // Policy 정책
 import UsePolicyPage from "../views/policy/UsePolicyPage.vue"
 
+// MyPage 마이페이지
+import MyOrderStatusPage from "../views/mypage/MyOrderStatusPage.vue"
+
+// Admin 관리자페이지
+import AdminMemberListPage from "../views/admin/AdminMemberListPage.vue"
+
+// Cafe 카페페이지
+import MyCafePage from "../views/mycafe/MyCafePage.vue"
+import CafeRegisterPage from "../views/mycafe/CafeRegisterPage.vue"
+
 //CafeMyPage
 import CafeModifyView from "../views/CafeMyPageViews/CafeModifyView.vue"
-import CafeMenuRegister from "../views/MyPageViews/CafeMyPageViews/CafeMenuRegister.vue"
+import CafeMenuRegister from "../views/CafeMyPageViews/CafeMenuRegister.vue"
 
 Vue.use(VueRouter)
 
@@ -43,6 +53,11 @@ const routes = [
     component: UsePolicyPage,
   },
   {
+    path: "/myorder",
+    name: "MyOrderStatusPage",
+    component: MyOrderStatusPage,
+  },
+  {
     path: "/CafeModifyView",
     name: "CafeModifyView",
     components: { CafeModifyView },
@@ -53,9 +68,22 @@ const routes = [
   {
     path: "/cafeMenuRegister",
     name: "CafeMenuRegister",
-    components: {
-      CafeMenuRegister,
-    },
+    component: CafeMenuRegister,
+  },
+  {
+    path: "/admin",
+    name: "AdminMemberListPage",
+    component: AdminMemberListPage,
+  },
+  {
+    path: "/mycafe",
+    name: "MyCafePage",
+    component: MyCafePage,
+  },
+  {
+    path: "/caferegister",
+    name: "CafeRegisterPage",
+    component: CafeRegisterPage,
   },
 ]
 
