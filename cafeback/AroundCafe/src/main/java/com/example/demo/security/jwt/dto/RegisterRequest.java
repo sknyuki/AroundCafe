@@ -12,14 +12,18 @@ import java.util.Date;
 @Getter
 public class RegisterRequest {
 
+    // Member Column
     private final String email;
     private final String username;
     private final String password;
     private final String phoneNum;
     private final String birth;
-    private final String role;
-    private final String socialType;
+
+    // Cafe Column
     private final String cafeName;
     private final String cafeBisNo;
-    private final String cafeTime;
+
+    // Role, SocialType
+    private final String role;
+    private final String socialType;
 }
