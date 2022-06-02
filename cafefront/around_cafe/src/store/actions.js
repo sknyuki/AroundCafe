@@ -2,10 +2,11 @@ import{
 /*CafeMyPage  List작업시 열어주세요
     FETCH_CAFE_BOARD_LIST,
     FETCH_CAFE_BOARD,*/
+    FETCH_MENU_LISTS
 
 }from './mutation-types'
 
-//import axios from 'axios'
+import axios from 'axios'
 
 export default {
   /*  List작업시 열어주세요
@@ -22,4 +23,11 @@ export default {
                 commit(FETCH_CAFE_BOARD, res.data)
             })
     },*/
+
+    fetchMenuLists ({ commit }) {
+        return axios.get('http://localhost:7777/menu/list')
+            .then((res) => {
+                commit(FETCH_MENU_LISTS, res.data)
+            })
+    },
 }
