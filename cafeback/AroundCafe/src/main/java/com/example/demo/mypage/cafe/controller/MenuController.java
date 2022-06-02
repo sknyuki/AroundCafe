@@ -33,8 +33,10 @@ public class MenuController {
         if(fileList != null) {
             try{
                 for(MultipartFile multipartFile: fileList) {
+                    log.info("requestUploadFile() - Make file: " +
+                            multipartFile.getOriginalFilename());
                     FileOutputStream writer = new FileOutputStream(
-                            "../../cafefront/around_cafe/src/asserts/cafe/cafeMenu" + info.getCafe_name() + "." + multipartFile.getOriginalFilename());
+                            "../../cafefront/around_cafe/src/assets/cafe/cafeMenu/"  + multipartFile.getOriginalFilename()); //+ info.getCafe_name() + "."
                     log.info("save complete!");
 
                     writer.write(multipartFile.getBytes());
@@ -66,7 +68,7 @@ public class MenuController {
             try{
                 for(MultipartFile multipartFile : fileList) {
                     FileOutputStream writer = new FileOutputStream(
-                            "../../cafefront/around_cafe/src/asserts/cafe/cafeMenu" + cafeName + "." + multipartFile.getOriginalFilename());
+                            "../../cafefront/around_cafe/src/assets/cafe/cafeMenu/" + cafeName + "." + multipartFile.getOriginalFilename());
 
                     writer.write(multipartFile.getBytes());
                     writer.close();
@@ -102,6 +104,34 @@ public class MenuController {
         log.info("delete no : "+menuNo);
 
         service.delete(menuNo);
+    }
+
+    @ResponseBody
+    @PutMapping(value = "/modify", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
+    public String menuModify1(@RequestPart(value = "info", required = false) CafeMenu info,
+                             @RequestPart(value = "fileList", required = false) List<MultipartFile> fileList) {
+
+        log.info("cafe info : " +info);
+        String cafeName = "ss";
+        if(fileList != null) {
+            try{
+                for(MultipartFile multipartFile : fileList) {
+                    FileOutputStream writer = new FileOutputStream(
+                            "../../cafefront/around_cafe/src/assets/cafe/cafeMenu/" + cafeName + "." + multipartFile.getOriginalFilename());
+
+                    writer.write(multipartFile.getBytes());
+                    writer.close();
+                    service.includeImgModify(info, multipartFile.getOriginalFilename(), cafeName);
+                }
+            } catch (Exception e) {
+                return "modify is failed.";
+            }
+        }else if (fileList == null) {
+            service.exceptImgModify(info);
+        }
+
+        log.info("modify is complete");
+        return "modify complete!!";
     }
 
 }

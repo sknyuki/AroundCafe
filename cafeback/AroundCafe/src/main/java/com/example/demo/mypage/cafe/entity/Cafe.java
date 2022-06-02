@@ -10,7 +10,9 @@ import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @Entity
@@ -52,7 +54,12 @@ public class Cafe {
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @OneToMany(mappedBy = "cafe", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
-    private List<CafeImg> cafeImgs = new ArrayList<>();
+    private Set<CafeImg> cafeImgs = new HashSet<>();
+
+//    @EqualsAndHashCode.Exclude
+//    @ToString.Exclude
+//    @OneToMany(mappedBy = "cafe", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+//    private Set<CafeImg> cafeMenu = new HashSet<>();
 
     @OneToOne
     @JsonIgnore

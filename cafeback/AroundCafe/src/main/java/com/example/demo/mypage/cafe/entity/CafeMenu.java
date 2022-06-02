@@ -1,6 +1,7 @@
 package com.example.demo.mypage.cafe.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
@@ -33,12 +34,13 @@ public class CafeMenu {
     @Column(columnDefinition = "boolean default false")
     private Boolean sold_out = false;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "cafe_no")
-    @JsonIgnore
-    private Cafe cafe;
+//    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//    @JoinColumn(name = "cafe_no")
+//    @JsonIgnore
+//    private Cafe cafe;
 
 
+    @Builder
     public CafeMenu(String menu_name, String menu_price, String file, String menu_content) {
         this.menu_name = menu_name;
         this.menu_price = menu_price;
