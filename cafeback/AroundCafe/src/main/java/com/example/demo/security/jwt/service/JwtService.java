@@ -43,6 +43,22 @@ public class JwtService {
                 .compact();   ///// compact?
     }
 
+    public String generateRefreshToken(Authentication authentication) {
+        // authentication을 통해 principal instance 생성
+        Object principal = authentication.getPrincipal();
+        // principal type_cast를 통하여 userPrincipal instance 생성
+        MemberPrincipal memberPrincipal = (MemberPrincipal) principal;
+        // userPrincipal instance에서 id값을 받아와 id instance 생성
+        String id = String.valueOf(memberPrincipal.getId());
+        // jwt 빌드 후 반환
+        return Jwts.builder()
+                .setSubject(id)
+                .setIssuedAt(new Date())
+                .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs * 1000))
+                .signWith(getSignKey(), SignatureAlgorithm.HS512)
+                .compact();   ///// compact?
+    }
+
     // Sign Key 가져오기
     private SecretKey getSignKey() {
         return Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8));

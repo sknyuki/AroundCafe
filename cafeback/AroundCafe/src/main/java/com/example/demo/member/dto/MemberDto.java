@@ -1,6 +1,7 @@
 package com.example.demo.member.dto;
 
 import com.example.demo.member.entity.MemberRole;
+import com.example.demo.member.entity.SocialType;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -13,5 +14,6 @@ public class MemberDto {
     private String memPw;
     private String memNick;
     private String phoneNum;
+    private SocialType socialType;
     private MemberRole role;
 }
