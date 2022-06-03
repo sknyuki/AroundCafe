@@ -3,8 +3,6 @@ import{
     FETCH_CAFE_BOARD_LIST,
     FETCH_CAFE_BOARD,*/
     FETCH_MENU_LISTS,
-    FETCH_MENU_SIG_LISTS,
-    FETCH_MENU_SOLD_OUT_LISTS
 
 }from './mutation-types'
 
@@ -30,18 +28,6 @@ export default {
         return axios.get('http://localhost:7777/menu/list')
             .then((res) => {
                 commit(FETCH_MENU_LISTS, res.data)
-            })
-    },
-    fetchMenuSigLists ({ commit }) {
-        return axios.get('http://localhost:7777/menu/signatureList')
-            .then((res) => {
-                commit(FETCH_MENU_SIG_LISTS, res.data)
-            })
-    },
-    fetchMenuSoldOutLists ({ commit }) {
-        return axios.get('http://localhost:7777/menu/soldOutList')
-            .then((res) => {
-                commit(FETCH_MENU_SOLD_OUT_LISTS, res.data)
             })
     },
 }

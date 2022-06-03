@@ -1,60 +1,6 @@
 <template>
     <div>
         <div>
-            <h4>시그니처 메뉴 확인</h4>
-            <v-card>
-            <v-card-title>
-            </v-card-title>
-            <v-data-table :headers="headerTitle2" :items="menuSigLists" class="elevation-0" >
-                    
-                    <template v-slot:[`item.menu_img`]="{ item }" >
-                        <v-img v-if="item.menu_img != null" v-bind:src="require(`@/assets/cafe/cafeMenu/${item.menu_img}`)" height="50px"/>
-                        <v-img v-if="item.menu_img == null" src="@/assets/cafe/cafeMenu/imgNull.png" height="50px"/>
-                    </template>   
-
-                    <template v-slot:[`item.signature`]="{ item }"  >
-                        <v-icon
-                        small
-                        class="mr-2"
-                        @click="deleteSignature(item)"
-                    >
-                     mdi-cards-heart
-                    </v-icon>
-                    </template> 
-                    
-            </v-data-table>
-            </v-card>
-            
-        </div>
-        <br>
-        <div>
-            <h4>SOLD OUT 메뉴 확인</h4>
-            <v-card>
-            <v-card-title>
-            </v-card-title>
-            <v-data-table :headers="headerTitle3" :items="menuSoldOutLists" class="elevation-0" >
-                    
-                    <template v-slot:[`item.menu_img`]="{ item }" >
-                        <v-img v-if="item.menu_img != null" v-bind:src="require(`@/assets/cafe/cafeMenu/${item.menu_img}`)" height="50px"/>
-                        <v-img v-if="item.menu_img == null" v-bind:src="require(`@/assets/cafe/cafeMenu/imgNull.png`)" height="50px"/>
-                    </template>   
-
-                    <template v-slot:[`item.sold_out`]="{ item }"  >
-                        <v-icon
-                        small
-                        class="mr-2"
-                        @click="deleteSoldOut(item)"
-                    >
-                     mdi-pail-off-outline
-                    </v-icon>
-                    </template> 
-                    
-            </v-data-table>
-            </v-card>
-            
-        </div>
-        <br>
-        <div>
             <h4>등록한 메뉴 확인</h4>
             <v-card>
             <v-card-title>
@@ -90,23 +36,45 @@
                     </template>
 
                     <template v-slot:[`item.signature`]="{ item }"  >
+                        
                         <v-icon
-                        small
-                        class="mr-2"
-                        @click="checkSignature(item)"
-                    >
-                        mdi-cards-heart
-                    </v-icon>
+                            v-if="item.signature == false"
+                            small
+                            class="mr-2"
+                            @click="checkSignature(item)"
+                        >
+                            mdi-cards-heart-outline
+                        </v-icon>
+
+                        <v-icon
+                            v-if="item.signature == true"
+                            small
+                            class="mr-2"
+                            @click="deleteSignature(item)"
+                        >
+                            mdi-cards-heart
+                        </v-icon>
                     </template> 
 
                     <template v-slot:[`item.sold_out`]="{ item }" >
                         <v-icon
-                        small
-                        class="mr-2"
-                        @click="checkSoldOut(item)"
-                    >
-                        mdi-pail-off-outline
-                    </v-icon>
+                            v-if="item.sold_out == false"
+                            small
+                            class="mr-2"
+                            @click="checkSoldOut(item)"
+                        >
+                            mdi-coffee-outline
+                        </v-icon>
+                         
+
+                        <v-icon
+                            v-if="item.sold_out == true"
+                            small
+                            class="mr-2"
+                            @click="deleteSoldOut(item)"
+                        >
+                            mdi-coffee-off
+                        </v-icon>
                     </template> 
             </v-data-table>
             </v-card>
