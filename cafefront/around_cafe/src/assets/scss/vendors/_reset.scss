@@ -14,6 +14,7 @@ html {
 body {
   font-family: $font-main;
   color: $primary;
+  overflow-x: hidden;
 }
 
 h1 {
@@ -62,9 +63,13 @@ address {
     color: inherit !important;
     cursor: pointer;
   }
+  p {
+    margin-bottom: 0 !important;
+  }
+  ul {
+    padding-left: 0;
+  }
 }
-
-
 
 .swiper-pagination-bullet {
   background: $white !important;
