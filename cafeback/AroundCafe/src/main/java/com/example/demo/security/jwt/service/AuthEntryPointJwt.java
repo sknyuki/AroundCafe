@@ -24,8 +24,7 @@ public class AuthEntryPointJwt implements AuthenticationEntryPoint {
         // 응답으로 상태 코드 401 값과 에러 메시지 "Error: Unauthorized"을 보냄
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-        //final ApiError apiError = new ApiError(HttpStatus.UNAUTHORIZED, ex.getLocalizedMessage(), "Error: Unauthorized");
-        //final String responseJson = objectMapper.writeValueAsString(apiError);
-        //response.getWriter().print(responseJson);
+
+        //register page로 리다이렉트를 해야할까?
     }
 }

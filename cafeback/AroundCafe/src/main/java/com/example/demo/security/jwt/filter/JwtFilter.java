@@ -1,6 +1,9 @@
 package com.example.demo.security.jwt.filter;
 
+import com.example.demo.member.entity.Member;
+import com.example.demo.member.service.MemberServiceImpl;
 import com.example.demo.security.jwt.service.JwtService;
+import com.example.demo.security.jwt.service.RedisServiceImpl;
 import com.example.demo.security.service.MemberDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,33 +27,48 @@ import java.io.IOException;
 // OncePerRequestFilter란?
 // 특정 필터가 request당 한 번만 호출되도록 하는 것을 목적으로 하며, 요청이 필터 체인을 통과할 때 일부 인증 작업이 요청에 대해 한 번만 발생시키기 위해 상속 받아 사용하는 필터.
 public class JwtFilter extends OncePerRequestFilter {
+    public static final String AUTHORIZATION_HEADER = "Authorization";
+    public static final String BEARER_PREFIX = "Bearer ";
 
     private final JwtService jwtService;
+    private final MemberServiceImpl memberService;
     private final MemberDetailsServiceImpl memberDetailsService;
+    private final RedisServiceImpl redisService;
 
     @Override
-    //필터 체인 안에 있는 필터 생성
+    // 필터 체인 안에 있는 필터 생성
     protected void doFilterInternal(
             HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
       try{
           // request 정보(header)에서 JWT Access Token을 가져옴
-          String jwt = parseJwt(request);
+          String accessToken = resolveAccessToken(request);
+          String refreshToken = resolveRefreshToken(request);
 
-          // JWT값이 존재하며, JWT 검증결과 정상 토큰일 경우
-          if(jwt != null && jwtService.validateJwtToken(jwt)) {
-              // JWT에서 userId 값을 가져옴
-              Long userId = jwtService.getUserIdFromJwtToken(jwt);
-              // userId 기준으로 principal 조회
-              UserDetails userDetails = memberDetailsService.loadUserById(userId);
-              // principal 정보 기준으로 인증 토큰 객체 생성
-              UsernamePasswordAuthenticationToken authentication =
-                      new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-              // 인증 토큰 객체 Details 필드에 WebAuthenticationDetailsSource 정보 세팅
-              authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-              // SecurityContextHolder에 인증 토큰 정보 세팅
-              SecurityContextHolder.getContext().setAuthentication(authentication);
+          // accessToken값이 존재하며, JWT 검증결과 정상 토큰일 경우
+          if(accessToken != null && jwtService.validateJwtToken(accessToken)) {
+              setAuthentication(accessToken,request);
+          }
+          // accessToken, refreshToken이 not null이며, accessToken이 만료되었을경우 --- 현제 validate 실패시 인데 만료시로 변경 필요
+          else if (accessToken != null && refreshToken != null && !jwtService.validateJwtToken(accessToken)) {
+              // refreshToken 검증
+              boolean validateRefreshToken = jwtService.validateJwtToken(refreshToken);
+              // refreshToken 존재 확인
+              boolean isRefreshToken = jwtService.isRefreshTokenExists(refreshToken);
+              // refreshToken이 검증되었고 존재하고 있다면,
+              if(validateRefreshToken && isRefreshToken) {
+                  // accessToken을 통하여 memNo 검색 및 멤버 인스턴스 생성
+                  Member member = memberService.findByMemNo(jwtService.getMemberIdFromJwtToken(accessToken));
+                  // accessToken, refreshToken 재발급
+                  String newAccessToken = jwtService.generateAccessToken(member);
+                  String newRefreshToken = jwtService.generateRefreshToken();
+                  // redis에 리프레시 토큰 삭제후 저장
+                  redisService.deleteByKey(member.getMemId());
+                  redisService.setKeyAndValue(member.getMemId(), newRefreshToken);
+                  // authentication 세팅
+                  setAuthentication(newAccessToken, request);
+              }
           }
       } catch(Exception e) {
           // 에러 로그 기록
@@ -58,18 +76,45 @@ public class JwtFilter extends OncePerRequestFilter {
       } finally {
           // 필터체인 doFilter 메소드 호출
           filterChain.doFilter(request, response);
-      };
+      }
+    }
+
+    // authentication 설정
+    private void setAuthentication(String token, HttpServletRequest request) {
+        // JWT에서 userId 값을 가져옴
+        Long memberId = jwtService.getMemberIdFromJwtToken(token);
+        // userId 기준으로 principal 조회
+        UserDetails userDetails = memberDetailsService.loadUserById(memberId); // USER AUTH 저장하는 방법 변경해야함
+        // principal 정보 기준으로 인증 토큰 객체 생성
+        UsernamePasswordAuthenticationToken authentication =
+                new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+        // 인증 토큰 객체 Details 필드에 WebAuthenticationDetailsSource 정보 세팅
+        authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+        // SecurityContextHolder에 인증 토큰 정보 세팅
+        SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 
     //request 정보의 헤더에서 JWT Access Token을 가져옴
-    private String parseJwt(HttpServletRequest request) {
+    private String resolveAccessToken(HttpServletRequest request) {
         // 헤더에서 "Authorization 값을 가져옴
-        String headerAuth = request.getHeader("Authorization");
+        String headerAuth = request.getHeader(AUTHORIZATION_HEADER);
         // Authorization Key가 있고, value 값이 Bearer로 시작하는 경우
-        if (StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer ")) {
+        if (StringUtils.hasText(headerAuth) && headerAuth.startsWith(BEARER_PREFIX)) {
             // "Bearer " 이후의 값을 반환
             return headerAuth.substring(7);
         }
+        return null;
+    }
+    // RefreshToken에도 Bearer를 포함해야하는가?
+    private String resolveRefreshToken(HttpServletRequest request) {
+        // 헤더에서 Key가 RefreshToken인 값을 가져옴
+        String refreshToken = request.getHeader("RefreshToken");
+        // RefreshToken Key가 있다면
+        if (StringUtils.hasText(refreshToken)) {
+            // RefreshToken 반환
+            return refreshToken;
+        }
+        // 없다면 null 반환
         return null;
     }
 }

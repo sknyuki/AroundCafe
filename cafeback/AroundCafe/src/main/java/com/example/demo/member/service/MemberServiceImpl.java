@@ -13,7 +13,7 @@ public class MemberServiceImpl implements MemberService {
     private MemberRepository memberRepository;
 
     public Member findByMemNo(Long memNo) {
-        return memberRepository.findById(memNo)
+        return memberRepository.findByMemNo(memNo)
                 .orElseThrow(() -> new ResourceNotFoundException("Member", "Mem_No", memNo));
     }
 

@@ -1,7 +1,9 @@
 package com.example.demo.security.jwt.service;
 
+import com.example.demo.member.entity.Member;
 import com.example.demo.security.config.AppProperties;
 import com.example.demo.security.dto.MemberPrincipal;
+import com.example.demo.security.jwt.repository.JwtTokenRepository;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SignatureException;
@@ -19,6 +21,7 @@ public class JwtService {
     private final String jwtSecret;
     private final Long jwtExpirationMs;
     private final AppProperties appProperties;
+    private JwtTokenRepository jwtTokenRepository;
 
     public JwtService(AppProperties appProperties) {
         this.appProperties = appProperties;
@@ -40,23 +43,25 @@ public class JwtService {
                 .setIssuedAt(new Date())
                 .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
                 .signWith(getSignKey(), SignatureAlgorithm.HS512)
-                .compact();   ///// compact?
+                .compact();
+    }
+    public String generateAccessToken(Member member) {
+        return Jwts.builder()
+                .setSubject(member.getMemId())
+                .setIssuedAt(new Date())
+                .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
+                .signWith(getSignKey(), SignatureAlgorithm.HS512)
+                .compact();
     }
 
-    public String generateRefreshToken(Authentication authentication) {
-        // authentication을 통해 principal instance 생성
-        Object principal = authentication.getPrincipal();
-        // principal type_cast를 통하여 userPrincipal instance 생성
-        MemberPrincipal memberPrincipal = (MemberPrincipal) principal;
-        // userPrincipal instance에서 id값을 받아와 id instance 생성
-        String id = String.valueOf(memberPrincipal.getId());
-        // jwt 빌드 후 반환
+    // payload 제외하고 RefreshToken 생성함
+    // 유저정보가 전혀 없이 만드는게 맞나???? --- 우선 PayLoad 안 담기로함!
+    public String generateRefreshToken() {
         return Jwts.builder()
-                .setSubject(id)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs * 1000))
                 .signWith(getSignKey(), SignatureAlgorithm.HS512)
-                .compact();   ///// compact?
+                .compact();
     }
 
     // Sign Key 가져오기
@@ -65,17 +70,27 @@ public class JwtService {
     }
 
     // JWT 토큰에서 UserId 가져오기
-    public Long getUserIdFromJwtToken(String token) {
+    public Long getMemberIdFromJwtToken(String token) {
         Claims claims = Jwts.parserBuilder().setSigningKey(jwtSecret.getBytes(StandardCharsets.UTF_8)).build().parseClaimsJws(token).getBody();
         return Long.parseLong(claims.getSubject());
+    }
+
+    // RefreshToken 존재 여부 확인
+    public boolean isRefreshTokenExists(String refreshToKen) {
+        return jwtTokenRepository.existsByRefreshToken(refreshToKen);
     }
 
     // JWT 토큰 검증하기
     public boolean validateJwtToken(String authToken) {
         try {
-            Jwts.parserBuilder().setSigningKey(jwtSecret.getBytes(StandardCharsets.UTF_8)).build().parseClaimsJws(authToken);
+            Jwts.parserBuilder()
+                    .setSigningKey(jwtSecret.getBytes(StandardCharsets.UTF_8)) // Set SignKey
+                    .build()
+                    .parseClaimsJws(authToken); // 파싱 및 검증, 실패시 에러
             return true;
-        } catch (SignatureException e) {
+        }
+        //에러 헨들링
+        catch (SignatureException e) {
             log.error("Invalid JWT signature: {}", e.getMessage());
         } catch (MalformedJwtException e) {
             log.error("Invalid JWT token: {}", e.getMessage());
