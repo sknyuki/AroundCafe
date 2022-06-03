@@ -40,6 +40,11 @@
 <script>
 export default {
     name:'CafeSiteComponent',
+    props:{
+        cafeBoard:{
+            
+        }
+    }
 
 }
 </script>
