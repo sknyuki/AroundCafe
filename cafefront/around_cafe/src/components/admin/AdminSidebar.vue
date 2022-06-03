@@ -30,6 +30,21 @@
         </li>
       </ul>
     </div>
+    <div class="mysidebar-content">
+      <header>
+        <h1>{{ infoTh }}</h1>
+      </header>
+      <ul>
+        <li class="mysidebar-list" v-for="item in sidebarTh" :key="item.id">
+          <router-link class="mysidebar-link" :to="item.link">
+            <div class="mysidebar-test">
+              <v-icon>{{ item.icon }}</v-icon>
+              <p>{{ item.title }}</p>
+            </div>
+          </router-link>
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 <script>
@@ -71,8 +86,29 @@ export default {
           link: "/",
         },
       ],
+      sidebarTh: [
+        {
+          id: 1,
+          icon: "mdi-account-outline",
+          title: "내 정보수정",
+          link: "/",
+        },
+        {
+          id: 2,
+          icon: "mdi-lock",
+          title: "비밀번호 변경",
+          link: "/",
+        },
+        {
+          id: 3,
+          icon: "mdi-email-outline",
+          title: "문의사항",
+          link: "/",
+        },
+      ],
       infoOne: "회원 관리",
       infoTwo: "카페 관리",
+      infoTh: "내 정보",
     }
   },
 }
