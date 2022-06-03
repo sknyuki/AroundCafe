@@ -33,8 +33,10 @@ public class MenuController {
         if(fileList != null) {
             try{
                 for(MultipartFile multipartFile: fileList) {
+                    log.info("requestUploadFile() - Make file: " +
+                            multipartFile.getOriginalFilename());
                     FileOutputStream writer = new FileOutputStream(
-                            "../../cafefront/around_cafe/src/asserts/cafe/cafeMenu" + info.getCafe_name() + "." + multipartFile.getOriginalFilename());
+                            "../../cafefront/around_cafe/src/assets/cafe/cafeMenu/"  + multipartFile.getOriginalFilename()); //+ info.getCafe_name() + "."
                     log.info("save complete!");
 
                     writer.write(multipartFile.getBytes());
@@ -49,7 +51,7 @@ public class MenuController {
             service.exceptImgSave(info);
         }
 
-        return "upload complete!";
+        return "메뉴 등록을 성공했습니다!";
     }
 
     @ResponseBody
@@ -66,7 +68,7 @@ public class MenuController {
             try{
                 for(MultipartFile multipartFile : fileList) {
                     FileOutputStream writer = new FileOutputStream(
-                            "../../cafefront/around_cafe/src/asserts/cafe/cafeMenu" + cafeName + "." + multipartFile.getOriginalFilename());
+                            "../../cafefront/around_cafe/src/assets/cafe/cafeMenu/" + cafeName + "." + multipartFile.getOriginalFilename());
 
                     writer.write(multipartFile.getBytes());
                     writer.close();
@@ -97,11 +99,77 @@ public class MenuController {
         return service.list1();
     }
 
+    @GetMapping("/signatureList")
+    public List<CafeMenu> signatureList() {
+        log.info("get menu list");
+
+        return service.sigList();
+    }
+
+    @GetMapping("/soldOutList")
+    public List<CafeMenu> soldOutList() {
+        log.info("get menu list");
+
+        return service.soldList();
+    }
+
     @DeleteMapping("/delete/{menuNo}")
     public void deleteMenu (@PathVariable("menuNo") Integer menuNo) throws IOException {
         log.info("delete no : "+menuNo);
 
         service.delete(menuNo);
+    }
+
+    @ResponseBody
+    @PutMapping(value = "/modify", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
+    public String menuModify1(@RequestPart(value = "info", required = false) CafeMenu info,
+                             @RequestPart(value = "fileList", required = false) List<MultipartFile> fileList) {
+
+        log.info("cafe info : " +info);
+        String cafeName = "ss";
+        if(fileList != null) {
+            try{
+                for(MultipartFile multipartFile : fileList) {
+                    FileOutputStream writer = new FileOutputStream(
+                            "../../cafefront/around_cafe/src/assets/cafe/cafeMenu/" + cafeName + "." + multipartFile.getOriginalFilename());
+
+                    writer.write(multipartFile.getBytes());
+                    writer.close();
+                    service.includeImgModify(info, multipartFile.getOriginalFilename(), cafeName);
+                }
+            } catch (Exception e) {
+                return "modify is failed.";
+            }
+        }else if (fileList == null) {
+            service.exceptImgModify(info);
+        }
+
+        log.info("modify is complete");
+        return "modify complete!!";
+    }
+
+    @PostMapping("/changeSignature/{menuNo}")
+    public String registerSignature(@PathVariable("menuNo") Integer menuNo) {
+        log.info("register signature");
+        return service.changeSignature(menuNo);
+    }
+
+    @PostMapping("/delSignature/{menuNo}")
+    public String deleteSignature(@PathVariable("menuNo") Integer menuNo) {
+        log.info("delete signature");
+        return service.deleteSignature(menuNo);
+    }
+
+    @PostMapping("/changeSoldOut/{menuNo}")
+    public String registerSoldOut(@PathVariable("menuNo") Integer menuNo) {
+        log.info("register sold out");
+        return service.changeSoldOut(menuNo);
+    }
+
+    @PostMapping("/delSoldOut/{menuNo}")
+    public String deleteSoldOut(@PathVariable("menuNo") Integer menuNo) {
+        log.info("delete sold out");
+        return service.deleteSoldOut(menuNo);
     }
 
 }

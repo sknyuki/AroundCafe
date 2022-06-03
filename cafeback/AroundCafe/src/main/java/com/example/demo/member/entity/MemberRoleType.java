@@ -4,20 +4,23 @@ public enum MemberRoleType {
 
 
     ROLE_USER("USER"),
-    //카페 RoleName을 뭘로할까요?
     ROLE_CAFE("CAFE"),
     ROLE_ADMIN("ADMIN");
 
-    private final String value;
     private final String ROLE_PREFIX = "ROLE_";
+    private final String value;
+
 
     MemberRoleType(String value) {
         this.value = value;
     }
 
+    // toUpperCase == 대문자로 변환
     public String getRoleType() {
         return ROLE_PREFIX + value.toUpperCase();
     }
+
+    public String getValue() { return value; }
 
     public boolean isEquals(String name){
         return this.toString().equals(name);

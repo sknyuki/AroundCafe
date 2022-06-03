@@ -32,7 +32,7 @@ public class MenuServiceImpl implements MenuService{
     @Transactional
     @Override
     public void includeImgSave(CafeMenuDto info, String originalFilename) {
-        String file = info.getCafe_name()+"." +originalFilename;
+        String file = originalFilename; //info.getCafe_name()+"." +
 
         log.info("file: " +file);
         log.info("cafe no : " +info.getCafe_no());
@@ -70,10 +70,11 @@ public class MenuServiceImpl implements MenuService{
         CafeMenu cafeMenu = findCafeMenu.get();
 
         if(cafeMenu.getMenu_img() != null) {
-            Path filePath = Paths.get("../../cafefront/around_cafe/src/asserts/cafe/cafeMenu" + info.getMenu_img());
+            Path filePath = Paths.get("../../cafefront/around_cafe/src/assets/cafe/cafeMenu/" + cafeMenu.getMenu_img());
             Files.delete(filePath);
+            log.info("file delete complete");
         }
-
+        log.info("!!!modify ok!!!!");
         info.setMenu_img(file);
         repository.save(info);
     }
@@ -88,8 +89,12 @@ public class MenuServiceImpl implements MenuService{
 
         if(cafeMenu.getMenu_img() != null) {
             info.setMenu_img(cafeMenu.getMenu_img());
+            log.info("!!!modify ok!!!!");
+
             repository.save(info);
         }else if(cafeMenu.getMenu_img() == null) {
+            log.info("!!!modify ok!!!!");
+
             repository.save(info);
         }
 
@@ -112,7 +117,7 @@ public class MenuServiceImpl implements MenuService{
         CafeMenu menu = findMenu.get();
 
         if(menu.getMenu_img() != null) {
-            Path file = Paths.get("../../cafefront/around_cafe/src/asserts/cafe/cafeMenu" + menu.getMenu_img());
+            Path file = Paths.get("../../cafefront/around_cafe/src/assets/cafe/cafeMenu/" + menu.getMenu_img());
             Files.delete(file);
         }
 
@@ -123,7 +128,74 @@ public class MenuServiceImpl implements MenuService{
     @Override
     public List<CafeMenu> list1() {
         log.info("test get list menu");
-        return repository.findAll(Sort.by(Sort.Direction.ASC,"menu_no"));
+        return repository.findAll();
     }
+
+    @Transactional
+    @Override
+    public String changeSignature(Integer menuNo) {
+
+        Integer countSignature = repository.countSignature();
+        
+        if(countSignature >=2) {
+            return "시그니처가 두개가 넘었습니다.";
+        }else {
+            Optional<CafeMenu> findMenu = repository.findById(Long.valueOf(menuNo));
+            CafeMenu menu = findMenu.get();
+            
+            menu.setSignature(true);
+            repository.save(menu);
+            return "시그니처가 등록되었습니다.";
+        }
+        
+    }
+    
+    @Transactional
+    @Override
+    public String deleteSignature(Integer menuNo) {
+        
+        Optional<CafeMenu> findMenu = repository.findById(Long.valueOf(menuNo));
+        CafeMenu menu = findMenu.get();
+
+        menu.setSignature(false);
+        repository.save(menu);
+        return "시그니처가 삭제되었습니다.";
+        
+    }
+
+    @Override
+    public String changeSoldOut(Integer menuNo) {
+        Optional<CafeMenu> findMenu = repository.findById(Long.valueOf(menuNo));
+        CafeMenu menu = findMenu.get();
+
+        menu.setSold_out(true);
+        repository.save(menu);
+        return "솔드아웃 메뉴로 등록되었습니다.";
+        
+    }
+
+    @Override
+    public String deleteSoldOut(Integer menuNo) {
+        Optional<CafeMenu> findMenu = repository.findById(Long.valueOf(menuNo));
+        CafeMenu menu = findMenu.get();
+
+        menu.setSold_out(false);
+        repository.save(menu);
+        return "솔드아웃 메뉴가 삭제되었습니다.";
+    }
+
+    @Override
+    public List<CafeMenu> soldList() {
+        log.info("sold out list");
+        return repository.findBySoldTrue();
+    }
+
+    @Override
+    public List<CafeMenu> sigList() {
+        log.info("signature list");
+        return repository.findBySignatureTrue();
+    }
+
+    
 
 }

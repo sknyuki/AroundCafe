@@ -105,6 +105,57 @@ export default {
         })*/ 
       })
     },
+    searchPlace(){
+
+      this.results=[]
+
+      var container = document.getElementById('map')
+      //const bounds = new kakao.maps.LatLngBounds(this.results.cafe_lon, this.results.cafe_lat)
+      var options = {
+        center: new kakao.maps.LatLng(37.56832, 126.97976),
+        level: 8,
+        mapTypeId : kakao.maps.MapTypeId.ROADMAP
+      }
+
+      var map = new kakao.maps.Map(container, options)
+
+      this.cafeLoca.forEach((item) => {
+
+        var keyword = document.getElementById('keyword').value;
+
+        if (!keyword.replace(/^\s+|\s+$/g, '')) {
+          alert('키워드를 입력해주세요!');
+        return false;
+        } 
+        //장소 검색 (이건 전체 지도의 검색)
+        //var ps = new kakao.maps.services.Places(item);
+
+        if(keyword === item.cafe_location){
+
+        var imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png', 
+            imageSize = new kakao.maps.Size(35, 50), 
+            imageOption = { offset: new kakao.maps.Point(29, 29) } 
+
+        var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption)
+      
+        var position = new kakao.maps.LatLng(item.cafe_lon, item.cafe_lat)
+
+        var marker = new kakao.maps.Marker({
+          map: map,
+          position: position,
+          image: markerImage, 
+          clickable: true, 
+        })
+  
+        this.results.push(item)
+
+        //bounds.extend(new kakao.maps.LatLng(item.cafe_lon, item.cafe_lat))
+        marker.setMap(map)
+        this.results.push(marker)
+        //cafeOverlay.setMap(map)
+        }
+      })   
+    },
   }
 }
 

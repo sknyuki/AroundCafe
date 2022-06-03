@@ -9,4 +9,13 @@ import java.util.List;
 public interface MenuRepository extends JpaRepository<CafeMenu, Long> {
     @Query(value = "select * from cafe_menu where cafe_no : cafeNo order by menu_no desc", nativeQuery = true)
     public List<CafeMenu> findByCafeNo(Long cafeNo);
+
+    @Query(value = "select count(*) from cafe_menu where signature = 1", nativeQuery = true)
+    public Integer countSignature();
+
+    @Query(value = "select * from cafe_menu where signature = 1", nativeQuery = true)
+    public List<CafeMenu> findBySignatureTrue();
+
+    @Query(value = "select * from cafe_menu where sold_out = 1", nativeQuery = true)
+    public List<CafeMenu> findBySoldTrue();
 }

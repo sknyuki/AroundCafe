@@ -1,7 +1,7 @@
 <template>
     <div>
        <cafe-menu-register-form @submit="onSubmit"/>
-       <cafe-menu-list-form :menuLists="menuLists"/>
+       <cafe-menu-list-form :menuLists="menuLists" @submit="modifySubmit"/>
     </div>
 </template>
 
@@ -15,15 +15,17 @@ import { mapState, mapActions } from 'vuex'
         name: 'CafeMenuRegister',
         components: {
             CafeMenuRegisterForm,
-            CafeMenuListForm
+            CafeMenuListForm,
+                
         },
         data() {
             return {
-
+                signatureArr:[]
             }
         },
         computed: {
-            ...mapState(['menuLists'])
+            ...mapState(['menuLists']),
+            
         },
         mounted(){
             this.fetchMenuLists()
@@ -46,12 +48,13 @@ import { mapState, mapActions } from 'vuex'
                 );
 
                 if(files1.length > 0) {
-                    for(let idx= 0; idx < 1; idx ++) {
+                    for(let idx= 0; idx < files1.length; idx ++) {
                         formData.append('fileList',files1[idx])
                     }
                 }
 
                 console.log(fileInfo)
+                console.log(files1)
                 axios.post(`http://localhost:7777/menu/register`, formData)
                         .then(res => {
                             alert(res.data)
@@ -60,6 +63,39 @@ import { mapState, mapActions } from 'vuex'
                         .catch(() => {
                             alert("메뉴 등록에 실패하였습니다.")
                         })
+            },
+            modifySubmit(payload) {
+                const { modifyNo, modify_name, modify_price, modify_content, files2 } = payload
+                
+                let formData = new FormData()
+
+                let fileInfo = {
+                    menu_no : modifyNo,
+                    menu_name : modify_name,
+                    menu_price : modify_price,
+                    menu_content : modify_content
+                }
+
+                formData.append(
+                    "info", new Blob([JSON.stringify(fileInfo)], {type:"application/json"})
+                )
+
+                if(files2 != null) {
+                    for(let idx = 0; idx <1; idx++) {
+                        formData.append('fileList', files2[idx])
+                    }
+                }
+
+                console.log(fileInfo)
+                 axios.put('http://localhost:7777/menu/modify', formData)
+                        .then(() => {
+                            alert('수정되었습니다!')
+                            this.$router.go()
+                        })
+                        .catch(() => {
+                            alert('수정 실패!')
+                        })
+
             }
         }
 
