@@ -1,5 +1,5 @@
 <template>
-  <nav class="lnb">
+  <nav class="lnb" :class="{ 'nav-hidden': !showNavbar }">
     <div class="container">
       <div class="row">
         <div class="col-sm-12">
@@ -19,9 +19,43 @@
 <script>
 export default {
   name: "NavLayout",
+  data() {
+    return {
+      showNavbar: true,
+      lastScrollPostion: 0,
+    }
+  },
+  mounted() {
+    window.addEventListener("scroll", this.onScroll)
+  },
+  beforeDestroy() {
+    window.removeEventListener("scroll", this.onScroll)
+  },
+  onScroll() {
+    const currentScrollPosition =
+      window.pageYOffset || document.documentElement.scrollTop
+    if (currentScrollPosition < 0) {
+      return
+    }
+    if (Math.abs(currentScrollPosition - this.lastScrollPosition) < 60) {
+      return
+    }
+    this.showNavbar = currentScrollPosition < this.lastScrollPosition
+    this.lastScrollPosition = currentScrollPosition
+  },
+  methods: {
+    onScroll() {
+      const currentScrollPosition =
+        window.pageYOffset || document.documentElement.scrollTop
+      if (currentScrollPosition < 0) {
+        return
+      }
+      this.showNavbar = currentScrollPosition < this.lastScrollPosition
+      this.lastScrollPosition = currentScrollPosition
+    },
+  },
 }
 </script>
 <style lang="scss" scoped>
 @import "~@/assets/scss/layouts/NavLayout";
-
 </style>

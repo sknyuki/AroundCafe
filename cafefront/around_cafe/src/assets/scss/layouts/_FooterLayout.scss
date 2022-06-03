@@ -30,7 +30,7 @@
 
   &-list {
     @include flexbox(start);
-    margin: 0 -28px 10px;
+    margin: 0 -28px 10px -4px;
 
     li {
       a {

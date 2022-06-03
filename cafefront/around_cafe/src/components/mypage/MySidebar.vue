@@ -72,6 +72,12 @@ export default {
         },
         {
           id: 2,
+          icon: "mdi-lock",
+          title: "비밀번호 변경",
+          link: "/",
+        },
+        {
+          id: 3,
           icon: "mdi-email-outline",
           title: "문의사항",
           link: "/",

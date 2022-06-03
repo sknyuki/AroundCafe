@@ -1,12 +1,12 @@
 <template>
   <div class="cafe-register">
-    <img-box class="mb-10" />
+    <ImgBox class="mb-10" />
     <div class="container">
       <div class="row">
         <div class="col-sm-4 col-md-3 col-lg-3">
           <CafeSidebar />
         </div>
-        <div class="col-sm-4 col-md-9 col-lg-9">
+        <div class="col-sm-8 col-md-9 col-lg-9">
           <header>
             <h1>카페 관리</h1>
           </header>
@@ -67,8 +67,8 @@
             <div class="cafe-register-img">
               <div class="cafe-register-img-header">카페 사진</div>
               <div class="cafe-register-img-content">
-                <div v-if="images" class="cafe-register-img-preview">
-                  <img :src="images" alt="첨부한사진" />
+                <div v-if="image" class="cafe-register-img-preview">
+                  <img :src="image" alt="첨부한사진" />
                 </div>
                 <div v-else @click="clickInputTag()">
                   <button>
@@ -80,8 +80,8 @@
                         name="image"
                         class="visually-hidden"
                         type="file"
-                        id="image"
-                        ref="image"
+                        id="files"
+                        ref="files"
                       />
                     </div>
                   </button>
@@ -107,6 +107,7 @@ export default {
     return {
       images: "",
       comment: "",
+      files: [],
     }
   },
   methods: {
@@ -127,7 +128,7 @@ export default {
     },
 
     clickInputTag() {
-      this.$refs["image"].click()
+      this.$refs.files.click()
     },
   },
 }

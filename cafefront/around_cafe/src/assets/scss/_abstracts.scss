@@ -4,6 +4,10 @@
 @import "~@/assets/scss/abstracts/mixins";
 @import "~@/assets/scss/abstracts/variables";
 
+// Vendors
+@import "~@/assets/scss/vendors/normalize";
+@import "~@/assets/scss/vendors/reset";
+
 // Base
 @import "~@/assets/scss/base/fonts.scss";
 
@@ -11,8 +15,4 @@
 @import "~@/assets/scss/modules/icons";
 @import "~@/assets/scss/modules/forms";
 @import "~@/assets/scss/modules/avatar";
-
-
-// Vendors
-@import "~@/assets/scss/vendors/normalize";
-@import "~@/assets/scss/vendors/reset";
+@import "~@/assets/scss/modules/pagination";
