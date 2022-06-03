@@ -33,13 +33,12 @@ public class Member extends BaseDateTime {
 
     // Integer 형태로 1012345678 저장 or 010-1234-5678형태로 저장?
     // 우선 010-1234-5678형태로 입력한다고 가정
-    // 휴대폰으로 찾기 없어지면, 컬럼삭제
     @Column(unique = true)
     private String phoneNum;
 
     private String memBirth;
 
-
+    private SocialType socialType;
     // ManyToMany 형태로 연결할지, OneToOne형태로 연결할지 고민중
     // ManyToMany의 경우 Role 컬럼의 isMemberOnBlacklist를 Member 컬럼으로 옮겨야함.
     // Set<E>형태로 여러가지 권한을 보유할 수 있게할 수 있음. 우리 서비스에서는 필요없을듯?
@@ -47,11 +46,10 @@ public class Member extends BaseDateTime {
     @JoinColumn(name = "role_id")
     private MemberRole role;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "cafe_no")
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "memberInfo")
     private Cafe cafe;
 
-    private SocialType socialType;
+
 
 
     @Builder

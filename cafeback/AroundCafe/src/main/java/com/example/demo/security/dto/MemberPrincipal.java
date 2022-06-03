@@ -27,12 +27,14 @@ public class MemberPrincipal implements UserDetails {
     }
 
     public static MemberPrincipal create(Member member) {
-        List<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
+        String role = member.getRole().getName().toString();
+        List<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority(role));
         return MemberPrincipal.builder()
                 .id(member.getMemNo())
                 .username(member.getMemId())
                 .password(member.getMemPw())
-                .authorities(authorities).build();
+                .authorities(authorities)
+                .build();
     }
 
 
