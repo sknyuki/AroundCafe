@@ -15,7 +15,8 @@ import { mapState, mapActions } from 'vuex'
         name: 'CafeMenuRegister',
         components: {
             CafeMenuRegisterForm,
-            CafeMenuListForm
+            CafeMenuListForm,
+                
         },
         data() {
             return {

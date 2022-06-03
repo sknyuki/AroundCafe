@@ -28,6 +28,6 @@ export default {
         state.menuSigLists = menuSigLists
     },
     [FETCH_MENU_SOLD_OUT_LISTS] (state, menuSoldOutLists) {
-        state.menuSigLists = menuSoldOutLists
+        state.menuSoldOutLists = menuSoldOutLists
     },
 }
