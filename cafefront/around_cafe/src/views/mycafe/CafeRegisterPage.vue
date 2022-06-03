@@ -1,7 +1,5 @@
 <template>
-  <div>
-    <CafeRegisterForm />
-  </div>
+  <CafeRegisterForm />
 </template>
 <script>
 import CafeRegisterForm from "@/components/cafe/CafeRegisterForm.vue"

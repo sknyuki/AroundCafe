@@ -7,7 +7,7 @@
           <AdminSidebar />
         </div>
         <div class="col-sm-4 col-md-9 col-lg-9">
-          <form action="">이것이테스트다</form>
+          <form action="">테스트</form>
         </div>
       </div>
     </div>

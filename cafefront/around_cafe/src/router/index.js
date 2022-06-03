@@ -19,6 +19,8 @@ import AdminMemberListPage from "../views/admin/AdminMemberListPage.vue"
 // Cafe 카페페이지
 import MyCafePage from "../views/mycafe/MyCafePage.vue"
 import CafeRegisterPage from "../views/mycafe/CafeRegisterPage.vue"
+import CafeReviewPage from "../views/mycafe/CafeReviewPage.vue"
+import CafeChangePwPage from "../views/mycafe/CafeChangePwPage.vue"
 
 //CafeMyPage
 import CafeModifyView from "../views/CafeMyPageViews/CafeModifyView.vue"
@@ -84,6 +86,16 @@ const routes = [
     path: "/caferegister",
     name: "CafeRegisterPage",
     component: CafeRegisterPage,
+  },
+  {
+    path: "/cafereview",
+    name: "CafeReviewPage",
+    component: CafeReviewPage,
+  },
+  {
+    path: "/cafepw",
+    name: "CafeChangePwPage",
+    component: CafeChangePwPage,
   },
 ]
 
