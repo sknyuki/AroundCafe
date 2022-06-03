@@ -32,11 +32,11 @@
             <v-card>
             <v-card-title>
             </v-card-title>
-            <v-data-table :headers="headerTitle2" :items="menuSoldOutLists" class="elevation-0" >
+            <v-data-table :headers="headerTitle3" :items="menuSoldOutLists" class="elevation-0" >
                     
                     <template v-slot:[`item.menu_img`]="{ item }" >
                         <v-img v-if="item.menu_img != null" v-bind:src="require(`@/assets/cafe/cafeMenu/${item.menu_img}`)" height="50px"/>
-                        <v-img v-if="item.menu_img == null" src="@/assets/cafe/cafeMenu/imgNull.png" height="50px"/>
+                        <v-img v-if="item.menu_img == null" v-bind:src="require(`@/assets/cafe/cafeMenu/imgNull.png`)" height="50px"/>
                     </template>   
 
                     <template v-slot:[`item.sold_out`]="{ item }"  >
@@ -68,10 +68,10 @@
             </v-card-title>
             <v-data-table :headers="headerTitle1" :items="menuLists" :search="search"  class="elevation-0" >
                     
-                    <template v-slot:[`item.linkInfo`]="{ item }" >
+                    <template v-slot:[`item.menu_img`]="{ item }" >
                         <v-img v-if="item.menu_img != null" v-bind:src="require(`@/assets/cafe/cafeMenu/${item.menu_img}`)" height="50px"/>
                         <v-img v-if="item.menu_img != null" v-bind:src="require(`@/assets/cafe/cafeMenu/imgNull.png`)" height="50px"/>
-                    </template>   
+                    </template>
 
                     <template v-slot:[`item.actions`] ="{ item }" >
                     <v-icon
@@ -189,7 +189,7 @@
                     <v-card-actions>
                     <v-spacer></v-spacer>
                     <v-btn color="white" @click="deleteSolDialog = false">돌아가기</v-btn>
-                    <v-btn color="white" type="button" @click="changeSoldOut">취소하기</v-btn>
+                    <v-btn color="white" type="button" @click="deleteSold">취소하기</v-btn>
                     </v-card-actions>
                 </v-card>   
             </v-dialog> 
@@ -221,6 +221,14 @@ import axios from 'axios'
                     {text: 'price', value: 'menu_price', width:'100px'},
                     {text: 'content', value: 'menu_content', width:'100px'},
                     { text: 'Signature', value: 'signature', sortable: false ,  width: "20px" }
+                ],
+                headerTitle3 : [
+                    {text: 'no', value: 'menu_no', width: '20px'},
+                    {text: 'image', vlaue: 'menu_img', width: '120px' },
+                    {text: 'name', value: 'menu_name', width:'100px'},
+                    {text: 'price', value: 'menu_price', width:'100px'},
+                    {text: 'content', value: 'menu_content', width:'100px'},
+                    { text: 'SoldOut', value: 'sold_out', sortable: false ,  width: "20px" }
                 ],
                 search: '',
                 dialog:false,
