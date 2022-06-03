@@ -3,6 +3,11 @@
   @include no-scrollbar;
   overflow-x: auto;
   background-color: $white;
+  transition: transform 0.2s;
+  &.nav-hidden {
+    box-shadow: none;
+    transform: translate3d(0, -100%, 0);
+  }
 
   &-list {
     @include inline-flexbox(start);
