@@ -34,7 +34,7 @@
 </template>
 <script>
 export default {
-  name: "MySidebar",
+  name: "UserSidebar",
   data() {
     return {
       sidebarOne: [
