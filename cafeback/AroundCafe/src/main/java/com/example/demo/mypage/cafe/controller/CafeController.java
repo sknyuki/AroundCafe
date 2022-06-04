@@ -21,7 +21,7 @@ public class CafeController {
     private CafeService service;
 
     @ResponseBody
-    @PostMapping(value = "/modify/{membNo}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
+    @PutMapping(value = "/modify/{membNo}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
     public String  cafeRegister (@PathVariable("membNo") Integer membNo,
                               @RequestPart(value = "info", required = false) Cafe info,
                               @RequestPart(value = "fileList", required = false)List<MultipartFile> fileList) {
@@ -40,8 +40,8 @@ public class CafeController {
 
                     writer.write(multipartFile.getBytes());
                     writer.close();
+                    service.includeFileModifyCafe(membNo,info,multipartFile.getOriginalFilename());
                 }
-                service.includeFileModifyCafe(membNo,info,fileList);
             } catch (Exception e) {
                 return "register fail!";
             }
@@ -53,9 +53,15 @@ public class CafeController {
         return "등록이 완료되었습니다!";
     }
 
-    @GetMapping("/mypage/read/{membNo}")
-    public Cafe myPageRead(@PathVariable("membNo") Integer membNo) {
-        log.info("read Page no : "+ membNo);
-        return service.cafeMypageread(membNo);
+//    @GetMapping("/mypage/read/{membNo}")
+//    public Cafe myPageRead(@PathVariable("membNo") Integer membNo) {
+//        log.info("read Page no : "+ membNo);
+//        return service.cafeMypageread(membNo);
+//    }
+
+    @GetMapping("/mypage/read")
+    public Cafe myPageRead1() {
+        log.info("read Page no : ");
+        return service.read();
     }
 }
