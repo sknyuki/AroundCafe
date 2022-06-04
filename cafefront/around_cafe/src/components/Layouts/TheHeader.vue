@@ -89,18 +89,17 @@
       </div>
     </div>
     <v-navigation-drawer width="240" v-model="drawer" fixed temporary>
-      <navbar-list></navbar-list>
+      <TheNavBarList />
     </v-navigation-drawer>
-    <NavLayout></NavLayout>
+    <TheNavBar />
   </header>
 </template>
 <script>
-import NavLayout from "@/components/layouts/NavLayout.vue"
-import NavbarList from "@/components/layouts/NavbarList.vue"
-
+import TheNavBar from "../Layouts/TheNavBar.vue"
+import TheNavBarList from "../Layouts/TheNavBarList.vue"
 export default {
-  name: "HeaderLayout",
-  components: { NavLayout, NavbarList },
+  components: { TheNavBarList, TheNavBar },
+  name: "TheHeader",
 
   data() {
     return {
