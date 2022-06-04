@@ -36,11 +36,16 @@ public class CafeController {
                             multipartFile.getOriginalFilename());
 
                     FileOutputStream writer = new FileOutputStream(
-                            "../../cafefront/around_cafe/src/asserts/cafe/cafeMypage" + info.getCafe_name() + "."+ multipartFile.getOriginalFilename());
+                            "../../cafefront/around_cafe/src/assets/cafe/cafeMypage/" + info.getCafe_name() + "."+ multipartFile.getOriginalFilename());
 
                     writer.write(multipartFile.getBytes());
+                    log.info("here1");
                     writer.close();
+                    log.info("here2");
+
                     service.includeFileModifyCafe(membNo,info,multipartFile.getOriginalFilename());
+                    log.info("here3");
+
                 }
             } catch (Exception e) {
                 return "register fail!";

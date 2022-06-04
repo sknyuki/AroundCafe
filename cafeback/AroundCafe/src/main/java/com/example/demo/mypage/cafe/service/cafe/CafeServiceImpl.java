@@ -36,18 +36,23 @@ public class CafeServiceImpl implements CafeService{
     @Transactional
     @Override
     public void includeFileModifyCafe(Integer membNo, Cafe info, String originalFilename) throws IOException {
-        log.info("modify yes~ file info : "+info);
+        log.info("***modify yes~ file info : "+info);
         //1~2번 정리 완료
         Optional<Member> findMemberNo = memberRepository.findById(Long.valueOf(membNo));
         Member member = findMemberNo.get();
 
         info.setMemberInfo(member);
-
+        log.info(member.toString());
         repository.save(info);
+        log.info(info.toString());
 
         //이미지 db에서 파일 삭제, 추가 저장 메소드
         CafeImg cafeImg = new CafeImg(originalFilename, info);
+        log.info(cafeImg.toString());
+
         cafeImgRepository.save(cafeImg);
+        log.info(cafeImg.toString());
+
 
         /*
         1. id정보로 member db에서 member_no 가지고 오기.(중복여부를 하기 때문에 문제없음)

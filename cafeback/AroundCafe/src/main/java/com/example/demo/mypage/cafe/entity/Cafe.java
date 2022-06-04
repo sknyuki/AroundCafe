@@ -20,10 +20,10 @@ public class Cafe {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long cafeNo;
 
-    @Column(length = 32, nullable = false)
+    @Column(length = 32, nullable = true)
     private String cafe_name;
 
-    @Column(length = 32, nullable = false)
+    @Column(length = 32, nullable = true)
     private String cafe_bis_no;
 
     @Column(length = 128, nullable = true)
