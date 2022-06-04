@@ -25,7 +25,7 @@ import CafeChangePwPage from "../views/mycafe/CafeChangePwPage.vue"
 //CafeMyPage
 import CafeModifyView from "../views/CafeMyPageViews/CafeModifyView.vue"
 import CafeMenuRegister from "../views/CafeMyPageViews/CafeMenuRegister.vue"
-
+import TestTest from "../views/CafeMyPageViews/TestTest.vue"
 Vue.use(VueRouter)
 
 const routes = [
@@ -62,10 +62,7 @@ const routes = [
   {
     path: "/CafeModifyView",
     name: "CafeModifyView",
-    components: { CafeModifyView },
-    props: {
-      default: true,
-    },
+    component:  CafeModifyView 
   },
   {
     path: "/cafeMenuRegister",
@@ -96,6 +93,11 @@ const routes = [
     path: "/cafepw",
     name: "CafeChangePwPage",
     component: CafeChangePwPage,
+  },
+  {
+    path: "/test",
+    name: "TestTest",
+    component: TestTest,
   },
 ]
 

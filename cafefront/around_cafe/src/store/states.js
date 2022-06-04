@@ -1,6 +1,5 @@
 export default {
-    /*CafeMyPage
     cafeBoards:[],
-    cafeBoard:[],*/
+    cafeBoard:null,
     menuLists: []
 }
