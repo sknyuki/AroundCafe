@@ -4,10 +4,10 @@
             <h3 style="padding:30px 0px 30px 0px; font-weight:bold" align="center">게시글 작성</h3>
   <v-sheet class="mt-5 mb-10">
     <v-row>
-      <v-col cols="12" md="8">
+      <v-col cols="12" md="2">
         <upload-file-1 @selectFile="selectFile"></upload-file-1>
       </v-col>
-      <v-col cols="12" md="4">
+      <v-col cols="12" md="8">
       
         <v-card align="center" class="mt-5 pa-2">
                   <h3>상세 목록</h3>
@@ -15,7 +15,7 @@
             <tr>
                 <td><h4>카페명:</h4></td>
                 <td>
-                    <input type="text" v-model="cafe_name"/>
+                    <input type="text" :value="mcafe_name"/>
                 </td>
             </tr>
             <tr>
@@ -27,43 +27,51 @@
              <tr>
                 <td><h4>영업 시간:</h4></td>
                 <td>
-                    <input type="text" v-model="cafe_time"/>
+                    <input type="text" v-model="mcafe_time"/>
                 </td>
             </tr>
             <tr>
                 <td><h4>카페 설명:</h4></td>
                 <td>
-                    <input type="text" v-model="cafe_content"/>
+                    <input type="text" v-model="mcafe_content"/>
                 </td>
             </tr>
             <tr>
                 <td><h4>전화 번호:</h4></td>
                 <td>
-                    <input type="text" v-model="cafe_call"/>
+                    <input type="text" v-model="mcafe_call"/>
                 </td>
             </tr>
             
             <tr>
                 <td><h4>카페 주소:</h4></td>
-                <td width="0"> <v-select
-            :items="states1"
-            label="시"
-            dense
-            style="width:100px; font-size:15px; padding:0px"
-             v-model="cafe_adr1"
-          ></v-select>
+                <td width="0"> 
+                    <v-select
+                        :items="states1"
+                        label="시"
+                        dense
+                        style="width:100px; font-size:15px;"
+                        v-model="mcafe_adr1"
+                    ></v-select>
                 </td>
+
                 <td width="0">
                     <v-select
-            :items="states2"
-            label="구"
-            dense
-            style="width:100px; font-size:15px;"
-             v-model="cafe_adr2"
-             ></v-select>
+                        :items="states2"
+                        label="구"
+                        dense
+                        style="width:100px; font-size:15px;"
+                        v-model="mcafe_adr2"
+                    ></v-select>
                 </td>
+                <td>상세주소:
+                    <input type="text" style="width:100px; font-size:15px;" v-model="mcafe_adr3"/>
+                </td>
+            </tr>
+            <tr>
                 <td>
-                    <input type="text" style="width:100px; font-size:15px;" v-model="cafe_adr3"/>
+                    <input type="file" id="files1" ref="files1" 
+                        multiple v-on:change="handleFileUpload()"/>
                 </td>
             </tr>
           </table>
@@ -90,6 +98,7 @@
       </v-col>
     </v-row>
   </v-sheet>
+
    </div>
 </form>
 </template>
@@ -98,55 +107,72 @@
 import UploadFile1 from '@/components/uploadfile1.vue'
 
 export default {
-    name:'ProductBoardRegister',
+    name:'CafeModifyComponent',
     components:{
-       UploadFile1,
+       UploadFile1
     },
      props: {
         cafeBoard: {
             type: Object,
             required: true
-        },
-     data () {
-        return {
-            cafe_adr1: '',
-            cafe_adr2: '',
-            cafe_adr3:'',
-            cafe_name: '',
-            cafe_time: '',
-            cafe_content: '',
-            cafe_call: '',
+        }
+     },
+     data() {
+         return{
+            mcafe_adr1:'',
+            mcafe_adr2:'',
+            mcafe_adr3:'',
+            mcafe_name:'',
+            mcafe_time:'',
+            mcafe_content: '',
+            mcafe_call: '',
             files:[],
             states1:['서울시'],
             states2: [
-        '강남구', '강동구', '강북구', '강서구',
-        '관악구', '광진구', '구로구', '금천구',
-        '노원구', '도봉구', '동대문구',
-        '동작구', '마포구', '서대문구', '서초구', '성동구',
-        '성북구', '송파구', '양천구', '영등포구', '용산구','은평구','종로구','중구','중랑구'
-      ],
+                '강남구', '강동구', '강북구', '강서구',
+                '관악구', '광진구', '구로구', '금천구',
+                '노원구', '도봉구', '동대문구',
+                '동작구', '마포구', '서대문구', '서초구', '성동구',
+                '성북구', '송파구', '양천구', '영등포구', '용산구','은평구','종로구','중구','중랑구'
+            ],
+            cafeImgs:[],
+            files1: '',
+            response: ''
         }
+    },
+    created() {
+        this.mcafe_name = this.cafeBoard.cafe_name
+        this.mcafe_content = this.cafeBoard.cafe_content
+        this.mcafe_call = this.cafeBoard.cafe_call
+        this.mcafe_time = this.cafeBoard.cafe_time
+        this.mcafe_adr1 = this.cafeBoard.cafe_adr1
+        this.mcafe_adr2 = this.cafeBoard.cafe_adr2
+        this.mcafe_adr3 = this.cafeBoard.cafe_adr3
     },
       methods: {
         selectFile(files){
             this.cafeImgs=files
         },
+        handleFileUpload () {
+            this.files1 = this.$refs.files1.files
+        },
          onSubmit () {
             var result = confirm('등록 하시겠습니까?')
             if(result) {
-                const { cafe_adr1, cafe_adr2, scafe_adr3ize, cafe_name, cafe_time, cafe_content, cafe_call, cafeImgs} = this
-                this.$emit('submitContents', {  cafe_adr1, cafe_adr2, scafe_adr3ize, cafe_name, cafe_time, cafe_content, cafe_call, cafeImgs})
-                console.log(cafe_adr1, cafe_adr2, scafe_adr3ize, cafe_name, cafe_time, cafe_content, cafe_call, cafeImgs)
-
+                const { mcafe_name, mcafe_content, mcafe_call, mcafe_time, mcafe_adr1, mcafe_adr2, mcafe_adr3, files1} = this
+                this.$emit('submitContents', {mcafe_name, mcafe_content, mcafe_call, mcafe_time, mcafe_adr1, mcafe_adr2, mcafe_adr3, files1})
             }
          }
       }
-  }
 }
+
 </script>
 <style scoped>
 .table{
 border-collapse: separate;
 border-spacing: 0 10px;
+}
+.input{
+    border: 1px solid black;
 }
 </style>

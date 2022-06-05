@@ -12,13 +12,18 @@
                 hide-details
             ></v-text-field>
             </v-card-title>
-            <v-data-table :headers="headerTitle1" :items="menuLists" :search="search"  class="elevation-0" >
+            <v-data-table :headers="headerTitle1" :items="menuLists" :search="search"  class="elevation-0">
                     
-                    <template v-slot:[`item.menu_img`]="{ item }" >
-                        <img v-if="item.menu_img != null" v-bind:src="require(`@/assets/cafe/cafeMenu/${item.menu_img}`)" height="50px"/>
-                        <img v-if="item.menu_img == null" v-bind:src="require(`@/assets/cafe/cafeMenu/imgNull.png`)" height="50px"/>
+                    <template v-slot:[`item.menu_img`] = "{ item }" >
+                        <v-img v-if ="item.menu_img == null" v-bind:src="require(`@/assets/cafe/cafeMenu/imgNull.png`)" />
+                        <v-img v-if ="item.menu_img != null" v-bind:src="require(`@/assets/cafe/cafeMenu/${item.menu_img}`)" />
                     </template>
 
+                    <!-- <template v-slot:[`item.reviewFile`]="{ item }" >
+                        <img v-if="item.reviewFile != null" v-bind:src="require(`@/assets/review/${item.reviewFile}`)" height="230px"/>
+                        <img v-if="item.reviewFile == null" v-bind:src="require(`@/assets/review/nullImg.png`)" height="230px"/>
+                    </template>    -->
+                    
                     <template v-slot:[`item.actions`] ="{ item }" >
                     <v-icon
                         small
@@ -80,7 +85,7 @@
             </v-card>
 
             <form @submit.prevent="modifySubmit">
-                <v-dialog v-model="dialog" >
+                <v-dialog v-model="dialog"  max-width="600">
                     <v-card >
                         <v-card-title >수정하기</v-card-title>
                         <v-card-text>
@@ -108,7 +113,7 @@
                 </v-dialog>
             </form>
                 
-            <v-dialog v-model="deleteDialog">
+            <v-dialog v-model="deleteDialog" max-width="600">
                 <v-card>
                     <v-card-title class="headline">정말 삭제하시겠습니까?</v-card-title>
                     <v-card-text>삭제하게 되면 내용은 다시 볼 수 없게 됩니다.</v-card-text>
@@ -120,7 +125,7 @@
                 </v-card>   
             </v-dialog> 
 
-            <v-dialog v-model="signatureDialog">
+            <v-dialog v-model="signatureDialog" max-width="600">
                 <v-card>
                     <v-card-title class="headline">해당 아이템을 시그니처로 등록하시겠습니까?</v-card-title>
                     <v-card-title >시그니처 등록은 최대 두개만 가능합니다.</v-card-title>
@@ -131,7 +136,7 @@
                     </v-card-actions>
                 </v-card>   
             </v-dialog> 
-            <v-dialog v-model="deleteSigDialog">
+            <v-dialog v-model="deleteSigDialog" max-width="600">
                 <v-card>
                     <v-card-title class="headline">해당 시그니처를 삭제하시겠습니까?</v-card-title>
                     <v-card-actions>
@@ -141,7 +146,7 @@
                     </v-card-actions>
                 </v-card>   
             </v-dialog> 
-            <v-dialog v-model="soldOutDialog">
+            <v-dialog v-model="soldOutDialog" max-width="600">
                 <v-card>
                     <v-card-title class="headline">해당 아이템을 솔드아웃 처리하시겠습니까?</v-card-title>
                     <v-card-actions>
@@ -151,7 +156,7 @@
                     </v-card-actions>
                 </v-card>   
             </v-dialog> 
-            <v-dialog v-model="deleteSolDialog">
+            <v-dialog v-model="deleteSolDialog" max-width="600">
                 <v-card>
                     <v-card-title class="headline">솔드아웃을 취소하겠습니까??</v-card-title>
                     <v-card-actions>
@@ -161,6 +166,10 @@
                     </v-card-actions>
                 </v-card>   
             </v-dialog> 
+
+        </div>
+        <div>
+            <v-img src="https://picsum.photos/id/11/500/300" />
 
         </div>
     </div>
@@ -174,7 +183,7 @@ import axios from 'axios'
             return {
                 headerTitle1 : [
                     {text: 'no', value: 'menu_no', width: '20px'},
-                    {text: 'image', vlaue: 'menu_img', width: '120px' },
+                    {text: 'menu_img', vlaue: 'menu_img', width: '120px' },
                     {text: 'name', value: 'menu_name', width:'100px'},
                     {text: 'price', value: 'menu_price', width:'100px'},
                     {text: 'content', value: 'menu_content', width:'150px'},
@@ -310,5 +319,4 @@ import axios from 'axios'
 </script>
 
 <style scoped>
-
 </style>
