@@ -74,7 +74,7 @@ export default {
           id: 2,
           icon: "mdi-lock",
           title: "비밀번호 변경",
-          link: "/",
+          link: "/userpassword",
         },
         {
           id: 3,
