@@ -108,6 +108,9 @@
       </v-btn>
   </div>
 
+  <div v-for="item,idx in cafeImgLists" :key="idx">
+      <img v-bind:src="require(`@/assets/cafe/cafeMypage/${item.cafe_img}`)" width="200px;">      
+  </div>
    </div>
 </form>
 
@@ -124,6 +127,10 @@ export default {
      props: {
         cafeBoard: {
             type: Object,
+            required: true
+        },
+        cafeImgLists : {
+            type: Array,
             required: true
         }
      },

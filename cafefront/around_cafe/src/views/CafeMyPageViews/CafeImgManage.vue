@@ -1,14 +1,16 @@
 <template>
     <div>
-        
+        <CafeImgManageForm :cafeImgLists="cafeImgLists"/>
     </div>
 </template>
 
 <script>
+import CafeImgManageForm from '@/components/MyPageComponents/CafeMypageComponents/CafeImgManageForm.vue'
 //import axios from 'axios'
 import {mapActions, mapState} from 'vuex'
 
 export default {
+  components: { CafeImgManageForm },
     name:'CafeImgManage',
     data() {
         return {
@@ -25,10 +27,10 @@ export default {
         ...mapState(['cafeImgLists'])
     },
     mounted() {
-        this.fetchCafeImgLists()
+        this.fetchCafeImgLists(this.cafeNo)
     },
     methods : {
-        ...mapActions(['cafeImgLists'])
+        ...mapActions(['fetchCafeImgLists'])
     }
 }
 </script>

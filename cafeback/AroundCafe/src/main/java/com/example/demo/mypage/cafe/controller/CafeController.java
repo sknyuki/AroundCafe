@@ -1,6 +1,7 @@
 package com.example.demo.mypage.cafe.controller;
 
 import com.example.demo.mypage.cafe.entity.Cafe;
+import com.example.demo.mypage.cafe.entity.CafeImgTable;
 import com.example.demo.mypage.cafe.service.cafe.CafeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,5 +73,11 @@ public class CafeController {
     public Cafe myPageRead1() {
         log.info("read Page no : ");
         return service.read();
+    }
+
+    @GetMapping("/mypageImg/{cafeNo}")
+    public List<CafeImgTable> readCafeImgTable(@PathVariable("cafeNo") Integer cafeNo) {
+        log.info("read cafe img list");
+        return service.imgList(cafeNo);
     }
 }
