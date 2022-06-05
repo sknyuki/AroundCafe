@@ -8,4 +8,3 @@ export default {
   name: "UsePolicyPage",
 }
 </script>
-<style lang=""></style>

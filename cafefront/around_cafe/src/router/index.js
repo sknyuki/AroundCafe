@@ -2,16 +2,17 @@ import Vue from "vue"
 import VueRouter from "vue-router"
 import MainPage from "../views/MainPage.vue"
 
-// Account 회원
+// Account 계정
 import AccountSignUpPage from "../views/Account/AccountSignUpPage.vue"
 import AccountLoginPage from "../views/Account/AccountLoginPage.vue"
 import AccountPasswordPage from "../views/Account/AccountPasswordPage.vue"
 
-// Policy 정책
+// Policy 약관페이지
 import PolicyPage from "../views/Policy/PolicyPage.vue"
 
-// User 페이지
+// User 회원페이지
 import UserOrderListPage from "../views/User/UserOrderListPage.vue"
+import UserPasswordPage from "../views/User/UserPasswordPage.vue"
 
 // Admin 관리자페이지
 import AdminMemberListPage from "../views/Admin/AdminMemberListPage.vue"
@@ -94,6 +95,11 @@ const routes = [
     path: "/cafemodify",
     name: "CafeUserModifyPage",
     component: CafeUserModifyPage,
+  },
+  {
+    path: "/userpassword",
+    name: "UserPasswordPage",
+    component: UserPasswordPage,
   },
   {
     path: "/test",
