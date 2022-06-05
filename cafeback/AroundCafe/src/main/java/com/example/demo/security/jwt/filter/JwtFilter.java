@@ -1,7 +1,7 @@
 package com.example.demo.security.jwt.filter;
 
 import com.example.demo.member.entity.Member;
-import com.example.demo.member.service.MemberServiceImpl;
+import com.example.demo.member.repository.MemberRepository;
 import com.example.demo.security.jwt.service.JwtService;
 import com.example.demo.security.jwt.service.RedisServiceImpl;
 import com.example.demo.security.service.MemberDetailsServiceImpl;
@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -31,7 +32,7 @@ public class JwtFilter extends OncePerRequestFilter {
     public static final String BEARER_PREFIX = "Bearer ";
 
     private final JwtService jwtService;
-    private final MemberServiceImpl memberService;
+    private final MemberRepository memberRepository;
     private final MemberDetailsServiceImpl memberDetailsService;
     private final RedisServiceImpl redisService;
 
@@ -48,24 +49,26 @@ public class JwtFilter extends OncePerRequestFilter {
 
           // accessToken값이 존재하며, JWT 검증결과 정상 토큰일 경우
           if(accessToken != null && jwtService.validateJwtToken(accessToken)) {
-              setAuthentication(accessToken,request);
+              setAuthentication(accessToken, request);
           }
-          // accessToken, refreshToken이 not null이며, accessToken이 만료되었을경우 --- 현제 validate 실패시 인데 만료시로 변경 필요
-          else if (accessToken != null && refreshToken != null && !jwtService.validateJwtToken(accessToken)) {
+          // accessToken, refreshToken이 not null이며, accessToken이 만료 되었을경우
+          else if (accessToken != null && refreshToken != null && jwtService.validateJwtTokenWithOutExpiration(accessToken)) {
               // refreshToken 검증
               boolean validateRefreshToken = jwtService.validateJwtToken(refreshToken);
               // refreshToken 존재 확인
-              boolean isRefreshToken = jwtService.isRefreshTokenExists(refreshToken);
+              boolean isRefreshToken = redisService.isRefreshTokenExists(refreshToken);
+
               // refreshToken이 검증되었고 존재하고 있다면,
               if(validateRefreshToken && isRefreshToken) {
-                  // accessToken을 통하여 memNo 검색 및 멤버 인스턴스 생성
-                  Member member = memberService.findByMemNo(jwtService.getMemberIdFromJwtToken(accessToken));
+                  // refreshToken을 통하여 Member Instance 생성
+                  Member member = memberRepository.findByMemId(redisService.getValueByKey(refreshToken))
+                          .orElseThrow(() -> new UsernameNotFoundException("Member Not Found with member Id from RefreshToken : " + refreshToken));
                   // accessToken, refreshToken 재발급
                   String newAccessToken = jwtService.generateAccessToken(member);
                   String newRefreshToken = jwtService.generateRefreshToken();
                   // redis에 리프레시 토큰 삭제후 저장
-                  redisService.deleteByKey(member.getMemId());
-                  redisService.setKeyAndValue(member.getMemId(), newRefreshToken);
+                  redisService.deleteByKey(refreshToken);
+                  redisService.setKeyAndValue(newRefreshToken, member.getMemId());
                   // authentication 세팅
                   setAuthentication(newAccessToken, request);
               }
@@ -84,7 +87,7 @@ public class JwtFilter extends OncePerRequestFilter {
         // JWT에서 userId 값을 가져옴
         Long memberId = jwtService.getMemberIdFromJwtToken(token);
         // userId 기준으로 principal 조회
-        UserDetails userDetails = memberDetailsService.loadUserById(memberId); // USER AUTH 저장하는 방법 변경해야함
+        UserDetails userDetails = memberDetailsService.loadUserById(memberId);
         // principal 정보 기준으로 인증 토큰 객체 생성
         UsernamePasswordAuthenticationToken authentication =
                 new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());

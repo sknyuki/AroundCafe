@@ -12,10 +12,10 @@ public class JwtDto {
     private final String accessToken;
     private final String refreshToken;
     private final String email;
-    private final List<String> role;
+    private final String role;
 
     @Builder
-    public JwtDto(String accessToken, String refreshToken, String id, String name, String email, List<String> role) {
+    public JwtDto(String accessToken, String refreshToken, String email, String role) {
         this.accessToken = accessToken;
         this.refreshToken = refreshToken;
         this.email = email;

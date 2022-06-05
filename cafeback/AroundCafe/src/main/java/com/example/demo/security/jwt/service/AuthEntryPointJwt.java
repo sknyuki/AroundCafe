@@ -14,7 +14,7 @@ import java.io.IOException;
 @Component
 public class AuthEntryPointJwt implements AuthenticationEntryPoint {
 
-    // 비로그인 상태에서 인증 실패 시 AuthenticationException가 발생한 것을 포착하여 호출되는 메서드
+    // 인증 실패 시 AuthenticationException가 발생한 것을 포착하여 호출되는 메서드
     @Override
     public void commence(HttpServletRequest request,
                          HttpServletResponse response,
@@ -24,7 +24,5 @@ public class AuthEntryPointJwt implements AuthenticationEntryPoint {
         // 응답으로 상태 코드 401 값과 에러 메시지 "Error: Unauthorized"을 보냄
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-
-        //register page로 리다이렉트를 해야할까?
     }
 }

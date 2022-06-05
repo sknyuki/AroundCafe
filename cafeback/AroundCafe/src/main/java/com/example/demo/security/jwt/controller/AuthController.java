@@ -6,11 +6,11 @@ import com.example.demo.member.entity.MemberRole;
 import com.example.demo.member.entity.MemberRoleType;
 import com.example.demo.member.entity.SocialType;
 import com.example.demo.member.repository.MemberRepository;
+import com.example.demo.member.service.MemberServiceImpl;
 import com.example.demo.mypage.cafe.entity.Cafe;
 import com.example.demo.mypage.cafe.repository.cafe.CafeRepository;
 import com.example.demo.security.jwt.dto.JwtDto;
 import com.example.demo.security.jwt.dto.LoginRequest;
-import com.example.demo.security.jwt.dto.LogoutRequest;
 import com.example.demo.security.jwt.dto.RegisterRequest;
 import com.example.demo.security.jwt.service.JwtService;
 import com.example.demo.common.dto.MessageResponse;
@@ -22,12 +22,14 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.net.http.HttpResponse;
 
 @RestController
 @RequestMapping("/auth")
@@ -40,7 +42,6 @@ public class AuthController {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final RedisServiceImpl redisService;
-
     private final CafeRepository cafeRepository;
 
     //Token 발급이 되지 않은 경우
@@ -57,16 +58,19 @@ public class AuthController {
         String accessToken = jwtService.generateAccessToken(authentication);
         String refreshToken = jwtService.generateRefreshToken();
 
-        // 기존에 refreshKey가 있었다면 삭제
+        // 기존에 refreshKey가 있었다면 삭제 ----- 확인필요
         redisService.deleteByKey(loginRequest.getEmail());
         // redis에 리프레시 토큰 저장
-        redisService.setKeyAndValue(loginRequest.getEmail(), refreshToken);
-
+        redisService.setKeyAndValue(refreshToken, loginRequest.getEmail());
+        // Role을 불러오기 위하여 Member Instance 생성 (member Id가 없을시 RuntimeException 반환)
+        Member member = memberRepository.findByMemId(loginRequest.getEmail())
+                .orElseThrow(() -> new UsernameNotFoundException("Member Not Found with member Id : " + loginRequest.getEmail()));
         // principal, accessToken, refreshToken을 반환하여 response
         return ResponseEntity.ok(JwtDto.builder()
                 .email(loginRequest.getEmail())
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
+                .role(member.getRole().getName().getValue())
                 .build()
         );
     }
@@ -122,8 +126,8 @@ public class AuthController {
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<?> logout(@Valid @RequestBody LogoutRequest logoutRequest) {
-        redisService.deleteByKey(logoutRequest.getEmail());
-        return ResponseEntity.ok().body("로그아웃");
+    public String logout(@RequestHeader(value="refreshToken") String refreshToken) {
+        redisService.deleteByKey(refreshToken);
+        return "Logout";
     }
 }
