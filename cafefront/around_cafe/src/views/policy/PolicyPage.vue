@@ -1,5 +1,7 @@
 <template>
-  <Policy />
+  <div>
+    <Policy />
+  </div>
 </template>
 <script>
 import Policy from "@/components/Policy/Policy.vue"
