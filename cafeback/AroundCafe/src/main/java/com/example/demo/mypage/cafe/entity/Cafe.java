@@ -51,12 +51,12 @@ public class Cafe {
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @OneToMany(mappedBy = "cafe", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
-    private Set<CafeImg> cafeImgs = new HashSet<>();
+    private Set<CafeImgTable> cafeImgs = new HashSet<>();
 
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @OneToMany(mappedBy = "cafe", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
-    private Set<CafeImg> cafeMenu = new HashSet<>();
+    private Set<CafeMenu> cafeMenu = new HashSet<>();
 
     @OneToOne
     @JsonIgnore

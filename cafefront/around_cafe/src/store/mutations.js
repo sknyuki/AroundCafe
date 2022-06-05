@@ -2,6 +2,7 @@ import {
     FETCH_CAFE_BOARD_LIST,
     FETCH_CAFE_BOARD,
     FETCH_MENU_LISTS,
+    FETCH_CAFE_IMG_LISTS
 
 
 } from './mutation-types'
@@ -19,4 +20,8 @@ export default {
     [FETCH_MENU_LISTS] (state, menuLists) {
     state.menuLists = menuLists
     },
+
+    [FETCH_CAFE_IMG_LISTS] (state, cafeImgLists) {
+        state.cafeImgLists = cafeImgLists
+        },
 }

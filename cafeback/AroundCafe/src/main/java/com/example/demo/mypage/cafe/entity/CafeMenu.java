@@ -34,10 +34,10 @@ public class CafeMenu {
     @Column(columnDefinition = "boolean default false")
     private Boolean sold_out = false;
 
-//    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//    @JoinColumn(name = "cafe_no")
-//    @JsonIgnore
-//    private Cafe cafe;
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "cafe_no")
+    @JsonIgnore
+    private Cafe cafe;
 
 
     @Builder
