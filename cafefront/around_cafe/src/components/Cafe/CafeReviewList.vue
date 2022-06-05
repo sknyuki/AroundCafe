@@ -20,10 +20,10 @@
   </div>
 </template>
 <script>
-import CafeSidebar from "../Cafe/CafeSidebar.vue"
-import ImgBox from "../ImgBox.vue"
-import PaginationForm from "../PaginationForm.vue"
-import ReviewForm from "../ReviewForm.vue"
+import CafeSidebar from "@/components/Cafe/CafeSidebar.vue"
+import ImgBox from "@/components/ImgBox.vue"
+import ReviewForm from "@/components/ReviewForm.vue"
+import PaginationForm from "@/components/PaginationForm.vue"
 
 export default {
   name: "CafeReviewList",
