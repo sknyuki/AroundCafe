@@ -15,19 +15,23 @@ public class RedisServiceImpl implements RedisService {
     private final StringRedisTemplate stringRedisTemplate;
 
     // 키-벨류 설정
-    public void setKeyAndValue(String email, String token) {
-        ValueOperations<String, String> values = stringRedisTemplate.opsForValue();
-        values.set(email, token, Duration.ofDays(1)); // 시간 조절 예정 -- 우선 하루
+    public void setKeyAndValue(String token, String email) {
+        ValueOperations<String, String> value = stringRedisTemplate.opsForValue();
+        value.set(token, email, Duration.ofMinutes(5)); // 시간 조절 예정 -- 우선 5분
     }
 
     // 키값으로 벨류 get
-    public String getValuesByKey(String email) {
-        ValueOperations<String, String> values = stringRedisTemplate.opsForValue();
-        return values.get(email);
+    public String getValueByKey(String token) {
+        ValueOperations<String, String> value = stringRedisTemplate.opsForValue();
+        return value.get(token);
     }
 
     // 키값을 받아 키-벨류 삭제
-    public void deleteByKey(String email) {
-        stringRedisTemplate.delete(email);
+    public void deleteByKey(String token) {
+        stringRedisTemplate.delete(token);
+    }
+
+    public boolean isRefreshTokenExists(String token) {
+        return getValueByKey(token) != null;
     }
 }
