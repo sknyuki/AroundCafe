@@ -30,40 +30,63 @@
         </li>
       </ul>
     </div>
+    <div class="mysidebar-content">
+      <header>
+        <h1>{{ infoTh }}</h1>
+      </header>
+      <ul>
+        <li class="mysidebar-list" v-for="item in sidebarTh" :key="item.id">
+          <router-link class="mysidebar-link" :to="item.link">
+            <div class="mysidebar-test">
+              <v-icon>{{ item.icon }}</v-icon>
+              <p>{{ item.title }}</p>
+            </div>
+          </router-link>
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 <script>
 export default {
-  name: "UserSidebar",
+  name: "AdminSidebar",
   data() {
     return {
       sidebarOne: [
         {
           id: 1,
-          icon: "mdi-coffee-outline",
-          title: "주문현황",
+          icon: "mdi-account-outline",
+          title: "회원 리스트",
           link: "/",
         },
         {
           id: 2,
-          icon: "mdi-format-list-bulleted",
-          title: "주문내역",
+          icon: "mdi-chart-areaspline",
+          title: "회원 이용 현황",
           link: "/",
         },
         {
           id: 3,
-          icon: "mdi-message-text-outline",
-          title: "내리뷰",
-          link: "/",
-        },
-        {
-          id: 4,
-          icon: "mdi-heart-outline",
-          title: "좋아요",
+          icon: "mdi-microphone",
+          title: "공지사항",
           link: "/",
         },
       ],
       sidebarTwo: [
+        {
+          id: 1,
+          icon: "mdi-home-outline",
+          title: "카페 리스트",
+          link: "/",
+        },
+        {
+          id: 2,
+          icon: "mdi-chart-bar",
+          title: "카페 매출",
+          link: "/",
+        },
+      ],
+      sidebarTh: [
         {
           id: 1,
           icon: "mdi-account-outline",
@@ -74,7 +97,7 @@ export default {
           id: 2,
           icon: "mdi-lock",
           title: "비밀번호 변경",
-          link: "/userpassword",
+          link: "/",
         },
         {
           id: 3,
@@ -83,8 +106,9 @@ export default {
           link: "/",
         },
       ],
-      infoOne: "나의 활동",
-      infoTwo: "내 정보",
+      infoOne: "회원 관리",
+      infoTwo: "카페 관리",
+      infoTh: "내 정보",
     }
   },
 }

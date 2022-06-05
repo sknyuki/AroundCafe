@@ -34,32 +34,44 @@
 </template>
 <script>
 export default {
-  name: "UserSidebar",
+  name: "CafeSidebar",
   data() {
     return {
       sidebarOne: [
         {
           id: 1,
-          icon: "mdi-coffee-outline",
-          title: "주문현황",
-          link: "/",
+          icon: "mdi-home-outline",
+          title: "카페 관리",
+          link: "/caferegister",
         },
         {
           id: 2,
-          icon: "mdi-format-list-bulleted",
-          title: "주문내역",
+          icon: "mdi-coffee-outline",
+          title: "메뉴 관리",
           link: "/",
         },
         {
           id: 3,
-          icon: "mdi-message-text-outline",
-          title: "내리뷰",
+          icon: "mdi-format-list-bulleted",
+          title: "주문 리스트",
           link: "/",
         },
         {
           id: 4,
-          icon: "mdi-heart-outline",
-          title: "좋아요",
+          icon: "mdi-cash",
+          title: "매출",
+          link: "/",
+        },
+        {
+          id: 5,
+          icon: "mdi-message-text-outline",
+          title: "고객 리뷰",
+          link: "/cafereview",
+        },
+        {
+          id: 6,
+          icon: "mdi-wechat",
+          title: "고객과 대화",
           link: "/",
         },
       ],
@@ -74,7 +86,7 @@ export default {
           id: 2,
           icon: "mdi-lock",
           title: "비밀번호 변경",
-          link: "/userpassword",
+          link: "/cafepw",
         },
         {
           id: 3,
@@ -83,7 +95,7 @@ export default {
           link: "/",
         },
       ],
-      infoOne: "나의 활동",
+      infoOne: "카페 정보",
       infoTwo: "내 정보",
     }
   },
