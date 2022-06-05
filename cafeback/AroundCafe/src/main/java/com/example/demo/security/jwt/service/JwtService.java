@@ -18,7 +18,7 @@ import java.util.Date;
 @Service
 public class JwtService {
     private final String jwtSecret;
-    private final Long jwtExpirationMs;
+    private final Long jwtExpirationMs; // 1분
     private final AppProperties appProperties;
 
     public JwtService(AppProperties appProperties) {
@@ -49,17 +49,16 @@ public class JwtService {
         return Jwts.builder()
                 .setId(id)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs * 10))
+                .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
                 .signWith(getSignKey(), SignatureAlgorithm.HS512)
                 .compact();
     }
 
-    // payload 제외하고 RefreshToken 생성함
-    // 유저정보가 전혀 없이 만드는게 맞나???? --- 우선 PayLoad 안 담기로함!
+    // payload 제외하고 RefreshToken 생성
     public String generateRefreshToken() {
         return Jwts.builder()
                 .setIssuedAt(new Date())
-                .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs * 1000))
+                .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs * 3))
                 .signWith(getSignKey(), SignatureAlgorithm.HS512)
                 .compact();
     }
@@ -120,4 +119,21 @@ public class JwtService {
             return false;
         }
     }
+
+    //토큰 만료 시간
+    public Long tokenExpTime(String token) {
+        Jws<Claims> claims = Jwts.parserBuilder()
+                .setSigningKey(jwtSecret.getBytes(StandardCharsets.UTF_8))
+                .build()
+                .parseClaimsJws(token);
+        return claims.getBody().getExpiration().getTime() - System.currentTimeMillis();
+    }
+
+    // 리프 레시 토큰 만료 시간 검증
+    public boolean isTokenNeedReissue(String token, long minTimeToRefresh) {
+        long expiration = tokenExpTime(token);
+        return expiration < minTimeToRefresh;
+    }
+
+
 }

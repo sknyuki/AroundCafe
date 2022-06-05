@@ -33,4 +33,4 @@ spring:
 app:
   auth:
     jwt-secret: TEj9ZyurkG3LiRqjU9u9KrWrPDL5UDa/vL03rjMv5GqPXCYjOySIfOIqAXBkDzdU/rPALuyxGwj1z4tN4cayoA==
-    jwt-expiration-ms: 86400000
+    jwt-expiration-ms: 60000 # 1000 * 60 * 1 = 1분(millisecond 기준)

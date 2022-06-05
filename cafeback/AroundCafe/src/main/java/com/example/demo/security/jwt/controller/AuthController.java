@@ -6,7 +6,6 @@ import com.example.demo.member.entity.MemberRole;
 import com.example.demo.member.entity.MemberRoleType;
 import com.example.demo.member.entity.SocialType;
 import com.example.demo.member.repository.MemberRepository;
-import com.example.demo.member.service.MemberServiceImpl;
 import com.example.demo.mypage.cafe.entity.Cafe;
 import com.example.demo.mypage.cafe.repository.cafe.CafeRepository;
 import com.example.demo.security.jwt.dto.JwtDto;
@@ -30,6 +29,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.http.HttpResponse;
+
+import static com.example.demo.security.jwt.filter.JwtFilter.MIN_TIME_TO_REFRESH;
 
 @RestController
 @RequestMapping("/auth")
@@ -69,7 +70,9 @@ public class AuthController {
         return ResponseEntity.ok(JwtDto.builder()
                 .email(loginRequest.getEmail())
                 .accessToken(accessToken)
+                .accessTokenExp(jwtService.tokenExpTime(accessToken))
                 .refreshToken(refreshToken)
+                .refreshTokenExp(jwtService.tokenExpTime(refreshToken))
                 .role(member.getRole().getName().getValue())
                 .build()
         );
@@ -77,9 +80,9 @@ public class AuthController {
 
     // AuthService로 기능 이동할지 고민중
     @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@Valid @RequestBody RegisterRequest registerRequest){
+    public ResponseEntity<?> registerUser(@Valid @RequestBody RegisterRequest registerRequest) {
         // 이메일이 존재한다면, Exception 반환
-        if(memberRepository.existsByMemId(registerRequest.getEmail())) {
+        if (memberRepository.existsByMemId(registerRequest.getEmail())) {
             throw new BadRequestException("Error: Email address already in use!");
         }
         // MemberRole instance 생성
@@ -103,13 +106,13 @@ public class AuthController {
         memberRepository.save(member);
 
         // registerRequest의 Role이 Cafe일때, Cafe Entity 생성후 저장
-        if(registerRequest.getRole().equals("CAFE")) {
+        if (registerRequest.getRole().equals("CAFE")) {
             Cafe cafe = Cafe.builder()
                     .cafe_name(registerRequest.getCafeName())
                     .cafe_bis_no(registerRequest.getCafeBisNo())
                     .member(member)
                     .build();
-            
+
             cafeRepository.save(cafe);
         }
 
@@ -126,8 +129,54 @@ public class AuthController {
     }
 
     @PostMapping("/logout")
-    public String logout(@RequestHeader(value="refreshToken") String refreshToken) {
+    public String logout(@RequestHeader(value = "refreshToken") String refreshToken) {
         redisService.deleteByKey(refreshToken);
+        HttpResponse<String> response;
+
         return "Logout";
+    }
+
+    @PostMapping("/reissue")
+    public ResponseEntity<?> reissue(@RequestHeader(value = "Authorization") String access, @RequestHeader(value = "refreshToken") String refresh) {
+        // accessToken, refreshToken 받아오기
+        String accessToken = access.substring(7);
+        String refreshToken = refresh.substring(7);
+        
+        // accessToken이 검증되지 않았다면 badRequest 발생
+        if(!jwtService.validateJwtTokenWithOutExpiration(accessToken)){
+            return ResponseEntity.badRequest().build();
+        }
+
+        // refreshToken을 통하여 Member Instance 생성
+        Member member = memberRepository.findByMemId(redisService.getValueByKey(refreshToken))
+                .orElseThrow(() -> new UsernameNotFoundException("Member Not Found with member Id from RefreshToken : " + refreshToken));
+
+        // accessToken 재발급 후 헤더 세팅
+        String newAccessToken = jwtService.generateAccessToken(member);
+
+        // refreshToken의 만료시간이 최소 재발급시간보다 낮다면
+        if (jwtService.isTokenNeedReissue(refreshToken, MIN_TIME_TO_REFRESH)) {
+            // refreshToken 삭제, 재발급 후 response 헤더 세팅
+            String newRefreshToken = jwtService.generateRefreshToken();
+            redisService.deleteByKey(refreshToken);
+            redisService.setKeyAndValue(newRefreshToken, member.getMemId());
+
+            return ResponseEntity.ok(JwtDto.builder()
+                    .accessToken(newAccessToken)
+                    .accessTokenExp(jwtService.tokenExpTime(newAccessToken))
+                    .refreshToken(newRefreshToken)
+                    .refreshTokenExp(jwtService.tokenExpTime(newRefreshToken))
+                    .build()
+            );
+        }
+        else{
+            return ResponseEntity.ok(JwtDto.builder()
+                    .accessToken(newAccessToken)
+                    .accessTokenExp(jwtService.tokenExpTime(newAccessToken))
+                    .refreshToken(refreshToken)
+                    .refreshTokenExp(jwtService.tokenExpTime(refreshToken))
+                    .build()
+            );
+        }
     }
 }

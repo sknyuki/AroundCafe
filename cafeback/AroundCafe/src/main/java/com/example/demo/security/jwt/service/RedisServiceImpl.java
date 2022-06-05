@@ -17,7 +17,7 @@ public class RedisServiceImpl implements RedisService {
     // 키-벨류 설정
     public void setKeyAndValue(String token, String email) {
         ValueOperations<String, String> value = stringRedisTemplate.opsForValue();
-        value.set(token, email, Duration.ofMinutes(5)); // 시간 조절 예정 -- 우선 5분
+        value.set(token, email, Duration.ofMinutes(3)); // 시간 조절 예정 -- 우선 3분
     }
 
     // 키값으로 벨류 get
