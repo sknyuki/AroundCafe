@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Data
 @Entity
 @NoArgsConstructor
-public class CafeImg {
+public class CafeImgTable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long CafeImgNo;
@@ -27,7 +27,7 @@ public class CafeImg {
     @Column(length = 128, nullable = true)
     private String regDate;
 
-    public CafeImg(String cafe_img, Cafe cafe){
+    public CafeImgTable(String cafe_img, Cafe cafe){
         this.cafe_img = cafe_img;
         this.cafe = cafe;
     }
