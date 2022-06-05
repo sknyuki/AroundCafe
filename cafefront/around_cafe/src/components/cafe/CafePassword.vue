@@ -14,15 +14,15 @@
   </div>
 </template>
 <script>
-import CafeSidebar from "@/components/cafe/CafeSidebar.vue"
-import ChangePwForm from "@/components/account/ChangePwForm.vue"
-import ImgBox from "../mypage/ImgBox.vue"
+import ChangePwForm from "@/components/ChangePwForm.vue"
+import CafeSidebar from "./CafeSidebar.vue"
+import ImgBox from "../ImgBox.vue"
 export default {
   name: "CafeChangePw",
   components: {
-    CafeSidebar,
     ChangePwForm,
     ImgBox,
+    CafeSidebar,
   },
 }
 </script>

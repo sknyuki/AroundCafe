@@ -4,7 +4,7 @@
   </div>
 </template>
 <script>
-import CafeReviewList from "@/components/cafe/CafeReviewList.vue"
+import CafeReviewList from "@/components/Cafe/CafeReviewList.vue"
 
 export default {
   components: { CafeReviewList },

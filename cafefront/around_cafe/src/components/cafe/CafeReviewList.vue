@@ -20,8 +20,8 @@
   </div>
 </template>
 <script>
-import CafeSidebar from "../cafe/CafeSidebar.vue"
-import ImgBox from "../mypage/ImgBox.vue"
+import CafeSidebar from "../Cafe/CafeSidebar.vue"
+import ImgBox from "../ImgBox.vue"
 import PaginationForm from "../PaginationForm.vue"
 import ReviewForm from "../ReviewForm.vue"
 

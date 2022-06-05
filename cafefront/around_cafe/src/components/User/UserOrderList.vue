@@ -4,7 +4,7 @@
     <div class="container">
       <div class="row">
         <div class="col-sm-4 col-md-3 col-lg-3">
-          <MySidebar />
+          <UserSidebar />
         </div>
         <div class="col-sm-4 col-md-9 col-lg-9">
           <form action="">이것이테스트다</form>
@@ -14,12 +14,12 @@
   </div>
 </template>
 <script>
-import MySidebar from "@/components/mypage/MySidebar.vue"
-import ImgBox from "../mypage/ImgBox.vue"
+import UserSidebar from "@/components/User/UserSidebar.vue"
+import ImgBox from "../ImgBox.vue"
 
 export default {
   name: "MyOrderStausForm",
-  components: { ImgBox, MySidebar },
+  components: { ImgBox, UserSidebar },
 }
 </script>
 <style></style>

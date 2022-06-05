@@ -228,22 +228,7 @@
               </span>
             </div>
           </div>
-          <div class="sign-form-nick">
-            <label class="sign-form-label" for="">닉네임</label>
-            <div class="sign-form-recommend">
-              다른 유저와 겹치지 않는 별명을 입력해주세요. (2~15자)
-            </div>
-            <div class="account-input">
-              <span>
-                <input
-                  class="form-input"
-                  type="text"
-                  placeholder="별명 (2~15자)"
-                  value
-                />
-              </span>
-            </div>
-          </div>
+
           <div class="sign-form-bth">
             <label class="sign-form-label" for="">생년월일</label>
             <div class="sign-form-recommend">
@@ -286,18 +271,7 @@
                   </div>
                 </label>
               </div>
-              <label for="">
-                <div class="sign-form-agr-input">
-                  <input type="checkbox" />
-                  <span>
-                    <div>
-                      만 14세 이상입니다.<span class="sign-form-agr-esn"
-                        >(필수)</span
-                      >
-                    </div>
-                  </span>
-                </div>
-              </label>
+
               <label for="">
                 <div class="sign-form-agr-input">
                   <input type="checkbox" />

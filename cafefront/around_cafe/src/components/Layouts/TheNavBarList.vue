@@ -51,7 +51,7 @@
 
 <script>
 export default {
-  name: "NavbarList",
+  name: "TheNavbarList",
 
   data() {
     return {
@@ -115,6 +115,4 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

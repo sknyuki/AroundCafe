@@ -174,7 +174,7 @@
 </template>
 <script>
 export default {
-  name: "FooterLayout",
+  name: "TheFooter",
 }
 </script>
 <style lang="scss" scoped>

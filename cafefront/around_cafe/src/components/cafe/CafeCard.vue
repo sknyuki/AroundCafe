@@ -656,7 +656,7 @@ import { swiper, swiperSlide } from "vue-awesome-swiper"
 import "swiper/dist/css/swiper.min.css"
 
 export default {
-  name: "GalleryCard",
+  name: "CafeCard",
 
   components: {
     swiper,
@@ -696,5 +696,4 @@ export default {
 .show {
   opacity: 1;
 }
-
 </style>

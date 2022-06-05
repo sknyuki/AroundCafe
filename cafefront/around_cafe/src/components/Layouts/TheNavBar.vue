@@ -18,7 +18,7 @@
 </template>
 <script>
 export default {
-  name: "NavLayout",
+  name: "TheNavBar",
   data() {
     return {
       showNavbar: true,
