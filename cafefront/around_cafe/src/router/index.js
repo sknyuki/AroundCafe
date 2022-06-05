@@ -2,30 +2,31 @@ import Vue from "vue"
 import VueRouter from "vue-router"
 import MainPage from "../views/MainPage.vue"
 
-// Account 회원
-import SignUpPage from "../views/account/SignUpPage.vue"
-import LoginPage from "../views/account/LoginPage.vue"
-import PasswordPage from "../views/account/PasswordPage.vue"
+// Account 계정
+import AccountSignUpPage from "../views/Account/AccountSignUpPage.vue"
+import AccountLoginPage from "../views/Account/AccountLoginPage.vue"
+import AccountPasswordPage from "../views/Account/AccountPasswordPage.vue"
 
-// Policy 정책
-import UsePolicyPage from "../views/policy/UsePolicyPage.vue"
+// Policy 약관페이지
+import PolicyPage from "../views/Policy/PolicyPage.vue"
 
-// MyPage 마이페이지
-import MyOrderStatusPage from "../views/mypage/MyOrderStatusPage.vue"
+// User 회원페이지
+import UserOrderListPage from "../views/User/UserOrderListPage.vue"
+import UserPasswordPage from "../views/User/UserPasswordPage.vue"
 
 // Admin 관리자페이지
-import AdminMemberListPage from "../views/admin/AdminMemberListPage.vue"
+import AdminMemberListPage from "../views/Admin/AdminMemberListPage.vue"
 
 // Cafe 카페페이지
-import MyCafePage from "../views/mycafe/MyCafePage.vue"
-import CafeRegisterPage from "../views/mycafe/CafeRegisterPage.vue"
-import CafeReviewPage from "../views/mycafe/CafeReviewPage.vue"
-import CafeChangePwPage from "../views/mycafe/CafeChangePwPage.vue"
+import CafeRegisterPage from "../views/Cafe/CafeRegisterPage.vue"
+import CafeReviewListPage from "../views/Cafe/CafeReviewListPage.vue"
+import CafePasswordPage from "../views/Cafe/CafePasswordPage.vue"
+import CafeUserModifyPage from "../views/Cafe/CafeUserModifyPage.vue"
 
 //CafeMyPage
 import CafeModifyView from "../views/CafeMyPageViews/CafeModifyView.vue"
 import CafeMenuRegister from "../views/CafeMyPageViews/CafeMenuRegister.vue"
-
+import TestTest from "../views/CafeMyPageViews/TestTest.vue"
 Vue.use(VueRouter)
 
 const routes = [
@@ -36,36 +37,33 @@ const routes = [
   },
   {
     path: "/sign",
-    name: "SignUpPage",
-    component: SignUpPage,
+    name: "AccountSignUpPage",
+    component: AccountSignUpPage,
   },
   {
     path: "/login",
-    name: "LoginPage",
-    component: LoginPage,
+    name: "AccountLoginPage",
+    component: AccountLoginPage,
   },
   {
     path: "/password",
-    name: "PasswordPage",
-    component: PasswordPage,
+    name: "AccountPasswordPage",
+    component: AccountPasswordPage,
   },
   {
-    path: "/usepolicy",
-    name: "UsePolicyPage",
-    component: UsePolicyPage,
+    path: "/policy",
+    name: "PolicyPage",
+    component: PolicyPage,
   },
   {
-    path: "/myorder",
-    name: "MyOrderStatusPage",
-    component: MyOrderStatusPage,
+    path: "/userorder",
+    name: "UserOrderListPage",
+    component: UserOrderListPage,
   },
   {
     path: "/CafeModifyView",
     name: "CafeModifyView",
-    components: { CafeModifyView },
-    props: {
-      default: true,
-    },
+    component: CafeModifyView,
   },
   {
     path: "/cafeMenuRegister",
@@ -77,11 +75,7 @@ const routes = [
     name: "AdminMemberListPage",
     component: AdminMemberListPage,
   },
-  {
-    path: "/mycafe",
-    name: "MyCafePage",
-    component: MyCafePage,
-  },
+
   {
     path: "/caferegister",
     name: "CafeRegisterPage",
@@ -89,13 +83,28 @@ const routes = [
   },
   {
     path: "/cafereview",
-    name: "CafeReviewPage",
-    component: CafeReviewPage,
+    name: "CafeReviewListPage",
+    component: CafeReviewListPage,
   },
   {
     path: "/cafepw",
-    name: "CafeChangePwPage",
-    component: CafeChangePwPage,
+    name: "CafePasswordPage",
+    component: CafePasswordPage,
+  },
+  {
+    path: "/cafemodify",
+    name: "CafeUserModifyPage",
+    component: CafeUserModifyPage,
+  },
+  {
+    path: "/userpassword",
+    name: "UserPasswordPage",
+    component: UserPasswordPage,
+  },
+  {
+    path: "/test",
+    name: "TestTest",
+    component: TestTest,
   },
 ]
 

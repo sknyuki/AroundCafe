@@ -1,7 +1,6 @@
 import{
-/*CafeMyPage  List작업시 열어주세요
     FETCH_CAFE_BOARD_LIST,
-    FETCH_CAFE_BOARD,*/
+    FETCH_CAFE_BOARD,
     FETCH_MENU_LISTS,
 
 }from './mutation-types'
@@ -9,7 +8,6 @@ import{
 import axios from 'axios'
 
 export default {
-  /*  List작업시 열어주세요
   fetchcafeBoardList ({ commit }) {
         return axios.get('http://localhost:7777/Cafe/list')
             .then((res) => {
@@ -17,12 +15,12 @@ export default {
                //console.log(res)
             })
     },
-    fetchcafeBoard ({ commit }, membNo) {
-        return axios.get(`http://localhost:7777/Cafe/${membNo}`)
+    fetchcafeBoard ({ commit }) {
+        return axios.get('http://localhost:7777/cafe/mypage/read')
             .then((res) => {
                 commit(FETCH_CAFE_BOARD, res.data)
             })
-    },*/
+    },
 
     fetchMenuLists ({ commit }) {
         return axios.get('http://localhost:7777/menu/list')

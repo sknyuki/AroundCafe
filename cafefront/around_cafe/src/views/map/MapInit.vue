@@ -160,5 +160,121 @@ export default {
 }
 
 </script>
+<style scoped>
+
+@import url("https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Poiret+One&family=Sunflower:wght@300&family=Ubuntu:wght@300&display=swap");
+#map {
+  width: 100%;
+  height: 100%;
+  position:relative;
+  overflow:hidden;
+}
+
+.overlaybox { /* 지금 이거 적용안되는 듯*/
+  position:relative;
+  width:100px;
+  height:100px;
+  padding:15px 10px;
+}
+.map_wrap, .map_wrap * {
+  margin:0;
+  padding:0;
+  font-family:'CookieRun-Regular',cursive;
+  font-size:20px;
+}
+.map_wrap a, .map_wrap a:hover, .map_wrap a:active{
+  color:#000;
+  text-decoration: none;
+}
+.map_wrap {
+  position:relative;
+  width:100%;
+  height:100%;
+}
+#side {
+  position:absolute;
+  top:0;
+  left:0;
+  bottom:0;
+  width:20%;
+  margin: 5% 0 5% 2%;
+  padding:5px;
+  overflow-y:auto;
+  background:white;
+  z-index: 1;
+  font-size:12px;
+  border-radius: 10px;
+  
+}
+
+#side hr {
+  display: block;
+  height: 1px;
+}
+.text-center{
+  padding-top:20px;
+    font-family: 'Poiret One', cursive;
+    font-size: 46px;
+    color: white;
+    text-align: center;
+    background: #3f51b5;
+    
+}
+.searchIn{
+  background: #3f51b5;
+  padding-top:20px;
+}
+.searchInPut{
+  background:#3f51b5 ;
+
+}
+.v-text-field__details{
+  color: #3f51b5 !important;
+
+}
+
+.v-input searchInPut theme--light v-text-field v-text-field--is-booted v-text-field--enclosed v-text-field--outlined v-text-field--placeholder {
+    color: #3f51b5 !important;
+}
+.searchResult{
+  background: #e7e7e7;
+  
+}
+.llabel{
+   font-family: 'Poiret One', cursive;
+  font-size: 20px;
+  font-weight:500;
+  float:right;
+}
+.place{
+  margin-top:15px;
+  padding-bottom:10px;
+  position:relative;
+  border-bottom:1px solid rgb(221, 220, 220);
+  overflow: hidden;
+  cursor: pointer;
+  min-height: 30px;
+}
+.label{
+  margin-left: 8px;
+  
+}
+.cafeInfo{
+  font-size: 15px;
+  font-weight:500;
+  font-family: 'IM_Hyemin-Bold',cursive;
+}
+@font-face {
+    font-family: 'IM_Hyemin-Bold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2106@1.1/IM_Hyemin-Bold.woff2') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'CookieRun-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/CookieRun-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
 
 

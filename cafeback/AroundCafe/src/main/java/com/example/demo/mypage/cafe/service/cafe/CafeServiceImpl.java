@@ -35,16 +35,24 @@ public class CafeServiceImpl implements CafeService{
 
     @Transactional
     @Override
-    public void includeFileModifyCafe(Integer membNo, Cafe info, List<MultipartFile> fileList) throws IOException {
+    public void includeFileModifyCafe(Integer membNo, Cafe info, String originalFilename) throws IOException {
+        log.info("***modify yes~ file info : "+info);
         //1~2번 정리 완료
         Optional<Member> findMemberNo = memberRepository.findById(Long.valueOf(membNo));
         Member member = findMemberNo.get();
 
-        Cafe cafe = new Cafe(info.getCafe_name(), info.getCafe_bis_no(), info.getCafe_time(), info.getCafe_content(), info.getCafe_call(), info.getCafe_adr1(),info.getCafe_adr2(),info.getCafe_adr3(),member);
-        repository.save(cafe);
+        info.setMemberInfo(member);
+        log.info(member.toString());
+        repository.save(info);
+        log.info(info.toString());
 
         //이미지 db에서 파일 삭제, 추가 저장 메소드
-        deleteAndSaveImg(info, fileList, cafe);
+        CafeImg cafeImg = new CafeImg(originalFilename, info);
+        log.info(cafeImg.toString());
+
+        cafeImgRepository.save(cafeImg);
+        log.info(cafeImg.toString());
+
 
         /*
         1. id정보로 member db에서 member_no 가지고 오기.(중복여부를 하기 때문에 문제없음)
@@ -57,58 +65,53 @@ public class CafeServiceImpl implements CafeService{
          */
     }
 
-    public void deleteAndSaveImg(Cafe info, List<MultipartFile> fileList, Cafe cafe) throws IOException {
-        //이미지에 대한 이름 재 정의
-        List findImg = new ArrayList<>();
-        for(MultipartFile multipartFile : fileList) {
-            String cafeImg = info.getCafe_name()+"."+multipartFile.getOriginalFilename();
-            findImg.add(cafeImg);
-            log.info("fileName : "+cafeImg);
-        }
-
-        //카페이미지에서 카페 관련해서 이미지가 있나 찾아보기 -> 있으면 삭제 후 저장, 없으면 그냥 저장
-        Optional<CafeImg> havingImg = cafeImgRepository.findByCafeNo(info.getCafeNo());
-        CafeImg havingImg2 = havingImg.get();
-
-        if(havingImg2.getCafe_img() != null) {
-            List<String> findMyImg = cafeImgRepository.findByCafeImg(info.getCafeNo());
-            List<String> deleteImg = new ArrayList<>();
-            //파일 찾기..
-            for(int i = 0; i < findMyImg.size(); i++) {
-                log.info("img : " + findMyImg.get(i));
-                deleteImg.add(findMyImg.get(i));
-            }
-            //파일 삭제..
-            for(int i = 0; i < deleteImg.size(); i++) {
-                Path filePath = Paths.get("../../cafefront/around_cafe/src/asserts/cafe/cafeMypage"+findMyImg.get(i));
-                Files.delete(filePath);
-            }
-        }
-
-        //카페 이미지 테이블에 list로 만들어놓은 이미지 이름들을 하나씩 저장하기
-//        for(int i = 0; i < findImg.size(); i++) {
-//            String img = (String) findImg.get(i);
-//            CafeImg cafeImg = new CafeImg(img,cafe);
+//    public void deleteAndSaveImg(Cafe info, String originalFilename) throws IOException {
+//        log.info("*****here is deleteAnd Saving Img****");
+//        //카페이미지에서 카페 관련해서 이미지가 있나 찾아보기 -> 있으면 삭제 후 저장, 없으면 그냥 저장
+//        Optional<CafeImg> havingImg = cafeImgRepository.findByCafeNo(info.getCafeNo());
+//
+//        if(havingImg != null) {
+//            List<String> findMyImg = cafeImgRepository.findByCafeImg(info.getCafeNo());
+//
+//            for(int i = 0; i < findMyImg.size(); i++) {
+//                log.info("img : " + findMyImg.get(i));
+//                Path filePath = Paths.get("../../cafefront/around_cafe/src/asserts/cafe/cafeMypage"+findMyImg.get(i));
+//                Files.delete(filePath);
+//                cafeImgRepository.deleteByCafeNo(info.getCafeNo());
+//            }
+//        }
+//
+//        for(int i =0; i < findImg.size(); i++) {
+//            log.info("save cafe_img : " + (String) findImg.get(i));
+//            CafeImg cafeImg = new CafeImg((String) findImg.get(i), info);
 //            cafeImgRepository.save(cafeImg);
 //        }
-
-    }
+//    }
 
     @Override
     public void notIncludeFileModifyCafe(Integer membNo,Cafe info) {
+        log.info("modify no file info!!!"+info);
+
         Optional<Member> findMemberNo = memberRepository.findById(Long.valueOf(membNo));
         Member member = findMemberNo.get();
 
-        Optional<Cafe> findCafe = repository.findByMemberNo(Long.valueOf(membNo));
-        Cafe findCafe1 = findCafe.get();
+        info.setMemberInfo(member);
 
-        Cafe cafe = new Cafe(info.getCafe_name(), findCafe1.getCafe_bis_no(), info.getCafe_time(), info.getCafe_content(), info.getCafe_call(), info.getCafe_adr1(),info.getCafe_adr2(),info.getCafe_adr3(),member);
-        repository.save(cafe);
+        repository.save(info);
     }
 
+//    @Override
+//    public Cafe cafeMypageread(Integer membNo) {
+//        Optional<Cafe> findCafe = repository.findByMemberNo(Long.valueOf(membNo));
+//        Cafe cafe = findCafe.get();
+//
+//        return cafe;
+//    }
+
     @Override
-    public Cafe cafeMypageread(Integer membNo) {
-        Optional<Cafe> findCafe = repository.findByMemberNo(Long.valueOf(membNo));
+    public Cafe read() {
+        Long memNo = 1l;
+        Optional<Cafe> findCafe = repository.findById(memNo);
         Cafe cafe = findCafe.get();
 
         return cafe;

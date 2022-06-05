@@ -2,10 +2,7 @@ package com.example.demo.mypage.cafe.entity;
 
 import com.example.demo.member.entity.Member;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
@@ -23,10 +20,10 @@ public class Cafe {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long cafeNo;
 
-    @Column(length = 32, nullable = false)
+    @Column(length = 32, nullable = true)
     private String cafe_name;
 
-    @Column(length = 32, nullable = false)
+    @Column(length = 32, nullable = true)
     private String cafe_bis_no;
 
     @Column(length = 128, nullable = true)
@@ -56,16 +53,17 @@ public class Cafe {
     @OneToMany(mappedBy = "cafe", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private Set<CafeImg> cafeImgs = new HashSet<>();
 
-//    @EqualsAndHashCode.Exclude
-//    @ToString.Exclude
-//    @OneToMany(mappedBy = "cafe", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
-//    private Set<CafeImg> cafeMenu = new HashSet<>();
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    @OneToMany(mappedBy = "cafe", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    private Set<CafeImg> cafeMenu = new HashSet<>();
 
     @OneToOne
     @JsonIgnore
     @JoinColumn(name = "member_no")
     private Member memberInfo;
 
+    @Builder
     public Cafe(String cafe_name, String cafe_bis_no, String cafe_time, String cafe_content, String cafe_call, String cafe_adr1, String cafe_adr2, String cafe_adr3, Member member) {
         this.cafe_name = cafe_name;
         this.cafe_bis_no = cafe_bis_no;

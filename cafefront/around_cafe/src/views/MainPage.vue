@@ -1,9 +1,9 @@
 <template>
-  <GalleryCard />
+  <CafeCard />
 </template>
 <script>
-import GalleryCard from "@/components/gallery/GalleryCard.vue"
+import CafeCard from "@/components/Cafe/CafeCard.vue"
 export default {
-  components: { GalleryCard },
+  components: { CafeCard },
 }
 </script>
