@@ -99,6 +99,15 @@
     </v-row>
   </v-sheet>
 
+  <div>
+      <v-btn>
+          <router-link :to="{name: 'CafeImgManage',
+                params: { cafeNo: this.cafeBoard.cafeNo}} ">
+              이미지 관리
+          </router-link>
+      </v-btn>
+  </div>
+
    </div>
 </form>
 
@@ -120,6 +129,7 @@ export default {
      },
      data() {
          return{
+            cafeNo:'',
             mcafe_adr1:'',
             mcafe_adr2:'',
             mcafe_adr3:'',

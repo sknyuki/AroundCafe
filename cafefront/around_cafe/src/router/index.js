@@ -27,6 +27,7 @@ import CafeUserModifyPage from "../views/Cafe/CafeUserModifyPage.vue"
 import CafeModifyView from "../views/CafeMyPageViews/CafeModifyView.vue"
 import CafeMenuRegister from "../views/CafeMyPageViews/CafeMenuRegister.vue"
 import TestTest from "../views/CafeMyPageViews/TestTest.vue"
+import CafeImgManage from "../views/CafeMyPageViews/CafeImgManage.vue"
 Vue.use(VueRouter)
 
 const routes = [
@@ -106,8 +107,18 @@ const routes = [
     name: "TestTest",
     component: TestTest,
   },
+  
+  {
+    path: "/cafeMypage/cafeImgManage/:cafeNo",
+    name: "CafeImgManage",
+    components: {
+      default :CafeImgManage
+    },
+    props : {
+      default: true
+    }
+  },
 ]
-
 const router = new VueRouter({
   mode: "history",
   base: process.env.BASE_URL,
