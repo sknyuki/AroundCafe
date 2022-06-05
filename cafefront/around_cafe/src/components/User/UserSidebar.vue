@@ -42,7 +42,7 @@ export default {
           id: 1,
           icon: "mdi-coffee-outline",
           title: "주문현황",
-          link: "/",
+          link: "/user/order",
         },
         {
           id: 2,
@@ -74,7 +74,7 @@ export default {
           id: 2,
           icon: "mdi-lock",
           title: "비밀번호 변경",
-          link: "/userpassword",
+          link: "/user/pw",
         },
         {
           id: 3,

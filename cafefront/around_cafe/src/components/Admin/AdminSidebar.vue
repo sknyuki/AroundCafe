@@ -57,7 +57,7 @@ export default {
           id: 1,
           icon: "mdi-account-outline",
           title: "회원 리스트",
-          link: "/",
+          link: "/admin/member",
         },
         {
           id: 2,
