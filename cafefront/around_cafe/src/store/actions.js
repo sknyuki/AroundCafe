@@ -2,6 +2,7 @@ import{
     FETCH_CAFE_BOARD_LIST,
     FETCH_CAFE_BOARD,
     FETCH_MENU_LISTS,
+    FETCH_CAFE_IMG_LISTS
 
 }from './mutation-types'
 
@@ -26,6 +27,13 @@ export default {
         return axios.get('http://localhost:7777/menu/list')
             .then((res) => {
                 commit(FETCH_MENU_LISTS, res.data)
+            })
+    },
+
+    fetchCafeImgLists ({ commit },cafeNo) {
+        return axios.get(`http://localhost:7777/cafe/mypageImg/${cafeNo}`)
+            .then((res) => {
+                commit(FETCH_CAFE_IMG_LISTS, res.data)
             })
     },
 }
