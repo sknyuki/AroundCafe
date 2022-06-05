@@ -66,10 +66,16 @@ public class CafeServiceImpl implements CafeService{
                 log.info("** saved img : " + checkImg.getCafe_img());
                 Path filePath = Paths.get("../../cafefront/around_cafe/src/assets/cafe/cafeMypage/"+checkImg.getCafe_img());
                 Files.delete(filePath);
+                log.info("** before file is deleted!!! ok~");
             }
             cafeImgRepository.deleteByCafeNo(cafeNo);
             log.info("*** service -> delete before saved img!!!! ***");
         }
+    }
+
+    @Override
+    public List<CafeImgTable> imgList(Integer cafeNo) {
+        return cafeImgRepository.CafeImgList(Long.valueOf(cafeNo));
     }
 
 
