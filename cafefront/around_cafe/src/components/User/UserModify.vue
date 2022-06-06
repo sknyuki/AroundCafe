@@ -13,8 +13,8 @@
 </template>
 
 <script>
-import ImgBox from "../ImgBox.vue"
-import UserSidebar from "./UserSidebar.vue"
+import ImgBox from "@/components/ImgBox.vue"
+import UserSidebar from "@/components/User/UserSidebar.vue"
 export default {
   components: { ImgBox, UserSidebar },
   name: "UserModify",

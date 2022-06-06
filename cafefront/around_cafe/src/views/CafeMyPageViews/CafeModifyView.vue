@@ -1,6 +1,6 @@
 <template>
     <v-container>
-        <cafe-modify-component  v-if="cafeBoard" :cafeBoard="cafeBoard" 
+        <cafe-modify-component  v-if="cafeBoard" :cafeBoard="cafeBoard" :cafeImgLists="cafeImgLists"
           @submitContents="contentsSubmit" />
     </v-container>
 </template>
@@ -21,13 +21,14 @@ export default {
 },
 
     computed:{
-        ...mapState(['cafeBoard'])
+        ...mapState(['cafeBoard','cafeImgLists'])
     },
     mounted() { 
         this.fetchcafeBoard()
+        this.fetchCafeImgLists(1)
     },
     methods : {
-        ...mapActions(['fetchcafeBoard']),
+        ...mapActions(['fetchcafeBoard', 'fetchCafeImgLists']),
         contentsSubmit(payload) {
                 const { mcafe_name, mcafe_content, mcafe_call, mcafe_time, mcafe_adr1, mcafe_adr2, mcafe_adr3, files1} = payload
 

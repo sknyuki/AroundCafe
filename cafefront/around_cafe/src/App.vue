@@ -15,8 +15,8 @@
 </template>
 
 <script>
-import TheFooter from "./components/Layouts/TheFooter.vue"
-import TheHeader from "./components/Layouts/TheHeader.vue"
+import TheFooter from "@/components/Layouts/TheFooter.vue"
+import TheHeader from "@/components/Layouts/TheHeader.vue"
 
 export default {
   components: { TheHeader, TheFooter },

@@ -1,6 +1,7 @@
 package com.example.demo.mypage.cafe.controller;
 
 import com.example.demo.mypage.cafe.entity.Cafe;
+import com.example.demo.mypage.cafe.entity.CafeImgTable;
 import com.example.demo.mypage.cafe.service.cafe.CafeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
 
 @Slf4j
@@ -24,12 +26,17 @@ public class CafeController {
     @PutMapping(value = "/modify/{membNo}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
     public String  cafeRegister (@PathVariable("membNo") Integer membNo,
                               @RequestPart(value = "info", required = false) Cafe info,
-                              @RequestPart(value = "fileList", required = false)List<MultipartFile> fileList) {
+                              @RequestPart(value = "fileList", required = false)List<MultipartFile> fileList) throws IOException {
 
         log.info("uploadContents()" + info);
         log.info("uploadImg()"+fileList);
 
+        service.notIncludeFileModifyCafe(membNo,info);
+        log.info("***controller -> info is saved!!");
+
         if(fileList != null) {
+            service.checkSavedImg(info.getCafeNo());
+            log.info("***controller -> delete complete saved img!!");
             try{
                 for(MultipartFile multipartFile : fileList) {
                     log.info("requestFile() - Make file :" +
@@ -39,19 +46,17 @@ public class CafeController {
                             "../../cafefront/around_cafe/src/assets/cafe/cafeMypage/" + info.getCafe_name() + "."+ multipartFile.getOriginalFilename());
 
                     writer.write(multipartFile.getBytes());
-                    log.info("here1");
                     writer.close();
-                    log.info("here2");
+                    log.info("***file is saved at the vue file");
 
-                    service.includeFileModifyCafe(membNo,info,multipartFile.getOriginalFilename());
-                    log.info("here3");
+                    String saveImg = info.getCafe_name() + "."+ multipartFile.getOriginalFilename();
+
+                    service.includeFileModifyCafe(info.getCafeNo(),saveImg);
 
                 }
             } catch (Exception e) {
-                return "register fail!";
+                return "register failed!";
             }
-        }else if (fileList == null) {
-            service.notIncludeFileModifyCafe(membNo,info);
         }
 
         log.info("requestUpload(): Success!!!");
@@ -68,5 +73,11 @@ public class CafeController {
     public Cafe myPageRead1() {
         log.info("read Page no : ");
         return service.read();
+    }
+
+    @GetMapping("/mypageImg/{cafeNo}")
+    public List<CafeImgTable> readCafeImgTable(@PathVariable("cafeNo") Integer cafeNo) {
+        log.info("read cafe img list");
+        return service.imgList(cafeNo);
     }
 }
