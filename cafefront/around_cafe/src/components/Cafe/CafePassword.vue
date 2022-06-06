@@ -15,8 +15,8 @@
 </template>
 <script>
 import ChangePwForm from "@/components/ChangePwForm.vue"
-import CafeSidebar from "./CafeSidebar.vue"
-import ImgBox from "../ImgBox.vue"
+import CafeSidebar from "@/components/Cafe/CafeSidebar.vue"
+import ImgBox from "@/components/ImgBox.vue"
 export default {
   name: "CafeChangePw",
   components: {

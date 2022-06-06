@@ -14,9 +14,9 @@
   </div>
 </template>
 <script>
-import ChangePwForm from "../ChangePwForm.vue"
-import ImgBox from "../ImgBox.vue"
-import UserSidebar from "./UserSidebar.vue"
+import ImgBox from "@/components/ImgBox.vue"
+import UserSidebar from "@/components/User/UserSidebar.vue"
+import ChangePwForm from "@/components/ChangePwForm.vue"
 
 export default {
   name: "CafeUserPassword",

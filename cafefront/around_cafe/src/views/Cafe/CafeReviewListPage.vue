@@ -8,6 +8,6 @@ import CafeReviewList from "@/components/Cafe/CafeReviewList.vue"
 
 export default {
   components: { CafeReviewList },
-  name: "CafeReviewPage",
+  name: "CafeReviewListPage",
 }
 </script>
