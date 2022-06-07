@@ -1,5 +1,4 @@
 <template>
-    <div>
         <div>
             <h4>메뉴 일람</h4>
             <v-card class="pa-3" flat>
@@ -33,6 +32,7 @@
               </v-col>
             </v-row>
           </v-card>
+        </div>
     
 </template>
 

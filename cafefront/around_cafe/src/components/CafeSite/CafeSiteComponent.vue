@@ -1,6 +1,6 @@
 <template>
    <div>
-    <br>            
+    <br> <!--          
           <v-card class="pa-3" flat>
             <v-row>
               <input type="text" :value="cafeBoard.cafe_name">
@@ -48,13 +48,13 @@
 
         </table>  
         </v-card>
-               
+               --> 
 </div>
         
 </template>
 <script>
 export default {
-    name:'CafeSiteComponent',
+   /* name:'CafeSiteComponent',
     props:{
         cafeBoard:{
           type:Object,
@@ -70,6 +70,6 @@ export default {
           console.log(this.boardNo)
     }  
 }
- }
+ }*/
 }
 </script>
