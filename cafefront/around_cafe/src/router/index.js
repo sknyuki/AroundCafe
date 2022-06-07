@@ -97,6 +97,14 @@ const routes = [
     component: () => import("@/views/Cafe/CafePasswordPage"),
   },
 
+  //CafeSite
+  {
+    path: "/cafe/CafeSite",
+    name: "CafeSiteList",
+    component: () => import("@/views/CafeSiteViews/CafeSiteList"),
+  },
+
+
 
   //Policy 이용약관페이지
   {
