@@ -38,12 +38,12 @@
             <div class="login-util-content">
               <ul>
                 <li class="login-util-pw">
-                  <router-link :to="{ name: 'PasswordPage' }"
+                  <router-link :to="{ name: 'AccountPasswordPage' }"
                     >비밀번호 재설정</router-link
                   >
                 </li>
                 <li class="login-util-sign">
-                  <router-link :to="{ name: 'SignUpPage' }"
+                  <router-link :to="{ name: 'AccountSignUpPage' }"
                     >회원 가입</router-link
                   >
                 </li>

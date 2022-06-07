@@ -2,8 +2,10 @@ package com.example.demo.mypage.cafe.entity;
 
 import com.example.demo.member.entity.Member;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 
@@ -13,31 +15,46 @@ import javax.persistence.*;
     public class Basket {
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private Long Basket_no;
+        private Long shop_no;
+
+        @Column(length = 32, nullable = false)
+        private String shop_menu;
 
         @Column(length = 32, nullable = false)
         private String shop_cafe;
 
         @Column(length = 32, nullable = false)
-        private String shop_menu;
+        private String shop_price;
 
         @Column(length = 128, nullable = true)
-        private String shop_qun;
+        private String menu_img;
 
+        @Column(length = 32, nullable = true)
+        private String menu_qun;
+
+        @CreatedDate
         @Column(length = 128, nullable = true)
-        private String shop_charge;
+        private String regDate;
 
-
-        @OneToOne
+        @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+        @JoinColumn(name = "memNo")
         @JsonIgnore
-        @JoinColumn(name = "member_no")
-        private Member memberInfo;
+        private Member member;
 
-        public Basket(String shop_cafe, String shop_menu, String shop_qun, String shop_charge, Member member) {
-            this.shop_cafe = shop_cafe;
+
+        @Builder
+        public Basket(String shop_menu, String shop_cafe, String file, String shop_price, String menu_qun) {
             this.shop_menu = shop_menu;
-            this.shop_qun = shop_qun;
-            this.shop_charge = shop_charge;;
-            memberInfo = member;
+            this.shop_cafe = shop_cafe;
+            menu_img = file;
+            this.shop_price = shop_price;
+            this.menu_qun = menu_qun;
+        }
+
+        public Basket(String shop_menu, String shop_cafe, String shop_price, String menu_qun) {
+            this.shop_menu = shop_menu;
+            this.shop_cafe = shop_cafe;
+            this.shop_price = shop_price;
+            this.menu_qun = menu_qun;
         }
     }

@@ -96,7 +96,7 @@
 </template>
 <script>
 import CafeSidebar from "@/components/Cafe/CafeSidebar.vue"
-import ImgBox from "../ImgBox.vue"
+import ImgBox from "@/components/ImgBox.vue"
 import axios from "axios"
 
 export default {

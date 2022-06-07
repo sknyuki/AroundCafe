@@ -59,12 +59,12 @@
                   <!-- 로그인을 하지 않은 경우 -->
                   <div class="gnb-login sm-hidden">
                     <router-link
-                      :to="{ name: 'LoginPage' }"
+                      :to="{ name: 'AccountLoginPage' }"
                       class="gnb-login-item"
                       >로그인</router-link
                     >
                     <router-link
-                      :to="{ name: 'SignUpPage' }"
+                      :to="{ name: 'AccountSignUpPage' }"
                       class="gnb-login-item"
                       >회원가입</router-link
                     >
@@ -95,8 +95,8 @@
   </header>
 </template>
 <script>
-import TheNavBar from "../Layouts/TheNavBar.vue"
-import TheNavBarList from "../Layouts/TheNavBarList.vue"
+import TheNavBar from "@/components/Layouts/TheNavBar.vue"
+import TheNavBarList from "@/components/Layouts/TheNavBarList.vue"
 export default {
   components: { TheNavBarList, TheNavBar },
   name: "TheHeader",

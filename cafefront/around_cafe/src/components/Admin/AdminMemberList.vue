@@ -15,7 +15,8 @@
 </template>
 <script>
 import AdminSidebar from "@/components/Admin/AdminSidebar.vue"
-import ImgBox from "../ImgBox.vue"
+import ImgBox from "@/components/ImgBox.vue"
+
 
 export default {
   name: "AdminMemberList",

@@ -15,7 +15,7 @@
 </template>
 <script>
 import UserSidebar from "@/components/User/UserSidebar.vue"
-import ImgBox from "../ImgBox.vue"
+import ImgBox from "@/components/ImgBox.vue"
 
 export default {
   name: "MyOrderStausForm",
