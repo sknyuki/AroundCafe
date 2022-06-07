@@ -6,17 +6,11 @@
                     <v-col class="col-12 col-sm-2">
                         <img v-if ="item.menu_img == null" v-bind:src="require(`@/assets/cafe/cafeMenu/imgNull.png`)" width="200px;">      
                         <img v-if ="item.menu_img != null" v-bind:src="require(`@/assets/cafe/cafeMenu/${item.menu_img}`)" width="200px;"><br>
-                        name : {{item.menu_name}} <br> 
+                        {{item.menu_name}} <br> 
+                        {{item.menu_price}}<br>
                     </v-col>
                     <v-col class="col-12 col-sm-10" style="padding: 0 0 0 3%;">
-                        <v-list-item-content>
-                            <v-list-item-title>
-                                no : {{item.menu_no}} <br> 
-                                name : {{item.menu_name}} <br> 
-                                price: {{item.menu_price}}<br>
-                                content: {{item.menu_content}}<br>
-                            </v-list-item-title>
-                        </v-list-item-content>
+                        {{item.menu_content}}
                     </v-col>
                 </v-row>
             </v-container>

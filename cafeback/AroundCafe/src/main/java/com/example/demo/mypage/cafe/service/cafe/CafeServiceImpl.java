@@ -70,6 +70,11 @@ public class CafeServiceImpl implements CafeService{
         return cafeImgRepository.CafeImgList(Long.valueOf(cafeNo));
     }
 
+    @Override
+    public List<Cafe> cafeList() {
+        return repository.findAll();
+    }
+
 
     @Override
     public void notIncludeFileModifyCafe(Integer membNo,Cafe info) {
