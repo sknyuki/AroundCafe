@@ -3,37 +3,52 @@
     <br>            
           <v-card class="pa-3" flat>
             <v-row>
-              <v-col v-for="productBoard in ProductBoardSs" :key="productBoard.boardNo"
-                cols="12" sm="6" md="4" lg="3">
-                <div v-if="productBoard.soldCheck">
-                <v-hover v-slot="{hover}" close-delay="50">
-                  <v-card :elevation="hover ? 16:2" class="{ 'on-hover': hover }"
-                   @click="handleClick(productBoard)">
-                    <v-list-item>
-                      <v-list-item-title>
-                        {{ productBoard.name }}
-                      </v-list-item-title>
-                    </v-list-item>
+              <input type="text" :value="cafeBoard.cafe_name">
+
+              <v-col>
+               <v-img position="relative" class="ml-10" :src="showFile()" width="100%"/>
                     
-                    <v-divider></v-divider>
-                    <img :src="showFile(productBoard.boardNo)"  width="100%"/>
-
-
-                    <v-card-text class="caption">
-                      Rank: {{productBoard.brandrank}}
-                      <br>
-                      Price: {{productBoard.price}}
-                     
-                    </v-card-text>
-                  
-                  </v-card>
-                </v-hover>
-                </div>
               </v-col>
             </v-row>
           </v-card>
- 
-             
+                  <v-card align="center" class="mt-5 pa-2">
+                    
+           <table class="table">
+             <tr>
+                <td>
+                     <input type="text" :value="cafeBoard.cafe_call" readonly/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                     <input type="text" :value="cafeBoard.cafe_adr1" readonly/>
+                </td>
+                <td>
+                     <input type="text" :value="cafeBoard.cafe_adr2" readonly/>
+                </td>
+                <td>
+                     <input type="text" :value="cafeBoard.cafe_adr3" readonly/>
+                </td>
+            </tr>
+             <tr>
+                <td>
+                     <input type="text" :value="cafeBoard.cafe_time" readonly/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="text" :value="cafeBoard.cafe_content" readonly/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                     <input type="text" :value="ProductBoardS.size" readonly/>
+                </td>
+            </tr>
+
+        </table>  
+        </v-card>
+               
 </div>
         
 </template>
@@ -42,10 +57,19 @@ export default {
     name:'CafeSiteComponent',
     props:{
         cafeBoard:{
-            
-        }
-    }
-
+          type:Object,
+        },
+        cafeNo:String
+    },
+ methods:{
+        showFile () {
+      try {
+          return require(`@/assets/cafe/cafeMenu/${cafeBoard.menu_img}`)
+     } catch (e) {
+          console.log(e)
+          console.log(this.boardNo)
+    }  
+}
+ }
 }
 </script>
-
