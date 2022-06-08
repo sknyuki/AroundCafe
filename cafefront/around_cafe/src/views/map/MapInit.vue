@@ -1,144 +1,200 @@
 <template>
   <div class="map_wrap">
-    <div id="map" style="position:relative; overflow:hidden;"></div> 
-    <div id="menu_wrap" class="bg_white">
-      <div class="option">
+
+    <KakaoMap :options="options" ref="map" id="map"/>
+
+      <v-container id="side">       
         <form @submit.prevent="searchPlace()">
-          키워드 : <input type="text" value="강남구" id="keyword" size="15"> 
-          <button type="submit" > 검색하기 </button>           
+          <h1 class="text-center"> Search </h1>
+          <v-row class="searchIn"> 
+            <v-col cols="9" class="ml-4" >
+              <v-text-field class="searchInPut" type="text" outlined color="#e3c832" placeholder="area" id="keyword"/>   
+            </v-col>
+            <v-col cols="1">  
+              <button type="submit" class="ml-2">
+                <v-icon color="#c9c8c5" class="mt-5 ml-3">mdi-magnify</v-icon>
+              </button>  
+            </v-col>
+        </v-row>  
+
+        <v-row class="searchResult"> 
+          <v-col cols="11">
+            <div class="llabel"> Total &nbsp;{{results.length}} </div>    
+          </v-col>
+        </v-row>  
+
+        <v-row>
+          <v-col cols="11" class="label"> 
+            <div class="place" v-for="rs in results" :key="rs.cafe_no">
+              <div display: flex justify-content: space-between>
+                <span>
+
+                  <div @click="showInfo(rs)">{{rs.name}}</div>
+            
+                  <div class="cafeInfo">{{rs.cafe_location}}</div>
+
+                </span>
+
+            
+                <v-icon color="#c9c8c5">mdi-magnify</v-icon>
+      
+
+              </div>
+            </div>
+         
+           
+          </v-col>
+        </v-row>
+         
+        
+              
         </form>          
-      </div>
+
       <div id="pagination"></div>
-    </div>
+
+    </v-container>
+
   </div>
 </template>
 
 <script>
+
+
+
+//import cafeLoca from '@/assets/data/csvjson.json' 
+//import KakaoMap from '@/components/map/KakaoMap.vue'
+
+var kakao = window.kakao 
+
 export default {
-  name: "MapInit",
+
+  components: { 
+    KakaoMap 
+    },
+  name: "MapTest",
   
   data: () => ({
+  
     cafeLoca: cafeLoca,
-     keyword: null,
-     results: null,
-    
+    keyword: null,
+    results: [],
+    marker:[],  
+    map:null,
+    options: {
+        center: {
+          lat: 37.56832,
+          lng: 126.97976,
+        },
+        level: 6
+      },     
   }),
 
-  mounted() {
-
-    if (window.kakao && window.kakao.maps) {
-      this.initMap()
-    } else {
-      const script = document.createElement("script")
-      /* global kakao */
-      script.onload = () => kakao.maps.load(this.initMap)
-      script.src =
-        "//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey="
-      document.head.appendChild(script)
-    }
-  },
+ 
   methods: {
-    initMap () {
+    
+    searchPlace(){
 
-      var container = document.getElementById('map') 
-      var options = {
-        center: new kakao.maps.LatLng(37.56832, 126.97976), 
-        level: 8,
-        mapTypeId : kakao.maps.MapTypeId.ROADMAP
+      this.results=[]
+     
+      var keyword = document.getElementById('keyword').value;
+
+        if (!keyword.replace(/^\s+|\s+$/g, '')) {
+          alert('지역을 입력해주세요!');
+        return false;
+        } 
+
+      var imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png', 
+          imageOption = { offset: new kakao.maps.Point(29, 29) } ,
+          imageSize = new kakao.maps.Size(35, 50)
+      var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption)
+
+      var container = document.getElementById('map')
+
+      if(keyword === "강남구"){
+        var options = {
+          center: new kakao.maps.LatLng(37.5008, 127.022),
+          level: 5,
+        } 
+      }
+      else if(keyword === "광진구"){
+        options = {
+        center: new kakao.maps.LatLng(37.5522944, 127.091274),
+        level: 5,
+        } 
+      }
+      else if(keyword === "중구"){
+        options = {
+        center: new kakao.maps.LatLng(37.5739, 127.002),
+        level: 5,
+        } 
       }
 
-      var map = new kakao.maps.Map(container, options) 
-
+      var map = new kakao.maps.Map(container, options)
+    
       this.cafeLoca.forEach((item) => {
+
+        if(keyword === item.cafe_location){
+
+        var position = new kakao.maps.LatLng(item.cafe_lon, item.cafe_lat)
+
+        var marker = new kakao.maps.Marker({
+          map: this.map,
+          position: position,
+          image: markerImage, 
+          clickable: true, 
+        })
         
-        //마커 커스텀(주소,이미지, 일치시킬 이미지 안의 좌표 설정)
-        var imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png', 
+        //this.marker.push(marker)
+        //this.results.push(item)
+           
+        marker.setMap(map)
+        //this.marker.push(marker)
+        this.results.push(item)
+
+        }
+        //bounds.extend(new kakao.maps.LatLng(item.cafe_lon, item.cafe_lat))
+        else {
+          return false
+        }
+
+        
+      })   
+       
+    },
+    showInfo(rs){
+
+      var content = 
+        `<div class="overlaybox">`+
+        `<div style="padding:5px;">${rs.name}</div>`+   
+        `<div class="boxtitle">hello</div>` +
+        '           <div class="img">' +
+         `           <img :scr=require('${rs.cafe_image}) width="73" height="70">`
+        '           </div>' +
+        +`</div>`
+        //,//iwRemoveable = true 
+       
+      
+
+      var container = document.getElementById('map')
+      var options = {
+      center: new kakao.maps.LatLng(`${rs.cafe_lon}`, `${rs.cafe_lat}`), // 지도의 중심좌표
+      level: 5,
+     
+      }
+      var map = new kakao.maps.Map(container, options)
+      var position = new kakao.maps.LatLng(`${rs.cafe_lon}`, `${rs.cafe_lat}`)
+
+      var infowindow = new kakao.maps.InfoWindow({
+          content : content,
+          position:position,
+          yAnchor: 1 ,
+          //removable : iwRemoveable
+        })
+         var imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png', 
             imageSize = new kakao.maps.Size(27, 34), 
             imageOption = { offset: new kakao.maps.Point(29, 29) } 
 
         var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption)
-      
-        var position = new kakao.maps.LatLng(item.cafe_lon, item.cafe_lat)
-
-        
-        //커스텀 오버레이 생성
-        var cafeOverlay = new kakao.maps.CustomOverlay({
-          map: map,
-          position: position,
-          //content: content, 
-          yAnchor: 1 
-        })
-      
-        var marker = new kakao.maps.Marker({
-          map: map,
-          position: position,
-          image: markerImage, 
-          clickable: true, 
-        })
-
-        marker.setMap(map)
-        cafeOverlay.setMap(map)
-
-        var iwContent = 
-        `<div class="overlaybox">`+
-        `<div style="padding:5px;">${item.name}</div>`+   
-        `<div class="boxtitle">hello</div>` +`</div>`,
-
-        iwRemoveable = true
-
-        // 인포윈도우를 생성
-        var infowindow = new kakao.maps.InfoWindow({
-            content : iwContent,
-            removable : iwRemoveable
-        });
-
-        // 마커에 마우스오버 이벤트를 등록https://apis.map.kakao.com/web/sample/addMarkerMouseEvent/
-        kakao.maps.event.addListener(marker, 'click', function() {
-          
-            infowindow.open(map, marker);
-        })
-        /*
-        // 마커에 마우스아웃 이벤트를 등록
-        kakao.maps.event.addListener(marker, 'click', function() {
-          
-            infowindow.close();
-        })*/ 
-      })
-    },
-    searchPlace(){
-
-      this.results=[]
-
-      var container = document.getElementById('map')
-      //const bounds = new kakao.maps.LatLngBounds(this.results.cafe_lon, this.results.cafe_lat)
-      var options = {
-        center: new kakao.maps.LatLng(37.56832, 126.97976),
-        level: 8,
-        mapTypeId : kakao.maps.MapTypeId.ROADMAP
-      }
-
-      var map = new kakao.maps.Map(container, options)
-
-      this.cafeLoca.forEach((item) => {
-
-        var keyword = document.getElementById('keyword').value;
-
-        if (!keyword.replace(/^\s+|\s+$/g, '')) {
-          alert('키워드를 입력해주세요!');
-        return false;
-        } 
-        //장소 검색 (이건 전체 지도의 검색)
-        //var ps = new kakao.maps.services.Places(item);
-
-        if(keyword === item.cafe_location){
-
-        var imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png', 
-            imageSize = new kakao.maps.Size(35, 50), 
-            imageOption = { offset: new kakao.maps.Point(29, 29) } 
-
-        var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption)
-      
-        var position = new kakao.maps.LatLng(item.cafe_lon, item.cafe_lat)
 
         var marker = new kakao.maps.Marker({
           map: map,
@@ -146,20 +202,17 @@ export default {
           image: markerImage, 
           clickable: true, 
         })
-  
-        this.results.push(item)
+      marker.setMap(map)
+      infowindow.setContent(content);
+      infowindow.open( map,marker);
 
-        //bounds.extend(new kakao.maps.LatLng(item.cafe_lon, item.cafe_lat))
-        marker.setMap(map)
-        this.results.push(marker)
-        //cafeOverlay.setMap(map)
-        }
-      })   
-    },
+    }  
   }
 }
 
+      
 </script>
+
 <style scoped>
 
 @import url("https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Poiret+One&family=Sunflower:wght@300&family=Ubuntu:wght@300&display=swap");
@@ -170,12 +223,6 @@ export default {
   overflow:hidden;
 }
 
-.overlaybox { /* 지금 이거 적용안되는 듯*/
-  position:relative;
-  width:100px;
-  height:100px;
-  padding:15px 10px;
-}
 .map_wrap, .map_wrap * {
   margin:0;
   padding:0;
@@ -206,6 +253,10 @@ export default {
   border-radius: 10px;
   
 }
+.itest{
+  width:2px;
+  height:2px;
+}
 
 #side hr {
   display: block;
@@ -220,12 +271,17 @@ export default {
     background: #3f51b5;
     
 }
+::v-deep .v-dialog {
+  overflow: hidden !important;
+  width: 500px !important;
+}
+
 .searchIn{
   background: #3f51b5;
   padding-top:20px;
 }
 .searchInPut{
-  background:#3f51b5 ;
+  background: white ;
 
 }
 .v-text-field__details{
@@ -277,4 +333,4 @@ export default {
     font-style: normal;
 }
 
-
+</style>
