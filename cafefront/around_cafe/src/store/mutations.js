@@ -2,7 +2,11 @@ import {
     FETCH_CAFE_BOARD_LIST,
     FETCH_CAFE_BOARD,
     FETCH_MENU_LISTS,
-    FETCH_CAFE_IMG_LISTS
+    FETCH_CAFE_IMG_LISTS,
+
+    
+    FETCH_REVIEW_LIST,
+    FETCH_REVIEW,
 
 
 } from './mutation-types'
@@ -24,4 +28,13 @@ export default {
     [FETCH_CAFE_IMG_LISTS] (state, cafeImgLists) {
         state.cafeImgLists = cafeImgLists
         },
+
+    [FETCH_REVIEW_LIST] (state, reviews) {
+        state.reviews = reviews
+    },
+
+    [FETCH_REVIEW] (state, review) {
+        state.review = review
+    },
+    
 }

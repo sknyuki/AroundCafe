@@ -2,12 +2,15 @@ package com.example.demo.member.entity;
 
 import com.example.demo.mypage.cafe.entity.Cafe;
 import com.example.demo.common.entity.BaseDateTime;
+import com.example.demo.review.entity.Review;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 
 @Getter
@@ -48,6 +51,9 @@ public class Member extends BaseDateTime {
 
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "memberInfo")
     private Cafe cafe;
+
+    @OneToMany(mappedBy = "memberInfo",fetch = FetchType.EAGER,orphanRemoval = true)
+    private List<Review> review = new ArrayList<>();
 
 
 

@@ -33,6 +33,7 @@ import NotFoundPage from "@/views/NotFoundPage.vue"
 import CafeMenuRegister from "../views/CafeMyPageViews/CafeMenuRegister.vue"
 import TestTest from "../views/CafeMyPageViews/TestTest.vue"
 import CafeImgManage from "../views/CafeMyPageViews/CafeImgManage.vue"
+import CafeReviewRegisterPage from "../views/Cafe/CafeReviewRegisterPage.vue"
 
 
 Vue.use(VueRouter)
@@ -144,6 +145,17 @@ const routes = [
     name: "CafeImgManage",
     components: {
       default :CafeImgManage
+    },
+    props : {
+      default: true
+    }
+  },
+
+  {
+    path: "/cafe/review/register",
+    name: "CafeReviewRegisterPage",
+    components: {
+      default :CafeReviewRegisterPage
     },
     props : {
       default: true
