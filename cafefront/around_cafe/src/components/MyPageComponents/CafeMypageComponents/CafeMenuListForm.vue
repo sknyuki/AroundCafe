@@ -1,5 +1,23 @@
 <template>
     <div>
+        <div v-for="item in menuLists" :key="item.menu_no">
+            <v-container>
+                <v-row>
+                    <v-col class="col-12 col-sm-2">
+                        <img v-if ="item.menu_img == null" v-bind:src="require(`@/assets/cafe/cafeMenu/imgNull.png`)" width="200px;">      
+                        <img v-if ="item.menu_img != null" v-bind:src="require(`@/assets/cafe/cafeMenu/${item.menu_img}`)" width="200px;"><br>
+                        {{item.menu_name}} <br> 
+                        {{item.menu_price}}<br>
+                    </v-col>
+                    <v-col class="col-12 col-sm-10" style="padding: 0 0 0 3%;">
+                        {{item.menu_content}}
+                    </v-col>
+                </v-row>
+            </v-container>
+            <br><br>
+        </div>
+        
+        <br>
         <div>
             <h4>등록한 메뉴 확인</h4>
             <v-card>

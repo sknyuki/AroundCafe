@@ -7,13 +7,13 @@ import java.io.IOException;
 import java.util.List;
 
 public interface MenuService {
-    public void includeImgSave(CafeMenuDto info, String originalFilename);
+    public void includeImgSave(CafeMenuDto info, String fileName);
 
     public void exceptImgSave(CafeMenuDto info);
 
-    public void includeImgModify(CafeMenu info, String originalFilename, String cafeName) throws IOException;
+    public void includeImgModify(CafeMenu info, String originalFilename, Integer cafeNo) throws IOException;
 
-    public void exceptImgModify(CafeMenu info);
+    public void exceptImgModify(CafeMenu info, Integer cafeNo);
 
     public List<CafeMenu> list(Integer membNo);
 

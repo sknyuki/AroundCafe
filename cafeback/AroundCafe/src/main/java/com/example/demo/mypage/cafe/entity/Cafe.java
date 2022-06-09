@@ -6,10 +6,7 @@ import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Data
 @Entity
@@ -46,7 +43,7 @@ public class Cafe {
 
     @CreatedDate
     @Column(length = 128, nullable = true)
-    private String regDate;
+    private Date regDate;
 
     @EqualsAndHashCode.Exclude
     @ToString.Exclude

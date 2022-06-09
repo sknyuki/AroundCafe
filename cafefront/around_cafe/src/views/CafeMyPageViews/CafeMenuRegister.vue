@@ -38,6 +38,7 @@ import { mapState, mapActions } from 'vuex'
                 let formData = new FormData()
 
                 let fileInfo = {
+                    cafe_no : 1,
                     menu_name,
                     menu_price,
                     menu_content
@@ -55,7 +56,7 @@ import { mapState, mapActions } from 'vuex'
 
                 console.log(fileInfo)
                 console.log(files1)
-                axios.post(`http://localhost:7777/menu/register`, formData)
+                axios.post('http://localhost:7777/menu/register', formData)
                         .then(res => {
                             alert(res.data)
                             this.$router.go()
@@ -80,14 +81,15 @@ import { mapState, mapActions } from 'vuex'
                     "info", new Blob([JSON.stringify(fileInfo)], {type:"application/json"})
                 )
 
-                if(files2 != null) {
-                    for(let idx = 0; idx <1; idx++) {
+                if(files2.length > 0) {
+                    for(let idx = 0; idx < files2.length; idx++) {
                         formData.append('fileList', files2[idx])
                     }
                 }
 
                 console.log(fileInfo)
-                 axios.put('http://localhost:7777/menu/modify', formData)
+                 let cafeNo = 1;
+                 axios.put(`http://localhost:7777/menu/modify/${cafeNo}`, formData)
                         .then(() => {
                             alert('수정되었습니다!')
                             this.$router.go()

@@ -42,14 +42,16 @@ public class CafeController {
                     log.info("requestFile() - Make file :" +
                             multipartFile.getOriginalFilename());
 
+                    String saveImg = info.getCafe_name() + "."+ multipartFile.getOriginalFilename();
+
                     FileOutputStream writer = new FileOutputStream(
-                            "../../cafefront/around_cafe/src/assets/cafe/cafeMypage/" + info.getCafe_name() + "."+ multipartFile.getOriginalFilename());
+                            "../../cafefront/around_cafe/src/assets/cafe/cafeMypage/" + saveImg);
 
                     writer.write(multipartFile.getBytes());
                     writer.close();
                     log.info("***file is saved at the vue file");
 
-                    String saveImg = info.getCafe_name() + "."+ multipartFile.getOriginalFilename();
+
 
                     service.includeFileModifyCafe(info.getCafeNo(),saveImg);
 
@@ -79,5 +81,11 @@ public class CafeController {
     public List<CafeImgTable> readCafeImgTable(@PathVariable("cafeNo") Integer cafeNo) {
         log.info("read cafe img list");
         return service.imgList(cafeNo);
+    }
+
+    @GetMapping("/list")
+    public List<Cafe> mypageCafeList () {
+        log.info("get cafe list");
+        return service.cafeList();
     }
 }
