@@ -10,5 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class QnADto {
     private Long received_no;
+    private String type;
     private String content;
 }

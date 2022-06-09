@@ -10,4 +10,7 @@ import java.util.List;
 
 public interface QnARepository extends JpaRepository<QnA, Long> {
 
+    @Transactional
+    @Query(value = "select * from qna where member_no = :membNo order by qna_no desc", nativeQuery = true)
+    public List<QnA> findByMemberInfo(@Param("membNo") Long membNo);
 }

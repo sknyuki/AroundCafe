@@ -55,10 +55,17 @@ public class QnAController {
         return "문의글이 등록되었습니다!";
     }
 
-    @GetMapping("/member/{qnaNo}")
+    @GetMapping("/memberRead/{qnaNo}")
     public List<QnAComment> readListPage(@PathVariable("qnaNo") Integer qnaNo) {
         log.info("qna read list");
 
         return service.readQnA(qnaNo);
+    }
+
+    @GetMapping("/memberList/{membNo}")
+    public List<QnA> memberListPage(@PathVariable("membNo") Integer membNo) {
+        log.info("MEMBER QNA list");
+
+        return service.QnAList(membNo);
     }
 }

@@ -29,6 +29,8 @@ public class QnACommentController {
         log.info("member no : " + info.getQnaNo() + "/" +
                 info.getChatting());
 
+//        service.saveQna(membNo, info);
+//        service.saveQnaComment(info);
         service.exceptImgRegister(membNo, info);
 
     }

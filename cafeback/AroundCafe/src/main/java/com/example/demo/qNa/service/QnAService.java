@@ -13,4 +13,6 @@ public interface QnAService {
     public void exceptImgRegister(Integer membNo, QnADto info);
 
     public List<QnAComment> readQnA(Integer qnaNo);
+
+    public List<QnA> QnAList(Integer membNo);
 }
