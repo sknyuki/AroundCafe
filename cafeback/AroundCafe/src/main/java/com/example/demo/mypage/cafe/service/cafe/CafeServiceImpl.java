@@ -39,37 +39,29 @@ public class CafeServiceImpl implements CafeService{
         log.info("***service -> modify yes~ file info : "+ cafeNo);
 
         Optional<Cafe> cafe = repository.findById(cafeNo);
-        log.info("*** is that check cafe table? ");
         Cafe cafe1 = cafe.get();
-        log.info("*** yes! they have table content ");
         CafeImgTable img = new CafeImgTable(cafeImg, cafe1);
 
         cafeImgRepository.save(img);
-        log.info("*** service -> img table's info :" +img);
-        log.info("**!!img table is saved!!");
     }
 
     @Transactional
     @Override
     public void checkSavedImg(Long cafeNo) throws IOException {
-        log.info("**service-> here is checking saved img, cafe no :" +cafeNo);
         Optional<Integer> havingImg = cafeImgRepository.findByCafe_no(cafeNo);
         int check = havingImg.get();
         log.info("##service -> show cafeImg?" + check);
 
         if(check > 0) {
             List<CafeImgTable> findMyImg = cafeImgRepository.findCafe(cafeNo);
-            log.info("***service -> let's see saved img!!");
 
             for(int i = 0; i < findMyImg.size(); i++) {
                 CafeImgTable checkImg = findMyImg.get(i);
                 log.info("** saved img : " + checkImg.getCafe_img());
                 Path filePath = Paths.get("../../cafefront/around_cafe/src/assets/cafe/cafeMypage/"+checkImg.getCafe_img());
                 Files.delete(filePath);
-                log.info("** before file is deleted!!! ok~");
             }
             cafeImgRepository.deleteByCafeNo(cafeNo);
-            log.info("*** service -> delete before saved img!!!! ***");
         }
     }
 
@@ -78,10 +70,14 @@ public class CafeServiceImpl implements CafeService{
         return cafeImgRepository.CafeImgList(Long.valueOf(cafeNo));
     }
 
+    @Override
+    public List<Cafe> cafeList() {
+        return repository.findAll();
+    }
+
 
     @Override
     public void notIncludeFileModifyCafe(Integer membNo,Cafe info) {
-        log.info("** service : modify no file info!!!"+info);
 
         Optional<Member> findMemberNo = memberRepository.findById(Long.valueOf(membNo));
         Member member = findMemberNo.get();
@@ -89,7 +85,6 @@ public class CafeServiceImpl implements CafeService{
         info.setMemberInfo(member);
 
         repository.save(info);
-        log.info("**!! cafe table is modified!!**");
     }
 
 //    @Override

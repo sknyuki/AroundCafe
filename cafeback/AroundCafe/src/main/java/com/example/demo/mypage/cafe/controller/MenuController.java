@@ -30,18 +30,20 @@ public class MenuController {
         log.info("menu info : " + info);
         log.info("file name: " + fileList);
 
+
         if(fileList != null) {
             try{
                 for(MultipartFile multipartFile: fileList) {
+                    String fileName = info.getCafe_no() + "." + multipartFile.getOriginalFilename();
                     log.info("requestUploadFile() - Make file: " +
                             multipartFile.getOriginalFilename());
                     FileOutputStream writer = new FileOutputStream(
-                            "../../cafefront/around_cafe/src/assets/cafe/cafeMenu/"  + multipartFile.getOriginalFilename()); //+ info.getCafe_name() + "."
+                            "../../cafefront/around_cafe/src/assets/cafe/cafeMenu/"  + fileName);
                     log.info("save complete!");
 
                     writer.write(multipartFile.getBytes());
                     writer.close();
-                    service.includeImgSave(info, multipartFile.getOriginalFilename());
+                    service.includeImgSave(info, fileName);
                 }
 
             } catch (Exception e) {
@@ -55,30 +57,32 @@ public class MenuController {
     }
 
     @ResponseBody
-    @PutMapping(value = "/modify/{cafeName}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
-    public String menuModify(@PathVariable("cafeName") String cafeName,
+    @PutMapping(value = "/modify/{cafeNo}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
+    public String menuModify(@PathVariable("cafeNo") Integer cafeNo,
                                @RequestPart(value = "info", required = false) CafeMenu info,
                                @RequestPart(value = "fileList", required = false) List<MultipartFile> fileList) {
 
-        log.info("cafe name : " + cafeName);
+        log.info("cafe name : " + cafeNo);
         log.info("cafe info : " +info);
         log.info("file name : " +fileList);
 
         if(fileList != null) {
             try{
                 for(MultipartFile multipartFile : fileList) {
+                    String fileName = cafeNo + "." + multipartFile.getOriginalFilename();
+
                     FileOutputStream writer = new FileOutputStream(
-                            "../../cafefront/around_cafe/src/assets/cafe/cafeMenu/" + cafeName + "." + multipartFile.getOriginalFilename());
+                            "../../cafefront/around_cafe/src/assets/cafe/cafeMenu/" + fileName);
 
                     writer.write(multipartFile.getBytes());
                     writer.close();
-                    service.includeImgModify(info, multipartFile.getOriginalFilename(), cafeName);
+                    service.includeImgModify(info, fileName, cafeNo);
                 }
             } catch (Exception e) {
                 return "modify is failed.";
             }
         }else if (fileList == null) {
-            service.exceptImgModify(info);
+            service.exceptImgModify(info, cafeNo);
         }
 
         log.info("modify is complete");
@@ -118,34 +122,6 @@ public class MenuController {
         log.info("delete no : "+menuNo);
 
         service.delete(menuNo);
-    }
-
-    @ResponseBody
-    @PutMapping(value = "/modify", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
-    public String menuModify1(@RequestPart(value = "info", required = false) CafeMenu info,
-                             @RequestPart(value = "fileList", required = false) List<MultipartFile> fileList) {
-
-        log.info("cafe info : " +info);
-        String cafeName = "ss";
-        if(fileList != null) {
-            try{
-                for(MultipartFile multipartFile : fileList) {
-                    FileOutputStream writer = new FileOutputStream(
-                            "../../cafefront/around_cafe/src/assets/cafe/cafeMenu/" + cafeName + "." + multipartFile.getOriginalFilename());
-
-                    writer.write(multipartFile.getBytes());
-                    writer.close();
-                    service.includeImgModify(info, multipartFile.getOriginalFilename(), cafeName);
-                }
-            } catch (Exception e) {
-                return "modify is failed.";
-            }
-        }else if (fileList == null) {
-            service.exceptImgModify(info);
-        }
-
-        log.info("modify is complete");
-        return "modify complete!!";
     }
 
     @PostMapping("/changeSignature/{menuNo}")

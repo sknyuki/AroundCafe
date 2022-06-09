@@ -18,4 +18,6 @@ public interface CafeService {
     public void checkSavedImg(Long cafeNo) throws IOException;
 
     public List<CafeImgTable> imgList(Integer cafeNo);
+
+    public List<Cafe> cafeList();
 }

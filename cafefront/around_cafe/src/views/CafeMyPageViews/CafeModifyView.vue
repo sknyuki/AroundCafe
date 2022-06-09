@@ -25,7 +25,7 @@ export default {
     },
     mounted() { 
         this.fetchcafeBoard()
-        this.fetchCafeImgLists(1)
+        this.fetchCafeImgLists(2)
     },
     methods : {
         ...mapActions(['fetchcafeBoard', 'fetchCafeImgLists']),
@@ -59,7 +59,7 @@ export default {
             }
 
             console.log(fileInfo)
-            let membNo = 1;
+            let membNo = 2;
             axios.put(`http://localhost:7777/cafe/modify/${membNo}`, formData)
                     .then(() => {
                         alert('수정되었습니다!')

@@ -31,16 +31,15 @@ public class MenuServiceImpl implements MenuService{
 
     @Transactional
     @Override
-    public void includeImgSave(CafeMenuDto info, String originalFilename) {
-        String file = originalFilename; //info.getCafe_name()+"." +
+    public void includeImgSave(CafeMenuDto info, String fileName) {
 
-        log.info("file: " +file);
+        log.info("file: " +fileName);
         log.info("cafe no : " +info.getCafe_no());
 
-//        Optional<Cafe> findCafe = cafeRepository.findById(info.getCafe_no());
-//        Cafe cafe = findCafe.get();
+        Optional<Cafe> findCafe = cafeRepository.findById(info.getCafe_no());
+        Cafe cafe = findCafe.get();
 
-        CafeMenu cafeMenu = new CafeMenu(info.getMenu_name(), info.getMenu_price(), file, info.getMenu_content());
+        CafeMenu cafeMenu = new CafeMenu(info.getMenu_name(), info.getMenu_price(), fileName, info.getMenu_content(),cafe);
         repository.save(cafeMenu);
 
     }
@@ -50,21 +49,23 @@ public class MenuServiceImpl implements MenuService{
     public void exceptImgSave(CafeMenuDto info) {
         log.info("cafe no : " +info.getCafe_no());
 
-//        Optional<Cafe> findCafe = cafeRepository.findById(info.getCafe_no());
-//        Cafe cafe = findCafe.get();
+        Optional<Cafe> findCafe = cafeRepository.findById(info.getCafe_no());
+        Cafe cafe = findCafe.get();
 
-        CafeMenu cafeMenu = new CafeMenu(info.getMenu_name(), info.getMenu_price(), info.getMenu_content());
+        CafeMenu cafeMenu = new CafeMenu(info.getMenu_name(), info.getMenu_price(), info.getMenu_content(), cafe);
         repository.save(cafeMenu);
     }
 
     @Transactional
     @Override
-    public void includeImgModify(CafeMenu info, String originalFilename, String cafeName) throws IOException {
-        String file = cafeName+"." +originalFilename;
+    public void includeImgModify(CafeMenu info, String menu_img, Integer cafeNo) throws IOException {
 
         log.info("include img modify");
-        log.info("file: " +file);
-        log.info("memu no : " +info.getMenu_no());
+        log.info("file: " +menu_img);
+        log.info("cafe no : " + cafeNo);
+
+        Optional<Cafe> findCafe = cafeRepository.findById(Long.valueOf(cafeNo));
+        Cafe cafe = findCafe.get();
 
         Optional<CafeMenu> findCafeMenu = repository.findById(info.getMenu_no());
         CafeMenu cafeMenu = findCafeMenu.get();
@@ -74,29 +75,33 @@ public class MenuServiceImpl implements MenuService{
             Files.delete(filePath);
             log.info("file delete complete");
         }
+
         log.info("!!!modify ok!!!!");
-        info.setMenu_img(file);
+        info.setMenu_img(menu_img);
+        info.setCafe(cafe);
+
         repository.save(info);
     }
 
     @Transactional
     @Override
-    public void exceptImgModify(CafeMenu info) {
+    public void exceptImgModify(CafeMenu info, Integer cafeNo) {
         log.info("except img modify");
 
         Optional<CafeMenu> findCafeMenu = repository.findById(info.getMenu_no());
         CafeMenu cafeMenu = findCafeMenu.get();
 
+        Optional<Cafe> findCafe = cafeRepository.findById(Long.valueOf(cafeNo));
+        Cafe cafe = findCafe.get();
+
         if(cafeMenu.getMenu_img() != null) {
             info.setMenu_img(cafeMenu.getMenu_img());
-            log.info("!!!modify ok!!!!");
-
-            repository.save(info);
-        }else if(cafeMenu.getMenu_img() == null) {
-            log.info("!!!modify ok!!!!");
-
-            repository.save(info);
         }
+
+        log.info("!!!modify ok!!!!");
+
+        info.setCafe(cafe);
+        repository.save(info);
 
     }
 
