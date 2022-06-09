@@ -8,6 +8,8 @@ import{
     FETCH_REVIEW_LIST,
     FETCH_REVIEW,
 
+    FETCH_QNA_LIST,
+
 }from './mutation-types'
 
 import axios from 'axios'
@@ -54,4 +56,12 @@ export default {
                 commit(FETCH_REVIEW, res.data)
             })
     },
+
+    fetchQnAList ({ commit },qnaNo) {
+        return axios.get(`http://localhost:7777/qna/member/${qnaNo}`)
+            .then((res) => {
+                commit(FETCH_QNA_LIST, res.data)
+            })
+    },
+
 }

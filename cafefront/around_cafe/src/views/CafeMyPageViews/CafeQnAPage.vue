@@ -1,22 +1,35 @@
 <template>
     <div>
-        <cafe-qn-a-register @submit="onSubmit"/>
+        <CafeQnARegister @submit="onSubmit" :qnaList="qnaList"/>
+        <CafeQnAComment :qnaList="qnaList" @submit="sumbitMsg"/>
     </div>
 </template>
 
 <script>
 import CafeQnARegister from '@/components/MyPageComponents/CafeMypageComponents/CafeQnARegister.vue'
 import axios from 'axios'
+import { mapActions, mapState } from 'vuex'
+import CafeQnAComment from '@/components/MyPageComponents/CafeMypageComponents/CafeQnAComment.vue'
 
 export default {
     name:'CafeQnAPage',
-    components: { CafeQnARegister },
+    components: { 
+        CafeQnARegister, 
+        CafeQnAComment 
+    },
     data() {
         return{
 
         }
     },
+    computed: {
+        ...mapState(['qnaList'])
+    },
+    mounted() {
+        this.fetchQnAList(1)
+    },
     methods: {
+        ...mapActions(['fetchQnAList']),
         onSubmit(payload) {
             const {received_no,content, files1} = payload
 
@@ -46,7 +59,31 @@ export default {
                     .catch(() => {
                         alert("문의사항 등록에 실패하였습니다.")
                     })
-        }
+        },
+        sumbitMsg(payload) {
+            const {qnaNo, chatting} = payload
+
+            let formData = new FormData()
+
+            let fileInfo = {
+                qnaNo : qnaNo,
+                chatting : chatting
+            }
+
+            formData.append(
+                "info", new Blob([JSON.stringify(fileInfo)], {type:"application/json"})
+            );
+
+            let membNo = 1;
+            axios.post(`http://localhost:7777/qnaComment/register/${membNo}`, formData)
+                    .then(() => {
+                        this.$router.go()
+                    })
+                    .catch(() => {
+                        alert("문의사항 등록에 실패하였습니다.")
+                    })
+        },
+        
     }
 }
 </script>

@@ -26,6 +26,19 @@
                 </v-row>
             </v-container>
         </form>
+
+        <p>문의 내용</p>
+        <!-- <div v-for="item in qnaList" :key="item.qna_no">
+            <div v-for="con in item" :key="con.qna_comment_no">
+                <p>{{con.content}} {{con.regDate}}</p> 
+                <img v-if="con.img !=null" :src="require(`@/assets/qna/${con.img}`)"/><br>
+                
+            </div>
+        </div> -->
+        <div v-for="item in qnaList" :key="item.qna_comment_no">
+            <span>{{item.content}}</span> 
+            <span style="font-color: gray;"> {{item.regDate}}</span>
+        </div>
     </div>
 </template>
 <script>
@@ -37,6 +50,12 @@ export default {
             content: '',
             files1:'',
             response:''
+        }
+    },
+    props: {
+        qnaList: {
+            type: Array,
+            required: true
         }
     },
     methods: {
