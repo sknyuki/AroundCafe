@@ -1,117 +1,13 @@
 <template>
     <div>
-        <!-- <div class="tokk">
-            <h3 style="text-align:center">문의사항</h3>
-            <hr>
-            <div v-for="item in qnaList" :key="item.qna_comment_no" >
-                <v-container v-if="item.writer == 1" style="float: right; padding: 5% 5% 0 0;">
-                    <v-row >
-                        <v-col>
-                           <p style="float:right;">나 : {{item.content}}</p> 
-                        </v-col><br><br>
-                    </v-row >
-                    <v-row v-if="item.writer == 2 || item.writer == 0" style="float: left;">
-                        <v-col>
-                            남 : {{item.content}}
-                        </v-col><br><br>
-                    </v-row>
-                    <v-row v-if="item.writer == null || item.img != null" style="float:right;">
-                        <v-col>
-                            <img v-bind:src="require(`@/assets/qna/${item.img}`)" style="float:right; width :250px;"> 
-                        </v-col><br><br>
-                    </v-row>
-                    <v-row v-if="item.writer == 1" style="float:right;">
-                        <v-col>
-                            <img v-bind:src="require(`@/assets/qna/${item.img}`)" style=" width :250px;"> 
-                        </v-col><br><br>
-                    </v-row>
-                    <v-row style="float: right;"> 
-                        <v-col>
-                            {{item.regDate}}
-                        </v-col>
-                    </v-row><br>
-                </v-container> 
-
-                <v-container>
-                    <v-row v-if="item.writer == 1" style="float: right; padding: 5% 5% 0 0;">
-                        <v-col>
-                           <p style="float:right;">나 : {{item.content}}</p> 
-                        </v-col><br><br>
-                    </v-row >
-                    <v-row v-if="item.writer == 2 || item.writer == 0" style="float: left;">
-                        <v-col>
-                            남 : {{item.content}}
-                        </v-col><br><br>
-                    </v-row>
-                    <v-row v-if="item.writer == null || item.img != null" style="float:right;">
-                        <v-col>
-                            <img v-bind:src="require(`@/assets/qna/${item.img}`)" style="float:right; width :250px;"> 
-                        </v-col><br><br>
-                    </v-row>
-                    <v-row v-if="item.writer == 1" style="float:right;">
-                        <v-col>
-                            <img v-bind:src="require(`@/assets/qna/${item.img}`)" style=" width :250px;"> 
-                        </v-col><br><br>
-                    </v-row>
-                    <v-row style="float: right;"> 
-                        <v-col>
-                            {{item.regDate}}
-                        </v-col>
-                    </v-row><br>
-                </v-container> 
-
-                
-            </div>
-            
-            <div class="inputSomething">
-                <input type="text" v-model="chatting"/>
-                <v-icon @click="handleFileUpload()" id="files1" ref="files1" multiple>mdi-panorama-variant </v-icon>
-                <v-icon @click="sumbitMsg"> mdi-arrow-up-circle</v-icon>
-            </div>
-
-            <div>
-                <v-virtual-scroll
-                :items="qnaList"
-                height="600" width="400" item-height="30" 
-                style="left: 10%;top: 10%;"
-                class="virtualScroll">
-
-                <template v-slot="{ item, index }">
-                    <v-list-item :key="index">
-                        <v-list-item-action>
-                            <input type="radio" @change="confirmCake(item)" v-model="checkIndex" :value="index" name="checkOwnCake"/> 
-                        </v-list-item-action>
-
-                        <v-list-item-content style="width:310px; height:310px;">
-                            <v-img v-bind:src="require(`@/assets/uploadImg/${item.linkInfo}`)" contain />
-                        </v-list-item-content>
-
-                        <v-list-item-action>
-                        </v-list-item-action>
-                        
-                        <v-list-item-content>
-                            <v-list-item-title>
-                                design : {{item.design}} <br> 
-                                size : {{item.size}} <br> 
-                                price: {{item.price}}
-                            </v-list-item-title>
-                        </v-list-item-content>
-                    </v-list-item>
-                    <v-divider></v-divider>
-                </template>
-            </v-virtual-scroll>
-            </div>
-
-            
-      
-        </div> -->
+        
 
         <div>
                 <v-card
                     class="mx-auto"
                     max-width="400"
                     >
-                    <v-card-title class="white--text orange darken-4">
+                    <v-card-title class="white--text blue darken-4">
                         문의사항
                     <v-spacer></v-spacer>  </v-card-title>
 
@@ -120,34 +16,24 @@
                     </v-card-text>
                     <v-divider></v-divider>
                     
-                    <v-card-title>
-                    <v-text-field
-                        v-model="search"
-                        append-icon="mdi-magnify"
-                        label="내용 검색"
-                        single-line
-                        hide-details
-                        @change="findContent"
-                    ></v-text-field>
-                    </v-card-title>
-
-
                     <v-virtual-scroll
                         :items="qnaList"
                         :item-height="55"
-                        :search="search"
                         height="350"
                         style="margin: 5%;"
                     >
                         <template v-slot="{ item }">
                             <v-list-item-content v-if="item.writer == 1" style="float: right;">
-                                <v-list-item-title> <p style="float: right;">나 : {{item.content}}</p></v-list-item-title>
-                                <v-list-item-title v-if="item.img != null">
+                                <v-list-item-title class="showBox"> <p style="float: right;">나 : {{item.content}}</p></v-list-item-title>
+                                <v-list-item-title class="showBox" v-if="item.img != null">
                                     <img v-bind:src="require(`@/assets/qna/${item.img}`)" style="width :200px; display: block;">
                                 </v-list-item-title>
                             </v-list-item-content>
                             <v-list-item-content v-else style="float: left;">
-                                <v-list-item-title>남 : {{item.content}}</v-list-item-title>
+                                <v-list-item-title class="showBoxOther">남 : {{item.content}}</v-list-item-title>
+                                <v-list-item-title class="showBoxOther" v-if="item.img != null">
+                                    <img v-bind:src="require(`@/assets/qna/${item.img}`)" style="width :200px; display: block;">
+                                </v-list-item-title>
                             </v-list-item-content>
                         </template>
                        
@@ -246,9 +132,94 @@ input{
 }
 
 .virtualScroll {
-    background-color: rgb(228, 66, 66);
+    background-color: rgb(66, 123, 228);
     border: 1px solid;
     padding: 5%;
+}
+
+
+.showBox {
+  background-color: #eef3fd;
+  border: #7689fd solid 1px;
+  border-radius: 5px;
+  color: #000000;
+  font-size: 12px;
+  font-weight: 500;
+  height: auto;
+  letter-spacing: -0.25px;
+  margin-top: 6.8px;
+  padding: 5px 11px;
+  position: relative;
+  width: fit-content;
+  z-index: 100;
+}
+
+.showBox::after {
+  border-color: #eef3fd transparent;
+  border-style: solid;
+  border-width: 0 6px 8px 6.5px;
+  content: '';
+  display: block;
+  left: 75px;
+  position: absolute;
+  top: -7px;
+  width: 0;
+  z-index: 1;
+}
+
+.showBox::before {
+  border-color: #7689fd transparent;
+  border-style: solid;
+  border-width: 0 6px 8px 6.5px;
+  content: '';
+  display: block;
+  left: 75px;
+  position: absolute;
+  top: -8px;
+  width: 0;
+  z-index: 0;
+}
+
+.showBoxOther {
+  background-color: #fcfcf4;
+  border: #fcfcf4 solid 1px;
+  border-radius: 5px;
+  color: #000000;
+  font-size: 12px;
+  font-weight: 500;
+  height: auto;
+  letter-spacing: -0.25px;
+  margin-top: 6.8px;
+  padding: 5px 11px;
+  position: relative;
+  width: fit-content;
+  z-index: 100;
+}
+
+.showBoxOther::after {
+  border-color: #fcfcf4 transparent;
+  border-style: solid;
+  border-width: 0 6px 8px 6.5px;
+  content: '';
+  display: block;
+  left: 75px;
+  position: absolute;
+  top: -7px;
+  width: 0;
+  z-index: 1;
+}
+
+.showBoxOther::before {
+  border-color: #fcfcf4 transparent;
+  border-style: solid;
+  border-width: 0 6px 8px 6.5px;
+  content: '';
+  display: block;
+  left: 75px;
+  position: absolute;
+  top: -8px;
+  width: 0;
+  z-index: 0;
 }
 
 </style>

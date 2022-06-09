@@ -2,6 +2,7 @@
     <div>
         <CafeQnARegister @submit="onSubmit" :qnaList="qnaList"/>
         <CafeQnAComment :qnaList="qnaList" @submit="sumbitMsg"/>
+        <CafeQnAList :qnaLists="qnaLists" :cafeBoards="cafeBoards"/>
     </div>
 </template>
 
@@ -10,12 +11,14 @@ import CafeQnARegister from '@/components/MyPageComponents/CafeMypageComponents/
 import axios from 'axios'
 import { mapActions, mapState } from 'vuex'
 import CafeQnAComment from '@/components/MyPageComponents/CafeMypageComponents/CafeQnAComment.vue'
+import CafeQnAList from '@/components/MyPageComponents/CafeMypageComponents/CafeQnAList.vue'
 
 export default {
     name:'CafeQnAPage',
     components: { 
         CafeQnARegister, 
-        CafeQnAComment 
+        CafeQnAComment,
+        CafeQnAList 
     },
     data() {
         return{
@@ -23,20 +26,22 @@ export default {
         }
     },
     computed: {
-        ...mapState(['qnaList'])
+        ...mapState(['qnaList', 'qnaLists'])
     },
     mounted() {
         this.fetchQnAList(1)
+        this.fetchQnALists(1)
     },
     methods: {
-        ...mapActions(['fetchQnAList']),
+        ...mapActions(['fetchQnAList','fetchQnALists']),
         onSubmit(payload) {
-            const {received_no,content, files1} = payload
+            const {registerNo,content,findQna, files1} = payload
 
             let formData = new FormData()
 
             let fileInfo = {
-                received_no : received_no,
+                received_no : registerNo,
+                type : findQna,
                 content : content
             }
 
