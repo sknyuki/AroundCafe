@@ -2,5 +2,8 @@ export default {
     cafeBoards:[],
     cafeBoard:null,
     menuLists: [],
-    cafeImgLists:[]
+    cafeImgLists:[],
+
+    reviews:[],
+    review:null,
 }
