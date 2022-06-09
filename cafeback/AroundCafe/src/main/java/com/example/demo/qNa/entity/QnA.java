@@ -33,7 +33,7 @@ public class QnA {
 
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
-    @OneToMany(mappedBy = "qna", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "qnA", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private Set<QnAComment> comments = new HashSet<>();
 
     @Builder
