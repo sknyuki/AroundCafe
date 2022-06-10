@@ -9,7 +9,8 @@ import {
     FETCH_REVIEW,
 
     FETCH_QNA_LIST,
-    FETCH_QNA_LISTS
+    FETCH_QNA_LISTS,
+    FETCH_QNA_DATE_LIST
 
 
 } from './mutation-types'
@@ -46,6 +47,10 @@ export default {
 
     [FETCH_QNA_LISTS] (state, qnaLists) {
         state.qnaLists = qnaLists
+    },
+
+    [FETCH_QNA_DATE_LIST] (state, dateList) {
+        state.dateList = dateList
     },
     
 }

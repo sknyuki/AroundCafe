@@ -8,4 +8,4 @@ export const FETCH_REVIEW = 'FETCH_REVIEW'
 
 export const FETCH_QNA_LIST = 'FETCH_QNA_LIST'
 export const FETCH_QNA_LISTS = 'FETCH_QNA_LISTS'
-
+export const FETCH_QNA_DATE_LIST = 'FETCH_QNA_DATE_LIST'

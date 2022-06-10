@@ -44,12 +44,12 @@
                         문의 : {{item.cafe_name}}
                     </v-col>
                 </v-row>
-                <v-row>
-                    <v-col cols="12" sm="6" v-if="item.serverCheck == true" style="padding:0 0 0 15%">
+                <v-row justify="center">
+                    <v-col cols="12" sm="6" v-if="item.serverCheck == true">
                         문의사항 전송이 완료 되었습니다. (클릭)
                     </v-col>
-                    <v-col cols="12" sm="6" v-else style="padding:0 0 0 15%">
-                        읽지 않은 답변이 있습니다. (클릭)
+                    <v-col cols="12" sm="6" v-else>
+                        답변하지 않은 글이 있습니다. (클릭)
                     </v-col>
                 </v-row>
             </v-container><br>
@@ -62,10 +62,6 @@ export default {
     name:'CafeQnAList',
     props: {
         qnaLists : {
-            type: Array,
-            required: true
-        },
-        cafeBoards: {
             type: Array,
             required: true
         }

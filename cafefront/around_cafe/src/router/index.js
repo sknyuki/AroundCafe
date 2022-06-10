@@ -126,7 +126,7 @@ const routes = [
     component: () => import("@/views/User/UserPasswordPage"),
   },
 
-
+//인지연이 만든 페이지 ~ test
   {
     path: "/cafeMenuRegister",
     name: "CafeMenuRegister",
@@ -144,6 +144,11 @@ const routes = [
     component: () => import("@/views/CafeMyPageViews/CafeQnAPage"),
   },
 
+  {
+    path: "/cafeListPage",
+    name: "CafeListPage_manager",
+    component: () => import("@/views/CafeMyPageViews/CafeListPage_manager"),
+  },
   {
     path: "/test",
     name: "TestTest",
