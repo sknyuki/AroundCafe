@@ -18,12 +18,16 @@ public class RegisterRequest {
     private final String password;
     private final String phoneNum;
     private final String birth;
+    private final String imageUrl;
+
+    // Social Column
+    private final String socialType;
+    private final String socialNo;
+
+    // Role
+    private final String role;
 
     // Cafe Column
     private final String cafeName;
     private final String cafeBisNo;
-
-    // Role, SocialType
-    private final String role;
-    private final String socialType;
 }

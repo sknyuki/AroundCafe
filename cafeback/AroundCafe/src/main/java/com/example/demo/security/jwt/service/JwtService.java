@@ -28,22 +28,6 @@ public class JwtService {
     }
 
     // JWT 엑세스 토큰 생성
-    public String generateAccessToken(Authentication authentication) {
-        // authentication을 통해 principal instance 생성
-        Object principal = authentication.getPrincipal();
-        // principal type_cast를 통하여 userPrincipal instance 생성
-        MemberPrincipal memberPrincipal = (MemberPrincipal) principal;
-        // userPrincipal instance에서 id값을 받아와 id instance 생성
-        String id = String.valueOf(memberPrincipal.getId());
-        // jwt 빌드 후 반환
-        return Jwts.builder()
-                //subject
-                .setId(id)
-                .setIssuedAt(new Date())
-                .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
-                .signWith(getSignKey(), SignatureAlgorithm.HS512)
-                .compact();
-    }
     public String generateAccessToken(Member member) {
         String id = String.valueOf(member.getMemNo());
         return Jwts.builder()
@@ -121,12 +105,12 @@ public class JwtService {
     }
 
     //토큰 만료 시간
-    public Long tokenExpTime(String token) {
+    public Integer tokenExpTime(String token) {
         Jws<Claims> claims = Jwts.parserBuilder()
                 .setSigningKey(jwtSecret.getBytes(StandardCharsets.UTF_8))
                 .build()
                 .parseClaimsJws(token);
-        return claims.getBody().getExpiration().getTime() - System.currentTimeMillis();
+        return (int)((claims.getBody().getExpiration().getTime() - System.currentTimeMillis())/1000);
     }
 
     // 리프 레시 토큰 만료 시간 검증

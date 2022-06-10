@@ -8,12 +8,14 @@ import lombok.Getter;
 @Getter
 @Builder
 public class MemberDto {
-
     private Long memNo;
+    private String socialNo;
     private String memId;
     private String memPw;
     private String memNick;
+    private String memImg;
     private String phoneNum;
+    private String memBirth;
     private SocialType socialType;
     private MemberRole role;
 }
