@@ -1,29 +1,47 @@
 <template>
     <div>
-        <cafe-qn-a-register @submit="onSubmit"/>
+        <CafeQnARegister @submit="onSubmit" :qnaList="qnaList"/>
+        <CafeQnAComment :qnaList="qnaList" @submit="sumbitMsg"/>
+        <CafeQnAList :qnaLists="qnaLists" :cafeBoards="cafeBoards"/>
     </div>
 </template>
 
 <script>
 import CafeQnARegister from '@/components/MyPageComponents/CafeMypageComponents/CafeQnARegister.vue'
 import axios from 'axios'
+import { mapActions, mapState } from 'vuex'
+import CafeQnAComment from '@/components/MyPageComponents/CafeMypageComponents/CafeQnAComment.vue'
+import CafeQnAList from '@/components/MyPageComponents/CafeMypageComponents/CafeQnAList.vue'
 
 export default {
     name:'CafeQnAPage',
-    components: { CafeQnARegister },
+    components: { 
+        CafeQnARegister, 
+        CafeQnAComment,
+        CafeQnAList 
+    },
     data() {
         return{
 
         }
     },
+    computed: {
+        ...mapState(['qnaList', 'qnaLists'])
+    },
+    mounted() {
+        this.fetchQnAList(1)
+        this.fetchQnALists(1)
+    },
     methods: {
+        ...mapActions(['fetchQnAList','fetchQnALists']),
         onSubmit(payload) {
-            const {received_no,content, files1} = payload
+            const {registerNo,content,findQna, files1} = payload
 
             let formData = new FormData()
 
             let fileInfo = {
-                received_no : received_no,
+                received_no : registerNo,
+                type : findQna,
                 content : content
             }
 
@@ -46,7 +64,31 @@ export default {
                     .catch(() => {
                         alert("문의사항 등록에 실패하였습니다.")
                     })
-        }
+        },
+        sumbitMsg(payload) {
+            const {qnaNo, chatting} = payload
+
+            let formData = new FormData()
+
+            let fileInfo = {
+                qnaNo : qnaNo,
+                chatting : chatting
+            }
+
+            formData.append(
+                "info", new Blob([JSON.stringify(fileInfo)], {type:"application/json"})
+            );
+
+            let membNo = 1;
+            axios.post(`http://localhost:7777/qnaComment/register/${membNo}`, formData)
+                    .then(() => {
+                        this.$router.go()
+                    })
+                    .catch(() => {
+                        alert("문의사항 등록에 실패하였습니다.")
+                    })
+        },
+        
     }
 }
 </script>
