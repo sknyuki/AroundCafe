@@ -44,11 +44,11 @@ export default {
             }
     },
     props:{
-        menuLists:{
+        menuLists: {
             type: Array,
             required: true
         },
-        cafeNo: {
+        cafeNo:{
             type: String,
          },
 
