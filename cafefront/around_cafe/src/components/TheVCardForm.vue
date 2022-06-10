@@ -1,6 +1,6 @@
 <template>
         <div>
-            <h4>메뉴 일람</h4>
+            <!--<h4>메뉴 일람</h4>
             <v-card class="pa-3" flat>
             <v-row>
               <v-col v-for="menuLists in menuLists" :key="menuLists.menu_no"
@@ -31,14 +31,14 @@
                 </div>
               </v-col>
             </v-row>
-          </v-card>
+          </v-card>-->
         </div>
     
 </template>
 
 <script>
 export default {
-    name:'TheVcardForm',
+   /* name:'TheVcardForm',
     data () {
             return {
             }
@@ -69,6 +69,6 @@ export default {
     
             )
 }
-        }
+        }*/
 }
 </script>
