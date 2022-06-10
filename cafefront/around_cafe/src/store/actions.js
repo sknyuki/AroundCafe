@@ -9,7 +9,8 @@ import{
     FETCH_REVIEW,
 
     FETCH_QNA_LIST,
-    FETCH_QNA_LISTS
+    FETCH_QNA_LISTS,
+    FETCH_QNA_DATE_LIST
 
 }from './mutation-types'
 
@@ -71,5 +72,13 @@ export default {
                 commit(FETCH_QNA_LISTS, res.data)
             })
     },
+
+    fetchQnADateList ({ commit },qnaNo) {
+        return axios.get(`http://localhost:7777/qnaComment/commentDate/${qnaNo}`)
+            .then((res) => {
+                commit(FETCH_QNA_DATE_LIST, res.data)
+            })
+    },
+
 
 }

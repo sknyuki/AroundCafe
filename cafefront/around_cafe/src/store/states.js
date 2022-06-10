@@ -8,5 +8,6 @@ export default {
     review:null,
 
     qnaList: [],
-    qnaLists:[]
+    qnaLists:[],
+    dateList:[]
 }
