@@ -8,6 +8,9 @@ import {
     FETCH_REVIEW_LIST,
     FETCH_REVIEW,
 
+    FETCH_QNA_LIST,
+    FETCH_QNA_LISTS
+
 
 } from './mutation-types'
 
@@ -35,6 +38,14 @@ export default {
 
     [FETCH_REVIEW] (state, review) {
         state.review = review
+    },
+
+    [FETCH_QNA_LIST] (state, qnaList) {
+        state.qnaList = qnaList
+    },
+
+    [FETCH_QNA_LISTS] (state, qnaLists) {
+        state.qnaLists = qnaLists
     },
     
 }

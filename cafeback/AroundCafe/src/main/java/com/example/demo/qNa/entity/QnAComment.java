@@ -6,13 +6,18 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.Date;
 
 @Getter
 @RequiredArgsConstructor
 @Entity
+@Table(name = "qna_comment")
 public class QnAComment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,8 +32,14 @@ public class QnAComment {
     @Column(length = 128, nullable = true)
     private String img;
 
-    @CreationTimestamp
-    private Date regDate;
+    @CreatedDate
+    @Column(length = 128, nullable = true)
+    private String regDate;
+
+    @PrePersist
+    public void onPrePersist(){
+        this.regDate = LocalDateTime.now().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM));
+    }
 
     @ManyToOne
     @JsonIgnore
@@ -36,10 +47,12 @@ public class QnAComment {
     private QnA qnA;
 
     @Builder
-    public QnAComment (Integer writer, String content, String img, QnA qnA){
+    public QnAComment (Long qna_comment_no, Integer writer, String content, String img, QnA qnA, String regDate){
+        this.qna_comment_no = qna_comment_no;
         this.writer = writer;
         this.content = content;
         this.img = img;
         this.qnA = qnA;
+        this.regDate = regDate;
     }
 }

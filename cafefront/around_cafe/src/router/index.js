@@ -32,7 +32,6 @@ import NotFoundPage from "@/views/NotFoundPage.vue"
 // import CafeModifyView from "../views/CafeMyPageViews/CafeModifyView.vue"
 import CafeMenuRegister from "../views/CafeMyPageViews/CafeMenuRegister.vue"
 import TestTest from "../views/CafeMyPageViews/TestTest.vue"
-import CafeImgManage from "../views/CafeMyPageViews/CafeImgManage.vue"
 import CafeReviewRegisterPage from "../views/Cafe/CafeReviewRegisterPage.vue"
 
 
@@ -133,6 +132,17 @@ const routes = [
     name: "CafeMenuRegister",
     component: CafeMenuRegister,
   },
+  {
+    path: "/CafeModifyView",
+    name: "CafeModifyView",
+    component: () => import("@/views/CafeMyPageViews/CafeModifyView"),
+  },
+
+  {
+    path: "/cafeQnAPage",
+    name: "CafeQnAPage",
+    component: () => import("@/views/CafeMyPageViews/CafeQnAPage"),
+  },
 
   {
     path: "/test",
@@ -140,16 +150,6 @@ const routes = [
     component: TestTest,
   },
   
-  {
-    path: "/cafeMypage/cafeImgManage/:cafeNo",
-    name: "CafeImgManage",
-    components: {
-      default :CafeImgManage
-    },
-    props : {
-      default: true
-    }
-  },
 
   {
     path: "/cafe/review/register",
