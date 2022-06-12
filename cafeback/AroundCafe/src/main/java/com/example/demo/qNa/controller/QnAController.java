@@ -1,6 +1,8 @@
 package com.example.demo.qNa.controller;
 
 import com.example.demo.qNa.dto.QnADto;
+import com.example.demo.qNa.entity.QnA;
+import com.example.demo.qNa.entity.QnAComment;
 import com.example.demo.qNa.service.QnAService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,10 +10,10 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @RestController
@@ -51,5 +53,19 @@ public class QnAController {
         }
 
         return "문의글이 등록되었습니다!";
+    }
+
+    @GetMapping("/memberRead/{qnaNo}")
+    public List<QnAComment> readListPage(@PathVariable("qnaNo") Integer qnaNo) {
+        log.info("qna read list");
+
+        return service.readQnA(qnaNo);
+    }
+
+    @GetMapping("/memberList/{membNo}")
+    public List<QnA> memberListPage(@PathVariable("membNo") Integer membNo) {
+        log.info("MEMBER QNA list");
+
+        return service.QnAList(membNo);
     }
 }

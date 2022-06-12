@@ -1,19 +1,19 @@
 <template>
     <v-container>
       <!-- <cafe-site-component :cafeBoard='cafeBoard'/>--> 
-        <the-v-card-form :menuList='menuList'/>
+        <!--<the-v-card-form :menuList='menuList'/>-->
     </v-container>
 </template>
 <script>
 //import CafeSiteComponent from '@/components/CafeSite/CafeSiteComponent.vue'
-import TheVCardForm from'@/components/TheVCardForm.vue'
+//import TheVCardForm from'@/components/TheVCardForm.vue'
 /* register작업 완료 후 store 열어준 후 열어주세요
 import axios from 'axios'
 import { mapState } from 'vuex'*/
 export default {
     name:'CafeSiteList',
     //components: { CafeSiteComponent },
-    components: { TheVCardForm },
+    //components: { TheVCardForm },
      props:{
         cafeNo: {
             type: String,
@@ -24,9 +24,9 @@ export default {
      
     }
 },
-/*
+
 computed:{
-            ...mapState(['cafeBoard'],['menuLists'])
+      /*      ...mapState(['cafeBoard'],['menuLists'])
         },
         mounted() {
             this.fetchcafeBoard(),
@@ -72,8 +72,8 @@ computed:{
                         .catch(() => {
                             alert('수정 실패!')
                         })
-            }
-        }*/
+            }*/
+        }
     }
 }
 </script>

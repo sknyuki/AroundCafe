@@ -6,4 +6,8 @@ export default {
 
     reviews:[],
     review:null,
+
+    qnaList: [],
+    qnaLists:[],
+    dateList:[]
 }

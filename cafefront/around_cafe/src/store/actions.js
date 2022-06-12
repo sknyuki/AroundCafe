@@ -8,13 +8,17 @@ import{
     FETCH_REVIEW_LIST,
     FETCH_REVIEW,
 
+    FETCH_QNA_LIST,
+    FETCH_QNA_LISTS,
+    FETCH_QNA_DATE_LIST
+
 }from './mutation-types'
 
 import axios from 'axios'
 
 export default {
   fetchcafeBoardList ({ commit }) {
-        return axios.get('http://localhost:7777/Cafe/list')
+        return axios.get('http://localhost:7777/cafe/list')
             .then((res) => {
                 commit(FETCH_CAFE_BOARD_LIST, res.data)
                //console.log(res)
@@ -54,4 +58,27 @@ export default {
                 commit(FETCH_REVIEW, res.data)
             })
     },
+
+    fetchQnAList ({ commit },qnaNo) {
+        return axios.get(`http://localhost:7777/qna/memberRead/${qnaNo}`)
+            .then((res) => {
+                commit(FETCH_QNA_LIST, res.data)
+            })
+    },
+
+    fetchQnALists ({ commit },membNo) {
+        return axios.get(`http://localhost:7777/qna/memberList/${membNo}`)
+            .then((res) => {
+                commit(FETCH_QNA_LISTS, res.data)
+            })
+    },
+
+    fetchQnADateList ({ commit },qnaNo) {
+        return axios.get(`http://localhost:7777/qnaComment/commentDate/${qnaNo}`)
+            .then((res) => {
+                commit(FETCH_QNA_DATE_LIST, res.data)
+            })
+    },
+
+
 }

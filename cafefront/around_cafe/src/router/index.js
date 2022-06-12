@@ -32,7 +32,6 @@ import NotFoundPage from "@/views/NotFoundPage.vue"
 // import CafeModifyView from "../views/CafeMyPageViews/CafeModifyView.vue"
 import CafeMenuRegister from "../views/CafeMyPageViews/CafeMenuRegister.vue"
 import TestTest from "../views/CafeMyPageViews/TestTest.vue"
-import CafeImgManage from "../views/CafeMyPageViews/CafeImgManage.vue"
 import CafeReviewRegisterPage from "../views/Cafe/CafeReviewRegisterPage.vue"
 
 
@@ -127,29 +126,35 @@ const routes = [
     component: () => import("@/views/User/UserPasswordPage"),
   },
 
-
+//인지연이 만든 페이지 ~ test
   {
     path: "/cafeMenuRegister",
     name: "CafeMenuRegister",
     component: CafeMenuRegister,
   },
+  {
+    path: "/CafeModifyView",
+    name: "CafeModifyView",
+    component: () => import("@/views/CafeMyPageViews/CafeModifyView"),
+  },
 
+  {
+    path: "/cafeQnAPage",
+    name: "CafeQnAPage",
+    component: () => import("@/views/CafeMyPageViews/CafeQnAPage"),
+  },
+
+  {
+    path: "/cafeListPage",
+    name: "CafeListPage_manager",
+    component: () => import("@/views/CafeMyPageViews/CafeListPage_manager"),
+  },
   {
     path: "/test",
     name: "TestTest",
     component: TestTest,
   },
   
-  {
-    path: "/cafeMypage/cafeImgManage/:cafeNo",
-    name: "CafeImgManage",
-    components: {
-      default :CafeImgManage
-    },
-    props : {
-      default: true
-    }
-  },
 
   {
     path: "/cafe/review/register",
