@@ -111,7 +111,7 @@ public class AuthController {
             Member member = memberRepository.findByMemId(memId)
                     .orElseThrow(()-> new UsernameNotFoundException("No User"));
             String socialType = member.getSocialType().getName();
-            return ResponseEntity.ok().body("E-mail: " + memId + " is already signed by "  + socialType + ". please login by " + socialType);
+            return ResponseEntity.status(HttpStatus.IM_USED).body("E-mail: " + memId + " is already signed by "  + socialType + ". please login by " + socialType);
         }
     }
 

@@ -1,4 +1,5 @@
 from oauth.OAuthController import oauthBp
+from apis.mail.MailController import mailBp
 from flask_cors import CORS, cross_origin
 from flask import Flask, url_for, request, jsonify, redirect, Response, Blueprint
 #import sys
@@ -11,6 +12,7 @@ app = Flask(__name__)
 
 # Oauth Api import
 app.register_blueprint(oauthBp, url_prefix='/oauth')
+app.register_blueprint(mailBp, url_prefix='/mail')
 
 # CORS 설정
 CORS(app)

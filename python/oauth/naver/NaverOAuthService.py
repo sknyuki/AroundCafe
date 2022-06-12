@@ -1,6 +1,4 @@
-from cmath import e
-from email import header
-from flask import redirect, jsonify
+from flask import redirect
 import requests
 import json
 

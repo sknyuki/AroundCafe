@@ -1,6 +1,4 @@
-from cmath import e
-from email import header
-from flask import redirect, jsonify
+from flask import redirect
 import requests
 import json
 
@@ -54,7 +52,11 @@ class KakaoOauthService:
     def post2MainServer(self, userinfo):
         socialNo = userinfo.get('id')
         email = userinfo.get('kakao_account').get('email')
-        birthday = userinfo.get('kakao_account').get('birthday')
+
+        birthdayInit = userinfo.get('kakao_account').get('birthday')
+        birthdaySplit = list(birthdayInit).insert(2, '-')
+        birthday = ''.join(birthdaySplit)
+
         imageUrl = userinfo.get('kakao_account').get(
             'profile').get('profile_image_url')
         headers = {

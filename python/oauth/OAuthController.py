@@ -34,8 +34,3 @@ def getAuthfromServer(name):
         userinfo = NaverOAuthService().getUserInfo(access_token)
         token = NaverOAuthService().post2MainServer(userinfo)
         return jsonify(token)
-
-
-@oauthBp.route('/', methods=['GET'])
-def hello():
-    return "hello"
