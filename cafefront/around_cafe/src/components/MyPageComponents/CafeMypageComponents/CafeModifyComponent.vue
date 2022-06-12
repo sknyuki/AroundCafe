@@ -99,15 +99,7 @@
     </v-row>
   </v-sheet>
 
-  <div>
-      <v-btn>
-          <router-link :to="{name: 'CafeImgManage',
-                params: { cafeNo: this.cafeBoard.cafeNo}} ">
-              이미지 관리
-          </router-link>
-      </v-btn>
-  </div>
-
+  
   <div v-for="item,idx in cafeImgLists" :key="idx">
       <img v-bind:src="require(`@/assets/cafe/cafeMypage/${item.cafe_img}`)" width="200px;">      
   </div>

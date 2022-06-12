@@ -33,6 +33,7 @@ import NotFoundPage from "@/views/NotFoundPage.vue"
 import CafeMenuRegister from "../views/CafeMyPageViews/CafeMenuRegister.vue"
 import TestTest from "../views/CafeMyPageViews/TestTest.vue"
 import CafeReviewRegisterPage from "../views/Cafe/CafeReviewRegisterPage.vue"
+import CafeQnAPage from "../views/CafeMyPageViews/CafeQnAPage"
 
 
 Vue.use(VueRouter)
@@ -141,7 +142,12 @@ const routes = [
   {
     path: "/cafeQnAPage",
     name: "CafeQnAPage",
-    component: () => import("@/views/CafeMyPageViews/CafeQnAPage"),
+    components: {
+      default :CafeQnAPage
+    },
+    props : {
+      default: true
+    }
   },
 
   {

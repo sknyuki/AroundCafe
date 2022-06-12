@@ -1,8 +1,9 @@
 <template>
     <div>
         <CafeQnARegister @submit="onSubmit" :qnaList="qnaList"/>
-        <CafeQnAComment :qnaList="qnaList" @submit="sumbitMsg" :dateList="dateList"/>
-        <CafeQnAList :qnaLists="qnaLists" />
+        <CafeQnAList :qnaLists="qnaLists" @submit="sendQnaNo"  class="left_menu"/>
+        <CafeQnAComment :qnaList="qnaList" @submit="sumbitMsg" class="right_content"/>
+        
     </div>
 </template>
 
@@ -22,19 +23,20 @@ export default {
     },
     data() {
         return{
-
+            existingQnaNo:1,
+            checkQnaNo:'',
+            
         }
     },
     computed: {
-        ...mapState(['qnaList', 'qnaLists','dateList'])
+        ...mapState(['qnaList', 'qnaLists'])
     },
     mounted() {
-        this.fetchQnAList(1)
+        this.fetchQnAList(this.checkQnaNo)
         this.fetchQnALists(1)
-        this.fetchQnADateList(1)
     },
     methods: {
-        ...mapActions(['fetchQnAList','fetchQnALists','fetchQnADateList']),
+        ...mapActions(['fetchQnAList','fetchQnALists']),
         onSubmit(payload) {
             const {registerNo,content,findQna, files1} = payload
 
@@ -56,7 +58,7 @@ export default {
                 }
             }
 
-            let membNo = 1;
+            let membNo = 1; //문의사항 등록은 1번 멤버가 계속쓰기 때문에 이건 일단 그대로 둔다.
             axios.post(`http://localhost:7777/qna/register/${membNo}`, formData)
                     .then(res => {
                         alert(res.data)
@@ -83,17 +85,29 @@ export default {
             let membNo = 1;
             axios.post(`http://localhost:7777/qnaComment/register/${membNo}`, formData)
                     .then(() => {
-                        this.$router.go()
+                        alert("등록 성공")
                     })
                     .catch(() => {
                         alert("문의사항 등록에 실패하였습니다.")
                     })
         },
-        
+        sendQnaNo(payload){
+            this.checkQnaNo = payload
+            this.fetchQnAList(this.checkQnaNo)
+        }
     }
 }
 </script>
 
-<style lang="">
-    
+<style scoped>
+.left_menu {
+    width: 500px;
+    height: 500px;
+    padding: 3%;
+}
+
+.right_content {
+    margin: 5% 0 0 25%;
+}
+
 </style>
