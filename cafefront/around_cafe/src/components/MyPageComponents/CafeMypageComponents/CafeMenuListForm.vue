@@ -1,23 +1,7 @@
 <template>
     <div>
-        <div v-for="item in menuLists" :key="item.menu_no">
-            <v-container>
-                <v-row>
-                    <v-col class="col-12 col-sm-2">
-                        <img v-if ="item.menu_img == null" v-bind:src="require(`@/assets/cafe/cafeMenu/imgNull.png`)" width="200px;">      
-                        <img v-if ="item.menu_img != null" v-bind:src="require(`@/assets/cafe/cafeMenu/${item.menu_img}`)" width="200px;"><br>
-                        {{item.menu_name}} <br> 
-                        {{item.menu_price}}<br>
-                    </v-col>
-                    <v-col class="col-12 col-sm-10" style="padding: 0 0 0 3%;">
-                        {{item.menu_content}}
-                    </v-col>
-                </v-row>
-            </v-container>
-            <br><br>
-        </div>
         
-        <br>
+        <!-- <br>
         <div>
             <h4>등록한 메뉴 확인</h4>
             <v-card>
@@ -37,10 +21,10 @@
                         <v-img v-if ="item.menu_img != null" v-bind:src="require(`@/assets/cafe/cafeMenu/${item.menu_img}`)" />
                     </template>
 
-                    <!-- <template v-slot:[`item.reviewFile`]="{ item }" >
+                    <template v-slot:[`item.reviewFile`]="{ item }" >
                         <img v-if="item.reviewFile != null" v-bind:src="require(`@/assets/review/${item.reviewFile}`)" height="230px"/>
                         <img v-if="item.reviewFile == null" v-bind:src="require(`@/assets/review/nullImg.png`)" height="230px"/>
-                    </template>    -->
+                    </template>   
                     
                     <template v-slot:[`item.actions`] ="{ item }" >
                     <v-icon
@@ -189,12 +173,30 @@
         <div>
             <v-img src="https://picsum.photos/id/11/500/300" />
 
+        </div> -->
+
+        <v-text-field label="메뉴 이름 검색" v-model="modi_name"/>
+        <div v-for="item in filterMenuLists" :key="item.menu_no">
+            <v-container>
+                <v-row>
+                    <v-col class="col-12 col-sm-2">
+                        <img v-if ="item.menu_img == null" v-bind:src="require(`@/assets/cafe/cafeMenu/imgNull.png`)" width="200px;">      
+                        <img v-if ="item.menu_img != null" v-bind:src="require(`@/assets/cafe/cafeMenu/${item.menu_img}`)" width="200px;"><br>
+                        {{item.menu_name}} <br> 
+                        {{item.menu_price}}<br>
+                    </v-col>
+                    <v-col class="col-12 col-sm-10" style="padding: 0 0 0 3%;">
+                        {{item.menu_content}}
+                    </v-col>
+                </v-row>
+            </v-container>
+            <br><br>
         </div>
     </div>
 </template>
 
 <script>
-import axios from 'axios'
+//import axios from 'axios'
     export default {
         name: 'CafeMenuListForm',
         data () {
@@ -225,7 +227,8 @@ import axios from 'axios'
                 soldOutNo:'',
                 signatureNo:'',
                 deleteSigNo:'',
-                deleteSoldNo:''
+                deleteSoldNo:'',
+                modi_name:''
 
             }
         },
@@ -235,104 +238,116 @@ import axios from 'axios'
                 required: true
             }
         },
-        methods: {
-            editItem(item){
-                this.dialog = true, 
-                this.modifyNo = item.menu_no
-                this.modify_name = item.menu_name
-                this.modify_price = item.menu_price
-                this.modify_content = item.menu_content
-            },
-            deleteItem(item){
-                this.deleteDialog = true
-                this.deleteNo = item.menu_no
-            },
-            handleFileUpload2() {
-                this.files2 = this.$refs.files2.files
-            },
-            modifySubmit() {
-                const {modifyNo, modify_name, modify_price, modify_content, files2} = this
-                this.$emit('submit',{modifyNo, modify_name, modify_price, modify_content, files2} )
-            },
-            deleteReview() {
+        computed: {
+        filterMenuLists() {
+            if(this.modi_name) {
+                return this.menuLists.filter((item) => {
+                return this.modi_name.toLowerCase().split(' ').every(v => item.menu_name.toLowerCase().includes(v));
+            })
+            }else{
+                return this.menuLists;
+            }
+            
+        },
+        //methods: {
+            // editItem(item){
+            //     this.dialog = true, 
+            //     this.modifyNo = item.menu_no
+            //     this.modify_name = item.menu_name
+            //     this.modify_price = item.menu_price
+            //     this.modify_content = item.menu_content
+            // },
+            // deleteItem(item){
+            //     this.deleteDialog = true
+            //     this.deleteNo = item.menu_no
+            // },
+            // handleFileUpload2() {
+            //     this.files2 = this.$refs.files2.files
+            // },
+            // modifySubmit() {
+            //     const {modifyNo, modify_name, modify_price, modify_content, files2} = this
+            //     this.$emit('submit',{modifyNo, modify_name, modify_price, modify_content, files2} )
+            // },
+            // deleteReview() {
                 
-                this.menuNo = this.deleteNo
+            //     this.menuNo = this.deleteNo
 
-                axios.delete(`http://localhost:7777/menu/delete/${this.menuNo}` )
-                        .then(() => {
-                            alert('삭제가 완료되었습니다!')
-                            this.$router.go()
-                        })
-                        .catch(() => {
-                            alert('삭제실패!')
-                        })
-            },
-            checkSignature(item){
-                this.signatureDialog = true
-                this.signatureNo = item.menu_no
-            },
-            changeSignature(){
-                this.menuNo = this.signatureNo
+            //     axios.delete(`http://localhost:7777/menu/delete/${this.menuNo}` )
+            //             .then(() => {
+            //                 alert('삭제가 완료되었습니다!')
+            //                 this.$router.go()
+            //             })
+            //             .catch(() => {
+            //                 alert('삭제실패!')
+            //             })
+            // },
+            // checkSignature(item){
+            //     this.signatureDialog = true
+            //     this.signatureNo = item.menu_no
+            // },
+            // changeSignature(){
+            //     this.menuNo = this.signatureNo
 
-                axios.post(`http://localhost:7777/menu/changeSignature/${this.menuNo}`)
-                        .then((res) => {
-                            alert(res.data)
-                            this.$router.go()
-                        })
-                        .catch(() => {
-                            alert('등록실패!')
-                        })
-            },
-            deleteSignature(item) {
-                this.deleteSigDialog = true
-                this.deleteSigNo = item.menu_no
-            },
-            deleteSig() {
-                this.menuNo = this.deleteSigNo
+            //     axios.post(`http://localhost:7777/menu/changeSignature/${this.menuNo}`)
+            //             .then((res) => {
+            //                 alert(res.data)
+            //                 this.$router.go()
+            //             })
+            //             .catch(() => {
+            //                 alert('등록실패!')
+            //             })
+            // },
+            // deleteSignature(item) {
+            //     this.deleteSigDialog = true
+            //     this.deleteSigNo = item.menu_no
+            // },
+            // deleteSig() {
+            //     this.menuNo = this.deleteSigNo
 
-                axios.post(`http://localhost:7777/menu/delSignature/${this.menuNo}`)
-                        .then((res) => {
-                            alert(res.data)
-                            this.$router.go()
-                        })
-                        .catch(() => {
-                            alert('삭제 실패!')
-                        })
-            },
-            checkSoldOut(item){
-                this.soldOutDialog = true
-                this.soldOutNo = item.menu_no
+            //     axios.post(`http://localhost:7777/menu/delSignature/${this.menuNo}`)
+            //             .then((res) => {
+            //                 alert(res.data)
+            //                 this.$router.go()
+            //             })
+            //             .catch(() => {
+            //                 alert('삭제 실패!')
+            //             })
+            // },
+            // checkSoldOut(item){
+            //     this.soldOutDialog = true
+            //     this.soldOutNo = item.menu_no
 
-            },
-            changeSoldOut() {
-                this.menuNo = this.soldOutNo
+            // },
+            // changeSoldOut() {
+            //     this.menuNo = this.soldOutNo
 
-                axios.post(`http://localhost:7777/menu/changeSoldOut/${this.menuNo}`)
-                        .then((res) => {
-                            alert(res.data)
-                            this.$router.go()
-                        })
-                        .catch(() => {
-                            alert('삭제 실패!')
-                        })
-            },
-            deleteSoldOut(item) {
-                this.deleteSolDialog = true
-                this.deleteSoldNo = item.menu_no
-            },
-            deleteSold() {
-                this.menuNo = this.deleteSoldNo
+            //     axios.post(`http://localhost:7777/menu/changeSoldOut/${this.menuNo}`)
+            //             .then((res) => {
+            //                 alert(res.data)
+            //                 this.$router.go()
+            //             })
+            //             .catch(() => {
+            //                 alert('삭제 실패!')
+            //             })
+            // },
+            // deleteSoldOut(item) {
+            //     this.deleteSolDialog = true
+            //     this.deleteSoldNo = item.menu_no
+            // },
+            // deleteSold() {
+            //     this.menuNo = this.deleteSoldNo
 
-                axios.post(`http://localhost:7777/menu/delSoldOut/${this.menuNo}`)
-                        .then((res) => {
-                            alert(res.data)
-                            this.$router.go()
-                        })
-                        .catch(() => {
-                            alert('변경 실패!')
-                        })
-            },
-        }
+            //     axios.post(`http://localhost:7777/menu/delSoldOut/${this.menuNo}`)
+            //             .then((res) => {
+            //                 alert(res.data)
+            //                 this.$router.go()
+            //             })
+            //             .catch(() => {
+            //                 alert('변경 실패!')
+            //             })
+            // },
+        //}
+    }
     }
 </script>
 

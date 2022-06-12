@@ -1,6 +1,7 @@
 package com.example.demo.qNa.controller;
 
 import com.example.demo.qNa.dto.QnACommentDto;
+import com.example.demo.qNa.entity.QnAComment;
 import com.example.demo.qNa.service.QnACommentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,5 +58,12 @@ public class QnACommentController {
             }
         } catch (IOException e) {
         }
+    }
+
+    @GetMapping("/commentDate/{qnaNo}")
+    public List<String> CommentDateList(@PathVariable("qnaNo") Integer qnaNo) {
+        log.info("comment date list!!");
+
+        return service.dateList(qnaNo);
     }
 }
