@@ -35,27 +35,9 @@ public class QnACommentServiceImpl implements QnACommentService{
             QnA qnA = findQna.get();
 
 
-//        Optional<Member> findMember = memberRepository.findById(info.getMembNo());
-//        Member member = findMember.get();
-//        MemberRole findRole = member.getRole();
-//        MemberRoleType name = findRole.getName();
-//        String role = name.getValue();
-//
-//
-//        if(role.equals("USER")) {
-//            writer = 1;
-//            qnA.builder().serverCheck(true).notServerCheck(false).build();
-//
-//        }else if(role.equals("CAFE")){
-//            writer = 2;
-//            qnA.builder().serverCheck(false).notServerCheck(true).build();
-//        }else {
-//            writer = 0;
-//            qnA.builder().serverCheck(false).notServerCheck(true).build();
-//        }
-        int writer = 2;
+        Long writer = Long.valueOf(membNo);
 
-        if(writer == 1) {
+        if(writer == qnA.getMemberInfo().getMemNo()) {
             qnA.setServerCheck(true);
             qnA.setNotServerCheck(false);
             qnARepository.save(qnA);
@@ -71,35 +53,14 @@ public class QnACommentServiceImpl implements QnACommentService{
         log.info("qna is saved!!! server :" + qnA.getServerCheck() + "not server : " + qnA.getNotServerCheck());
 
 
+        QnAComment comment = QnAComment.builder()
+                .writer(writer)
+                .content(info.getChatting())
+                .qnA(qnA)
+                .build();
 
-        List<QnAComment> findImg = repository.findByImg(Math.toIntExact(info.getQnaNo()));
-        QnAComment comment1 = findImg.get(0);
-        log.info("here is comment img ::" + comment1.getImg());
-
-        if(comment1.getWriter() == null) {
-            QnAComment comment = QnAComment.builder()
-                    .qna_comment_no(comment1.getQna_comment_no())
-                    .writer(writer)
-                    .content(info.getChatting())
-                    .img(comment1.getImg())
-                    .qnA(qnA)
-                    .regTime(comment1.getRegTime())
-                    .regYear(comment1.getRegYear())
-                    .build();
-
-            repository.save(comment);
-        }else{
-            QnAComment comment = QnAComment.builder()
-                    .writer(writer)
-                    .content(info.getChatting())
-                    .qnA(qnA)
-                    .regTime(comment1.getRegTime())
-                    .regYear(comment1.getRegYear())
-                    .build();
-
-            repository.save(comment);
-            log.info("save is success");
-        }
+        repository.save(comment);
+        log.info("save is success");
     }
 
 
@@ -109,6 +70,7 @@ public class QnACommentServiceImpl implements QnACommentService{
         QnA qnA = findQna.get();
 
         QnAComment comment = QnAComment.builder()
+                .writer(qnA.getMemberInfo().getMemNo())
                 .img(fileName)
                 .qnA(qnA)
                 .build();
@@ -120,6 +82,8 @@ public class QnACommentServiceImpl implements QnACommentService{
     public List<String> dateList(Integer qnaNo) {
         return repository.findByDate(qnaNo);
     }
+
+
 
 
 }

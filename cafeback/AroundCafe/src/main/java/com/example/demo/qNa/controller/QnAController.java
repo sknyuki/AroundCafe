@@ -1,6 +1,7 @@
 package com.example.demo.qNa.controller;
 
 import com.example.demo.qNa.dto.QnADto;
+import com.example.demo.qNa.dto.QnAResponse;
 import com.example.demo.qNa.entity.QnA;
 import com.example.demo.qNa.entity.QnAComment;
 import com.example.demo.qNa.service.QnAService;
@@ -55,17 +56,24 @@ public class QnAController {
         return "문의글이 등록되었습니다!";
     }
 
-    @GetMapping("/memberRead/{qnaNo}")
-    public List<QnAComment> readListPage(@PathVariable("qnaNo") Integer qnaNo) {
-        log.info("qna read list");
+    @GetMapping("/memberRead/{checkQnaNo}")
+    public List<QnAComment> readListPage(@PathVariable("checkQnaNo") Integer checkQnaNo) {
+        log.info("qna comment read list");
 
-        return service.readQnA(qnaNo);
+        return service.readQnA(checkQnaNo);
     }
+
+//    @GetMapping("/memberList/{membNo}")
+//    public List<QnA> memberListPage(@PathVariable("membNo") Integer membNo) {
+//        log.info("MEMBER QNA list");
+//
+//        return service.QnAList(membNo);
+//    }
 
     @GetMapping("/memberList/{membNo}")
-    public List<QnA> memberListPage(@PathVariable("membNo") Integer membNo) {
-        log.info("MEMBER QNA list");
-
-        return service.QnAList(membNo);
+    public List<QnAResponse> readQnaComment(@PathVariable("membNo") Integer membNo) {
+        log.info("read recently qna list pls");
+        return service.responseQnAList(membNo);
     }
+
 }
