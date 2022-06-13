@@ -8,6 +8,13 @@
   background-color: $indigo !important;
 }
 
+.btn-outlined {
+  @extend %btn-base;
+  color: $indigo;
+  background-color: $white !important;
+  border: 2px solid $indigo;
+}
+
 .btn-red {
   @extend %btn-base;
   color: $white;

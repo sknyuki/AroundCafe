@@ -28,7 +28,7 @@
                   <div class="input-group">
                     <i class="icSearch" aria-hidden="true"></i>
                     <input
-                      class="form-input"
+                      class="form-input input-40"
                       type="text"
                       placeholder="카페 검색"
                     />
