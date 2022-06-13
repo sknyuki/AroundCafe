@@ -54,7 +54,6 @@ public class QnAServiceImpl implements QnAService {
                     .member(member)
                     .type(info.getType())
                     .received_name(cafe.getCafe_name())
-                    .serverCheck(true)
                     .received_img(member.getMemImg())
                     .build();
 
@@ -65,7 +64,6 @@ public class QnAServiceImpl implements QnAService {
                     .member(member)
                     .type(info.getType())
                     .received_name("관리자")
-                    .serverCheck(true)
                     .received_img(member.getMemImg())
                     .build();
         }
@@ -98,7 +96,6 @@ public class QnAServiceImpl implements QnAService {
                     .member(member)
                     .type(info.getType())
                     .received_name(cafe.getCafe_name())
-                    .serverCheck(true)
                     .received_img(member.getMemImg())
                     .build();
 
@@ -109,7 +106,6 @@ public class QnAServiceImpl implements QnAService {
                     .member(member)
                     .type(info.getType())
                     .received_name("관리자")
-                   .serverCheck(true)
                     .received_img(member.getMemImg())
                     .build();
         }

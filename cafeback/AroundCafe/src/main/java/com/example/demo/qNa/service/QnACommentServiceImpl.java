@@ -38,19 +38,14 @@ public class QnACommentServiceImpl implements QnACommentService{
         Long writer = Long.valueOf(membNo);
 
         if(writer == qnA.getMemberInfo().getMemNo()) {
-            qnA.setServerCheck(true);
-            qnA.setNotServerCheck(false);
             qnARepository.save(qnA);
 //            qnA= QnA.builder().serverCheck(true).notServerCheck(false).build();
 //            qnARepository.save(qnA);
         }else {
-            qnA.setServerCheck(false);
-            qnA.setNotServerCheck(true);
             qnARepository.save(qnA);
 //            qnA= QnA.builder().serverCheck(false).notServerCheck(true).build();
 //            qnARepository.save(qnA);
         }
-        log.info("qna is saved!!! server :" + qnA.getServerCheck() + "not server : " + qnA.getNotServerCheck());
 
 
         QnAComment comment = QnAComment.builder()

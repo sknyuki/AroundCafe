@@ -36,12 +36,6 @@ public class QnA {
     @Column(length = 32, nullable = true)
     private String received_name;
 
-    @Column(columnDefinition = "boolean default false")
-    private Boolean serverCheck = false;
-
-    @Column(columnDefinition = "boolean default false")
-    private Boolean notServerCheck = false;
-
     @CreatedDate
     @Column(length = 128, nullable = true)
     private String regDate;
@@ -63,13 +57,11 @@ public class QnA {
 
     @Builder
     public QnA (Long received_no, Member member, String type, String received_name,
-                Boolean serverCheck, Boolean notServerCheck, String received_img){
+                String received_img){
         this.received_no = received_no;
         memberInfo = member;
         this.type = type;
         this.received_name = received_name;
-        this.serverCheck = serverCheck;
-        this.notServerCheck = notServerCheck;
         this.received_img = received_img;
     }
 
