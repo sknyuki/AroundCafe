@@ -5,6 +5,7 @@
 @import "~@/assets/scss/components/header/gnb-icon";
 @import "~@/assets/scss/components/my-menu";
 @import "~@/assets/scss/components/my-sidebar";
+@import "~@/assets/scss/components/skeleton-box";
 
 @import "~@/assets/scss/components/gallery/cafe-gallery";
 @import "~@/assets/scss/components/gallery/cafe-recommendation";
@@ -17,6 +18,9 @@
 
 @import "~@/assets/scss/components/cafe/cafe-register";
 @import "~@/assets/scss/components/cafe/cafe-review";
+@import "~@/assets/scss/components/cafe/cafe-review-dialog";
+@import "~@/assets/scss/components/cafe/cafe-menu";
+@import "~@/assets/scss/components/cafe/cafe-menu-list";
 
 //Layouts
 @import "~@/assets/scss/layouts/FooterLayout";

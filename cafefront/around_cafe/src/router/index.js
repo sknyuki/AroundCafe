@@ -97,6 +97,11 @@ const routes = [
     name: "CafePasswordPage",
     component: () => import("@/views/Cafe/CafePasswordPage"),
   },
+    {
+    path: "/cafe/menu",
+    name: "CafeRegisterMenuPage",
+    component: () => import("@/views/Cafe/CafeRegisterMenuPage"),
+  },
 
   //CafeSite
   {
