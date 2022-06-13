@@ -1,0 +1,123 @@
+.menu-register {
+  &-group {
+    .v-btn {
+      margin: 24px 0;
+    }
+  }
+
+  &-file {
+    margin-bottom: 8px;
+    .header {
+      font-weight: 700;
+    }
+    .v-btn {
+      margin-top: 8px;
+    }
+  }
+
+  &-btn {
+    margin-top: 16px;
+    margin-bottom: 8px;
+    .v-btn {
+      &:nth-child(1) {
+        margin-bottom: 16px;
+      }
+    }
+  }
+
+  &-form {
+    overflow: hidden !important;
+    padding: 16px;
+  }
+
+  &-int {
+    textarea {
+      @include text-style(14, $primary);
+      width: 100%;
+      height: 40px;
+      min-height: 120px;
+      margin-top: 8px;
+      padding-top: 4px;
+      padding-left: 8px;
+      border: 1px solid $border;
+      border-radius: 8px;
+      color: $dark;
+      overflow: auto;
+      resize: none;
+      &:focus {
+        box-shadow: 0 0 0 3px rgba(63, 81, 181, 0.5);
+      }
+      &::placeholder {
+        color: $tertiary;
+      }
+    }
+  }
+
+  &-name,
+  &-price {
+    label {
+      font-weight: 700;
+    }
+  }
+
+  &-int {
+    &-header {
+      font-weight: 700;
+    }
+  }
+
+  @include responsive(T) {
+    &-group {
+      @include flexbox(between);
+      margin: 0 0 0 0;
+
+      .v-btn {
+        width: 160px;
+      }
+    }
+  }
+}
+
+::v-deep .v-dialog {
+  @include no-scrollbar;
+  overflow-y: auto;
+  overflow-x: hidden;
+  width: 500px !important;
+}
+
+.v-card {
+  padding: 16px;
+}
+
+.select-picture {
+  width: 100%;
+  height: 120px;
+  position: relative;
+  background-color: $border;
+  overflow: hidden;
+  border-radius: 4px;
+  margin-bottom: 16px;
+
+  img {
+    margin: 0px auto;
+    display: block;
+    width: 120px;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .delete-button {
+    @include inline-flexbox;
+    position: absolute;
+    top: 10px;
+    right: 8px;
+    width: 20px;
+    height: 20px;
+    font-size: 20px;
+    color: $secondary;
+    &:hover,
+    &:active {
+      opacity: 0.4;
+    }
+  }
+}
