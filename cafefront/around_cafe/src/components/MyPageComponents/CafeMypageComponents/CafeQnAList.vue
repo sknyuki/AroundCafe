@@ -1,30 +1,9 @@
 <template >
     <div>
-        <h4>등록한 문의사항 리스트</h4>
-        <!-- <v-card>
-        <v-card-title>
-        <v-text-field
-            v-model="search"
-            append-icon="mdi-magnify"
-            label="검색"
-            single-line
-            hide-details
-        ></v-text-field>
-        </v-card-title>
-        <v-data-table :headers="headerTitle1" :items="qnaLists" :search="search"  class="elevation-0">
-            <template v-slot:[`item.received_no`] = "{ item }" >
-                <router-link :to="{ name: 'CafeQnAPage',
-                                    params: { qnaNo: item.qna_no.toString() } }"
-                                    style="color:black; float:left;">
-                    {{item.received_no}}님의 주문서입니다. [{{item.comments.length}}] 
-                </router-link>
-            </template>
-        </v-data-table>
-        </v-card> -->
         <div v-if="!qnaLists || (Array.isArray(qnaLists) && qnaLists.length === 0)">
             <p>등록된 리스트가 없습니다.</p>
         </div>
-        <div v-else v-for="item in qnaLists" :key="item.qna_no">
+        <div v-else v-for="item in qnaLists" :key="item.qna_no" >
             <a @click="sendQnaNo(item)">
             <v-container style="padding: 3%;">
                 <v-row>
@@ -38,12 +17,17 @@
                     </v-col>
                 </v-row>
                  <v-row style="font-size:17px;">
-                     <v-col cols="12" sm="3" >
+                    <v-col cols="12" sm="1">
+                        <img v-if="item.received_img == null" v-bind:src="require(`@/assets/qna/noMemberImg.png`)" style="width :30px;"/>
+                        <img v-else v-bind:src="require(`@/assets/qna/${item.received_img}`)" style="width :200px;"/>
+
+                    </v-col>
+                     <v-col cols="12" sm="2" >
                         {{item.received_name}}
                     </v-col>
                 </v-row>
                 <v-row>
-                    <v-col cols="12" sm="3" v-if="item.writer == idNo">
+                    <v-col cols="12" sm="3" v-if="item.writer == item.received_no">
                         {{item.content}}
                     </v-col>
                     <v-col cols="12" sm="3" v-else>
@@ -60,10 +44,39 @@
             </a>
             <br>
         </div>
+    
+
+        <div>
+            <div v-if="!qnaList || (Array.isArray(qnaList) && qnaList.length === 0)">
+                <h4>채팅할 상대를 선택해주세요.</h4>
+            </div>
+            <div v-else>
+                <div  v-for="item in qnaList" :key="item.qna_no">
+                    <ul v-if="item.writer == membNo" >
+                        <li class="showBox" v-if="item.content != null" style="float: right;"> {{(item.regTime)}} 나 : {{item.content}} <br></li>
+                        <li class="showBox" v-if="item.img != null">
+                            <img v-bind:src="require(`@/assets/qna/${item.img}`)" style="width :200px; display: block;">
+                        </li>
+                    </ul><br>
+                    <ul v-if="item.writer != membNo" style="float: left;">
+                        <li class="showBoxOther">남 : {{item.content}} {{(item.regTime)}}</li>
+                        <li class="showBoxOther" v-if="item.img != null">
+                            <img v-bind:src="require(`@/assets/qna/${item.img}`)" style="width :200px; display: block;">
+                        </li>
+                    </ul><br>
+                </div>
+                <div>
+                    <textarea type="text" v-model="chatting" style="width: 500px; height: 100px"/>
+                    <v-icon @click="handleFileUpload()" id="files1" ref="files1" multiple>mdi-panorama-variant </v-icon>
+                    <v-icon @click="sumbitMsg()"> mdi-arrow-up-circle</v-icon>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
+import axios from 'axios'
 export default {
     name:'CafeQnAList',
     props: {
@@ -80,22 +93,204 @@ export default {
                 {text: '제목', vlaue: 'received_no', width: '200px' },
                 {text: 'date', value: 'regDate', width:'100px'}
             ],
-            cafeLists:[],
-            sendQna_no:'',
-            idNo:1
+            membNo:1,
+            qnaList:[],
+            chatting:'',
+            qnaNo:1,
+            checkQnaNo:1
             
         }
     },
     methods: {
         sendQnaNo(item){
-            this.sendQna_no = item.qna_no;
-            this.$emit('submit', parseInt(this.sendQna_no))
-            
-        }
+            let checkQnaNo = item.qna_no;
+            axios.get(`http://localhost:7777/qna/memberRead/${checkQnaNo}`)
+                    .then((res) => {
+                        console.log(res.data)
+                        this.qnaList = res.data
+                    })
+                    .catch(() => {
+                        alert("문의사항 등록에 실패하였습니다.")
+                    })
+        },
+        sumbitMsg(){
+
+            let formData = new FormData()
+
+            let fileInfo = {
+                qnaNo : this.checkQnaNo,
+                chatting : this.chatting
+            }
+
+            formData.append(
+                "info", new Blob([JSON.stringify(fileInfo)], {type:"application/json"})
+            );
+
+            let membNo = 1;
+            axios.post(`http://localhost:7777/qnaComment/register/${membNo}`, formData)
+                    .then(() => {
+                        axios.get(`http://localhost:7777/qna/memberRead/${this.checkQnaNo}`)
+                            .then(res => {
+                                this.qnaList = res.data
+                                console.log(res.data)
+                            })
+                            .catch(() => {
+                                alert('멤버 리드 읽기 실패')
+                            })
+                        })
+                    .catch(() => {
+                        alert("문의사항 등록에 실패하였습니다.")
+                    })
+        },
+        handleFileUpload() {
+            let vue = this
+            let elem = document.createElement('input')
+            // 이미지 파일 업로드 / 동시에 여러 파일 업로드
+            elem.id = 'image'
+            elem.type = 'file'
+            elem.accept = 'image/*'
+            elem.multiple = true
+            // 클릭
+            elem.click();
+            elem.onchange = function() {
+                let formData = new FormData()
+                for (let index = 0; index < this.files.length; index++) {
+                    formData.append('fileList', this.files[index])
+                }
+                let qnaNo = 1
+                axios.post(`http://localhost:7777/qnaComment/registerImg/${qnaNo}`, formData)
+                .then(response => {
+                    vue.response = response.data
+                    let checkQnaNo = 1;
+                    axios.get(`http://localhost:7777/qna/memberRead/${checkQnaNo}`)
+                            .then(res => {
+                                this.qnaList = res.data
+                                console.log(res.data)
+                            })
+                            .catch(() => {
+                                alert('멤버 리드 읽기 실패')
+                            })
+                }).catch(error => {
+                    vue.response = error.message
+                })
+            }
+        },
     }
 }
 </script>
 
 <style scoped>
+.tokk {
+    width: 400px;
+    height: 600px;
+    border: 1px solid black;
+}
+
+.inputSomething{
+    position: absolute;
+    clear:left;
+    width: 400px;
+    height: 50px;
+    bottom: 0px;
+    border: 1px solid black;
+}
+
+input{
+    width: 350px;
+}
+
+.virtualScroll {
+    background-color: rgb(66, 123, 228);
+    border: 1px solid;
+    padding: 5%;
+}
+
+
+.showBox {
+  background-color: #eef3fd;
+  border: #7689fd solid 1px;
+  border-radius: 5px;
+  color: #000000;
+  font-size: 12px;
+  font-weight: 500;
+  height: auto;
+  letter-spacing: -0.25px;
+  margin-top: 6.8px;
+  padding: 5px 11px;
+  position: relative;
+  width: fit-content;
+  z-index: 100;
+  max-height: 200;
+  max-width: 300;
+}
+
+.showBox::after {
+  border-color: #eef3fd transparent;
+  border-style: solid;
+  border-width: 0 6px 8px 6.5px;
+  content: '';
+  display: block;
+  left: 75px;
+  position: absolute;
+  top: -7px;
+  width: 0;
+  z-index: 1;
+}
+
+.showBox::before {
+  border-color: #7689fd transparent;
+  border-style: solid;
+  border-width: 0 6px 8px 6.5px;
+  content: '';
+  display: block;
+  left: 75px;
+  position: absolute;
+  top: -8px;
+  width: 0;
+  z-index: 0;
+}
+
+.showBoxOther {
+  background-color: #fcfcf4;
+  border: #fcfcf4 solid 1px;
+  border-radius: 5px;
+  color: #000000;
+  font-size: 12px;
+  font-weight: 500;
+  height: auto;
+  letter-spacing: -0.25px;
+  margin-top: 6.8px;
+  padding: 5px 11px;
+  position: relative;
+  width: fit-content;
+  z-index: 100;
+}
+
+.showBoxOther::after {
+  border-color: #fcfcf4 transparent;
+  border-style: solid;
+  border-width: 0 6px 8px 6.5px;
+  content: '';
+  display: block;
+  left: 75px;
+  position: absolute;
+  top: -7px;
+  width: 0;
+  z-index: 1;
+}
+
+.showBoxOther::before {
+  border-color: #fcfcf4 transparent;
+  border-style: solid;
+  border-width: 0 6px 8px 6.5px;
+  content: '';
+  display: block;
+  left: 75px;
+  position: absolute;
+  top: -8px;
+  width: 0;
+  z-index: 0;
+}
+
 
 </style>

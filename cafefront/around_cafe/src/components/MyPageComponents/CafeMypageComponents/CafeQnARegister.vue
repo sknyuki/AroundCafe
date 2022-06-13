@@ -50,12 +50,6 @@ export default {
             findQna:''
         }
     },
-    props: {
-        qnaList: {
-            type: Array,
-            required: true
-        }
-    },
     methods: {
         handleFileUpload() {
             this.files1 = this.$refs.files1.files

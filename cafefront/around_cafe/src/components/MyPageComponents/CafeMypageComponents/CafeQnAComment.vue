@@ -1,6 +1,34 @@
 <template>
-    <div>
-        <div>
+    <div >
+        <div v-if="!qnaList || (Array.isArray(qnaList) && qnaList.length === 0)">
+            <h4>채팅할 상대를 선택해주세요.</h4>
+        </div>
+        <div v-else>
+            <div  v-for="item in qnaList" :key="item.qna_no">
+                <ul v-if="item.writer == memberNo" >
+                    <li class="showBox" v-if="item.content != null" style="float: right;"> {{(item.regTime)}} 나 : {{item.content}} <br></li>
+                    <li class="showBox" v-if="item.img != null">
+                        <img v-bind:src="require(`@/assets/qna/${item.img}`)" style="width :200px; display: block;">
+                    </li>
+                </ul><br>
+                <ul v-if="item.writer != memberNo" style="float: left;">
+                    <li class="showBoxOther">남 : {{item.content}} {{(item.regTime)}}</li>
+                    <li class="showBoxOther" v-if="item.img != null">
+                        <img v-bind:src="require(`@/assets/qna/${item.img}`)" style="width :200px; display: block;">
+                    </li>
+                </ul><br>
+            </div>
+            <div>
+                <textarea type="text" v-model="chatting" style="width: 500px; height: 100px"/>
+                <v-icon @click="handleFileUpload()" id="files1" ref="files1" multiple>mdi-panorama-variant </v-icon>
+                <v-icon @click="sumbitMsg()"> mdi-arrow-up-circle</v-icon>
+            </div>
+        </div>
+        
+        
+        
+        
+        <!-- <div v-else>
             <v-card
                 class="mx-auto"
                 max-width="400"
@@ -15,6 +43,12 @@
                 <v-divider></v-divider>
                 <v-divider></v-divider>
                 <v-virtual-scroll
+                    :item-height="55"
+                    height="350"
+                    style="margin: 5%;">
+                    <v-list-item-title></v-list-item-title>
+                </v-virtual-scroll>
+                <v-virtual-scroll
                     :items="qnaList"
                     :item-height="55"
                     height="350"
@@ -22,9 +56,6 @@
                 >
                 
                     <template v-slot = "{ item }" >
-                        <!-- <div v-for="date,index in dateList" :key="index">  
-                             <v-list-item-content>{{date}}</v-list-item-content>   -->
-                            
                         <v-list-item-content v-if="item.writer == 1" >
                             <v-list-item-title class="showBox" v-if="item.content != null"> <p style="float: right;"> {{(item.regTime)}} 나 : {{item.content}}</p></v-list-item-title>
                             <v-list-item-title class="showBox" v-if="item.img != null">
@@ -37,7 +68,7 @@
                                 <img v-bind:src="require(`@/assets/qna/${item.img}`)" style="width :200px; display: block;">
                             </v-list-item-title>
                         </v-list-item-content>
-                        <!-- </div> -->
+                       
                     </template>
 
                 </v-virtual-scroll>
@@ -54,7 +85,7 @@
                 <v-spacer></v-spacer>  </v-card-title></v-card>
                 
             </v-card>
-        </div>
+        </div> -->
     
     </div>
 </template>
@@ -65,22 +96,15 @@ export default {
     data() {
         return {
             chatting:'',
-            files1: '',
-            img: '',
-            check:'',
-            search:'',
-            qnaNo:2
+            qnaNo:1,
+            memberNo:1
         }
     },
     props : {
         qnaList: {
             type: Array,
             required: true
-        },
-        // dateList: {
-        //     type: Array,
-        //     required: true
-        // }
+        }
     },
     methods: {
         handleFileUpload() {
@@ -98,10 +122,10 @@ export default {
                 for (let index = 0; index < this.files.length; index++) {
                     formData.append('fileList', this.files[index])
                 }
-                axios.post(`http://localhost:7777/qnaComment/registerImg/${this.qnaNo}`, formData)
+                let qnaNo = 1
+                axios.post(`http://localhost:7777/qnaComment/registerImg/${qnaNo}`, formData)
                 .then(response => {
                     vue.response = response.data
-                    this.$router.go()
                 }).catch(error => {
                     vue.response = error.message
                 })
@@ -109,7 +133,8 @@ export default {
         },
         sumbitMsg() {
             const { qnaNo, chatting } = this
-            this.$emit('submit',{ qnaNo, chatting})
+            this.$emit('input',{ qnaNo, chatting})
+            this.chatting = "";
         },
     }
 }
@@ -226,5 +251,6 @@ input{
   width: 0;
   z-index: 0;
 }
+
 
 </style>
