@@ -1,8 +1,8 @@
 <template>
     <div>
         <CafeQnARegister @submit="onSubmit" :qnaList="qnaList"/>
-        <CafeQnAComment :qnaList="qnaList" @submit="sumbitMsg"/>
-        <CafeQnAList :qnaLists="qnaLists" :cafeBoards="cafeBoards"/>
+        <CafeQnAComment :qnaList="qnaList" @submit="sumbitMsg" :dateList="dateList"/>
+        <CafeQnAList :qnaLists="qnaLists" />
     </div>
 </template>
 
@@ -26,14 +26,15 @@ export default {
         }
     },
     computed: {
-        ...mapState(['qnaList', 'qnaLists'])
+        ...mapState(['qnaList', 'qnaLists','dateList'])
     },
     mounted() {
         this.fetchQnAList(1)
         this.fetchQnALists(1)
+        this.fetchQnADateList(1)
     },
     methods: {
-        ...mapActions(['fetchQnAList','fetchQnALists']),
+        ...mapActions(['fetchQnAList','fetchQnALists','fetchQnADateList']),
         onSubmit(payload) {
             const {registerNo,content,findQna, files1} = payload
 

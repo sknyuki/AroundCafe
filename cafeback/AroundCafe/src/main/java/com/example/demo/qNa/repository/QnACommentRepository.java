@@ -19,4 +19,8 @@ public interface QnACommentRepository extends JpaRepository<QnAComment, Long> {
     @Transactional
     @Query(value = "select * from qna_comment where qna_no =:qnaNo order by qna_comment_no desc",nativeQuery = true)
     List<QnAComment> findByImg(@Param("qnaNo")Integer qnaNo);
+
+    @Transactional
+    @Query(value = "select distinct reg_year from qna_comment where qna_no =:qnaNo",nativeQuery = true)
+    List<String> findByDate(@Param("qnaNo") Integer qnaNo);
 }

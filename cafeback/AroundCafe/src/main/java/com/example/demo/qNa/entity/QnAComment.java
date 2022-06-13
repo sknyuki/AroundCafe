@@ -34,11 +34,16 @@ public class QnAComment {
 
     @CreatedDate
     @Column(length = 128, nullable = true)
-    private String regDate;
+    private String regTime;
+
+    @CreatedDate
+    @Column(length = 128, nullable = true)
+    private String regYear;
 
     @PrePersist
     public void onPrePersist(){
-        this.regDate = LocalDateTime.now().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM));
+        this.regTime = LocalDateTime.now().format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT));
+        this.regYear = LocalDateTime.now().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG));
     }
 
     @ManyToOne
@@ -47,12 +52,13 @@ public class QnAComment {
     private QnA qnA;
 
     @Builder
-    public QnAComment (Long qna_comment_no, Integer writer, String content, String img, QnA qnA, String regDate){
+    public QnAComment (Long qna_comment_no, Integer writer, String content, String img, QnA qnA, String regTime, String regYear){
         this.qna_comment_no = qna_comment_no;
         this.writer = writer;
         this.content = content;
         this.img = img;
         this.qnA = qnA;
-        this.regDate = regDate;
+        this.regTime = regTime;
+        this.regYear = regYear;
     }
 }

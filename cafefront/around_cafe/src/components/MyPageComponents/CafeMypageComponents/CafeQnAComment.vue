@@ -15,28 +15,33 @@
                         1:1 채팅을 통해 궁금한 것을 물어보세요!
                     </v-card-text>
                     <v-divider></v-divider>
-                    
+                    <v-divider></v-divider>
                     <v-virtual-scroll
                         :items="qnaList"
                         :item-height="55"
                         height="350"
                         style="margin: 5%;"
                     >
-                        <template v-slot="{ item }">
-                            <v-list-item-content v-if="item.writer == 1" style="float: right;">
-                                <v-list-item-title class="showBox"> <p style="float: right;">나 : {{item.content}}</p></v-list-item-title>
+                    
+                        <template v-slot = "{ item }" >
+                            <div v-for="date,index in dateList" :key="index">  
+                                <!-- <v-list-item-content>{{date}}</v-list-item-content>  -->
+                                <p>오늘 날짜</p>
+                            <v-list-item-content v-if="item.writer == 1 && date == item.regYear" >
+                                <v-list-item-title class="showBox"> <p style="float: right; width: 150px;"> {{(item.regTime)}} 나 : {{item.content}}</p></v-list-item-title>
                                 <v-list-item-title class="showBox" v-if="item.img != null">
                                     <img v-bind:src="require(`@/assets/qna/${item.img}`)" style="width :200px; display: block;">
                                 </v-list-item-title>
                             </v-list-item-content>
-                            <v-list-item-content v-else style="float: left;">
-                                <v-list-item-title class="showBoxOther">남 : {{item.content}}</v-list-item-title>
+                            <v-list-item-content v-if="item.writer != 1 && date == item.regYear" style="float: left;">
+                                <v-list-item-title class="showBoxOther">남 : {{item.content}} {{(item.regTime)}}</v-list-item-title>
                                 <v-list-item-title class="showBoxOther" v-if="item.img != null">
                                     <img v-bind:src="require(`@/assets/qna/${item.img}`)" style="width :200px; display: block;">
                                 </v-list-item-title>
                             </v-list-item-content>
+                            </div>
                         </template>
-                       
+
                     </v-virtual-scroll>
 
                      <v-card
@@ -45,9 +50,9 @@
                     max-height="400px"
                     >
                     <v-card-title>
-                        <input type="text" v-model="chatting" style="max-width:300px; max-height: 200px;"/>
+                        <textarea type="text" v-model="chatting"  />
                         <v-icon @click="handleFileUpload()" id="files1" ref="files1" multiple>mdi-panorama-variant </v-icon>
-                        <v-icon @click="sumbitMsg"> mdi-arrow-up-circle</v-icon>
+                        <v-icon @click="sumbitMsg()"> mdi-arrow-up-circle</v-icon>
                     <v-spacer></v-spacer>  </v-card-title></v-card>
                     
                 </v-card>
@@ -71,6 +76,10 @@ export default {
     },
     props : {
         qnaList: {
+            type: Array,
+            required: true
+        },
+        dateList: {
             type: Array,
             required: true
         }
@@ -152,6 +161,8 @@ input{
   position: relative;
   width: fit-content;
   z-index: 100;
+  max-height: 200;
+  max-width: 300;
 }
 
 .showBox::after {
