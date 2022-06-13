@@ -1,0 +1,40 @@
+%btn-base {
+  width: 100%;
+  border-radius: 8px;
+}
+.btn-indigo {
+  @extend %btn-base;
+  color: $white;
+  background-color: $indigo !important;
+}
+
+.btn-outlined {
+  @extend %btn-base;
+  color: $indigo;
+  background-color: $white !important;
+  border: 2px solid $indigo;
+}
+
+.btn-red {
+  @extend %btn-base;
+  color: $white;
+  background-color: $red !important;
+}
+
+.btn-32 {
+  @include text-style(14);
+
+  height: 32px !important;
+}
+.btn-40 {
+  @include text-style(16);
+  height: 40px !important;
+}
+.btn-48 {
+  @include text-style(16);
+  height: 48px !important;
+}
+.btn-56 {
+  @include text-style(18);
+  height: 56px !important;
+}
