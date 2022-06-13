@@ -55,7 +55,6 @@
               <div class="cafe-register-int-header">카페 소개</div>
               <textarea
                 v-model="comment"
-                style="border-radius: 4px"
                 class="form-control"
                 minlength="20"
                 maxlength="1000"

@@ -11,7 +11,8 @@
             <div class="login-form-id">
               <div class="account-input">
                 <input
-                  class="form-input"
+                  v-model="memId"
+                  class="form-input input-48"
                   type="email"
                   placeholder="이메일"
                   required
@@ -21,7 +22,8 @@
             <div class="login-form-pw">
               <div class="account-input">
                 <input
-                  class="form-input"
+                  v-model="memPw"
+                  class="form-input input-48"
                   type="password"
                   placeholder="비밀번호"
                   required
@@ -76,6 +78,12 @@
 <script>
 export default {
   name: "LoginForm",
+  data() {
+    return {
+      memId: "",
+      memPw: "",
+    }
+  },
 }
 </script>
 <style lang="scss" scoped>

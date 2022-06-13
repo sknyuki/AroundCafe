@@ -1,5 +1,12 @@
 .sign {
   padding: 40px 40px 0 40px;
+
+  .account-input .form-input {
+    margin-bottom: 8px;
+  }
+  &-validation {
+    @include text-style(14, $red);
+  }
   &-header {
     @include text-style(18);
     text-align: center;
@@ -27,6 +34,7 @@
     }
   }
   &-form {
+    margin-bottom: 24px;
     &-label {
       font-weight: 700;
     }
@@ -35,7 +43,7 @@
     }
     &-agr {
       &-content {
-        margin: 8px 0px 24px 0px;
+        margin: 8px 0px 12px 0px;
         border: 1px solid $border;
         padding: 0px 23px 6px 16px;
 

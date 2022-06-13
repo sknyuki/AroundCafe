@@ -48,7 +48,7 @@ export default {
           id: 2,
           icon: "mdi-coffee-outline",
           title: "메뉴 관리",
-          link: "/",
+          link: "/cafe/menu",
         },
         {
           id: 3,

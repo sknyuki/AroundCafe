@@ -14,15 +14,12 @@
         <a href="">
           <swiper class="swiper" :options="swiperOption">
             <swiper-slide
-              v-for="cafeItem in cafeItems.sub"
+              v-for="cafeItem in cafeItem.img"
               :key="cafeItem.id"
               class="cafe-gallery-image"
             >
               <picture>
-                <img
-                  :src="require(`@/assets/images/${cafeItem.image}`)"
-                  alt="카페이미지"
-                />
+                <img :src="cafeItem.image" alt="카페이미지" />
               </picture>
             </swiper-slide>
             <v-btn
