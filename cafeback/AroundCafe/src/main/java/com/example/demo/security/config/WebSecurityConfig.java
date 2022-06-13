@@ -1,7 +1,7 @@
 package com.example.demo.security.config;
 
 import com.example.demo.security.jwt.filter.JwtFilter;
-import com.example.demo.security.jwt.service.AuthEntryPointJwt;
+import com.example.demo.security.jwt.exceptions.AuthEntryPointJwt;
 import com.example.demo.security.service.CorsConfigurationSource;
 import com.example.demo.security.service.MemberDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;

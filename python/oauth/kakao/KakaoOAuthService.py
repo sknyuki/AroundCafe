@@ -55,6 +55,7 @@ class KakaoOauthService:
 
         birthdayInit = userinfo.get('kakao_account').get('birthday')
         birthdaySplit = list(birthdayInit).insert(2, '-')
+        birthdaySplit = list(birthdayInit).insert(0, '0000-')
         birthday = ''.join(birthdaySplit)
 
         imageUrl = userinfo.get('kakao_account').get(

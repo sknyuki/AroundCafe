@@ -105,18 +105,21 @@ public class JwtService {
     }
 
     //토큰 만료 시간
-    public Integer tokenExpTime(String token) {
+    public Long tokenExpDate(String token) {
         Jws<Claims> claims = Jwts.parserBuilder()
                 .setSigningKey(jwtSecret.getBytes(StandardCharsets.UTF_8))
                 .build()
                 .parseClaimsJws(token);
-        return (int)((claims.getBody().getExpiration().getTime() - System.currentTimeMillis())/1000);
+        return claims.getBody().getExpiration().getTime();
+    }
+
+    public Long tokenExpTime(String token) {
+        return tokenExpDate(token) - System.currentTimeMillis();
     }
 
     // 리프 레시 토큰 만료 시간 검증
     public boolean isTokenNeedReissue(String token, long minTimeToRefresh) {
-        long expiration = tokenExpTime(token);
-        return expiration < minTimeToRefresh;
+        return tokenExpDate(token) < System.currentTimeMillis() + minTimeToRefresh;
     }
 
 
