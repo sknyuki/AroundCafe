@@ -1,5 +1,6 @@
 package com.example.demo.qNa.controller;
 
+import com.example.demo.qNa.dto.QnACommentDto;
 import com.example.demo.qNa.dto.QnADto;
 import com.example.demo.qNa.dto.QnAResponse;
 import com.example.demo.qNa.entity.QnA;
@@ -74,6 +75,13 @@ public class QnAController {
     public List<QnAResponse> readQnaComment(@PathVariable("membNo") Integer membNo) {
         log.info("read recently qna list pls");
         return service.responseQnAList(membNo);
+    }
+
+    @DeleteMapping("/delete/{qnaNo}")
+    public void deleteQna(@PathVariable("qnaNo") Integer qnaNo) {
+        log.info("delete qna No :" + qnaNo);
+
+        service.deleteQna(qnaNo);
     }
 
 }
