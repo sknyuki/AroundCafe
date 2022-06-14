@@ -59,3 +59,7 @@ export function phoneNumber(phoneNumber) {
 export function pricePoint(pricePoint) {
   return pricePoint.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
 }
+
+export function ratingPoint(ratingPoint) {
+  return ratingPoint.toString().replace(/\B(?=(\d{1})+(?!\d))/g, ".")
+}

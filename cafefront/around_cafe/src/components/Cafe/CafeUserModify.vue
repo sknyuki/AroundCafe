@@ -6,7 +6,9 @@
         <div class="col-sm-4 col-md-3 col-lg-3">
           <CafeSidebar />
         </div>
-        <div class="col-sm-8 col-md-9 col-lg-9"></div>
+        <div class="col-sm-8 col-md-9 col-lg-9">
+          <AccountModifyInfo />
+        </div>
       </div>
     </div>
   </div>
@@ -14,11 +16,11 @@
 
 <script>
 import ImgBox from "@/components/ImgBox.vue"
-
 import CafeSidebar from "@/components/Cafe/CafeSidebar.vue"
+import AccountModifyInfo from "@/components/Account/AccountModifyInfo.vue"
 
 export default {
   name: "CafeEditMemberInfo",
-  components: { ImgBox, CafeSidebar },
+  components: { ImgBox, CafeSidebar, AccountModifyInfo },
 }
 </script>
