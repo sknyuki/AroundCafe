@@ -3,9 +3,10 @@
         <div v-if="!qnaLists || (Array.isArray(qnaLists) && qnaLists.length === 0)">
             <p>등록된 리스트가 없습니다.</p>
         </div>
-        <div v-else v-for="item in qnaLists" :key="item.qna_no" >
+        <div v-else v-for="item,index in qnaLists" :key="index">
             <a @click="sendQnaNo(item)">
-            <v-container style="padding: 3%;">
+            <v-container style="padding: 3%;" class="delect">
+                <v-btn class="show-btns" @click="deleteList(item)" x-small fab>삭제</v-btn>
                 <v-row>
                     <v-col cols="12" sm="3">
                         넘버 : {{item.qna_no}}
@@ -26,13 +27,17 @@
                         {{item.received_name}}
                     </v-col>
                 </v-row>
-                <v-row>
-                    <v-col cols="12" sm="3" v-if="item.writer == item.received_no">
-                        {{item.content}}
+                <v-row v-if="item.writer == item.received_no">
+                    <v-col cols="12" sm="3" >
+                        <input v-model="contentlist"/>
                     </v-col>
-                    <v-col cols="12" sm="3" v-else>
+                </v-row>
+                <v-row v-else>
+                    <v-col cols="12" sm="1" >
                         <v-icon style="color:red;">mdi-twitch</v-icon>
-                        {{item.content}}
+                    </v-col>
+                    <v-col cols="12" sm="1" >
+                        <input v-model="contentlist"/>
                     </v-col>
                 </v-row>
                 <v-row style="font-size:12px;">
@@ -51,16 +56,22 @@
                 <h4>채팅할 상대를 선택해주세요.</h4>
             </div>
             <div v-else>
-                <div  v-for="item in qnaList" :key="item.qna_no">
-                    <ul v-if="item.writer == membNo" >
-                        <li class="showBox" v-if="item.content != null" style="float: right;"> {{(item.regTime)}} 나 : {{item.content}} <br></li>
-                        <li class="showBox" v-if="item.img != null">
-                            <img v-bind:src="require(`@/assets/qna/${item.img}`)" style="width :200px; display: block;">
+                <div  v-for="item in qnaList" :key="item.qna_no" class="test">
+                    
+                    <ul v-if="item.writer != membNo" >
+                        <li>
+                            <img v-if="qnaLists[0].received_img == null" v-bind:src="require(`@/assets/qna/noMemberImg.png`)" style="width :30px;"/>
+                            <img v-else v-bind:src="require(`@/assets/qna/${qnaLists[0].received_img}`)" style="width :200px;"/>
                         </li>
-                    </ul><br>
-                    <ul v-if="item.writer != membNo" style="float: left;">
                         <li class="showBoxOther">남 : {{item.content}} {{(item.regTime)}}</li>
                         <li class="showBoxOther" v-if="item.img != null">
+                            <img v-bind:src="require(`@/assets/qna/${item.img}`)" style="width :200px; display: block;">
+                        </li>
+                    </ul>
+                    <br>
+                    <ul v-if="item.writer == membNo" >
+                        <li class="showBox" v-if="item.content != null"> {{(item.regTime)}} 나 : {{item.content}} <br></li>
+                        <li class="showBox" v-if="item.img != null">
                             <img v-bind:src="require(`@/assets/qna/${item.img}`)" style="width :200px; display: block;">
                         </li>
                     </ul><br>
@@ -96,15 +107,22 @@ export default {
             membNo:1,
             qnaList:[],
             chatting:'',
-            qnaNo:1,
-            checkQnaNo:1
-            
+            checkQnaNo:'',
+            hoveredColumn:null,
+            clickQnANo:'',
+            listContent:[],
+            contentlist:'메시지 보기'
         }
+    },
+    created(){
+        for(let i=0; i<this.qnaLists.length ; i ++) {
+                this.listContent[i] = this.qnaLists[i].content
+            }
     },
     methods: {
         sendQnaNo(item){
-            let checkQnaNo = item.qna_no;
-            axios.get(`http://localhost:7777/qna/memberRead/${checkQnaNo}`)
+            this.checkQnaNo = item.qna_no;
+            axios.get(`http://localhost:7777/qna/memberRead/${this.checkQnaNo}`)
                     .then((res) => {
                         console.log(res.data)
                         this.qnaList = res.data
@@ -114,6 +132,11 @@ export default {
                     })
         },
         sumbitMsg(){
+            if(this.checkQnaNo == membNo) {
+                this.contentlist= this.chatting
+            }else{
+                this.contentlist = this.chatting
+            }
 
             let formData = new FormData()
 
@@ -126,13 +149,14 @@ export default {
                 "info", new Blob([JSON.stringify(fileInfo)], {type:"application/json"})
             );
 
-            let membNo = 1;
+            let membNo = 2;
             axios.post(`http://localhost:7777/qnaComment/register/${membNo}`, formData)
                     .then(() => {
                         axios.get(`http://localhost:7777/qna/memberRead/${this.checkQnaNo}`)
                             .then(res => {
                                 this.qnaList = res.data
                                 console.log(res.data)
+                                this.chatting = '';
                             })
                             .catch(() => {
                                 alert('멤버 리드 읽기 실패')
@@ -143,6 +167,7 @@ export default {
                     })
         },
         handleFileUpload() {
+            //let qnaNo = this.checkQnaNo
             let vue = this
             let elem = document.createElement('input')
             // 이미지 파일 업로드 / 동시에 여러 파일 업로드
@@ -157,29 +182,45 @@ export default {
                 for (let index = 0; index < this.files.length; index++) {
                     formData.append('fileList', this.files[index])
                 }
-                let qnaNo = 1
-                axios.post(`http://localhost:7777/qnaComment/registerImg/${qnaNo}`, formData)
+                let qnaNo = 5;
+                axios.post(`http://localhost:7777/qnaComment/registersImg/${qnaNo}`, formData)
                 .then(response => {
                     vue.response = response.data
-                    let checkQnaNo = 1;
-                    axios.get(`http://localhost:7777/qna/memberRead/${checkQnaNo}`)
+                    alert('사진 전송 성공')
+                    axios.get(`http://localhost:7777/qna/memberRead/${this.checkQnaNo}`)
                             .then(res => {
                                 this.qnaList = res.data
                                 console.log(res.data)
+                                
                             })
                             .catch(() => {
                                 alert('멤버 리드 읽기 실패')
                             })
                 }).catch(error => {
                     vue.response = error.message
+                    alert('사진 전송 실패')
                 })
             }
         },
+        deleteList(item){
+            let qnaNo = item.qna_no;
+            var result = confirm('삭제 하시겠습니까?')
+            if(result) {
+            axios.delete(`http://localhost:7777/qna/delete/${qnaNo}`)
+                    .then(res => {
+                                console.log(res.data)
+                                this.$router.go()
+                            })
+                            .catch(() => {
+                                alert('리스트 삭제 실패')
+                            })
+            }
+        }
     }
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .tokk {
     width: 400px;
     height: 600px;
@@ -291,6 +332,26 @@ input{
   width: 0;
   z-index: 0;
 }
+.delect{
+position: relative;
+overflow: hidden;
+}
+.delect:hover::after{
+opacity: 1;
+}
+.show-btns{
+position: absolute;
+bottom:150%;
+z-index: 1;
+transition:all .1000s;
+position: absolute;
+left: 140px;
 
-
+}
+.delect:hover .show-btns{
+top:30px;
+}
+.test{
+    @include flexbox(between);
+}
 </style>
