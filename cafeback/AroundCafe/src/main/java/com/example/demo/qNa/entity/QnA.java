@@ -28,16 +28,13 @@ public class QnA {
     private Long received_no;
 
     @Column(length = 32, nullable = true)
+    private String received_img;
+
+    @Column(length = 32, nullable = true)
     private String type;
 
     @Column(length = 32, nullable = true)
-    private String cafe_name;
-
-    @Column(columnDefinition = "boolean default false")
-    private Boolean serverCheck = false;
-
-    @Column(columnDefinition = "boolean default false")
-    private Boolean notServerCheck = false;
+    private String received_name;
 
     @CreatedDate
     @Column(length = 128, nullable = true)
@@ -59,14 +56,13 @@ public class QnA {
     private Set<QnAComment> comments = new HashSet<>();
 
     @Builder
-    public QnA (Long received_no, Member member, String type, String cafe_name,
-                Boolean serverCheck, Boolean notServerCheck){
+    public QnA (Long received_no, Member member, String type, String received_name,
+                String received_img){
         this.received_no = received_no;
         memberInfo = member;
         this.type = type;
-        this.cafe_name = cafe_name;
-        this.serverCheck = serverCheck;
-        this.notServerCheck = notServerCheck;
+        this.received_name = received_name;
+        this.received_img = received_img;
     }
 
 }
