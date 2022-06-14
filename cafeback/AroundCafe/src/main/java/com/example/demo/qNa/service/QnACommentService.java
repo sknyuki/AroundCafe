@@ -12,6 +12,7 @@ public interface QnACommentService {
 
     List<String> dateList(Integer qnaNo);
 
+
 //    void saveQna(Integer membNo, QnACommentDto info);
 //
 //    void saveQnaComment(QnACommentDto info);

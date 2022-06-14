@@ -33,12 +33,11 @@ import NotFoundPage from "@/views/NotFoundPage.vue"
 import CafeMenuRegister from "../views/CafeMyPageViews/CafeMenuRegister.vue"
 import TestTest from "../views/CafeMyPageViews/TestTest.vue"
 import CafeReviewRegisterPage from "../views/Cafe/CafeReviewRegisterPage.vue"
-
+import CafeQnAPage from "../views/CafeMyPageViews/CafeQnAPage"
 
 Vue.use(VueRouter)
 
 const routes = [
-
   // Main 메인페이지
   {
     path: "/",
@@ -68,7 +67,7 @@ const routes = [
     component: () => import("@/views/Account/AccountPasswordPage.vue"),
   },
 
-  // Admin 관리자페이지 
+  // Admin 관리자페이지
   {
     path: "/admin/member",
     name: "AdminMemberListPage",
@@ -96,7 +95,7 @@ const routes = [
     name: "CafePasswordPage",
     component: () => import("@/views/Cafe/CafePasswordPage"),
   },
-    {
+  {
     path: "/cafe/menu",
     name: "CafeRegisterMenuPage",
     component: () => import("@/views/Cafe/CafeRegisterMenuPage"),
@@ -109,15 +108,12 @@ const routes = [
     component: () => import("@/views/CafeSiteViews/CafeSiteList"),
   },
 
-
-
   //Policy 이용약관페이지
   {
     path: "/policy",
     name: "PolicyPage",
     component: PolicyPage,
   },
-
 
   // User 회원 페이지
   {
@@ -130,8 +126,13 @@ const routes = [
     name: "UserPasswordPage",
     component: () => import("@/views/User/UserPasswordPage"),
   },
+  {
+    path: "/user/modify",
+    name: "UserModifyPage",
+    component: () => import("@/views/User/UserModifyPage"),
+  },
 
-//인지연이 만든 페이지 ~ test
+  //인지연이 만든 페이지 ~ test
   {
     path: "/cafeMenuRegister",
     name: "CafeMenuRegister",
@@ -146,7 +147,12 @@ const routes = [
   {
     path: "/cafeQnAPage",
     name: "CafeQnAPage",
-    component: () => import("@/views/CafeMyPageViews/CafeQnAPage"),
+    components: {
+      default :CafeQnAPage
+    },
+    props : {
+      default: true
+    }
   },
 
   {
@@ -159,26 +165,25 @@ const routes = [
     name: "TestTest",
     component: TestTest,
   },
-  
 
   {
     path: "/cafe/review/register",
     name: "CafeReviewRegisterPage",
     components: {
-      default :CafeReviewRegisterPage
+      default: CafeReviewRegisterPage,
     },
-    props : {
-      default: true
-    }
+    props: {
+      default: true,
+    },
   },
 
-  // 에러처리 페이지 
+  // 에러처리 페이지
   {
-    path: '*',
-    redirect: "/404"
+    path: "*",
+    redirect: "/404",
   },
   {
-    path: '/404',
+    path: "/404",
     component: NotFoundPage,
   },
 ]

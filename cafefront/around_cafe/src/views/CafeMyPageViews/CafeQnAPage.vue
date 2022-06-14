@@ -1,8 +1,8 @@
 <template>
     <div>
         <CafeQnARegister @submit="onSubmit" :qnaList="qnaList"/>
-        <CafeQnAComment :qnaList="qnaList" @submit="sumbitMsg" :dateList="dateList"/>
         <CafeQnAList :qnaLists="qnaLists" />
+        
     </div>
 </template>
 
@@ -10,31 +10,34 @@
 import CafeQnARegister from '@/components/MyPageComponents/CafeMypageComponents/CafeQnARegister.vue'
 import axios from 'axios'
 import { mapActions, mapState } from 'vuex'
-import CafeQnAComment from '@/components/MyPageComponents/CafeMypageComponents/CafeQnAComment.vue'
 import CafeQnAList from '@/components/MyPageComponents/CafeMypageComponents/CafeQnAList.vue'
+// import CafeQnAComment from '@/components/MyPageComponents/CafeMypageComponents/CafeQnAComment.vue'
 
 export default {
     name:'CafeQnAPage',
     components: { 
         CafeQnARegister, 
-        CafeQnAComment,
-        CafeQnAList 
+        CafeQnAList,
+        //CafeQnAComment 
     },
     data() {
         return{
-
+            existingQnaNo:1,
+            checkQnaNo:'',
+            qnaList:{
+                type: Array
+            }
+            
         }
     },
     computed: {
-        ...mapState(['qnaList', 'qnaLists','dateList'])
+        ...mapState(['qnaLists'])
     },
     mounted() {
-        this.fetchQnAList(1)
         this.fetchQnALists(1)
-        this.fetchQnADateList(1)
     },
     methods: {
-        ...mapActions(['fetchQnAList','fetchQnALists','fetchQnADateList']),
+        ...mapActions(['fetchQnALists']),
         onSubmit(payload) {
             const {registerNo,content,findQna, files1} = payload
 
@@ -55,8 +58,8 @@ export default {
                     formData.append('fileList',files1[idx])
                 }
             }
-
-            let membNo = 1;
+            
+            let membNo = 1; //문의사항 등록은 1번 멤버가 계속쓰기 때문에 이건 일단 그대로 둔다.
             axios.post(`http://localhost:7777/qna/register/${membNo}`, formData)
                     .then(res => {
                         alert(res.data)
@@ -66,34 +69,10 @@ export default {
                         alert("문의사항 등록에 실패하였습니다.")
                     })
         },
-        sumbitMsg(payload) {
-            const {qnaNo, chatting} = payload
-
-            let formData = new FormData()
-
-            let fileInfo = {
-                qnaNo : qnaNo,
-                chatting : chatting
-            }
-
-            formData.append(
-                "info", new Blob([JSON.stringify(fileInfo)], {type:"application/json"})
-            );
-
-            let membNo = 1;
-            axios.post(`http://localhost:7777/qnaComment/register/${membNo}`, formData)
-                    .then(() => {
-                        this.$router.go()
-                    })
-                    .catch(() => {
-                        alert("문의사항 등록에 실패하였습니다.")
-                    })
-        },
-        
+    
     }
 }
 </script>
 
-<style lang="">
-    
+<style scoped>
 </style>

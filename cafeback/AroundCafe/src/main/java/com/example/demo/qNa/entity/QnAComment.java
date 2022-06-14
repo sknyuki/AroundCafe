@@ -24,7 +24,7 @@ public class QnAComment {
     private Long qna_comment_no;
 
     @Column
-    private Integer writer;
+    private Long writer;
 
     @Column(length = 128, nullable = true)
     private String content;
@@ -52,7 +52,7 @@ public class QnAComment {
     private QnA qnA;
 
     @Builder
-    public QnAComment (Long qna_comment_no, Integer writer, String content, String img, QnA qnA, String regTime, String regYear){
+    public QnAComment (Long qna_comment_no, Long writer, String content, String img, QnA qnA, String regTime, String regYear){
         this.qna_comment_no = qna_comment_no;
         this.writer = writer;
         this.content = content;
