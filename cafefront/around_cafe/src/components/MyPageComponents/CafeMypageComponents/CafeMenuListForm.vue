@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-text-field label="메뉴 이름 검색" v-model="modi_name"/>
+        <v-text-field label="메뉴 이름 검색" v-model="modi_name"/> 여깁니다요~
         <div v-for="item in filterMenuLists" :key="item.menu_no">
             <v-container>
                 <v-row>
