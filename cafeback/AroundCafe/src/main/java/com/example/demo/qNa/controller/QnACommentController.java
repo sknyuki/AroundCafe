@@ -25,7 +25,8 @@ public class QnACommentController {
     @ResponseBody
     @PostMapping(value = "/register/{membNo}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
     public void qnaRegister(@PathVariable("membNo") Integer membNo,
-                            @RequestPart(value = "info", required = false) QnACommentDto info ) {
+                            @RequestPart(value = "info", required = false) QnACommentDto info
+                            ) {
         log.info("qna no :" + membNo);
         log.info("member no : " + info.getQnaNo() + "/" +
                 info.getChatting());
@@ -67,5 +68,11 @@ public class QnACommentController {
         return service.dateList(qnaNo);
     }
 
+    @DeleteMapping("/delete/{qnaCommentNo}")
+    public void deleteComment(@PathVariable("qnaCommentNo")Integer qnaCommentNo) throws IOException {
+        log.info("comment delete");
+
+        service.deleteComment(qnaCommentNo);
+    }
 
 }

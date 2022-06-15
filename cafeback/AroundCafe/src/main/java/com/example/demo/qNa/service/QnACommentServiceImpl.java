@@ -13,6 +13,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,9 +25,6 @@ import java.util.Optional;
 public class QnACommentServiceImpl implements QnACommentService{
     @Autowired
     QnACommentRepository repository;
-
-    @Autowired
-    MemberRepository memberRepository;
 
     @Autowired
     QnARepository qnARepository;
@@ -65,7 +66,18 @@ public class QnACommentServiceImpl implements QnACommentService{
         return repository.findByDate(qnaNo);
     }
 
+    @Override
+    public void deleteComment(Integer qnaCommentNo) throws IOException {
+        log.info("qna comment no : " +qnaCommentNo);
 
+        QnAComment comment = repository.findById(Long.valueOf(qnaCommentNo)).orElseGet(null);
+        if(comment.getImg() != null) {
+            log.info("file name : " +comment.getImg());
+            Path file = Paths.get("../../cafefront/around_cafe/src/assets/qna/" + comment.getImg());
+            Files.delete(file);
+        }
+        repository.deleteById(Long.valueOf(qnaCommentNo));
+    }
 
 
 }
