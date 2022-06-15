@@ -7,6 +7,7 @@ import {
     
     FETCH_REVIEW_LIST,
     FETCH_REVIEW,
+    FETCH_LIKES_LIST,
 
     FETCH_QNA_LIST,
     FETCH_QNA_LISTS,
@@ -39,6 +40,9 @@ export default {
 
     [FETCH_REVIEW] (state, review) {
         state.review = review
+    },
+    [FETCH_LIKES_LIST] (state, likes) {
+        state.likes = likes
     },
 
     [FETCH_QNA_LIST] (state, qnaList) {

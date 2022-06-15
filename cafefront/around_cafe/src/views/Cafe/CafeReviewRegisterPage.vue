@@ -1,23 +1,31 @@
 <template>
     <v-container class="writeForm">
         <v-row>
-            <CafeReviewRegister @submit="onSubmit"/>
+            <v-btn @click="onReviewDialog">Review</v-btn>
+             <v-dialog max-width="750" v-model="reviewDialog">
+            <CafeReviewDialog @submit="onSubmit"/>
+             </v-dialog>
         </v-row>
     </v-container>
 </template>
 
 <script>
 import axios from 'axios'
-import CafeReviewRegister from "@/components/Cafe/CafeReviewRegister.vue"
+import CafeReviewDialog from "@/components/Cafe/CafeReviewDialog"
 export default {
     name: 'CafeReviewRegisterPage',
     components: { 
-        CafeReviewRegister
+        CafeReviewDialog
     },
+    data() {
+    return {
+      reviewDialog: false,
+    }
+  },
     
     methods: {
         onSubmit (payload) {
-            const { star_score, review_content,file,cafeNum} = payload
+            const { star_score, review_content, cafeNum,file} = payload
             let formData = new FormData()
             if (file != null )
             {formData.append('file', file)}
@@ -37,14 +45,22 @@ export default {
                     .catch(() => {
                         alert('문제 발생!')
                     })
-        }
-    }
+        },
+    onReviewDialog() {
+      this.reviewDialog = true
+    },
+    closeDialog() {
+      this.reviewDialog = false
+    },
+  },
 }
+
 </script>
 
-<style scoped>
-.writeForm{
-    margin-top:2.5%;
-    margin-bottom: 5%;
+<style lang="scss" scoped>
+::v-deep .v-dialog {
+  @include no-scrollbar;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
-</style>
+</style>e>
