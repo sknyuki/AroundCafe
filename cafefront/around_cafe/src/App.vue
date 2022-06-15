@@ -23,7 +23,7 @@ export default {
   name: "App",
   data() {
     return {
-      visible: false,
+      visible: true,
     }
   },
   /* eslint-disable */
