@@ -29,7 +29,7 @@
                 </v-row>
                 <v-row v-if="item.writer == item.received_no">
                     <v-col cols="12" sm="3" >
-                        <input v-model="contentlist"/>
+                        <input :value="contentlist1"/>
                     </v-col>
                 </v-row>
                 <v-row v-else>
@@ -37,7 +37,7 @@
                         <v-icon style="color:red;">mdi-twitch</v-icon>
                     </v-col>
                     <v-col cols="12" sm="1" >
-                        <input v-model="contentlist"/>
+                        <input :value="contentlist2"/>
                     </v-col>
                 </v-row>
                 <v-row style="font-size:12px;">
@@ -56,7 +56,7 @@
                 <h4>채팅할 상대를 선택해주세요.</h4>
             </div>
             <div v-else>
-                <div  v-for="item in qnaList" :key="item.qna_no" class="test">
+                <div  v-for="item in qnaList" :key="item.qna_no" class="test" >
                     
                     <ul v-if="item.writer != membNo" >
                         <li>
@@ -69,13 +69,16 @@
                         </li>
                     </ul>
                     <br>
-                    <ul v-if="item.writer == membNo" >
+                    <ul v-if="item.writer == membNo" @mousedown.right="rightMouse(item)" @contextmenu.prevent>
                         <li class="showBox" v-if="item.content != null"> {{(item.regTime)}} 나 : {{item.content}} <br></li>
                         <li class="showBox" v-if="item.img != null">
                             <img v-bind:src="require(`@/assets/qna/${item.img}`)" style="width :200px; display: block;">
                         </li>
+                        <v-btn v-if="item.qna_comment_no == num" v-show="testBtn" @click="deleteBtn(item)">delete</v-btn>
                     </ul><br>
+                    
                 </div>
+                
                 <div>
                     <textarea type="text" v-model="chatting" style="width: 500px; height: 100px"/>
                     <v-icon @click="handleFileUpload()" id="files1" ref="files1" multiple>mdi-panorama-variant </v-icon>
@@ -110,14 +113,18 @@ export default {
             checkQnaNo:'',
             hoveredColumn:null,
             clickQnANo:'',
-            listContent:[],
-            contentlist:'메시지 보기'
+            contentlist1:'업데잇 된 메시지가 없습니다.',
+            contentlist2:'새로운 메시지가 있습니다.',
+            testBtn: false,
+            num:''
         }
     },
-    created(){
-        for(let i=0; i<this.qnaLists.length ; i ++) {
-                this.listContent[i] = this.qnaLists[i].content
+    watch: {
+        testBtn() {
+            if (this.testBtn) {
+                window.addEventListener("click", this.onClick)
             }
+        },
     },
     methods: {
         sendQnaNo(item){
@@ -132,11 +139,7 @@ export default {
                     })
         },
         sumbitMsg(){
-            if(this.checkQnaNo == membNo) {
-                this.contentlist= this.chatting
-            }else{
-                this.contentlist = this.chatting
-            }
+            this.contentlist1= '메시지를 전송했습니다.'
 
             let formData = new FormData()
 
@@ -149,7 +152,7 @@ export default {
                 "info", new Blob([JSON.stringify(fileInfo)], {type:"application/json"})
             );
 
-            let membNo = 2;
+            let membNo = 1;
             axios.post(`http://localhost:7777/qnaComment/register/${membNo}`, formData)
                     .then(() => {
                         axios.get(`http://localhost:7777/qna/memberRead/${this.checkQnaNo}`)
@@ -167,7 +170,7 @@ export default {
                     })
         },
         handleFileUpload() {
-            //let qnaNo = this.checkQnaNo
+            let qnaNo = this.checkQnaNo
             let vue = this
             let elem = document.createElement('input')
             // 이미지 파일 업로드 / 동시에 여러 파일 업로드
@@ -182,16 +185,17 @@ export default {
                 for (let index = 0; index < this.files.length; index++) {
                     formData.append('fileList', this.files[index])
                 }
-                let qnaNo = 5;
-                axios.post(`http://localhost:7777/qnaComment/registersImg/${qnaNo}`, formData)
+                
+                axios.post(`http://localhost:7777/qnaComment/registerImg/${qnaNo}`, formData)
                 .then(response => {
                     vue.response = response.data
                     alert('사진 전송 성공')
-                    axios.get(`http://localhost:7777/qna/memberRead/${this.checkQnaNo}`)
+                    let checkQnaNo = qnaNo;
+                    axios.get(`http://localhost:7777/qna/memberRead/${checkQnaNo}`)
                             .then(res => {
                                 this.qnaList = res.data
                                 console.log(res.data)
-                                
+                                alert('리스트 겟 성공')
                             })
                             .catch(() => {
                                 alert('멤버 리드 읽기 실패')
@@ -210,6 +214,35 @@ export default {
                     .then(res => {
                                 console.log(res.data)
                                 this.$router.go()
+                            })
+                            .catch(() => {
+                                alert('리스트 삭제 실패')
+                            })
+            }
+        },
+        rightMouse(item) {
+            this.num = item.qna_comment_no
+            this.testBtn = true
+        },
+        onClick() {
+            this.testBtn = false
+        },
+        deleteBtn(item){
+            let qnaCommentNo = item.qna_comment_no;
+            let checkQnaNo = qnaCommentNo;
+            var result = confirm('삭제 하시겠습니까?')
+            if(result) {
+            axios.delete(`http://localhost:7777/qnaComment/delete/${qnaCommentNo}`)
+                    .then(res => {
+                                console.log(res.data)
+                                axios.get(`http://localhost:7777/qna/memberRead/${checkQnaNo}`)
+                                .then(res => {
+                                    this.qnaList = res.data
+                                    console.log(res.data)
+                                })
+                                .catch(() => {
+                                    alert('멤버 리드 읽기 실패')
+                                })
                             })
                             .catch(() => {
                                 alert('리스트 삭제 실패')
