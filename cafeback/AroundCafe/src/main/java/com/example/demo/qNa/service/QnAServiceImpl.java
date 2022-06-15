@@ -4,6 +4,7 @@ import com.example.demo.member.entity.Member;
 import com.example.demo.member.repository.MemberRepository;
 import com.example.demo.mypage.cafe.entity.Cafe;
 import com.example.demo.mypage.cafe.repository.cafe.CafeRepository;
+import com.example.demo.qNa.dto.QnACommentDto;
 import com.example.demo.qNa.dto.QnADto;
 import com.example.demo.qNa.dto.QnAResponse;
 import com.example.demo.qNa.entity.QnA;
@@ -34,18 +35,14 @@ public class QnAServiceImpl implements QnAService {
     @Autowired
     CafeRepository cafeRepository;
 
-//    @Autowired
-//    MemberRoleRepository roleRepository;
-
     @Override
     public void includeImgregister(Integer membNo, QnADto info, String fileName) {
-        Optional<Member> findMember = memberRepository.findById(Long.valueOf(membNo));
-        Member member = findMember.get();
+        Member member = memberRepository.findById(Long.valueOf(membNo)).orElseGet(null);
+
 
         Long writer = Long.valueOf(membNo);
 
-        Optional<Cafe> findCafe = cafeRepository.findById(info.getReceived_no());
-        Cafe cafe = findCafe.get();
+        Cafe findCafe = cafeRepository.findById(info.getReceived_no()).orElseGet(null);
         QnA qnA = null;
 
         if(info.getReceived_no() != 0) {
@@ -53,7 +50,7 @@ public class QnAServiceImpl implements QnAService {
                     .received_no(info.getReceived_no())
                     .member(member)
                     .type(info.getType())
-                    .received_name(cafe.getCafe_name())
+                    .received_name(findCafe.getCafe_name())
                     .received_img(member.getMemImg())
                     .build();
 
@@ -81,13 +78,11 @@ public class QnAServiceImpl implements QnAService {
 
     @Override
     public void exceptImgRegister(Integer membNo, QnADto info) {
-        Optional<Member> findMember = memberRepository.findById(Long.valueOf(membNo));
-        Member member = findMember.get();
+        Member member = memberRepository.findById(Long.valueOf(membNo)).orElseGet(null);
 
         Long writer = Long.valueOf(membNo);
 
-        Optional<Cafe> findCafe = cafeRepository.findById(info.getReceived_no());
-        Cafe cafe = findCafe.get();
+        Cafe cafe = cafeRepository.findById(info.getReceived_no()).orElseGet(null);
         QnA qnA = null;
 
         if(info.getReceived_no() != 0){
@@ -133,8 +128,7 @@ public class QnAServiceImpl implements QnAService {
 
     @Override
     public List<QnAResponse> responseQnAList(Integer membNo) {
-        Optional<Member> findMember = memberRepository.findById(Long.valueOf(membNo));
-        Member member = findMember.get(); //멤버에서 이미지 찾기 위해 사용
+        Member member = memberRepository.findById(Long.valueOf(membNo)).orElseGet(null);
         List<QnAResponse> comments = new ArrayList<>(); //response를 위한 리스트를 만듦
         List<QnA> qnAS = repository.findByMemberInfo(Long.valueOf(membNo));//qna에 대한 내용 확인을 위하 리스트
 
@@ -161,8 +155,16 @@ public class QnAServiceImpl implements QnAService {
 
             comments.add(response);
         }
-
-
         return comments;
+    }
+
+    @Override
+    public void deleteQna(Integer qnaNo) {
+        commentRepository.deleteAllByQnA(Long.valueOf(qnaNo));
+        log.info("delete qna comment ");
+
+        repository.deleteAllById(Long.valueOf(qnaNo));
+        log.info("delete qna no : " + qnaNo);
+
     }
 }

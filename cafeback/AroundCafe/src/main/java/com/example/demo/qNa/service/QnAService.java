@@ -1,5 +1,6 @@
 package com.example.demo.qNa.service;
 
+import com.example.demo.qNa.dto.QnACommentDto;
 import com.example.demo.qNa.dto.QnADto;
 import com.example.demo.qNa.dto.QnAResponse;
 import com.example.demo.qNa.entity.QnA;
@@ -17,5 +18,7 @@ public interface QnAService {
 
     public List<QnA> QnAList(Integer membNo);
 
-    List<QnAResponse> responseQnAList(Integer membNo);
+    public List<QnAResponse> responseQnAList(Integer membNo);
+
+    public void deleteQna(Integer qnaNo);
 }

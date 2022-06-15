@@ -38,9 +38,11 @@ public class CafeServiceImpl implements CafeService{
     public void includeFileModifyCafe(Long cafeNo, String cafeImg) throws IOException {
         log.info("***service -> modify yes~ file info : "+ cafeNo);
 
-        Optional<Cafe> cafe = repository.findById(cafeNo);
-        Cafe cafe1 = cafe.get();
-        CafeImgTable img = new CafeImgTable(cafeImg, cafe1);
+        Cafe cafe = repository.findById(cafeNo).orElseGet(null);
+        CafeImgTable img = CafeImgTable.builder()
+                .cafe_img(cafeImg)
+                .cafe(cafe)
+                .build();
 
         cafeImgRepository.save(img);
     }
@@ -48,11 +50,10 @@ public class CafeServiceImpl implements CafeService{
     @Transactional
     @Override
     public void checkSavedImg(Long cafeNo) throws IOException {
-        Optional<Integer> havingImg = cafeImgRepository.findByCafe_no(cafeNo);
-        int check = havingImg.get();
-        log.info("##service -> show cafeImg?" + check);
+        Integer checkImgCount = cafeImgRepository.findByCafe_no(cafeNo).orElseGet(null);
+        log.info("##service -> show cafeImg?" + checkImgCount);
 
-        if(check > 0) {
+        if(checkImgCount > 0) {
             List<CafeImgTable> findMyImg = cafeImgRepository.findCafe(cafeNo);
 
             for(int i = 0; i < findMyImg.size(); i++) {
@@ -79,8 +80,7 @@ public class CafeServiceImpl implements CafeService{
     @Override
     public void notIncludeFileModifyCafe(Integer membNo,Cafe info) {
 
-        Optional<Member> findMemberNo = memberRepository.findById(Long.valueOf(membNo));
-        Member member = findMemberNo.get();
+        Member member = memberRepository.findById(Long.valueOf(membNo)).orElseGet(null);
 
         info.setMemberInfo(member);
 
@@ -98,8 +98,7 @@ public class CafeServiceImpl implements CafeService{
     @Override
     public Cafe read() {
         Long memNo = 1l;
-        Optional<Cafe> findCafe = repository.findById(memNo);
-        Cafe cafe = findCafe.get();
+        Cafe cafe = repository.findById(memNo).orElseGet(null);
 
         return cafe;
     }
