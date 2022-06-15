@@ -69,6 +69,16 @@ public class ReviewController {
         service.delete(reviewNo);
     }
 
+    //리뷰 리스트에서 도움이 됐어요 할 때
+    /*
+    @PostMapping("/{reviewNo}/help")
+    public boolean addHelp ( @PathVariable("reviewNo") Long reviewNo ) {
+        log.info ("review help() " +  + reviewNo);
+        return service.addHelp(reviewNo);
+    }
+
+     */
+
 
     //마이페이지에서 내가 쓴 게시판 글 불러오기
     /*
