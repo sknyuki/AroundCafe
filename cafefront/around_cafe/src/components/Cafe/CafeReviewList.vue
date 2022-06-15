@@ -63,33 +63,7 @@ export default {
 
    data() {
     return {
-      reviewData: [
-        {
-          reviewNo: 1,
-          writer: "박성빈",
-          regDate: "2022-06-02",
-          comment: "아아아아아아아아아아아아아아아아아아아아",
-          rating: 5,
-          cafeName: "벤투라",
-        },
-        {
-          reviewNo: 2,
-          writer: "박성빈",
-          regDate: "2022-06-02",
-          comment:
-            "아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아",
-          rating: 3,
-          cafeName: "벤투라",
-        },
-        {
-          reviewNo: 3,
-          writer: "박성빈",
-          regDate: "2022-06-02",
-          comment: "아아아아아아아아아아아아아아아아아아아아",
-          rating: 1,
-          cafeName: "벤투라",
-        },
-      ],
+      
     }
   },
 }
