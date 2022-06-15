@@ -37,7 +37,6 @@
     text-align: center;
     margin: 40px 0;
     &-group {
-      margin-bottom: 32px;
       @include flexbox(center);
       .v-btn {
         margin-right: 32px;
