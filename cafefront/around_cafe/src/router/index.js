@@ -43,9 +43,6 @@ const routes = [
     path: "/",
     redirect: "/main",
     component: () => import("@/views/MainPage.vue"),
-    meta: {
-      title: "Around Cafe",
-    },
   },
   {
     path: "/main",
