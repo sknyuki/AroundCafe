@@ -33,18 +33,7 @@ import { mapActions,mapState } from 'vuex'
 export default {
   name: "CafeReviewList",
   components: { ImgBox, CafeSidebar, ReviewForm, PaginationForm },
-  props: {
-    reviews: {
-     type: Array
-    },
-    rating:{
-      type: Object
-    },
-    reviewNo: {
-      type: String,
-      required: true
-    },
-  },
+  
   computed: {
     ...mapState(['reviews'])
   },

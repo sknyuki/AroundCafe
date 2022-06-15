@@ -11,7 +11,7 @@
           <v-row justify="center">
             <v-col cols="3" class="label mt-5" >cafeNum</v-col>
             <v-col>
-                <v-text-field color="#e3c832" type="text" v-model="cafeNum"/>
+                <v-text-field color="#e3c832" type="text" v-model="cafe_num"/>
             </v-col>
           </v-row>
 
@@ -114,7 +114,8 @@ export default {
       star_score: '',
       uploadReady: true,
       reviewDialog: false,
-      cafeNum:''
+      cafeNum:'',
+      member_no: ''
     }
   },
   methods: {

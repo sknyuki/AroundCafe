@@ -70,7 +70,7 @@
               <i class="icClose"></i>
             </button>
               <button
-              @click="onReviewDialog"
+              @click="onReviewDialog(review)"
               class="delete-button"
               aria-label="다이얼로그 등장"
               type="button"
@@ -80,8 +80,6 @@
             <v-dialog max-width="750" v-model="reviewDialog">
             <cafe-review-dialog @close="closeDialog"/>
             </v-dialog>
-
-
           </article>
         </li>
       </ol>
@@ -107,26 +105,13 @@ export default {
     : {
      type: Array
     },
-    rating:{
-      type: Object
-    },
-     /*
-    reviewNo: {
-      type: String,
-      required: true
-    },
-    */
-    review:{
-      type: Object,
-      required: true
-    }
  
   },
   data () {
     return {
-    reviewNo: this.review.reviewNo,
+    reviewNo: '',
     reviewDialog: false,
-    
+    star_score:0
 
 
     //fileName: this.review.fileName,
@@ -178,9 +163,16 @@ export default {
       })
       }
   },
-  onReviewDialog() {
+  onReviewDialog(review) {
       this.reviewDialog = true
       console.log(this.reviewDialog)
+      // let reviewNo = review.reviewNo
+      // this.$emit('click', reviewNo)
+      // this.$router.push({
+      //     name:'CafeReviewRegister',
+      //     params: { reviewNo: review.reviewNo.toString()}
+      // })
+
     },
     closeDialog() {
       this.reviewDialog = false
