@@ -1,7 +1,9 @@
 <template>
   <div class="login">
     <header class="login-header">
-      <h2>Arround Cafe</h2>
+      <router-link :to="{ name: 'MainPage' }">
+        <h2>Arround Cafe</h2>
+      </router-link>
     </header>
 
     <section class="login-section">
