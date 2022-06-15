@@ -3,16 +3,16 @@ package com.example.demo.review.entity;
 import com.example.demo.member.entity.Member;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.Formula;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
+
 
 @Data
 @NoArgsConstructor
@@ -32,10 +32,18 @@ public class Review {
     @Column
     private String fileName;  //이미지 이름 추가
 
+    @Formula("(SELECT count(1) FROM review_like r WHERE r.review_no = review_no)")
+    private int likeCnt;
+
     @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="member_no")
     private Member memberInfo;
+
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    @OneToMany(mappedBy = "review_info", fetch = FetchType.EAGER,orphanRemoval = true)
+    private Set<ReviewLike> reviewLike = new HashSet<>();
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
     @CreationTimestamp
@@ -57,6 +65,9 @@ public class Review {
         this.updDate = updDate;
         this.cafeNum = cafeNum;
         memberInfo = member;
+
+
+
     }
 
     public Review(String star_score, String review_content,String fileName, Long cafeNum) {

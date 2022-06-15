@@ -1,29 +1,48 @@
 <template>
     <v-container class="writeForm">
         <v-row>
-            <v-btn @click="onReviewDialog">Review</v-btn>
-             <v-dialog max-width="750" v-model="reviewDialog">
-            <CafeReviewDialog @submit="onSubmit"/>
-             </v-dialog>
+        
+            <cafe-review-list v-if="review" :review="review" />
+
+            <v-dialog max-width="750" v-model="reviewDialog">
+            </v-dialog> 
+            <CafeReviewModify @submit="onSubmit"/>
+          
         </v-row>
     </v-container>
 </template>
 
 <script>
 import axios from 'axios'
-import CafeReviewDialog from "@/components/Cafe/CafeReviewDialog"
+import { mapActions,mapState } from 'vuex'
+import CafeReviewModify from "@/components/Cafe/CafeReviewModify"
+import CafeReviewList from "@/components/Cafe/CafeReviewList"
+
 export default {
-    name: 'CafeReviewRegisterPage',
+    name: 'CafeReviewModifyPage',
     components: { 
-        CafeReviewDialog
+        CafeReviewModify,
+        CafeReviewList
+    
     },
+     props: {
+        reviewNo: {
+            type: String,
+            required: true
+        }
+    },
+    
     data() {
     return {
       reviewDialog: false,
     }
   },
+  computed: {
+        ...mapState(['review'])
+    },
     
     methods: {
+         ...mapActions(['fetchReview']),
         onSubmit (payload) {
             const { star_score, review_content, cafeNum,file} = payload
             let formData = new FormData()
@@ -32,8 +51,9 @@ export default {
             formData.append('star_score',star_score)
             formData.append('review_content', review_content)
             formData.append('cafeNum', cafeNum)
+            
            
-            axios.post(`http://localhost:7777/cafe/review/register`,formData, { headers: {
+            axios.post(`http://localhost:7777/cafe/review/${this.reviewNo}`,formData, { headers: {
                     'Content-Type': 'multipart/form-data'
                 }})
                     .then(() => {
@@ -52,6 +72,12 @@ export default {
     closeDialog() {
       this.reviewDialog = false
     },
+    created() {
+        this.fetchReview(this.reviewNo)
+        .catch(() => {
+            alert('게시물 DB조회 실패!')
+        })
+    }
   },
 }
 

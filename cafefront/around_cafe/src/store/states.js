@@ -6,6 +6,7 @@ export default {
 
     reviews:[],
     review:null,
+    likes: [],
 
     qnaList: [],
     qnaLists:[],

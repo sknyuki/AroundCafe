@@ -91,7 +91,7 @@
           ></textarea>
         </div>
         <div class="review-card-btn">
-          <v-btn class="btn-indigo btn-40" type="submit">완료</v-btn>
+          <v-btn class="btn-indigo btn-40" type="submit">수정</v-btn>
         </div>
       </div>
     </v-card>
@@ -100,12 +100,19 @@
 
 <script>
 import StarRating from "vue-star-rating"
+import { mapActions } from 'vuex'
 
 export default {
-  name: "CafeReviewRegister",
+  name: "CafeReviewModify",
   components: {
     StarRating,
   },
+  props: {
+        review: {
+            type: Object,
+            required: true
+        }
+    },
   data() {
     return {
       image: '',
@@ -114,10 +121,21 @@ export default {
       star_score: '',
       uploadReady: true,
       reviewDialog: false,
-      cafeNum:''
+      cafeNum:'',
+      fileName: this.review.fileName,
     }
   },
+   created () {
+        //this.writer = this.review.writer
+        console.log(this.review.reviewNo)
+        //this.reviewNo = this.reviewNo
+        this.cafeNum = this.review.cafeNum
+        this.star_score = this.review.star_score
+        this.review_content = this.review.review_content
+        this.fileName = this.review.fileName      
+    },
   methods: {
+    ...mapActions(['fetchReviewList']),
     close(){
       this.$router.push({ name: 'CafeReviewListPage'})
     },
