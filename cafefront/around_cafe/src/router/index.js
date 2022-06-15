@@ -43,6 +43,9 @@ const routes = [
     path: "/",
     redirect: "/main",
     component: () => import("@/views/MainPage.vue"),
+    meta: {
+      title: "Around Cafe",
+    },
   },
   {
     path: "/main",
@@ -148,11 +151,11 @@ const routes = [
     path: "/cafeQnAPage",
     name: "CafeQnAPage",
     components: {
-      default :CafeQnAPage
+      default: CafeQnAPage,
     },
-    props : {
-      default: true
-    }
+    props: {
+      default: true,
+    },
   },
 
   {
@@ -191,6 +194,16 @@ const router = new VueRouter({
   mode: "history",
   base: process.env.BASE_URL,
   routes,
+})
+/* eslint-disable */
+// 홈페이지 타이틀 변경, 현재 우리가 디렉토리명인 around_cafe로 나오고 있어서
+// Around Cafe로 변경하는 라우터
+router.afterEach((to, from) => {
+  const title = to.meta.title === undefined ? "Around Cafe" : to.meta.title
+
+  Vue.nextTick(() => {
+    document.title = title
+  })
 })
 
 export default router
