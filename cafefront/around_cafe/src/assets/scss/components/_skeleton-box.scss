@@ -29,10 +29,4 @@
       transform: translateX(100%);
     }
   }
-
-  @include responsive(T) {
-  }
-
-  @include responsive(D) {
-  }
 }
