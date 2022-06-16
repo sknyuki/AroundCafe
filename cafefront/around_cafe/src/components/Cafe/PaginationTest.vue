@@ -41,7 +41,7 @@
  
 <script>
   export default {
-    name:'PaginationForm',
+    name:'PaginationTest',
     props: ["pageSetting"],
  
     methods: {
