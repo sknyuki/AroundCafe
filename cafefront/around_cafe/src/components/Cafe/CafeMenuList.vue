@@ -1,7 +1,7 @@
 <template>
   <div class="menu-list-content">
     <ul class="menu-list">
-      <li v-for="item in menuLists" :key="item.menu_no" class="menu-item">
+      <li v-for="item in listData" :key="item.menu_no" class="menu-item">
         <a href="">
           <div class="menu-card">
             <div class="menu-card-image">
@@ -48,8 +48,9 @@ import axios from "axios"
 export default {
   name: "CafeMenuList",
   props: {
-    menuLists: {
+    listData: {
       type: Array,
+      required:true
     },
   },
   data() {
@@ -75,6 +76,9 @@ export default {
           alert("삭제실패!")
         })
     },
+    sendPage(page) {
+      this.$emit("paging", page)
+    }
   },
 }
 </script>
