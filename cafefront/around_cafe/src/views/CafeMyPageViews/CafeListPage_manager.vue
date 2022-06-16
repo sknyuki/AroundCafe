@@ -1,6 +1,6 @@
 <template>
     <div>
-        <cafe-list :cafeBoards="cafeBoards"/>
+        <CafeList :cafeBoards="cafeBoards"/>
     </div>
 </template>
 <script>
