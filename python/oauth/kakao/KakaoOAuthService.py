@@ -1,4 +1,4 @@
-from flask import redirect
+from flask import jsonify, redirect, request
 import requests
 import json
 
@@ -18,6 +18,8 @@ class KakaoOauthService:
             "https://kauth.kakao.com/oauth/authorize?client_id=%s&redirect_uri=%s&response_type=code" % (
                 self.CLIENT_ID, self.REDIRECT_URI)
         )
+        # return jsonify(url="https://kauth.kakao.com/oauth/authorize?client_id=%s&redirect_uri=%s&response_type=code" % (
+        #    self.CLIENT_ID, self.REDIRECT_URI))
 
     def getAuth(self, code):
         url = self.authorization_server % "oauth/token"
@@ -54,9 +56,10 @@ class KakaoOauthService:
         email = userinfo.get('kakao_account').get('email')
 
         birthdayInit = userinfo.get('kakao_account').get('birthday')
-        birthdaySplit = list(birthdayInit).insert(2, '-')
-        birthdaySplit = list(birthdayInit).insert(0, '0000-')
-        birthday = ''.join(birthdaySplit)
+        birthMonth = birthdayInit[0:2]
+        birthDay = birthdayInit[2:4]
+        birth = "0000-{month}-{day}".format(
+            month=birthMonth, day=birthDay)
 
         imageUrl = userinfo.get('kakao_account').get(
             'profile').get('profile_image_url')
@@ -67,7 +70,7 @@ class KakaoOauthService:
             "socialType": "KAKAO",
             "socialNo": socialNo,
             "email": email,
-            "birthday": birthday,
+            "birthday": birth,
             "imageUrl": imageUrl,
         }
         url = "http://localhost:7777/auth/oauth"

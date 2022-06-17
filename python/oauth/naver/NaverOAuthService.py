@@ -44,9 +44,17 @@ class NaverOAuthService:
     def post2MainServer(self, userinfo):
         socialNo = userinfo.get('response').get('id')
         email = userinfo.get('response').get('email')
-        birthday = userinfo.get('response').get('birthday')
         imageUrl = userinfo.get('response').get('profile_image')
         phoneNum = userinfo.get('response').get('mobile')
+        birthyear = userinfo.get('response').get('birthyear')
+        birthdayInit = userinfo.get('response').get('birthday')
+
+        if birthyear == None:
+            birthday = "0000-%s" % birthdayInit
+        else:
+            birthday = "{year}-{monthday}".format(
+                year=birthyear, monthday=birthdayInit)
+
         headers = {
             "Content-Type": "application/json"
         }
@@ -61,5 +69,4 @@ class NaverOAuthService:
         url = "http://localhost:7777/auth/oauth"
         response = requests.post(
             url=url, headers=headers, data=json.dumps(data)).json()
-
         return response

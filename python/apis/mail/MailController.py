@@ -8,7 +8,7 @@ mailBp = Blueprint('mailbp', __name__)
 def verifyEmail():
     #data = json.loads(request.data)
     # formType 가정
-    email = request.form.get('email')
+    email = request.json.get('email')
     code = MailService().verify_email(email)
     data = {'code': code}
 

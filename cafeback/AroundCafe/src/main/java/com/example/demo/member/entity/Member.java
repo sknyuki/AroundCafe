@@ -60,9 +60,6 @@ public class Member extends BaseDateTime {
     @OneToMany(mappedBy = "memberInfo",fetch = FetchType.EAGER,orphanRemoval = true)
     private List<Review> review = new ArrayList<>();
 
-
-
-
     @Builder
     public Member(Long memNo, String memId, String socialNo, String memPw, String memNick, String memImg, String phoneNum, String memBirth, SocialType socialType, MemberRole role) {
         this.memNo = memNo;

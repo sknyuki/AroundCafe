@@ -59,6 +59,11 @@ public class MemberServiceImpl implements MemberService {
         return memberRepository.existsByMemId(memId);
     }
 
+    @Override
+    public Boolean existsByMemNick(String memNick) {
+        return memberRepository.existsByMemNick(memNick);
+    }
+
     public List<Member> findMembersByRoleType(MemberRoleType name) {
         List<MemberRole> memberRoles = memberRoleRepository.findAllByName(name);
         List<Member> members = new ArrayList<>();

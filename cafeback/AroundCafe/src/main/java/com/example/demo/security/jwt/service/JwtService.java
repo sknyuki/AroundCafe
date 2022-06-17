@@ -90,11 +90,11 @@ public class JwtService {
     // Expiration Exception을 제외한 나머지는 검증이 되었을 경우
     public boolean validateJwtTokenWithOutExpiration(String token) {
         try {
-            Jws<Claims> claims = Jwts.parserBuilder()
+            Jwts.parserBuilder()
                     .setSigningKey(jwtSecret.getBytes(StandardCharsets.UTF_8)) // Set SignKey
                     .build()
                     .parseClaimsJws(token); // 파싱 및 검증, 실패시 에러
-            return claims.getBody().getExpiration().before(new Date());
+            return true;
         }
         catch(ExpiredJwtException e) {
             return true;

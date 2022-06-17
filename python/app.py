@@ -1,21 +1,20 @@
 from oauth.OAuthController import oauthBp
 from apis.mail.MailController import mailBp
-from flask_cors import CORS, cross_origin
-from flask import Flask, url_for, request, jsonify, redirect, Response, Blueprint
-#import sys
-#import os
-# sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+from flask_cors import CORS
+from flask import Flask
 
 
 # app Instance 생성
 app = Flask(__name__)
+CORS(app)
+# CORS 설정
+# CORS(app, resources={
+#     r'*': {'origins': ['http://localhost:7777', 'http://localhost:8080']}})
 
 # Oauth Api import
 app.register_blueprint(oauthBp, url_prefix='/oauth')
 app.register_blueprint(mailBp, url_prefix='/mail')
 
-# CORS 설정
-CORS(app)
 
 # app.py로 실행시 app 실행
 if __name__ == '__main__':

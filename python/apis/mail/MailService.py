@@ -1,5 +1,4 @@
 import smtplib
-import requests
 from .MailConfig import *
 
 from ..randomStringGenerator.RandomStringGenerator import RandomStringGenerator

@@ -3,10 +3,7 @@ package com.example.demo.security.jwt.controller;
 import com.example.demo.common.exception.BadRequestException;
 import com.example.demo.member.entity.Member;
 import com.example.demo.member.repository.MemberRepository;
-import com.example.demo.security.jwt.dto.JwtDto;
-import com.example.demo.security.jwt.dto.LoginRequest;
-import com.example.demo.security.jwt.dto.OAuth2Request;
-import com.example.demo.security.jwt.dto.RegisterRequest;
+import com.example.demo.security.jwt.dto.*;
 import com.example.demo.security.jwt.service.AuthServiceImpl;
 import com.example.demo.security.jwt.service.JwtService;
 import com.example.demo.common.dto.MessageResponse;
@@ -33,6 +30,7 @@ import static com.example.demo.security.jwt.filter.JwtFilter.MIN_TIME_TO_REFRESH
 @RequestMapping("/auth")
 @RequiredArgsConstructor
 @Slf4j
+// 시간 있을때 리팩토링 예정
 public class AuthController {
 
 
@@ -67,7 +65,7 @@ public class AuthController {
         // SocialNo, MemId 존재여부 확인
         boolean isMemberExistsBySocialNo = memberRepository.existsBySocialNo(oauth2Request.getSocialNo());
         boolean isMemberExistsByMemId = memberRepository.existsByMemId(oauth2Request.getEmail());
-        // SocialNo가 존재 하는 경우
+        // SocialNo가 존재 하는 경우(가입을 social Type으로 했을 경우)
         if(isMemberExistsBySocialNo){
             // member Instance 생성
             Member member = memberRepository.findBySocialNo(oauth2Request.getSocialNo())
@@ -78,6 +76,12 @@ public class AuthController {
                 // Email을 불러와서 set --- Setter를 써야하나? 아니면 Builder로 하나하나 불러와서 저장해야하나?
                 member.setMemId(oauth2Request.getEmail());
                 memberRepository.save(member);
+            }
+            // 요청한 socialType과 가입된 socialType이 다른경우
+            else if (!member.getSocialType().getName().equals(oauth2Request.getSocialType())){
+                String memId = oauth2Request.getEmail();
+                String socialType = member.getSocialType().getName();
+                return ResponseEntity.status(HttpStatus.IM_USED).body("E-mail: " + memId + " is already signed by "  + socialType + ". please login by " + socialType);
             }
             // JwtDto 생성
             JwtDto jwtDto = authService.createToken(member);
@@ -119,6 +123,7 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<?> localRegister(@Valid @RequestBody RegisterRequest registerRequest) {
         // 이메일이 존재한다면, Exception 반환
+        log.info("Role: " + registerRequest.getRole());
         if (memberRepository.existsByMemId(registerRequest.getEmail())) {
             throw new BadRequestException("Error: Email address already in use!");
         }
@@ -145,13 +150,19 @@ public class AuthController {
     }
 
     @PostMapping("/reissue")
-    public ResponseEntity<?> reissue(@RequestHeader(value = "Authorization") String access, @RequestHeader(value = "refresh_Token") String refresh) {
+    public ResponseEntity<?> reissue(@RequestHeader(value = "Authorization") String access, @RequestHeader(value = "refreshToken") String refresh) {
         // accessToken, refreshToken 받아오기
         String accessToken = access.substring(7);
         String refreshToken = refresh.substring(7);
         
         // accessToken이 기간만료 제외 검증되지 않았거나, refreshToken이 검증되지 않았거나, Redis Server에 존재하지 않는다면
         // 401 에러 반환
+        boolean accessTokenValidate = jwtService.validateJwtTokenWithOutExpiration(accessToken);
+        boolean refreshTokenValidate = jwtService.validateJwtToken(refreshToken);
+        boolean redisExistValidate = redisService.isRefreshTokenExists(refreshToken);
+        System.out.println("accessToken: " + accessTokenValidate);
+        System.out.println("refreshToken: " + refreshTokenValidate);
+        System.out.println("redis: " + redisExistValidate);
         if(!jwtService.validateJwtTokenWithOutExpiration(accessToken)
                 || !jwtService.validateJwtToken(refreshToken)
                 || !redisService.isRefreshTokenExists(refreshToken)){
@@ -188,5 +199,15 @@ public class AuthController {
                     .build()
             );
         }
+    }
+    @PostMapping("/isDuplicated")
+    public String isDuplicated(@Valid @RequestBody ExistsDto existsDto) {
+        if(existsDto.getMemNick() != null){
+            return String.valueOf(memberRepository.existsByMemNick(existsDto.getMemNick()));
+        }
+        else if(existsDto.getMemId() != null) {
+            return String.valueOf(memberRepository.existsByMemId(existsDto.getMemId()));
+        }
+        return String.valueOf(true);
     }
 }

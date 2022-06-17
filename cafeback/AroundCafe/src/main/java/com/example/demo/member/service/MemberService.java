@@ -9,7 +9,7 @@ public interface MemberService {
 
     public void deleteByMemNo(Long memNo);
     public Boolean existsByMemId(String memId);
+    public Boolean existsByMemNick(String memNick);
     public Member findByMemId(String memId);
-
     public Member findByMemNick(String memNick);
 }

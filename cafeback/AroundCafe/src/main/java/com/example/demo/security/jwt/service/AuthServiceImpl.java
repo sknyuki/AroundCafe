@@ -71,7 +71,7 @@ public class AuthServiceImpl {
         // registerRequest의 Role이 Cafe일때, Cafe Entity 생성후 저장
         if (registerRequest.getRole().equals("CAFE")) {
             Cafe cafe = Cafe.builder()
-                    .cafe_name(registerRequest.getCafeName())
+                    .cafe_name(registerRequest.getUsername())
                     .cafe_bis_no(registerRequest.getCafeBisNo())
                     .member(member)
                     .build();
