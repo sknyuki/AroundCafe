@@ -7,6 +7,8 @@ import{
 
     FETCH_REVIEW_LIST,
     FETCH_REVIEW,
+    FETCH_LIKES_LIST,
+
 
     FETCH_QNA_LIST,
     FETCH_QNA_LISTS,
@@ -57,6 +59,12 @@ export default {
             .then((res) => {
                 commit(FETCH_REVIEW, res.data)
             })
+    },
+    fetchLikesList({ commit }, reviewNo) {
+        return axios.get(`http://localhost:7777/cafe/review/${reviewNo}/like`)
+                .then((res) => {
+                    commit(FETCH_LIKES_LIST, res.data)
+                })
     },
 
     fetchQnAList ({ commit },qnaNo) {

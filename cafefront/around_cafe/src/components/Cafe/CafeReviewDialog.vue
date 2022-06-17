@@ -1,13 +1,19 @@
 <template>
-  <form>
+  <v-form @submit.prevent="onSubmit">
     <v-card>
       <div class="review-card">
         <div class="review-card-title">
           리뷰 쓰기
-          <button @click="$emit('close')">
+          <button @click="close()">
             <i class="icClose"></i>
           </button>
         </div>
+          <v-row justify="center">
+            <v-col cols="3" class="label mt-5" >cafeNum</v-col>
+            <v-col>
+                <v-text-field color="#e3c832" type="text" v-model="cafeNum"/>
+            </v-col>
+          </v-row>
         <div class="review-card-point">
           포토리뷰&nbsp;
           <span> 150P </span>,&nbsp;일반리뷰&nbsp;
@@ -34,20 +40,12 @@
 
       <div class="review-file">
         <div class="review-card-content header">사진 첨부(선택)</div>
-        <div class="review-card-explain">사진을 첨부해주세요.(최대 1장)</div>
+        <div class="review-card-explain">사진을 첨부해주세요(최대 1장)</div>
         <div class="review-card-btn">
           <div class="select-picture" v-if="image">
-            <img
-              class="select-picture-contents"
-              :src="image"
-              alt="첨부한 사진"
-            />
-            <button
-              @click="imageDelete"
-              class="delete-button"
-              type="button"
-              aria-label="첨부 파일 삭제하기"
-            >
+            <img class="select-picture-contents"  :src="image"  alt="첨부한 사진"/>
+
+            <button @click="imageDelete()" class="delete-button" type="button" aria-label="첨부 파일 삭제하기">
               <i class="icClose" aria-hidden="true"></i>
             </button>
           </div>
@@ -63,7 +61,7 @@
           <v-btn
             class="btn-outlined btn-40"
             type="button"
-            @click="onUpload"
+            @click="onUpload()"
             aria-label="사진 첨부하기"
           >
             사진 첨부하기
@@ -90,7 +88,7 @@
         </div>
       </div>
     </v-card>
-  </form>
+  </v-form>
 </template>
 
 <script>
@@ -103,20 +101,25 @@ export default {
   },
   data() {
     return {
-      image: "",
-      files: "",
-      review_content: "",
-      star_score: 0,
+      image: '',
+      files: '',
+      review_content: '',
+      star_score: '',
       uploadReady: true,
       reviewDialog: false,
+      cafeNum:''
     }
   },
   methods: {
+    close(){
+      this.$router.push({ name: 'CafeReviewListPage'})
+    },
+
     imageDelete() {
       this.image = null
-
       this.clearImage()
     },
+
     clearImage() {
       this.uploadReady = false
       this.$nextTick(() => {
@@ -131,17 +134,25 @@ export default {
       this.image = URL.createObjectURL(image)
       this.files = this.$refs.files.files[0]
     },
+    onSubmit () {
+      const { star_score, review_content,cafeNum } = this
+      const file =  this.$refs.files.files[0]
+      this.$emit('submit', { star_score, review_content,cafeNum,file })
+      console.log(star_score,review_content,cafeNum,file)
+    },
   },
+  /*
   watch: {
     reviewDialog: function (val) {
       if (val) {
         this.star_score = 0
-        this.review_content = ""
+        this.review_content = ''
         this.image = null
         this.clearImage()
-      }
+      }  
     },
-  },
+    
+  },*/
 }
 </script>
 

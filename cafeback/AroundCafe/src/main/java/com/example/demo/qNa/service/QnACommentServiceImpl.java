@@ -13,6 +13,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,33 +27,18 @@ public class QnACommentServiceImpl implements QnACommentService{
     QnACommentRepository repository;
 
     @Autowired
-    MemberRepository memberRepository;
-
-    @Autowired
     QnARepository qnARepository;
 
 
     @Override
     public void exceptImgRegister(Integer membNo, QnACommentDto info) {
-            Optional<QnA> findQna = qnARepository.findById(Long.valueOf(info.getQnaNo()));
-            QnA qnA = findQna.get();
+        QnA qnA = qnARepository.findById(Long.valueOf(info.getQnaNo())).orElseGet(null);
 
 
-        Long writer = Long.valueOf(membNo);
-
-        if(writer == qnA.getMemberInfo().getMemNo()) {
-            qnARepository.save(qnA);
-//            qnA= QnA.builder().serverCheck(true).notServerCheck(false).build();
-//            qnARepository.save(qnA);
-        }else {
-            qnARepository.save(qnA);
-//            qnA= QnA.builder().serverCheck(false).notServerCheck(true).build();
-//            qnARepository.save(qnA);
-        }
-
+        qnARepository.save(qnA);
 
         QnAComment comment = QnAComment.builder()
-                .writer(writer)
+                .writer(Long.valueOf(membNo))
                 .content(info.getChatting())
                 .qnA(qnA)
                 .build();
@@ -61,8 +50,7 @@ public class QnACommentServiceImpl implements QnACommentService{
 
     @Override
     public void saveImg(Integer qnaNo, String fileName) {
-        Optional<QnA> findQna = qnARepository.findById(Long.valueOf(qnaNo));
-        QnA qnA = findQna.get();
+        QnA qnA = qnARepository.findById(Long.valueOf(qnaNo)).orElseGet(null);
 
         QnAComment comment = QnAComment.builder()
                 .writer(qnA.getMemberInfo().getMemNo())
@@ -78,7 +66,18 @@ public class QnACommentServiceImpl implements QnACommentService{
         return repository.findByDate(qnaNo);
     }
 
+    @Override
+    public void deleteComment(Integer qnaCommentNo) throws IOException {
+        log.info("qna comment no : " +qnaCommentNo);
 
+        QnAComment comment = repository.findById(Long.valueOf(qnaCommentNo)).orElseGet(null);
+        if(comment.getImg() != null) {
+            log.info("file name : " +comment.getImg());
+            Path file = Paths.get("../../cafefront/around_cafe/src/assets/qna/" + comment.getImg());
+            Files.delete(file);
+        }
+        repository.deleteById(Long.valueOf(qnaCommentNo));
+    }
 
 
 }

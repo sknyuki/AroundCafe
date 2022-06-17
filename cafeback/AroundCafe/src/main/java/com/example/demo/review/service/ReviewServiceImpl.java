@@ -123,4 +123,8 @@ public class ReviewServiceImpl implements ReviewService{
     public List<Review> myReviewList(Long memNo) {
         return repository.findReviewByMemberNo(memNo);
     }
+
+
 }
+
+

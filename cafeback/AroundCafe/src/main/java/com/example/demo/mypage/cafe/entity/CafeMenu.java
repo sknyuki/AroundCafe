@@ -40,18 +40,11 @@ public class CafeMenu {
     private Cafe cafe;
 
 
-
+    @Builder
     public CafeMenu(String menu_name, String menu_price, String file, String menu_content, Cafe cafe) {
         this.menu_name = menu_name;
         this.menu_price = menu_price;
         this.menu_img = file;
-        this.menu_content = menu_content;
-        this.cafe = cafe;
-    }
-
-    public CafeMenu(String menu_name, String menu_price, String menu_content, Cafe cafe) {
-        this.menu_name = menu_name;
-        this.menu_price = menu_price;
         this.menu_content = menu_content;
         this.cafe = cafe;
     }

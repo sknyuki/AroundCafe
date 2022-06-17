@@ -6,11 +6,14 @@
         <div class="col-sm-4 col-md-3 col-lg-3">
           <CafeSidebar />
         </div>
+          
         <div class="test col-sm-8 col-md-9 col-lg-9">
           <header>
             <h1>리뷰</h1>
           </header>
-          <ReviewForm :reviewData="reviewData" />
+          <ReviewForm :reviews="reviews"/>
+          
+
           <div class="cafe-review-pag">
             <PaginationForm />
           </div>
@@ -28,36 +31,15 @@ import PaginationForm from "@/components/PaginationForm.vue"
 export default {
   name: "CafeReviewList",
   components: { ImgBox, CafeSidebar, ReviewForm, PaginationForm },
-
-  data() {
+  props: {
+    reviews: {
+      type: Array,
+      required: true
+    },
+  },
+   data() {
     return {
-      reviewData: [
-        {
-          reviewNo: 1,
-          writer: "박성빈",
-          regDate: "2022-06-02",
-          comment: "아아아아아아아아아아아아아아아아아아아아",
-          rating: 5,
-          cafeName: "벤투라",
-        },
-        {
-          reviewNo: 2,
-          writer: "박성빈",
-          regDate: "2022-06-02",
-          comment:
-            "아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아",
-          rating: 3,
-          cafeName: "벤투라",
-        },
-        {
-          reviewNo: 3,
-          writer: "박성빈",
-          regDate: "2022-06-02",
-          comment: "아아아아아아아아아아아아아아아아아아아아",
-          rating: 1,
-          cafeName: "벤투라",
-        },
-      ],
+      reviewNo:''
     }
   },
 }

@@ -1,6 +1,7 @@
 package com.example.demo.mypage.cafe.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
@@ -27,6 +28,7 @@ public class CafeImgTable {
     @Column(length = 128, nullable = true)
     private String regDate;
 
+    @Builder
     public CafeImgTable(String cafe_img, Cafe cafe){
         this.cafe_img = cafe_img;
         this.cafe = cafe;
