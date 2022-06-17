@@ -11,12 +11,6 @@
                 <img src="@/assets/images/img-user-default.png" sralt="" />
               </a>
 
-              <router-link :to="{name:'CafeReviewModifyPage', params:{ reviewNo: review.reviewNo.toString()}}" style="text-decoration:none">
-                <v-btn class="modifyBtn" @click="onReviewDialog()">Modify</v-btn>
-                <v-dialog max-width="750" v-model="reviewDialog">
-                </v-dialog>
-              </router-link>
-
               <div class="inf">
                 <a class="username" href="">
                   <strong> cafe.no {{ review.cafeNum }}</strong>
@@ -45,6 +39,11 @@
                 </div>
               </div>
             </header>
+
+           
+            
+
+
             <div class="cafe-review-body">
               
               <div class="review-image">
@@ -66,119 +65,123 @@
               </p>
 
             </div>
+
             <button class="delete-button" aria-label="해당 리뷰 삭제하기" type="button" >
               <i class="icClose"></i>
             </button>
-              <button
-              @click="onReviewDialog(review)"
-              class="delete-button"
-              aria-label="다이얼로그 등장"
-              type="button"
-            >
-              <i class="icHeart"></i>
+            
+ 
+          
+            
+            <CafeReviewModify v-if="review" :review="review" :reviewNo="reviewNo" @submit="onModify"/>
+         
+      
+            
+            
+           
+
+<!--
+            <button @click="onReviewDialog()" class="delete-button" aria-label="다이얼로그 등장" type="button">
+
+              <i class="icHeart">  </i>
+      
             </button>
+            
+
             <v-dialog max-width="750" v-model="reviewDialog">
-            <cafe-review-dialog @close="closeDialog"/>
-            </v-dialog>
+
+            <cafe-review-modify v-if="review" :review="review" @submit="onModify()"/>
+
+            </v-dialog>-->
+
           </article>
-        </li>
+        </li> 
       </ol>
     </div>
   </form>
 </template>
 <script>
 import StarRating from "vue-star-rating"
-
+import CafeReviewModify from "@/components/Cafe/CafeReviewModify"
 import axios from "axios"
-import CafeReviewDialog from './Cafe/CafeReviewDialog.vue'
+import { mapActions,mapState } from 'vuex'
 
 
 export default {
   name: "ReviewForm",
   components: {
     StarRating,
-    CafeReviewDialog,
+    CafeReviewModify
   
   },
-  props: {
-    reviews
-    : {
-     type: Array
+   props: {
+    reviews: {
+      type: Array,
+      required: true
     },
- 
-  },
-  data () {
-    return {
-    reviewNo: '',
-    reviewDialog: false,
-    star_score:0
-
-
-    //fileName: this.review.fileName,
     
+  },
+   mounted () {
+    this.fetchReview()
+  },
+
+  data() {
+    return {
+      reviewDialog: false,
+      reviewNo: '',
+
     }
   },
-  /*
-   mounted () {
-        this.like_count = false
-        for(let i=0; i<this.myLikes.length; i++) {
-            if (this.myLikes[i].review.reviewNo==this.review.reviewNo) {
-                this.like_count = true
-            } 
-        }
-    },*/
 
-
-  methods:{
+  computed: {
+    ...mapState(['review'])
+  },
 
     
-/*
-    movetomodify(event, idx){
-     
-      console.log("글 번호: " + idx.review.boardNo)
-      this.$router.push({name: 'CafeReviewModifyPage', params: {boardNo: String(idx.review.reviewNo)}})
-
-    },
-    */
-   like_count() {
- 
-      const { reviewNo } = this.review.reviewNo
-      //const { writer } = this
-      //console.log(reviewNo,writer)
-      console.log(reviewNo)
-      if (this.count == true ){
-          alert("이미 했음 ")
-      } else {
-      axios.post(`http://localhost:7777/cafe/review/${this.reviewNo}/like`)
-        .then((res) => {
-          if (res.data == false) {
-          alert("이미 좋아요 하셨습니다!")
-      } else {
-          alert("좋아요")
-          history.go(0)
-      }
+  methods: {
+    ...mapActions(['fetchReview']),
+  
+    onModify(payload) {
+      console.log(this.reviewNo)
+      const { reviewNo,star_score, review_content, cafeNum,file} = payload
+      let formData = new FormData()
+      if (file != null )
+      {formData.append('file', file)}
+      formData.append('star_score',star_score)
+      formData.append('review_content', review_content)
+      formData.append('cafeNum', cafeNum)
+      formData.append('reviewNo', reviewNo)
+        
+      
+      axios.put(`http://localhost:7777/cafe/review/${reviewNo}`,formData, { headers: {
+      'Content-Type': 'multipart/form-data'
+      }})
+      .then(() => {
+          alert("Successfully submitted")
+          window.location.reload();
+        
+          this.$router.push({
+              name: 'CafeReviewListPage'
+          })
+         
       })
       .catch(() => {
-          alert ('좋아요 실패 문제발생 !')
+          alert('문제 발생!')
       })
-      }
+        },
+  onReviewDialog() {
+    this.reviewDialog = true
   },
-  onReviewDialog(review) {
-      this.reviewDialog = true
-      console.log(this.reviewDialog)
-      // let reviewNo = review.reviewNo
-      // this.$emit('click', reviewNo)
-      // this.$router.push({
-      //     name:'CafeReviewRegister',
-      //     params: { reviewNo: review.reviewNo.toString()}
-      // })
-
-    },
-    closeDialog() {
-      this.reviewDialog = false
-    },
-  
-  } 
+  closeDialog() {
+    this.reviewDialog = false
+  },
+  created() {
+      this.fetchReview(this.reviewNo)
+      .catch(() => {
+          alert('게시물 DB조회 실패!')
+      })
+  }
+  },
 
 }
 </script>

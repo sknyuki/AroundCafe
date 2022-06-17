@@ -1,12 +1,9 @@
+<!--
 <template>
     <v-container class="writeForm">
         <v-row>
-        
             <cafe-review-list v-if="review" :review="review" />
-
-            <v-dialog max-width="750" v-model="reviewDialog">
-            </v-dialog> 
-            <CafeReviewModify @submit="onSubmit"/>
+            <CafeReviewModify @submit="onModify"/>
           
         </v-row>
     </v-container>
@@ -33,9 +30,9 @@ export default {
     },
     
     data() {
-    return {
-      reviewDialog: false,
-    }
+        return {
+            reviewDialog: false,
+        }
   },
   computed: {
         ...mapState(['review'])
@@ -43,7 +40,7 @@ export default {
     
     methods: {
          ...mapActions(['fetchReview']),
-        onSubmit (payload) {
+        onModify (payload) {
             const { star_score, review_content, cafeNum,file} = payload
             let formData = new FormData()
             if (file != null )
@@ -89,4 +86,4 @@ export default {
   overflow-y: auto;
   overflow-x: hidden;
 }
-</style>e>
+</style>e>-->
