@@ -36,10 +36,16 @@ public class MenuServiceImpl implements MenuService{
         log.info("file: " +fileName);
         log.info("cafe no : " +info.getCafe_no());
 
-        Optional<Cafe> findCafe = cafeRepository.findById(info.getCafe_no());
-        Cafe cafe = findCafe.get();
+        Cafe cafe = cafeRepository.findById(info.getCafe_no()).orElseGet(null);
 
-        CafeMenu cafeMenu = new CafeMenu(info.getMenu_name(), info.getMenu_price(), fileName, info.getMenu_content(),cafe);
+        CafeMenu cafeMenu = CafeMenu.builder()
+                .menu_name(info.getMenu_name())
+                .menu_price(info.getMenu_price())
+                .file(fileName)
+                .menu_content(info.getMenu_content())
+                .cafe(cafe)
+                .build();
+
         repository.save(cafeMenu);
 
     }
@@ -49,10 +55,15 @@ public class MenuServiceImpl implements MenuService{
     public void exceptImgSave(CafeMenuDto info) {
         log.info("cafe no : " +info.getCafe_no());
 
-        Optional<Cafe> findCafe = cafeRepository.findById(info.getCafe_no());
-        Cafe cafe = findCafe.get();
+        Cafe cafe = cafeRepository.findById(info.getCafe_no()).orElseGet(null);
 
-        CafeMenu cafeMenu = new CafeMenu(info.getMenu_name(), info.getMenu_price(), info.getMenu_content(), cafe);
+        CafeMenu cafeMenu = CafeMenu.builder()
+                .menu_name(info.getMenu_name())
+                .menu_price(info.getMenu_price())
+                .menu_content(info.getMenu_content())
+                .cafe(cafe)
+                .build();
+
         repository.save(cafeMenu);
     }
 
@@ -64,11 +75,8 @@ public class MenuServiceImpl implements MenuService{
         log.info("file: " +menu_img);
         log.info("cafe no : " + cafeNo);
 
-        Optional<Cafe> findCafe = cafeRepository.findById(Long.valueOf(cafeNo));
-        Cafe cafe = findCafe.get();
-
-        Optional<CafeMenu> findCafeMenu = repository.findById(info.getMenu_no());
-        CafeMenu cafeMenu = findCafeMenu.get();
+        Cafe cafe = cafeRepository.findById(Long.valueOf(cafeNo)).orElseGet(null);
+        CafeMenu cafeMenu = repository.findById(info.getMenu_no()).orElseGet(null);
 
         if(cafeMenu.getMenu_img() != null) {
             Path filePath = Paths.get("../../cafefront/around_cafe/src/assets/cafe/cafeMenu/" + cafeMenu.getMenu_img());
@@ -88,11 +96,8 @@ public class MenuServiceImpl implements MenuService{
     public void exceptImgModify(CafeMenu info, Integer cafeNo) {
         log.info("except img modify");
 
-        Optional<CafeMenu> findCafeMenu = repository.findById(info.getMenu_no());
-        CafeMenu cafeMenu = findCafeMenu.get();
-
-        Optional<Cafe> findCafe = cafeRepository.findById(Long.valueOf(cafeNo));
-        Cafe cafe = findCafe.get();
+        Cafe cafe = cafeRepository.findById(Long.valueOf(cafeNo)).orElseGet(null);
+        CafeMenu cafeMenu = repository.findById(info.getMenu_no()).orElseGet(null);
 
         if(cafeMenu.getMenu_img() != null) {
             info.setMenu_img(cafeMenu.getMenu_img());
@@ -108,8 +113,7 @@ public class MenuServiceImpl implements MenuService{
     @Transactional
     @Override
     public List<CafeMenu> list(Integer membNo) {
-        Optional<Cafe> findCafeNo = cafeRepository.findByMemberNo(Long.valueOf(membNo));
-        Cafe cafe = findCafeNo.get();
+        Cafe cafe = cafeRepository.findByMemberNo(Long.valueOf(membNo)).orElseGet(null);
         Long CafeNo = cafe.getCafeNo();
 
         return repository.findByCafeNo(CafeNo);
@@ -118,8 +122,7 @@ public class MenuServiceImpl implements MenuService{
     @Transactional
     @Override
     public void delete(Integer menuNo) throws IOException {
-        Optional<CafeMenu> findMenu = repository.findById(Long.valueOf(menuNo));
-        CafeMenu menu = findMenu.get();
+        CafeMenu menu = repository.findById(Long.valueOf(menuNo)).orElseGet(null);
 
         if(menu.getMenu_img() != null) {
             Path file = Paths.get("../../cafefront/around_cafe/src/assets/cafe/cafeMenu/" + menu.getMenu_img());
@@ -145,8 +148,7 @@ public class MenuServiceImpl implements MenuService{
         if(countSignature >=2) {
             return "시그니처가 두개가 넘었습니다.";
         }else {
-            Optional<CafeMenu> findMenu = repository.findById(Long.valueOf(menuNo));
-            CafeMenu menu = findMenu.get();
+            CafeMenu menu = repository.findById(Long.valueOf(menuNo)).orElseGet(null);
             
             menu.setSignature(true);
             repository.save(menu);
@@ -159,8 +161,7 @@ public class MenuServiceImpl implements MenuService{
     @Override
     public String deleteSignature(Integer menuNo) {
         
-        Optional<CafeMenu> findMenu = repository.findById(Long.valueOf(menuNo));
-        CafeMenu menu = findMenu.get();
+        CafeMenu menu = repository.findById(Long.valueOf(menuNo)).orElseGet(null);
 
         menu.setSignature(false);
         repository.save(menu);
@@ -170,8 +171,7 @@ public class MenuServiceImpl implements MenuService{
 
     @Override
     public String changeSoldOut(Integer menuNo) {
-        Optional<CafeMenu> findMenu = repository.findById(Long.valueOf(menuNo));
-        CafeMenu menu = findMenu.get();
+        CafeMenu menu = repository.findById(Long.valueOf(menuNo)).orElseGet(null);
 
         menu.setSold_out(true);
         repository.save(menu);
@@ -181,8 +181,7 @@ public class MenuServiceImpl implements MenuService{
 
     @Override
     public String deleteSoldOut(Integer menuNo) {
-        Optional<CafeMenu> findMenu = repository.findById(Long.valueOf(menuNo));
-        CafeMenu menu = findMenu.get();
+        CafeMenu menu = repository.findById(Long.valueOf(menuNo)).orElseGet(null);
 
         menu.setSold_out(false);
         repository.save(menu);

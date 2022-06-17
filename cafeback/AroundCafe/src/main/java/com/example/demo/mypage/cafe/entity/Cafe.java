@@ -72,11 +72,4 @@ public class Cafe {
         this.cafe_adr3 = cafe_adr3;
         memberInfo = member;
     }
-
-    public Cafe(String cafe_name, String cafe_bis_no, String cafe_time, Member member) {
-        this.cafe_name = cafe_name;
-        this.cafe_bis_no = cafe_bis_no;
-        this.cafe_time = cafe_time;
-        memberInfo = member;
-    }
 }
