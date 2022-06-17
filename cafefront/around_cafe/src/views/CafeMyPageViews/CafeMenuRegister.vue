@@ -38,7 +38,7 @@ import { mapState, mapActions } from 'vuex'
                 let formData = new FormData()
 
                 let fileInfo = {
-                    cafe_no : 1,
+                    cafe_no : 4,
                     menu_name,
                     menu_price,
                     menu_content
