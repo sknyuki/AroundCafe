@@ -70,27 +70,30 @@ public class CafeServiceImpl implements CafeService{
         }
     }
 
+    @Transactional
     @Override
     public List<CafeImgTable> imgList(Integer cafeNo) {
         return cafeImgRepository.CafeImgList(Long.valueOf(cafeNo));
     }
 
+    @Transactional
     @Override
     public List<Cafe> cafeList() {
         return repository.findAll();
     }
 
+    @Transactional
     @Override
     public void delete(String cafeNo) throws IOException {
         checkSavedImg(Long.valueOf(cafeNo)); //카페 이미지 테이블에 있는 이미지 삭제 + 테이블 삭제
         log.info("cafe img : " + cafeNo + "is deleted!!");
-        menuRepository.deleteByCafeNo(Long.valueOf(cafeNo));
-        log.info("cafe menu is deleted!");
+
         repository.deleteById(Long.valueOf(cafeNo));
-        log.info("cafe table is deleted!");
+        log.info("cafe table is deleted!" + cafeNo);
     }
 
 
+    @Transactional
     @Override
     public void notIncludeFileModifyCafe(Integer membNo,Cafe info) {
 
@@ -109,6 +112,7 @@ public class CafeServiceImpl implements CafeService{
 //        return cafe;
 //    }
 
+    @Transactional
     @Override
     public Cafe read() {
         Long memNo = 1l;
