@@ -32,11 +32,9 @@ public class CafeController {
         log.info("uploadImg()"+fileList);
 
         service.notIncludeFileModifyCafe(membNo,info);
-        log.info("***controller -> info is saved!!");
 
         if(fileList != null) {
             service.checkSavedImg(info.getCafeNo());
-            log.info("***controller -> delete complete saved img!!");
             try{
                 for(MultipartFile multipartFile : fileList) {
                     log.info("requestFile() - Make file :" +
@@ -49,19 +47,12 @@ public class CafeController {
 
                     writer.write(multipartFile.getBytes());
                     writer.close();
-                    log.info("***file is saved at the vue file");
-
-
-
                     service.includeFileModifyCafe(info.getCafeNo(),saveImg);
-
                 }
             } catch (Exception e) {
                 return "register failed!";
             }
         }
-
-        log.info("requestUpload(): Success!!!");
         return "등록이 완료되었습니다!";
     }
 
@@ -87,5 +78,12 @@ public class CafeController {
     public List<Cafe> mypageCafeList () {
         log.info("get cafe list");
         return service.cafeList();
+    }
+
+    @DeleteMapping("/delete/{cafeNo}")
+    public void deleteCafe(@PathVariable("cafeNo") String cafeNo) throws IOException {
+        log.info("delete cafe info");
+
+        service.delete(cafeNo);
     }
 }
