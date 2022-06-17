@@ -6,15 +6,14 @@
         <div class="col-sm-4 col-md-3 col-lg-3">
           <CafeSidebar />
         </div>
-        <!--
-            <span v-if="board.writer == this.userId">  -->
-    
-       
+          
         <div class="test col-sm-8 col-md-9 col-lg-9">
           <header>
             <h1>리뷰</h1>
           </header>
-          <ReviewForm :reviews="reviews" />
+          <ReviewForm :reviews="reviews"/>
+          
+
           <div class="cafe-review-pag">
             <PaginationForm />
           </div>
@@ -28,31 +27,19 @@ import CafeSidebar from "@/components/Cafe/CafeSidebar.vue"
 import ImgBox from "@/components/ImgBox.vue"
 import ReviewForm from "@/components/ReviewForm.vue"
 import PaginationForm from "@/components/PaginationForm.vue"
-import { mapActions,mapState } from 'vuex'
 
 export default {
   name: "CafeReviewList",
   components: { ImgBox, CafeSidebar, ReviewForm, PaginationForm },
-  
-  computed: {
-    ...mapState(['reviews'])
-  },
-  mounted () {
-    this.fetchReviewList()
-  },
-   methods: {
-    ...mapActions(['fetchReviewList']),   
-    onReviewDialog() {
-      this.reviewDialog = true
+  props: {
+    reviews: {
+      type: Array,
+      required: true
     },
-    closeDialog() {
-      this.reviewDialog = false
-    },  
   },
-
    data() {
     return {
-      
+      reviewNo:''
     }
   },
 }

@@ -11,14 +11,7 @@
           <v-row justify="center">
             <v-col cols="3" class="label mt-5" >cafeNum</v-col>
             <v-col>
-                <v-text-field color="#e3c832" type="text" v-model="cafe_num"/>
-            </v-col>
-          </v-row>
-
-            <v-row justify="center">
-            <v-col cols="3" class="label mt-5" >member_no</v-col>
-            <v-col>
-                <v-text-field color="#e3c832" type="text" v-model="member_no"/>
+                <v-text-field color="#e3c832" type="text" v-model="cafeNum"/>
             </v-col>
           </v-row>
         <div class="review-card-point">
@@ -114,8 +107,7 @@ export default {
       star_score: '',
       uploadReady: true,
       reviewDialog: false,
-      cafeNum:'',
-      member_no: ''
+      cafeNum:''
     }
   },
   methods: {
@@ -157,7 +149,7 @@ export default {
         this.review_content = ''
         this.image = null
         this.clearImage()
-      }
+      }  
     },
     
   },*/
