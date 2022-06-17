@@ -23,6 +23,11 @@
                         <v-btn @click="cafeDelete(item)">삭제</v-btn>
                     </v-col >
                 </v-row>
+                 <v-row>
+                    <v-col class="col-12 col-sm-6">
+                        설명 : {{item.cafe_content}}
+                    </v-col>
+                </v-row>
                 <v-row>
                     <v-col class="col-12 col-sm-6">
                         주소 : {{item.cafe_adr1}} {{item.cafe_adr2}} {{item.cafe_adr3}}

@@ -110,8 +110,8 @@ export default {
          modifySubmit () {
             var result = confirm('등록 하시겠습니까?')
             if(result) {
-                const { mcafe_name, mcafe_bus_no, mcafe_no, mcafe_content, mcafe_call, mcafe_time, mcafe_adr1, mcafe_adr2, mcafe_adr3, files1} = this
-                this.$emit('submit', { mcafe_name, mcafe_bus_no, mcafe_no, mcafe_content, mcafe_call, mcafe_time, mcafe_adr1, mcafe_adr2, mcafe_adr3, files1})
+                const { mcafe_name, mcafe_bus_no, mcafe_no, mcafe_content, mcafe_call, mcafe_time, mcafe_adr1, mcafe_adr2, mcafe_adr3, files2} = this
+                this.$emit('submit', { mcafe_name, mcafe_bus_no, mcafe_no, mcafe_content, mcafe_call, mcafe_time, mcafe_adr1, mcafe_adr2, mcafe_adr3, files2})
             }
          }
     }

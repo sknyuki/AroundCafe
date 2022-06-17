@@ -59,7 +59,7 @@ export default {
             }
 
             console.log(fileInfo)
-            let membNo = 2;
+            let membNo = 1;
             axios.put(`http://localhost:7777/cafe/modify/${membNo}`, formData)
                     .then(() => {
                         alert('수정되었습니다!')
