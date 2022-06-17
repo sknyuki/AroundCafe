@@ -2,15 +2,18 @@
     <v-container>
       <!-- <cafe-site-component :cafeBoard='cafeBoard'/>--> 
         <!--<the-v-card-form :menuList='menuList'/>-->
+        <cafe-sticky-sidebar @SelectdeMenuSubmit="SelectdeMenuSubmit"/>
     </v-container>
 </template>
 <script>
+import CafeStickySidebar from '@/components/CafeSite/CafeStickySidebar.vue'
 //import CafeSiteComponent from '@/components/CafeSite/CafeSiteComponent.vue'
 //import TheVCardForm from'@/components/TheVCardForm.vue'
 /* register작업 완료 후 store 열어준 후 열어주세요
 import axios from 'axios'
 import { mapState } from 'vuex'*/
 export default {
+  components: { CafeStickySidebar },
     name:'CafeSiteList',
     //components: { CafeSiteComponent },
     //components: { TheVCardForm },
@@ -34,9 +37,10 @@ computed:{
 
         },
         methods : {
-            ...mapActions(['fetchMenuLists']),
-            contentsSubmit(payload) {
-                  const { cafe_name, cafe_time, cafe_content, cafe_call, cafe_adr1, cafe_adr2, cafe_adr3, cafeImgs} = payload
+            바스켓 엔티티 작업 완료시 수정 
+            ...mapActions(['fetchbasket']),
+            SelectdeMenuSubmit(payload) {
+                  const { totalPrice, baskets.PerMenuPrices, baskets.Price, baskets.menu, baskets.number} = payload
 
                 let formData = new FormData()
 
