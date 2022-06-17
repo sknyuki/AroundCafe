@@ -101,7 +101,6 @@
     }
   }
   .delete-button {
-    @include inline-flexbox;
     position: absolute;
     top: 16px;
     right: 8px;
