@@ -49,7 +49,7 @@ public class ReviewController {
     //리뷰 수정
     @PutMapping("/{reviewNo}")
     public Review reviewModify (
-            @PathVariable("boardNo") Integer reviewNo,
+            @PathVariable("reviewNo") Integer reviewNo,
             Review review, @RequestParam(required = false) MultipartFile file) throws Exception {
         log.info("reviewModify(): " + review + "reviewNo" + reviewNo);
 
@@ -63,7 +63,7 @@ public class ReviewController {
     //리뷰 삭제
     @DeleteMapping("/{reviewNo}")
     public void reviewRemove(
-            @PathVariable("reviewNo") Integer reviewNo,Review review) throws IOException {
+            @PathVariable("reviewNo") Integer reviewNo) throws IOException {
         log.info("reviewRemove()");
 
         service.delete(reviewNo);

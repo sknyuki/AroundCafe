@@ -1,6 +1,7 @@
 package com.example.demo.review.service;
 
 
+import com.example.demo.mypage.cafe.entity.Cafe;
 import com.example.demo.review.entity.Review;
 import com.example.demo.review.repository.ReviewRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -77,10 +78,15 @@ public class ReviewServiceImpl implements ReviewService{
     @Override
     public void modify(Review review, @RequestParam(required = false) MultipartFile file) throws Exception {
 
-        if (review.getFileName().equals(Optional.empty())) {
 
-            Path filePath = Paths.get("c:\\TeamProject\\AroundCafe\\cafefront\\around_cafe\\src\\assets\\review\\" + review.getFileName());
+        Review review1 = repository.findById(review.getReviewNo()).orElseGet(null);
+
+
+        if (review1.getFileName() != null) {
+
+            Path filePath = Paths.get("c:\\TeamProject\\AroundCafe\\cafefront\\around_cafe\\src\\assets\\review\\" + review1.getFileName());
             Files.delete(filePath);
+            log.info("file delete complete");
         }
 
         if (file != null) {
@@ -99,19 +105,55 @@ public class ReviewServiceImpl implements ReviewService{
         repository.save(review);
 
     }
+    /*
+    @Transactional
+    @Override
+    public void modify(Review review, @RequestParam(required = false) MultipartFile file) throws Exception {
+
+        Review review3 = repository.findById(review.getReviewNo()).orElseGet(()->null);
+
+        if (review3.getFileName().equals(Optional.empty())) {
+
+            Path filePath = Paths.get("c:\\TeamProject\\AroundCafe\\cafefront\\around_cafe\\src\\assets\\review\\" + review.getFileName());
+            Files.delete(filePath);
+            log.info("file delete complete");
+        }
+
+        if (file != null) {
+
+            UUID uuid = UUID.randomUUID();
+
+            String fileName =  uuid + "_" + file.getOriginalFilename();
+            FileOutputStream saveFile = new FileOutputStream("../../cafefront/around_cafe/src/assets/review/" + fileName);
+
+            saveFile.write(file.getBytes());
+            saveFile.close();
+
+            review3.setFileName(fileName);
+        }
+
+        repository.save(new Review());
+
+    }
+
+ */
 
     @Transactional
     @Override
     public void delete(Integer reviewNo) throws IOException {
         Optional<Review> selectFile = repository.findById(Long.valueOf(reviewNo));
+        log.info("check1");
         Review deleteFile = selectFile.get();
+        log.info("check2");
 
         if ( deleteFile.getFileName() != null) {
+            log.info("check3");
             Path file = Paths.get("../../cafefront/around_cafe/src/assets/review/" + deleteFile.getFileName());
 
             Files.delete(file);
+            log.info("check4");
         }
-
+        log.info("check5");
         repository.deleteById(Long.valueOf(reviewNo));
 
     }

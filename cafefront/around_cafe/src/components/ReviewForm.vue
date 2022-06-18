@@ -46,8 +46,8 @@
 
             <div class="cafe-review-body">
               
-              <div class="review-image">
-                <img v-if="review.fileName !== null && review.fileName !== 'null'" class="addImg" 
+              <div class="review-image" v-if="review.fileName != null">
+                <img  
                 :src="require(`@/assets/review/${review.fileName}`)">
               </div>
 
@@ -67,32 +67,21 @@
             </div>
 
             <button class="delete-button" aria-label="해당 리뷰 삭제하기" type="button" >
-              <i class="icClose"></i>
+              <i @click="onDelete()" class="icClose"></i>
             </button>
-            
- 
-          
             
             <CafeReviewModify v-if="review" :review="review" :reviewNo="reviewNo" @submit="onModify"/>
-         
+
+            <CafeReviewDelete v-if="review" :review="review" :reviewNo="reviewNo"/>
+          
+            <!--
+            <button class="delete-button" aria-label="다이얼로그 등장" type="button">
+
+             <CafeReviewModify v-if="review" :review="review" :reviewNo="reviewNo" @submit="onModify"/>
       
+            </button>-->
             
-            
-           
-
-<!--
-            <button @click="onReviewDialog()" class="delete-button" aria-label="다이얼로그 등장" type="button">
-
-              <i class="icHeart">  </i>
-      
-            </button>
-            
-
-            <v-dialog max-width="750" v-model="reviewDialog">
-
-            <cafe-review-modify v-if="review" :review="review" @submit="onModify()"/>
-
-            </v-dialog>-->
+        
 
           </article>
         </li> 
@@ -105,13 +94,15 @@ import StarRating from "vue-star-rating"
 import CafeReviewModify from "@/components/Cafe/CafeReviewModify"
 import axios from "axios"
 import { mapActions,mapState } from 'vuex'
+import CafeReviewDelete from "@/components/Cafe/CafeReviewDelete"
 
 
 export default {
   name: "ReviewForm",
   components: {
     StarRating,
-    CafeReviewModify
+    CafeReviewModify,
+    CafeReviewDelete
   
   },
    props: {
@@ -129,6 +120,8 @@ export default {
     return {
       reviewDialog: false,
       reviewNo: '',
+      fileName:'',
+      image:'',
 
     }
   },
@@ -142,6 +135,7 @@ export default {
     ...mapActions(['fetchReview']),
   
     onModify(payload) {
+      this.reviewNo = reviewNo 
       console.log(this.reviewNo)
       const { reviewNo,star_score, review_content, cafeNum,file} = payload
       let formData = new FormData()
@@ -175,6 +169,7 @@ export default {
   closeDialog() {
     this.reviewDialog = false
   },
+  
   created() {
       this.fetchReview(this.reviewNo)
       .catch(() => {
