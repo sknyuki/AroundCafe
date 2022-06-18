@@ -1,0 +1,60 @@
+.member-list {
+  $table-cell-padding: 6px;
+  $table-th-width-sm: 40px;
+  $table-th-width-md: 60px + $table-cell-padding;
+  $table-th-width-lg: 80px + $table-cell-padding;
+
+  h2 {
+    @include text-style(24, $black);
+    padding: 8px 0;
+  }
+  &-table {
+    width: 100%;
+    margin-top: 8px;
+    border-radius: 4px;
+    table-layout: fixed;
+    border-collapse: collapse;
+    border: 1px solid $border;
+
+    tr {
+      @include text-style(12, $primary);
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid $border;
+    }
+    th,
+    td {
+      padding: $table-cell-padding;
+    }
+
+    th {
+      width: $table-th-width-sm + $table-cell-padding;
+      font-weight: 700;
+      color: $primary;
+    }
+
+    td {
+      padding-left: 0;
+    }
+  }
+  @include responsive(T) {
+    $table-cell-padding: 12px;
+
+    tr {
+      @include text-style(12);
+    }
+
+    th {
+      width: $table-th-width-md + $table-cell-padding;
+    }
+  }
+  @include responsive(D) {
+    tr {
+      @include text-style(14);
+    }
+
+    th {
+      width: $table-th-width-lg + $table-cell-padding;
+    }
+  }
+}

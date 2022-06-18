@@ -5,15 +5,17 @@
 			<h2 class="sidebar-header">
 			Selected menu
 			</h2>
+			<v-divider></v-divider>
+			<br>
 			<ul class="list-flex">
 			<li v-for="(basket, index) in baskets" :key="index">
 				<span>
-							menu:{{ basket.menu }}
+					menu:{{ basket.menu }}
 				</span>
             <br>
 				<span>
-							price:{{ basket.Price }} <br>
-              수량 :{{ basket.number}}
+			price:{{ basket.Price }} <br>
+            수량 :{{ basket.number}}
               
               <v-btn class="show-btns-up" icon
                  @click="UP(basket)">
@@ -33,16 +35,18 @@
              <br>
             <br>                    
 			</li>
-          <br>
+			
+		<v-divider></v-divider>
             <span  class="total-price">
 				total price: {{ totalPrice }}
 			</span>  
 			</ul>
+	
 		<div class="버튼">
            <v-row justify="center">
              <v-col cols="3">
                 <v-btn text color="black" rounded x-large
-                    style="padding: 10px; width: 30px;" @click="SelectdeMenuSubmit()" >메뉴 확정하기
+                    style="padding: 10px; width: 150px;" @click="SelectdeMenuSubmit()" >메뉴 확정하기
                 </v-btn>
              </v-col>    
              </v-row>
@@ -69,7 +73,9 @@ export default {
 		//basket반영시 변경
         baskets:[
             {menu:"아메리카노",Price:4900,PerMenuPrices:0,number:0},
-            {menu:"카페모카",Price:6700,PerMenuPrices:0,number:0}
+            {menu:"카페모카",Price:6700,PerMenuPrices:0,number:0},
+			{menu:"마끼아또",Price:7200,PerMenuPrices:0,number:0},
+            {menu:"프라프치노",Price:7200,PerMenuPrices:0,number:0}
             
 			],
         }
@@ -88,14 +94,17 @@ export default {
 
         basket.PerMenuPrices=basket.Price*basket.number;
         //console.log(this.totalPrice)
-
-
+		this.totalPrice=0;
         for(let i=0; i< this.baskets.length; i++){
-          // console.log("개당가격")
-          // console.log(this.baskets[i].PerMenuPrice)
+          console.log(i+1+'번째 메뉴 루프')
+          console.log(i+1+"번째 메뉴의 총 가격")
+           console.log(this.baskets[i].PerMenuPrices)
           this.totalPrice+=this.baskets[i].PerMenuPrices
-          // console.log(this.totalPrice)
+          console.log("전체 총가격")
+           console.log(this.totalPrice)
         }
+
+
 
       },
       DOWN(basket){
@@ -104,11 +113,12 @@ export default {
         basket.number-=1;
 
         basket.PerMenuPrices=basket.Price*basket.number;
-
+		this.totalPrice=0;
         for(let i=0; i<this.baskets.length; i++){   
-          this.totalPrice-=this.baskets[i].PerMenuPrices 
+          this.totalPrice+=this.baskets[i].PerMenuPrices 
         }        
       },
+
 	SelectdeMenuSubmit(){
 		const { totalPrice, baskets} = this
             this.$emit('selectedMenu',{totalPrice, baskets})  

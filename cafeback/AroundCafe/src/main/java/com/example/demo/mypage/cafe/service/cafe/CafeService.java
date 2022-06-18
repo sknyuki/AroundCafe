@@ -20,4 +20,6 @@ public interface CafeService {
     public List<CafeImgTable> imgList(Integer cafeNo);
 
     public List<Cafe> cafeList();
+
+    public void delete(String cafeNo) throws IOException;
 }

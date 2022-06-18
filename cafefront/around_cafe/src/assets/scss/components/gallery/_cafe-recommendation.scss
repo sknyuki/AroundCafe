@@ -6,8 +6,8 @@
 
   &-item {
     position: relative;
-
     width: 100%; // (100% - 20px) / 2
+
     &:nth-child(1),
     &:nth-child(2) {
       margin-bottom: 20px;
@@ -17,18 +17,16 @@
     }
 
     &-btn {
-      background: none;
+      position: absolute;
+      z-index: 10;
+      right: 0;
+      margin: 16px;
 
       :hover {
         opacity: 0.5;
       }
       i {
-        position: absolute;
-        top: 24px;
-        right: 0;
-        margin: 16px;
         font-size: 24px;
-        z-index: 10;
       }
     }
   }

@@ -54,7 +54,7 @@ public class Member extends BaseDateTime {
     @JoinColumn(name = "role_id")
     private MemberRole role;
 
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "memberInfo")
+    @OneToOne(cascade = CascadeType.REMOVE, mappedBy = "memberInfo", orphanRemoval = true)
     private Cafe cafe;
 
     @OneToMany(mappedBy = "memberInfo",fetch = FetchType.EAGER,orphanRemoval = true)

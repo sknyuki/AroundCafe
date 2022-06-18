@@ -30,7 +30,7 @@ export default {
     methods : {
         ...mapActions(['fetchcafeBoard', 'fetchCafeImgLists']),
         contentsSubmit(payload) {
-                const { mcafe_name, mcafe_content, mcafe_call, mcafe_time, mcafe_adr1, mcafe_adr2, mcafe_adr3, files1} = payload
+            const { mcafe_name, mcafe_content, mcafe_call, mcafe_time, mcafe_adr1, mcafe_adr2, mcafe_adr3, files1} = payload
 
             let formData = new FormData()
 
@@ -59,7 +59,7 @@ export default {
             }
 
             console.log(fileInfo)
-            let membNo = 2;
+            let membNo = 1;
             axios.put(`http://localhost:7777/cafe/modify/${membNo}`, formData)
                     .then(() => {
                         alert('수정되었습니다!')
