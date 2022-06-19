@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Getter
 @RequiredArgsConstructor
 @Entity
-@Table(name = "member_roles")
+@Table(name = "member_role")
 public class MemberRole {
 
     @Id
@@ -26,7 +26,8 @@ public class MemberRole {
     private Member member;
 
     @Builder
-    public MemberRole(MemberRoleType name, Boolean isMemberOnBlacklist, Member member){
+    public MemberRole(Long id, MemberRoleType name, Boolean isMemberOnBlacklist, Member member){
+        this.id = id;
         this.name = name;
         this.isMemberOnBlacklist = isMemberOnBlacklist;
         this.member = member;

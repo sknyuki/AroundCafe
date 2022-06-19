@@ -2,18 +2,18 @@
   <div class="login">
     <header class="login-header">
       <router-link :to="{ name: 'MainPage' }">
-        <h2>Arround Cafe</h2>
+        <h2>Around Cafe</h2>
       </router-link>
     </header>
 
     <section class="login-section">
       <div>
-        <form class="login-form" action="/" method="POST">
+        <form class="login-form" @submit.prevent="onSubmit" action="/" method="POST">
           <div class="login-form-member">
             <div class="login-form-id">
               <div class="account-input">
                 <input
-                  v-model="memId"
+                  v-model="email"
                   class="form-input input-48"
                   type="email"
                   placeholder="이메일"
@@ -24,7 +24,7 @@
             <div class="login-form-pw">
               <div class="account-input">
                 <input
-                  v-model="memPw"
+                  v-model="password"
                   class="form-input input-48"
                   type="password"
                   placeholder="비밀번호"
@@ -58,10 +58,10 @@
           <section>
             <div class="login-social">SNS계정으로 간편 로그인/회원가입</div>
             <div class="login-social-group">
-              <v-btn medium fab color="yellow">
+              <v-btn v-on:click="redirect2AuthServer('kakao')" medium fab color="yellow">
                 <i class="icKaKaoTalk"></i>
               </v-btn>
-              <v-btn medium fab>
+              <v-btn v-on:click="redirect2AuthServer('naver')" medium fab>
                 <i class="icNaver"></i>
               </v-btn>
               <v-btn medium fab>
@@ -80,10 +80,18 @@
 <script>
 export default {
   name: "LoginForm",
+  methods: {
+    onSubmit() {
+      this.$emit('submit', {email: this.email, password: this.password})
+    },
+    redirect2AuthServer(socialType) {
+      window.location.href = `http://localhost:5000/oauth/${socialType}/login`
+    },
+  },
   data() {
     return {
-      memId: "",
-      memPw: "",
+      email: "",
+      password: "",
     }
   },
 }

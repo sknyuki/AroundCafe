@@ -1,10 +1,10 @@
 package com.example.demo.security.config;
 
 import com.example.demo.security.jwt.filter.JwtFilter;
-import com.example.demo.security.jwt.service.AuthEntryPointJwt;
+import com.example.demo.security.jwt.exceptions.AuthEntryPointJwt;
 import com.example.demo.security.service.CorsConfigurationSource;
 import com.example.demo.security.service.MemberDetailsServiceImpl;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -21,7 +21,7 @@ import org.springframework.web.cors.CorsUtils;
 
 @Configuration
 @EnableWebSecurity
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final MemberDetailsServiceImpl memberDetailsService;

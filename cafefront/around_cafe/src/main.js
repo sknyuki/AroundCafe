@@ -3,6 +3,8 @@ import App from "./App.vue"
 import router from "./router"
 import store from "./store"
 import vuetify from "./plugins/vuetify"
+//axios from "./plugins/axios"
+import axios from "axios"
 import "@/utils/validation"
 
 import { phoneNumber, pricePoint } from "@/utils/filters"
@@ -16,5 +18,6 @@ new Vue({
   router,
   store,
   vuetify,
+  axios,
   render: (h) => h(App),
 }).$mount("#app")

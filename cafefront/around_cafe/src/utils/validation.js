@@ -2,6 +2,7 @@ import Vue from "vue"
 import { extend, ValidationObserver, ValidationProvider } from "vee-validate"
 import { required, email, confirmed } from "vee-validate/dist/rules"
 
+
 // 비밀번호 최소~최대길이
 extend("limit", (value, params) => {
   const [min, max] = params
@@ -55,5 +56,28 @@ extend("confirmed", {
   message: "비밀번호가 일치하지 않습니다",
 })
 
+extend("isEmailDup", boolean => {
+  if(boolean === false) {
+    return "이메일 중복 확인을 해 주세요"
+  }
+  return true
+})
+
+extend("isEmailVerified", (boolean) => {
+  if(boolean !== true) {
+    return "이메일 인증을 해 주세요"
+  }
+  return true
+})
+
+extend("usernameDupChecked", (boolean) => {
+  if(boolean !== true) {
+    return "닉네임 중복 확인을 해 주세요"
+  }
+  return true
+})
+
 Vue.component("ValidationObserver", ValidationObserver)
 Vue.component("ValidationProvider", ValidationProvider)
+
+//export default

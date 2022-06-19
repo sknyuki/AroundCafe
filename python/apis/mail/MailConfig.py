@@ -1,0 +1,5 @@
+SMTP_SERVER = "smtp.gmail.com"
+SSL_PORT = "465"
+TLS_PORT = "587"
+USER_ID = "aroundcafee@gmail.com"
+USER_PASSWORD = "cbzkyfgmagyhycib"
