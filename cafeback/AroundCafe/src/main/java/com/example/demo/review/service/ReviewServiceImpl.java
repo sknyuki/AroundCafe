@@ -106,8 +106,6 @@ public class ReviewServiceImpl implements ReviewService{
         Optional<Review> selectFile = repository.findById(Long.valueOf(reviewNo));
         Review deleteFile = selectFile.get();
 
-
-
         if ( deleteFile.getFileName() != null) {
             Path file = Paths.get("../../cafefront/around_cafe/src/assets/review/" + deleteFile.getFileName());
 

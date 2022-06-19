@@ -27,7 +27,7 @@ public class MemberPrincipal implements UserDetails {
     }
 
     public static MemberPrincipal create(Member member) {
-        String role = member.getRole().getName().toString();
+        String role = member.getRole().getName().getRoleType();
         List<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority(role));
         return MemberPrincipal.builder()
                 .id(member.getMemNo())

@@ -7,12 +7,14 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface MemberRoleRepository {
 
     Optional<MemberRole> findByName(MemberRoleType name);
+    List<MemberRole> findAllByName(MemberRoleType name);
 
 //    @Transactional
 //    @Query(value = "select * from member_roles where role = :membNo", nativeQuery = true)

@@ -6,6 +6,7 @@ import com.example.demo.review.entity.Review;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ import java.util.List;
 
 
 @Getter
+@Setter
 @RequiredArgsConstructor
 @Entity
 @Table(name = "Members")
@@ -22,6 +24,9 @@ public class Member extends BaseDateTime {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long memNo;
+
+    @Column(unique = true)
+    private String socialNo;
 
     @Column(unique = true)
     private String memId;
@@ -49,18 +54,16 @@ public class Member extends BaseDateTime {
     @JoinColumn(name = "role_id")
     private MemberRole role;
 
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "memberInfo")
+    @OneToOne(cascade = CascadeType.REMOVE, mappedBy = "memberInfo", orphanRemoval = true)
     private Cafe cafe;
 
     @OneToMany(mappedBy = "memberInfo",fetch = FetchType.EAGER,orphanRemoval = true)
     private List<Review> review = new ArrayList<>();
 
-
-
-
     @Builder
-    public Member(Long memNo, String memId, String memPw, String memNick, String memImg, String phoneNum, String memBirth, SocialType socialType, MemberRole role) {
+    public Member(Long memNo, String memId, String socialNo, String memPw, String memNick, String memImg, String phoneNum, String memBirth, SocialType socialType, MemberRole role) {
         this.memNo = memNo;
+        this.socialNo = socialNo;
         this.memId = memId;
         this.memPw = memPw;
         this.memNick = memNick;

@@ -1,9 +1,15 @@
 <template>
-    <v-container>
-      <!-- <cafe-site-component :cafeBoard='cafeBoard'/>--> 
+<div class="container">
+    <div class="row">
+        <div class="col-sm-8 col-md-9 col-lg-9">
+       <cafe-site-component :cafeBoard='cafeBoard'/>
+      </div>
         <!--<the-v-card-form :menuList='menuList'/>-->
+        <div class="col-sm-4 col-md-3 col-lg-3">
         <cafe-sticky-sidebar @SelectdeMenuSubmit="SelectdeMenuSubmit"/>
-    </v-container>
+        </div>
+    </div>
+</div>
 </template>
 <script>
 import CafeStickySidebar from '@/components/CafeSite/CafeStickySidebar.vue'
