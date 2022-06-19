@@ -5,9 +5,12 @@ import lombok.Getter;
 
 @Getter
 public class ExistsDto {
-    private final String memId;
-    private final String memNick;
+    private String memId;
+    private String memNick;
 
+    public ExistsDto(){
+
+    }
     @Builder
     public ExistsDto(String memId, String memNick){
         this.memId = memId;
