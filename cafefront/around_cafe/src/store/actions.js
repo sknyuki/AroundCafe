@@ -8,7 +8,6 @@ import {
   FETCH_LIKES_LIST,
   FETCH_QNA_LIST,
   FETCH_QNA_LISTS,
-  FETCH_CAFE_REVIEW_LISTS,
 } from "./mutation-types"
 
 import axios from "axios"
@@ -40,10 +39,12 @@ export default {
       })
   },
 
-  fetchReviewList({ commit }) {
-    return axios.get(`http://localhost:7777/cafe/review/list`).then((res) => {
-      commit(FETCH_REVIEW_LIST, res.data)
-    })
+  fetchReviewList({ commit }, membNo) {
+    return axios
+      .get(`http://localhost:7777/cafe/review/list/${membNo}`)
+      .then((res) => {
+        commit(FETCH_REVIEW_LIST, res.data)
+      })
   },
   fetchReview({ commit }, reviewNo) {
     return axios
@@ -73,14 +74,6 @@ export default {
       .get(`http://localhost:7777/qna/memberList/${membNo}`)
       .then((res) => {
         commit(FETCH_QNA_LISTS, res.data)
-      })
-  },
-
-  fetchCafeReviewLists({ commit }, membNo) {
-    return axios
-      .get(`http://localhost:7777/cafe/review/list/${membNo}`)
-      .then((res) => {
-        commit(FETCH_CAFE_REVIEW_LISTS, res.data)
       })
   },
 }
