@@ -1,6 +1,10 @@
 package com.example.demo.review.service;
 
 
+import com.example.demo.member.entity.Member;
+import com.example.demo.member.repository.MemberRepository;
+import com.example.demo.mypage.cafe.entity.Cafe;
+import com.example.demo.mypage.cafe.repository.cafe.CafeRepository;
 import com.example.demo.review.entity.Review;
 import com.example.demo.review.repository.ReviewRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -29,12 +33,19 @@ public class ReviewServiceImpl implements ReviewService{
     @Autowired
     ReviewRepository repository;
 
+
+    @Autowired
+    MemberRepository memberRepository;
+
+    @Autowired
+    CafeRepository cafeRepository;
+
     @Transactional
     @Override
-    public void register(Review review,@RequestParam(required = false) MultipartFile file) throws Exception {
+    public void register(Review review,@RequestParam(required = false) MultipartFile file, Integer membNo) throws Exception {
+        Member member = memberRepository.findById(Long.valueOf(membNo)).orElseGet(null);
 
         if (file != null) {
-
 
             UUID uuid = UUID.randomUUID();
             String fileName = uuid + "_" +file.getOriginalFilename();
@@ -46,6 +57,8 @@ public class ReviewServiceImpl implements ReviewService{
 
             review.setFileName(fileName);
         }
+
+        review.setMemberInfo(member);
 
         repository.save(review);
 
@@ -122,7 +135,12 @@ public class ReviewServiceImpl implements ReviewService{
         return repository.findReviewByMemberNo(memNo);
     }
 
-
+    @Transactional
+    @Override
+    public List<Review> CafeList(Long cafeNo) {
+        log.info("cafe no : " + cafeNo);
+        return repository.findByCafeNum(cafeNo);
+    }
 }
 
 

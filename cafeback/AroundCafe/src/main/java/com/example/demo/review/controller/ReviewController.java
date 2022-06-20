@@ -1,5 +1,7 @@
 package com.example.demo.review.controller;
 
+import com.example.demo.mypage.cafe.entity.Cafe;
+import com.example.demo.mypage.cafe.repository.cafe.CafeRepository;
 import com.example.demo.review.entity.Review;
 import com.example.demo.review.service.ReviewService;
 import lombok.extern.slf4j.Slf4j;
@@ -20,13 +22,17 @@ public class ReviewController {
     @Autowired
     private ReviewService service;
 
+    @Autowired
+    private CafeRepository cafeRepository;
+
 
     //리뷰 등록
-    @PostMapping("/register")
-    public void reviewRegister (@Validated Review review, @RequestParam(required = false) MultipartFile file) throws Exception {
+    @PostMapping("/register/{membNo}")
+    public void reviewRegister (@Validated Review review, @RequestParam(required = false) MultipartFile file,
+                                @PathVariable("membNo") Integer membNo) throws Exception {
         log.info("reviewRegister()" + review + "file" + file);
 
-        service.register(review, file);
+        service.register(review, file,membNo);
     }
 
 
@@ -36,6 +42,22 @@ public class ReviewController {
         log.info("ReviewList()");
 
         return service.list ();
+    }
+
+    //카페에서 리뷰 리스트 조회
+    @GetMapping("/list/{membNo}")
+    public List<Review> cafeReviewList (@PathVariable("membNo") Integer membNo) {
+        log.info("cafe ReviewList()");
+        log.info("member no : " + membNo);
+        Cafe cafe = cafeRepository.findByCafeNo(Long.valueOf(membNo)).orElseGet(null);
+
+        if(cafe == null) {
+            return null;
+        }else {
+            log.info("cafe no :" +cafe.getCafeNo());
+            return service.CafeList(cafe.getCafeNo());
+        }
+
     }
 
     //리뷰 읽기
