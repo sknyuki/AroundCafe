@@ -7,15 +7,14 @@ import com.example.demo.mypage.cafe.entity.Cafe;
 import com.example.demo.mypage.cafe.repository.cafe.CafeRepository;
 import com.example.demo.review.entity.Review;
 import com.example.demo.review.repository.ReviewRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -64,10 +63,15 @@ public class ReviewServiceImpl implements ReviewService{
 
     }
 
-    @Transactional
     @Override
-    public List<Review> list() {
-        return repository.findAll(Sort.by(Sort.Direction.DESC, "cafeNum"));
+    public List<Review> list(Integer membNo) {
+
+        Cafe cafe = cafeRepository.findByCafeNo(Long.valueOf(membNo)).orElseGet(null);
+        Long cafeNo = cafe.getCafeNo();
+
+        log.info("cafe no : " + cafeNo);
+        List<Review> reviews = repository.findByCafeNo(cafeNo);
+        return reviews;
     }
 
     @Transactional
@@ -134,13 +138,15 @@ public class ReviewServiceImpl implements ReviewService{
     public List<Review> myReviewList(Long memNo) {
         return repository.findReviewByMemberNo(memNo);
     }
-
-    @Transactional
-    @Override
-    public List<Review> CafeList(Long cafeNo) {
-        log.info("cafe no : " + cafeNo);
-        return repository.findByCafeNum(cafeNo);
-    }
+//
+//    @Override
+//    public List<Review> CafeList(Long membNo) {
+//        Cafe cafe = cafeRepository.findByCafeNo(Long.valueOf(membNo)).orElseGet(null);
+//        Long cafeNo = cafe.getCafeNo();
+//
+//        log.info("cafe no : " + cafeNo);
+//        return repository.findByCafeNum(cafeNo);
+//    }
 }
 
 
