@@ -6,14 +6,12 @@
         <div class="col-sm-4 col-md-3 col-lg-3">
           <CafeSidebar />
         </div>
-          
+
         <div class="test col-sm-8 col-md-9 col-lg-9">
           <header>
             <h1>리뷰</h1>
           </header>
-          <ReviewForm :reviews="reviews"/>
-          
-
+          <CafeReviewForm :reviews="reviews" />
           <div class="cafe-review-pag">
             <PaginationForm />
           </div>
@@ -25,21 +23,21 @@
 <script>
 import CafeSidebar from "@/components/Cafe/CafeSidebar.vue"
 import ImgBox from "@/components/ImgBox.vue"
-import ReviewForm from "@/components/ReviewForm.vue"
+import CafeReviewForm from "@/components/CafeReview/CafeReviewForm.vue"
 import PaginationForm from "@/components/PaginationForm.vue"
 
 export default {
   name: "CafeReviewList",
-  components: { ImgBox, CafeSidebar, ReviewForm, PaginationForm },
+  components: { ImgBox, CafeSidebar, CafeReviewForm, PaginationForm },
   props: {
     reviews: {
       type: Array,
-      required: true
+      required: true,
     },
   },
-   data() {
+  data() {
     return {
-      reviewNo:''
+      reviewNo: "",
     }
   },
 }

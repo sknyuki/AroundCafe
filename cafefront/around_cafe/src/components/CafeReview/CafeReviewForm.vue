@@ -1,6 +1,10 @@
 <template>
   <form class="cafe-review">
-    <div v-for="review in reviews" :key="review.reviewNo" class="cafe-review-content">
+    <div
+      v-for="review in reviews"
+      :key="review.reviewNo"
+      class="cafe-review-content"
+    >
       <ol class="cafe-review-list">
         <li class="cafe-review-item">
           <article class="cafe-review-card">
@@ -40,47 +44,47 @@
               </div>
             </header>
 
-           
-            
-
-
             <div class="cafe-review-body">
-              
               <div class="review-image">
-                <img v-if="review.fileName !== null && review.fileName !== 'null'" class="addImg" 
-                :src="require(`@/assets/review/${review.fileName}`)">
+                <img
+                  v-if="review.fileName !== null && review.fileName !== 'null'"
+                  class="addImg"
+                  :src="require(`@/assets/review/${review.fileName}`)"
+                />
               </div>
 
               <p>{{ review.review_content }}</p>
-
             </div>
 
             <div class="cafe-review-footer">
-              <v-btn @click="like_count()" aria-label="좋아요 버튼" >
+              <v-btn @click="like_count()" aria-label="좋아요 버튼">
                 <i class="icCheck"></i> 도움됨
               </v-btn>
 
               <p>
-                <strong> <span> {{ review.likeCnt }}</span>명</strong>에게 도움이 되었습니다.
+                <strong>
+                  <span> {{ review.likeCnt }}</span
+                  >명</strong
+                >에게 도움이 되었습니다.
               </p>
-
             </div>
 
-            <button class="delete-button" aria-label="해당 리뷰 삭제하기" type="button" >
+            <button
+              class="delete-button"
+              aria-label="해당 리뷰 삭제하기"
+              type="button"
+            >
               <i class="icClose"></i>
             </button>
-            
- 
-          
-            
-            <CafeReviewModify v-if="review" :review="review" :reviewNo="reviewNo" @submit="onModify"/>
-         
-      
-            
-            
-           
 
-<!--
+            <CafeReviewModify
+              v-if="review"
+              :review="review"
+              :reviewNo="reviewNo"
+              @submit="onModify"
+            />
+
+            <!--
             <button @click="onReviewDialog()" class="delete-button" aria-label="다이얼로그 등장" type="button">
 
               <i class="icHeart">  </i>
@@ -93,96 +97,90 @@
             <cafe-review-modify v-if="review" :review="review" @submit="onModify()"/>
 
             </v-dialog>-->
-
           </article>
-        </li> 
+        </li>
       </ol>
     </div>
   </form>
 </template>
 <script>
 import StarRating from "vue-star-rating"
-import CafeReviewModify from "@/components/Cafe/CafeReviewModify"
+import CafeReviewModify from "@/components/CafeReview/CafeReviewModify"
 import axios from "axios"
-import { mapActions,mapState } from 'vuex'
-
+import { mapActions, mapState } from "vuex"
 
 export default {
-  name: "ReviewForm",
+  name: "CafeReviewForm",
   components: {
     StarRating,
-    CafeReviewModify
-  
+    CafeReviewModify,
   },
-   props: {
+  props: {
     reviews: {
       type: Array,
-      required: true
+      required: true,
     },
-    
   },
-   mounted () {
+  mounted() {
     this.fetchReview()
   },
 
   data() {
     return {
       reviewDialog: false,
-      reviewNo: '',
-
+      reviewNo: "",
     }
   },
 
   computed: {
-    ...mapState(['review'])
+    ...mapState(["review"]),
   },
 
-    
   methods: {
-    ...mapActions(['fetchReview']),
-  
+    ...mapActions(["fetchReview"]),
+
     onModify(payload) {
       console.log(this.reviewNo)
-      const { reviewNo,star_score, review_content, cafeNum,file} = payload
+      const { reviewNo, star_score, review_content, cafeNum, file } = payload
       let formData = new FormData()
-      if (file != null )
-      {formData.append('file', file)}
-      formData.append('star_score',star_score)
-      formData.append('review_content', review_content)
-      formData.append('cafeNum', cafeNum)
-      formData.append('reviewNo', reviewNo)
-        
-      
-      axios.put(`http://localhost:7777/cafe/review/${reviewNo}`,formData, { headers: {
-      'Content-Type': 'multipart/form-data'
-      }})
-      .then(() => {
-          alert("Successfully submitted")
-          window.location.reload();
-        
-          this.$router.push({
-              name: 'CafeReviewListPage'
-          })
-         
-      })
-      .catch(() => {
-          alert('문제 발생!')
-      })
-        },
-  onReviewDialog() {
-    this.reviewDialog = true
-  },
-  closeDialog() {
-    this.reviewDialog = false
-  },
-  created() {
-      this.fetchReview(this.reviewNo)
-      .catch(() => {
-          alert('게시물 DB조회 실패!')
-      })
-  }
-  },
+      if (file != null) {
+        formData.append("file", file)
+      }
+      formData.append("star_score", star_score)
+      formData.append("review_content", review_content)
+      formData.append("cafeNum", cafeNum)
+      formData.append("reviewNo", reviewNo)
 
+      axios
+        .put(`http://localhost:7777/cafe/review/${reviewNo}`, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then(() => {
+          alert("Successfully submitted")
+          window.location.reload()
+
+          this.$router.push({
+            name: "CafeReviewListPage",
+          })
+        })
+        .catch(() => {
+          alert("문제 발생!")
+        })
+    },
+    onReviewDialog() {
+      this.reviewDialog = true
+    },
+    closeDialog() {
+      this.reviewDialog = false
+    },
+    created() {
+      this.fetchReview(this.reviewNo).catch(() => {
+        alert("게시물 DB조회 실패!")
+      })
+    },
+  },
 }
 </script>
 <style lang="scss" scoped>

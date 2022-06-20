@@ -1,27 +1,25 @@
 <template>
   <div>
-    <CafeReviewList :reviews="reviews"/>   
+    <CafeReviewList :reviews="reviews" />
   </div>
 </template>
 <script>
-
-import CafeReviewList from "@/components/Cafe/CafeReviewList.vue"
-import { mapActions,mapState } from 'vuex'
-
+import CafeReviewList from "@/components/CafeReview/CafeReviewList.vue"
+import { mapActions, mapState } from "vuex"
 
 export default {
-  components: { CafeReviewList, },
+  components: { CafeReviewList },
   name: "CafeReviewListPage",
   computed: {
-    ...mapState(['reviews'])
+    ...mapState(["reviews"]),
   },
 
-  mounted () {
+  mounted() {
     this.fetchReviewList()
   },
 
   methods: {
-    ...mapActions(['fetchReviewList']),   
+    ...mapActions(["fetchReviewList"]),
 
     onReviewDialog() {
       this.reviewDialog = true
@@ -29,10 +27,10 @@ export default {
 
     closeDialog() {
       this.reviewDialog = false
-    },      
-  }
+    },
+  },
 }
-</script> 
+</script>
 
 <style lang="scss" scoped>
 ::v-deep .v-dialog {
