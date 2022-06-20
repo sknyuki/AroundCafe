@@ -1,40 +1,41 @@
 <template>
-<div class="container">
+  <div class="container">
     <div class="row">
-        <div class="col-sm-8 col-md-9 col-lg-9">
-       <cafe-site-component :cafeBoard='cafeBoard'/>
-      </div>
+      <div class="col-sm-8 col-md-9 col-lg-9">
+        <cafe-menu-list />
+        <the-v-card-form />
+        <!-- <cafe-site-component :cafeBoard='cafeBoard'/>-->
         <!--<the-v-card-form :menuList='menuList'/>-->
-        <div class="col-sm-4 col-md-3 col-lg-3">
-        <cafe-sticky-sidebar @SelectdeMenuSubmit="SelectdeMenuSubmit"/>
-        </div>
+      </div>
+      <div class="col-sm-4 col-md-3 col-lg-3">
+        <cafe-sticky-sidebar @SelectdeMenuSubmit="SelectdeMenuSubmit" />
+      </div>
     </div>
-</div>
+  </div>
 </template>
 <script>
-import CafeStickySidebar from '@/components/CafeSite/CafeStickySidebar.vue'
+import CafeStickySidebar from "@/components/CafeSite/CafeStickySidebar.vue"
 //import CafeSiteComponent from '@/components/CafeSite/CafeSiteComponent.vue'
-//import TheVCardForm from'@/components/TheVCardForm.vue'
+import CafeMenuList from "@/components/Cafe/CafeMenuList.vue"
+import TheVCardForm from "@/components/TheVCardForm.vue"
 /* register작업 완료 후 store 열어준 후 열어주세요
 import axios from 'axios'
 import { mapState } from 'vuex'*/
 export default {
-  components: { CafeStickySidebar },
-    name:'CafeSiteList',
-    //components: { CafeSiteComponent },
-    //components: { TheVCardForm },
-     props:{
-        cafeNo: {
-            type: String,
-            required: true
-         },
-     data () {
-    return {
-     
-    }
-},
+  components: { CafeStickySidebar, TheVCardForm, CafeMenuList },
+  name: "CafeSiteList",
+  //components: { CafeSiteComponent },
+  //components: { TheVCardForm },
+  props: {
+    cafeNo: {
+      type: String,
+      required: true,
+    },
+    data() {
+      return {}
+    },
 
-computed:{
+    computed: {
       /*      ...mapState(['cafeBoard'],['menuLists'])
         },
         mounted() {
@@ -83,7 +84,7 @@ computed:{
                             alert('수정 실패!')
                         })
             }*/
-        }
-    }
+    },
+  },
 }
 </script>
