@@ -82,7 +82,7 @@ export default {
             }
         },
         modifySubmit(payload) {
-            const { mcafe_name, mcafe_bus_no, mcafe_no, mcafe_content, mcafe_call, mcafe_time, mcafe_adr1, mcafe_adr2, mcafe_adr3, files2} = payload
+            const { mcafe_name, mcafe_bus_no, mcafe_no, mcafe_content, mcafe_call, mcafe_time, mcafe_adr1, mcafe_adr2, mcafe_adr3, files} = payload
 
             let formData = new FormData()
 
@@ -104,9 +104,9 @@ export default {
                 "info", new Blob([JSON.stringify(fileInfo)], {type:"application/json"})
             )
 
-            if(files2.length > 0) {
-                for(let idx = 0; idx <files2.length; idx++) {
-                    formData.append('fileList', files2[idx])
+            if(files.length > 0) {
+                for(let idx = 0; idx <files.length; idx++) {
+                    formData.append('fileList', files[idx])
                 }
             }
 

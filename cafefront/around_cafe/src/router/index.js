@@ -148,17 +148,23 @@ const routes = [
     path: "/cafeQnAPage",
     name: "CafeQnAPage",
     components: {
-      default :CafeQnAPage
+      default: CafeQnAPage,
     },
-    props : {
-      default: true
-    }
+    props: {
+      default: true,
+    },
   },
 
   {
     path: "/cafeListPage",
     name: "CafeListPage_manager",
     component: () => import("@/views/CafeMyPageViews/CafeListPage_manager"),
+  },
+
+  {
+    path: "/cafeReviewListPage",
+    name: "CafeReviewListPage",
+    component: () => import("@/views/CafeMyPageViews/CafeReviewListPage"),
   },
   {
     path: "/test",
@@ -192,8 +198,6 @@ const routes = [
       default: true,
     },
   },
-  
-  
 
   // 에러처리 페이지
   {
