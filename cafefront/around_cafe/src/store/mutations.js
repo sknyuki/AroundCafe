@@ -8,7 +8,6 @@ import {
   FETCH_LIKES_LIST,
   FETCH_QNA_LIST,
   FETCH_QNA_LISTS,
-  FETCH_CAFE_REVIEW_LISTS,
 } from "./mutation-types"
 
 export default {
@@ -45,9 +44,5 @@ export default {
 
   [FETCH_QNA_LISTS](state, qnaLists) {
     state.qnaLists = qnaLists
-  },
-
-  [FETCH_CAFE_REVIEW_LISTS](state, cafeReviewLists) {
-    state.cafeReviewLists = cafeReviewLists
   },
 }
