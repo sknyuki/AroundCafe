@@ -4,6 +4,7 @@ import com.example.demo.mypage.cafe.entity.Cafe;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import javax.transaction.Transactional;
 import java.util.Optional;
@@ -11,7 +12,10 @@ import java.util.Optional;
 public interface CafeRepository extends JpaRepository<Cafe, Long> {
 
     @Transactional
-    @Query(value = "select * from cafe where cafe_no :memNo",nativeQuery = true)
+    @Query(value = "select * from cafe where member_no :memNo",nativeQuery = true)
     Optional<Cafe> findByMemberNo(Long memNo);
 
+    @Transactional
+    @Query(value = "select * from cafe where member_no = :membNo",nativeQuery = true)
+    Optional<Cafe> findByCafeNo(@Param("membNo") Long membNo);
 }
