@@ -162,11 +162,6 @@ const routes = [
   },
 
   {
-    path: "/cafeReviewListPage",
-    name: "CafeReviewListPage",
-    component: () => import("@/views/CafeMyPageViews/CafeReviewListPage"),
-  },
-  {
     path: "/test",
     name: "TestTest",
     component: TestTest,
@@ -186,14 +181,6 @@ const routes = [
     path: "/cafe/review/modify/:reviewNo",
     name: "CafeReviewModifyPage",
     component: () => import("@/views/Cafe/CafeReviewModifyPage"),
-    props: {
-      default: true,
-    },
-  },
-  {
-    path: "/cafe/review/list",
-    name: "CafeReviewListPage",
-    component: () => import("@/views/Cafe/CafeReviewListPage"),
     props: {
       default: true,
     },

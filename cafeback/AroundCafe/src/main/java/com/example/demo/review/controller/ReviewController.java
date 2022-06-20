@@ -4,6 +4,7 @@ import com.example.demo.mypage.cafe.entity.Cafe;
 import com.example.demo.mypage.cafe.repository.cafe.CafeRepository;
 import com.example.demo.review.entity.Review;
 import com.example.demo.review.service.ReviewService;
+import com.example.demo.review.service.ReviewServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -20,10 +21,7 @@ import java.util.List;
 public class ReviewController {
 
     @Autowired
-    private ReviewService service;
-
-    @Autowired
-    private CafeRepository cafeRepository;
+    ReviewServiceImpl service;
 
 
     //리뷰 등록
@@ -37,28 +35,22 @@ public class ReviewController {
 
 
     //리뷰 목록
-    @GetMapping("/list")
-    public List<Review> reviewList () {
-        log.info("ReviewList()");
-
-        return service.list ();
-    }
-
-    //카페에서 리뷰 리스트 조회
     @GetMapping("/list/{membNo}")
-    public List<Review> cafeReviewList (@PathVariable("membNo") Integer membNo) {
-        log.info("cafe ReviewList()");
+    public List<Review> reviewList (@PathVariable("membNo") Integer membNo) {
+        log.info("ReviewList()");
         log.info("member no : " + membNo);
-        Cafe cafe = cafeRepository.findByCafeNo(Long.valueOf(membNo)).orElseGet(null);
-
-        if(cafe == null) {
-            return null;
-        }else {
-            log.info("cafe no :" +cafe.getCafeNo());
-            return service.CafeList(cafe.getCafeNo());
-        }
-
+        return service.list (membNo);
     }
+//
+//    //카페에서 리뷰 리스트 조회
+//    @GetMapping("/lists/{membNo}")
+//    public List<Review> cafeReviewList (@PathVariable("membNo") Integer membNo) {
+//        log.info("cafe ReviewList()");
+//        log.info("member no : " + membNo);
+//
+//        return service.CafeList(Long.valueOf(membNo));
+//
+//    }
 
     //리뷰 읽기
     @GetMapping("/{reviewNo}")
