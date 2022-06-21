@@ -7,9 +7,10 @@
             <div class="gnb-wrapper">
               <div class="gnb-left">
                 <h1 class="logo">
-                  <router-link :to="{ name: 'MainPage' }" alt="로고"
-                    >로고</router-link
-                  >
+                  <router-link :to="{ name: 'MainPage' }"
+                    ><img src="@/assets/images/Logo.png" alt="로고" />
+                    <span class="sm-hidden">Around Cafe</span>
+                  </router-link>
                 </h1>
 
                 <v-btn
@@ -48,17 +49,31 @@
                   <v-btn
                     icon
                     class="gnb-icon-button"
-                    aria-label="장바구니 페이지로 이동"
+                    aria-label="좋아요 페이지로 이동"
                   >
                     <a>
-                      <i class="icCart"></i>
+                      <i class="icHeart"></i>
                       <strong class="badge">1</strong>
                     </a>
                   </v-btn>
 
                   <!-- 로그인을 하지 않은 경우 -->
                   <div class="gnb-login sm-hidden">
-                    <router-link
+                    <div class="gnb-login-content">
+                      <button class="gnb-login-btn" @click="toggleMyMenu">
+                        <div>
+                          <i class="icMenu"></i>
+                        </div>
+                        <div class="avatar-32">
+                          <img src="@/assets/images/avatar.webp" alt="" />
+                        </div>
+                      </button>
+                      <MyMenuModal
+                        :menuModal="menuModal"
+                        :class="{ active: isActive }"
+                      />
+                    </div>
+                    <!-- <router-link
                       :to="{ name: 'AccountLoginPage' }"
                       class="gnb-login-item"
                       >로그인</router-link
@@ -68,7 +83,7 @@
                       class="gnb-login-item"
                       >회원가입</router-link
                     >
-                    <a class="gnb-login-item lg-only" href="">고객센터</a>
+                    <a class="gnb-login-item lg-only" href="">고객센터</a> -->
                   </div>
 
                   <!-- 로그인을 한 경우  -->
@@ -97,14 +112,34 @@
 <script>
 import TheNavBar from "@/components/Layouts/TheNavBar.vue"
 import TheNavBarList from "@/components/Layouts/TheNavBarList.vue"
+import MyMenuModal from "@/components/MyMenuModal.vue"
 export default {
-  components: { TheNavBarList, TheNavBar },
+  components: { TheNavBarList, TheNavBar, MyMenuModal },
   name: "TheHeader",
 
   data() {
     return {
       drawer: false,
+      isActive: false,
+      menuModal: [
+        {
+          id: 1,
+          title: "회원가입",
+          link: "/sign",
+        },
+        {
+          id: 2,
+          title: "로그인",
+          link: "/login",
+        },
+      ],
     }
+  },
+
+  methods: {
+    toggleMyMenu() {
+      this.isActive = !this.isActive
+    },
   },
 }
 </script>
@@ -117,5 +152,25 @@ export default {
 
 .v-navigation-drawer--temporary {
   z-index: 80;
+}
+
+.gnb-login {
+  &-content {
+    button {
+      @include flexbox(start);
+      border: 1px solid $border;
+      padding: 5px 5px 5px 12px;
+      border-radius: 21px;
+
+      &:hover {
+        box-shadow: 0 1px 2px rgb(0 0 0 / 12%), 0 4px 12px rgb(0 0 0 / 12%);
+      }
+    }
+
+    .icMenu {
+      font-size: 18px;
+      margin-right: 8px;
+    }
+  }
 }
 </style>
