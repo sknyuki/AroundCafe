@@ -86,7 +86,7 @@ const routes = [
   {
     path: "/cafe/review",
     name: "CafeReviewListPage",
-    component: () => import("@/views/CafeReview/CafeReviewListPage.vue"),
+    component: () => import("@/views/Cafe/CafeReviewListPage.vue"),
   },
   {
     path: "/cafe/modify",
