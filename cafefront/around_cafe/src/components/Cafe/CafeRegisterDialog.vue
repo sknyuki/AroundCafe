@@ -7,16 +7,8 @@
       <v-btn class="btn-indigo btn-40" @click="onMenuRegister" type="submit"
         >메뉴 등록</v-btn
       >
-      <div class="input-group">
-        <i class="icSearch" aria-hidden="true"></i>
-        <input
-          class="form-input input-40"
-          type="text"
-          placeholder="메뉴 검색"
-        />
-      </div>
     </div>
-    <form @submit.prevent="onSubmitMenu" class="menu-register-form">
+    <form class="menu-register-form">
       <v-dialog class="menu-register-dialog" v-model="menuDialog">
         <v-card class="menu-register-card">
           <div class="menu-register-file">
@@ -95,7 +87,9 @@
             ></textarea>
           </div>
           <div class="menu-register-btn">
-            <v-btn class="btn-indigo btn-32" type="button">등록하기</v-btn>
+            <v-btn class="btn-indigo btn-32" @click="onSubmitMenu"
+              >등록하기</v-btn
+            >
             <v-btn
               @click="menuDialog = false"
               class="btn-red btn-32"
@@ -122,6 +116,7 @@ export default {
       files: [],
       menuDialog: false,
       uploadReady: true,
+      modi_name: "",
     }
   },
   methods: {
