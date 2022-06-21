@@ -41,9 +41,9 @@ export default {
       })
   },
 
-  fetchReviewList({ commit }, membNo) {
+  fetchReviewList({ commit }, cafeNo) {
     return axios
-      .get(`http://localhost:7777/cafe/review/list/${membNo}`)
+      .get(`http://localhost:7777/cafe/review/list/${cafeNo}`)
       .then((res) => {
         commit(FETCH_REVIEW_LIST, res.data)
       })

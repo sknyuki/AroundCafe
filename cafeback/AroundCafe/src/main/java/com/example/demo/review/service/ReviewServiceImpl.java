@@ -64,13 +64,10 @@ public class ReviewServiceImpl implements ReviewService{
     }
 
     @Override
-    public List<Review> list(Integer membNo) {
-
-        Cafe cafe = cafeRepository.findByCafeNo(Long.valueOf(membNo)).orElseGet(null);
-        Long cafeNo = cafe.getCafeNo();
+    public List<Review> list(Integer cafeNo) {
 
         log.info("cafe no : " + cafeNo);
-        List<Review> reviews = repository.findByCafeNo(cafeNo);
+        List<Review> reviews = repository.findByCafeNo(Long.valueOf(cafeNo));
         return reviews;
     }
 
