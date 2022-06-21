@@ -31,7 +31,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="member, index in listData" :key="index">
+                <tr v-for="(member, index) in listData" :key="index">
                   <td align="center">{{ member.memberNo }}</td>
                   <td align="center">{{ member.memId }}</td>
                   <td align="center">{{ member.memNick }}</td>
@@ -68,7 +68,7 @@
 <script>
 import AdminSidebar from "@/components/Admin/AdminSidebar.vue"
 import ImgBox from "@/components/ImgBox.vue"
-import PaginationForm from '../PaginationForm.vue'
+import PaginationForm from "../PaginationForm.vue"
 
 export default {
   name: "AdminMemberList",
@@ -230,49 +230,49 @@ export default {
           regDate: "22-12-02",
         },
       ],
-    listData: [],
+      listData: [],
       page: 1,
       limit: 10,
       block: 5,
-      pageNo:'',
-      total: ''
+      pageNo: "",
+      total: "",
     }
   },
   mounted() {
-      this.pagingMethod(this.page)
+    this.pagingMethod(this.page)
+  },
+  methods: {
+    pagingMethod(page) {
+      this.listData = this.memberList.slice(
+        (page - 1) * this.limit,
+        page * this.limit
+      )
+      this.page = page
+      let total = this.memberList.length
+      this.pageDataSetting(total, this.limit, this.block, page)
     },
-    methods: {
-      pagingMethod(page) {
-        this.listData = this.memberList.slice(
-          (page - 1) * this.limit,
-          page * this.limit
-        )
-        this.page = page
-        let total = this.memberList.length
-        this.pageDataSetting(total, this.limit, this.block, page)
-      },
-      pageDataSetting(total, limit, block, page) {
-        total = this.memberList.length
-        const totalPage = Math.ceil(total / limit)
-        let currentPage = page
-        const first =
-          currentPage > 1 ? parseInt(currentPage, 10) - parseInt(1, 10) : null
-        const end =
-          totalPage !== currentPage
-            ? parseInt(currentPage, 10) + parseInt(1, 10)
-            : null
- 
-        let startIndex = (Math.ceil(currentPage / block) - 1) * block + 1
-        let endIndex =
-          startIndex + block > totalPage ? totalPage : startIndex + block - 1
-        let list = []
-        for (let index = startIndex; index <= endIndex; index++) {
-          list.push(index)
-        }
-        return { first, end, list, currentPage }
+    pageDataSetting(total, limit, block, page) {
+      total = this.memberList.length
+      const totalPage = Math.ceil(total / limit)
+      let currentPage = page
+      const first =
+        currentPage > 1 ? parseInt(currentPage, 10) - parseInt(1, 10) : null
+      const end =
+        totalPage !== currentPage
+          ? parseInt(currentPage, 10) + parseInt(1, 10)
+          : null
+
+      let startIndex = (Math.ceil(currentPage / block) - 1) * block + 1
+      let endIndex =
+        startIndex + block > totalPage ? totalPage : startIndex + block - 1
+      let list = []
+      for (let index = startIndex; index <= endIndex; index++) {
+        list.push(index)
       }
-    }
-  }
+      return { first, end, list, currentPage }
+    },
+  },
+}
 </script>
 <style lang="scss" scoped>
 @import "~@/assets/scss/components/admin/admin-member-list";

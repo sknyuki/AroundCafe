@@ -80,7 +80,6 @@
             <CafeReviewModify
               v-if="review"
               :review="review"
-              :reviewNo="reviewNo"
               @submit="onModify"
             />
 
@@ -107,7 +106,6 @@
 import StarRating from "vue-star-rating"
 import CafeReviewModify from "@/components/CafeReview/CafeReviewModify"
 import axios from "axios"
-import { mapActions, mapState } from "vuex"
 
 export default {
   name: "ReviewForm",
@@ -121,9 +119,6 @@ export default {
       required: true,
     },
   },
-  mounted() {
-    this.fetchReview()
-  },
 
   data() {
     return {
@@ -132,13 +127,7 @@ export default {
     }
   },
 
-  computed: {
-    ...mapState(["review"]),
-  },
-
   methods: {
-    ...mapActions(["fetchReview"]),
-
     onModify(payload) {
       console.log(this.reviewNo)
       const { reviewNo, star_score, review_content, cafeNum, file } = payload
