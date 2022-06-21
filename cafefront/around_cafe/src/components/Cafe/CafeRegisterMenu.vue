@@ -7,12 +7,14 @@
           <CafeSidebar />
         </div>
         <div class="col-sm-8 col-md-9 col-lg-9">
-          <CafeRegisterDialog />
-          <CafeMenuList :listData="listData" />
-          <PaginationForm
-            :pageSetting="pageDataSetting(total, limit, block, this.page)"
-            @paging="pagingMethod"
+          <CafeRegisterDialog @submit="onSubmitMenu" />
+          <input
+            class="form-input input-40"
+            type="text"
+            placeholder="메뉴 검색"
+            v-model="modi_name"
           />
+          <CafeMenuList :filterMenuLists="filterMenuLists" />
         </div>
       </div>
     </div>
@@ -23,170 +25,88 @@ import ImgBox from "@/components/ImgBox.vue"
 import CafeSidebar from "@/components/Cafe/CafeSidebar.vue"
 import CafeRegisterDialog from "@/components/Cafe/CafeRegisterDialog.vue"
 import CafeMenuList from "@/components/Cafe/CafeMenuList.vue"
-import PaginationForm from "@/components/PaginationForm.vue"
+import axios from "axios"
+
 export default {
   components: {
     ImgBox,
     CafeSidebar,
     CafeRegisterDialog,
     CafeMenuList,
-    PaginationForm,
   },
   name: "CafeRegisterMenu",
+  props: {
+    menuLists: {
+      type: Array,
+      required: true,
+    },
+  },
 
   data() {
     return {
-      menuLists: [
-        {
-          menuNo: 1,
-          menu_name: "콜드브루1",
-          menu_content:
-            "콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루",
-          menu_price: "5000",
-        },
-        {
-          menuNo: 2,
-          menu_name: "아아",
-          menu_content:
-            "콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루",
-          menu_price: "5000",
-        },
-        {
-          menuNo: 3,
-          menu_name: "아아아",
-          menu_content: "스타벅스 바리스타의 정성으로 탄생한 콜드 브루",
-          menu_price: "5000",
-        },
-        {
-          menuNo: 4,
-          menu_name: "아아아아",
-          menu_content:
-            "콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루",
-          menu_price: "5000",
-        },
-        {
-          menuNo: 1,
-          menu_name: "아아아아",
-          menu_content:
-            "콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루",
-          menu_price: "5000",
-        },
-        {
-          menuNo: 2,
-          menu_name: "아아아아아",
-          menu_content:
-            "콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루",
-          menu_price: "5000",
-        },
-        {
-          menuNo: 3,
-          menu_name: "아아아아아아",
-          menu_content: "스타벅스 바리스타의 정성으로 탄생한 콜드 브루",
-          menu_price: "5000",
-        },
-        {
-          menuNo: 4,
-          menu_name: "아아",
-          menu_content:
-            "콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루",
-          menu_price: "5000",
-        },
-        {
-          menuNo: 1,
-          menu_name: "천재가",
-          menu_content:
-            "콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루",
-          menu_price: "5000",
-        },
-        {
-          menuNo: 2,
-          menu_name: "저는",
-          menu_content:
-            "콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루",
-          menu_price: "5000",
-        },
-        {
-          menuNo: 3,
-          menu_name: "해요",
-          menu_content: "스타벅스 바리스타의 정성으로 탄생한 콜드 브루",
-          menu_price: "5000",
-        },
-        {
-          menuNo: 4,
-          menu_name: "이해를",
-          menu_content:
-            "콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루",
-          menu_price: "5000",
-        },
-        {
-          menuNo: 1,
-          menu_name: "백퍼",
-          menu_content:
-            "콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루",
-          menu_price: "5000",
-        },
-        {
-          menuNo: 2,
-          menu_name: "어떻게",
-          menu_content:
-            "콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루",
-          menu_price: "5000",
-        },
-        {
-          menuNo: 3,
-          menu_name: "제가",
-          menu_content: "스타벅스 바리스타의 정성으로 탄생한 콜드 브루",
-          menu_price: "5000",
-        },
-        {
-          menuNo: 4,
-          menu_name: "그럼요",
-          menu_content:
-            "콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루콜드브루",
-          menu_price: "5000",
-        },
-      ],
       listData: [],
       page: 1,
       limit: 5,
       block: 5,
-      pageNo:'',
-      total: ''
+      pageNo: "",
+      total: "",
+      modi_name: "",
+      fileterArray: [],
     }
   },
-  mounted() {
-      this.pagingMethod(this.page)
-    },
-    methods: {
-      pagingMethod(page) {
-        this.listData = this.menuLists.slice(
-          (page - 1) * this.limit,
-          page * this.limit
-        )
-        this.page = page
-        let total = this.menuLists.length
-        this.pageDataSetting(total, this.limit, this.block, page)
-      },
-      pageDataSetting(total, limit, block, page) {
-        total = this.menuLists.length
-        const totalPage = Math.ceil(total / limit)
-        let currentPage = page
-        const first =
-          currentPage > 1 ? parseInt(currentPage, 10) - parseInt(1, 10) : null
-        const end =
-          totalPage !== currentPage
-            ? parseInt(currentPage, 10) + parseInt(1, 10)
-            : null
- 
-        let startIndex = (Math.ceil(currentPage / block) - 1) * block + 1
-        let endIndex =
-          startIndex + block > totalPage ? totalPage : startIndex + block - 1
-        let list = []
-        for (let index = startIndex; index <= endIndex; index++) {
-          list.push(index)
-        }
-        return { first, end, list, currentPage }
+  computed: {
+    filterMenuLists() {
+      if (this.modi_name) {
+        return this.menuLists.filter((item) => {
+          return this.modi_name
+            .toLowerCase()
+            .split(" ")
+            .every((v) => item.menu_name.toLowerCase().includes(v))
+        })
+      } else {
+        return this.menuLists
       }
-    }
-  }
+    },
+  },
+  mounted() {
+    this.pagingMethod(this.page)
+  },
+  methods: {
+    onSubmitMenu(payload) {
+      const { menu_name, menu_price, menu_content, file } = payload
+
+      let formData = new FormData()
+
+      let fileInfo = {
+        cafe_no: 1,
+        menu_name,
+        menu_price,
+        menu_content,
+      }
+
+      formData.append(
+        "info",
+        new Blob([JSON.stringify(fileInfo)], { type: "application/json" })
+      )
+
+      if (file != null) {
+        for (let idx = 0; idx < 1; idx++) {
+          formData.append("fileList", file[idx])
+        }
+      }
+
+      console.log(fileInfo)
+      console.log(file)
+      axios
+        .post("http://localhost:7777/menu/register", formData)
+        .then((res) => {
+          alert(res.data)
+          this.$router.go()
+        })
+        .catch(() => {
+          alert("메뉴 등록에 실패하였습니다.")
+        })
+    },
+  },
+}
 </script>

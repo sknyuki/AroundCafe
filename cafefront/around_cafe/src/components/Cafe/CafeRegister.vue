@@ -10,7 +10,7 @@
           <header>
             <h1>카페 관리</h1>
           </header>
-          <form class="cafe-register-form" action="">
+          <form class="cafe-register-form" action="" @submit.prevent="onSubmit">
             <div class="cafe-register-name">
               <label for="">카페 이름</label>
               <div class="account-input">
@@ -19,6 +19,20 @@
                     class="form-input"
                     type="text"
                     placeholder="카페 이름"
+                    v-model="cafeName"
+                  />
+                </span>
+              </div>
+            </div>
+            <div class="cafe-register-phone">
+              <label for="">사업자등록증</label>
+              <div class="account-input">
+                <span>
+                  <input
+                    class="form-input"
+                    type="text"
+                    placeholder="사업자등록증"
+                    v-model="cafeBusNo"
                   />
                 </span>
               </div>
@@ -27,7 +41,12 @@
               <label for="">연락처</label>
               <div class="account-input">
                 <span>
-                  <input class="form-input" type="text" placeholder="연락처" />
+                  <input
+                    class="form-input"
+                    type="text"
+                    placeholder="연락처"
+                    v-model="cafeCall"
+                  />
                 </span>
               </div>
             </div>
@@ -35,7 +54,35 @@
               <label for="">주소</label>
               <div class="account-input">
                 <span>
-                  <input class="form-input" type="text" placeholder="주소" />
+                  <td width="0">
+                    <v-select
+                      :items="states1"
+                      label="시"
+                      dense
+                      solo
+                      style="width: 120px; font-size: 15px"
+                      v-model="cafeAdr1"
+                    ></v-select>
+                  </td>
+
+                  <td width="0">
+                    <v-select
+                      :items="states2"
+                      label="구"
+                      dense
+                      solo
+                      style="width: 120px; font-size: 15px"
+                      v-model="cafeAdr2"
+                    ></v-select>
+                  </td>
+                  <td width="0">
+                    <input
+                      class="form-input"
+                      type="text"
+                      placeholder="상세주소"
+                      v-model="cafeAdr3"
+                    />
+                  </td>
                 </span>
               </div>
             </div>
@@ -47,6 +94,7 @@
                     class="form-input"
                     type="text"
                     placeholder="영업시간"
+                    v-model="cafeTime"
                   />
                 </span>
               </div>
@@ -54,7 +102,7 @@
             <div class="cafe-register-int">
               <div class="cafe-register-int-header">카페 소개</div>
               <textarea
-                v-model="comment"
+                v-model="cafeContent"
                 class="form-control"
                 minlength="20"
                 maxlength="1000"
@@ -62,6 +110,15 @@
                 rows="32"
                 placeholder="카페 소개하는 글 작성"
               ></textarea>
+            </div>
+            <span>등록한 사진 보기</span>
+            <div v-for="(item, idx) in cafeImgLists" :key="idx">
+              <img
+                v-bind:src="
+                  require(`@/assets/cafe/cafeMypage/${item.cafe_img}`)
+                "
+                width="200px;"
+              />
             </div>
             <div>
               <div
@@ -118,6 +175,15 @@
                 </div>
               </div>
             </div>
+            <v-btn
+              text
+              color="black"
+              rounded
+              x-large
+              style="padding: 10px; width: 30px"
+              type="submit"
+              >등록하기
+            </v-btn>
           </form>
         </div>
       </div>
@@ -130,10 +196,14 @@ import ImgBox from "@/components/ImgBox.vue"
 
 export default {
   components: { ImgBox, CafeSidebar },
-  name: "CafeRegisterForm",
+  name: "CafeRegister",
   props: {
     cafeBoard: {
       type: Object,
+      required: true,
+    },
+    cafeImgLists: {
+      type: Array,
       required: true,
     },
   },
@@ -254,9 +324,332 @@ export default {
       this.files = this.files.filter((data) => data.number !== Number(name))
       // console.log(this.files);
     },
+    onSubmit() {
+      var result = confirm("등록 하시겠습니까?")
+      if (result) {
+        const {
+          cafeName,
+          cafeBusNo,
+          cafeTime,
+          cafeContent,
+          cafeCall,
+          cafeAdr1,
+          cafeAdr2,
+          cafeAdr3,
+          files,
+        } = this
+        this.$emit("submitContents", {
+          cafeName,
+          cafeBusNo,
+          cafeTime,
+          cafeContent,
+          cafeCall,
+          cafeAdr1,
+          cafeAdr2,
+          cafeAdr3,
+          files,
+        })
+      }
+    },
   },
 }
 </script>
 <style lang="scss" scoped>
 @import "~@/assets/scss/components/cafe/cafe-register";
+
+.room-deal-information-container {
+  margin-top: 50px;
+  color: #222222;
+  border: 1px solid #dddddd;
+}
+
+.room-deal-information-title {
+  text-align: center;
+  font-size: 18px;
+  line-height: 60px;
+  border-bottom: 1px solid #dddddd;
+}
+
+.room-deal-information-content-wrapper {
+  min-height: 50px;
+  display: flex;
+}
+
+.room-deal-informtaion-content-title {
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 150px;
+  background-color: #f9f9f9;
+}
+
+.room-deal-information-content {
+  width: 100%;
+  font-size: 14px;
+}
+
+.room-deal-option-selector {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+}
+
+.room-deal-option-item {
+  width: 100px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #cccccc;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.room-deal-option-item:last-child {
+  margin-left: 10px;
+}
+
+.room-deal-option-notice {
+  margin-left: auto;
+  font-size: 14px;
+  color: #888888;
+}
+
+.room-deal-option-item-deposit {
+  margin-left: 10px;
+}
+
+.room-deal-information-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.room-deal-information-option {
+  padding: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.room-deal-information-option:last-child {
+  border-bottom: 1px solid #dddddd;
+}
+
+.room-deal-information-item-type {
+  font-size: 13px;
+  color: #fff;
+  background-color: #61b6e5;
+  min-width: 50px;
+  height: 26px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 3px;
+}
+
+.room-deal-information-item-wrapper {
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
+  height: 46px;
+  width: 100%;
+}
+
+.room-deal-information-item-wrapper > input {
+  border: 1px solid #dddddd;
+  width: 140px;
+  height: 100%;
+  padding: 0 15px;
+  font-size: 15px;
+}
+
+.room-deal-inforamtion-won {
+  margin: 0 10px;
+}
+
+.room-deal-information-example {
+  color: #888888;
+}
+
+.room-deal-information-option:not(:first-child) {
+  margin-top: 10px;
+}
+
+.room-deal-inforamtion-divide {
+  font-size: 22px;
+  margin: 0 8px;
+  color: #222222;
+  font-weight: 100;
+}
+
+.room-deal-close-button-wrapper {
+  margin-left: auto;
+  cursor: pointer;
+}
+
+.room-deal-close-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  background-color: #666666;
+  color: rgb(220, 220, 220);
+}
+
+.room-deal-cliked {
+  background-color: rgb(235, 235, 235);
+  color: rgb(170, 170, 170);
+}
+
+.room-file-upload-example {
+  height: 100%;
+}
+
+.room-write-content-container {
+  border-top: 1px solid #dddddd;
+  min-height: 260px;
+}
+
+.room-picture-notice {
+  margin: 20px;
+  padding: 20px 40px;
+  border: 1px solid #dddddd;
+}
+
+.file-preview-content-container {
+  height: 100%;
+}
+
+.room-file-upload-wrapper {
+  margin: 20px;
+  border: 1px solid #dddddd;
+  background-color: #f4f4f4;
+  min-height: 350px;
+  font-size: 15px;
+  color: #888888;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.room-file-upload-example-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* height: 100%;
+  width: 100%; */
+}
+
+.room-file-image-example-wrapper {
+  text-align: center;
+}
+
+.room-file-notice-item {
+  margin-top: 5px;
+  text-align: center;
+}
+
+.room-file-notice-item-red {
+  color: #ef4351;
+}
+
+.image-box {
+  margin-top: 30px;
+  padding-bottom: 20px;
+  text-align: center;
+}
+
+.image-box input[type="file"] {
+  position: absolute;
+  width: 0;
+  height: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+}
+
+.image-box label {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #232d4a;
+  color: #fff;
+  vertical-align: middle;
+  font-size: 15px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.file-preview-wrapper {
+  padding: 10px;
+  position: relative;
+}
+
+.file-preview-wrapper > img {
+  position: relative;
+  width: 190px;
+  height: 130px;
+  z-index: 10;
+}
+
+.file-close-button {
+  position: absolute;
+  /* align-items: center; */
+  line-height: 18px;
+  z-index: 99;
+  font-size: 18px;
+  right: 5px;
+  top: 10px;
+  color: #fff;
+  font-weight: bold;
+  background-color: #666666;
+  width: 20px;
+  height: 20px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.file-preview-container {
+  height: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.file-preview-wrapper-upload {
+  margin: 10px;
+  padding-top: 20px;
+  background-color: #888888;
+  width: 190px;
+  height: 130px;
+}
+
+.room-write-button-wrapper {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #222222;
+}
+
+.room-write-button-wrapper > div {
+  width: 160px;
+  height: 50px;
+  border: 1px solid #dddddd;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.room-write-button {
+  margin-left: 15px;
+  color: #fff;
+  background-color: #1564f9;
+}
+
+.room-write-button:hover {
+  opacity: 0.8;
+}
 </style>

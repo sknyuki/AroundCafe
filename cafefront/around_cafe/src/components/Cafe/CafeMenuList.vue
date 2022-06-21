@@ -1,11 +1,21 @@
 <template>
   <div class="menu-list-content">
     <ul class="menu-list">
-      <li v-for="item in listData" :key="item.menu_no" class="menu-item">
+      <div class="input-group">
+        <i class="icSearch" aria-hidden="true"></i>
+      </div>
+      <li v-for="item in filterMenuLists" :key="item.menu_no" class="menu-item">
         <a href="">
           <div class="menu-card">
             <div class="menu-card-image">
-              <img src="@/assets/images/cold.jpg" alt="" />
+              <v-img
+                v-if="item.menu_img == null"
+                v-bind:src="require(`@/assets/cafe/cafeMenu/imgNull.png`)"
+              />
+              <v-img
+                v-if="item.menu_img != null"
+                v-bind:src="require(`@/assets/cafe/cafeMenu/${item.menu_img}`)"
+              />
               <div class="test">
                 <span>Signature</span>
               </div>
@@ -40,22 +50,32 @@
         </div>
       </li>
     </ul>
+    <PaginationForm
+      :pageSetting="pageDataSetting(total, limit, block, this.page)"
+      @paging="pagingMethod"
+    />
   </div>
 </template>
 <script>
 import axios from "axios"
+import PaginationForm from "@/components/PaginationForm.vue"
 
 export default {
   name: "CafeMenuList",
+  components: {
+    PaginationForm,
+  },
   props: {
-    listData: {
+    filterMenuLists: {
       type: Array,
-      required:true
+      required: true,
     },
   },
   data() {
     return {
       signatureNo: "",
+      modi_name: "",
+      listData: [],
     }
   },
 
@@ -78,7 +98,36 @@ export default {
     },
     sendPage(page) {
       this.$emit("paging", page)
-    }
+    },
+    pagingMethod(page) {
+      this.listData = this.filterMenuLists.slice(
+        (page - 1) * this.limit,
+        page * this.limit
+      )
+      this.page = page
+      let total = this.filterMenuLists.length
+      this.pageDataSetting(total, this.limit, this.block, page)
+    },
+    pageDataSetting(total, limit, block, page) {
+      total = this.filterMenuLists.length
+      const totalPage = Math.ceil(total / limit)
+      let currentPage = page
+      const first =
+        currentPage > 1 ? parseInt(currentPage, 10) - parseInt(1, 10) : null
+      const end =
+        totalPage !== currentPage
+          ? parseInt(currentPage, 10) + parseInt(1, 10)
+          : null
+
+      let startIndex = (Math.ceil(currentPage / block) - 1) * block + 1
+      let endIndex =
+        startIndex + block > totalPage ? totalPage : startIndex + block - 1
+      let list = []
+      for (let index = startIndex; index <= endIndex; index++) {
+        list.push(index)
+      }
+      return { first, end, list, currentPage }
+    },
   },
 }
 </script>
