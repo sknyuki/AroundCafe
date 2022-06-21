@@ -140,11 +140,6 @@ const routes = [
     component: () => import("@/views/User/UserModifyPage"),
   },
   {
-    path: "/user/review",
-    name: "UserReviewPage",
-    component: () => import("@/views/User/UserReviewPage"),
-  },
-  {
     path: "/user/like",
     name: "UserLikePage",
     component: () => import("@/views/User/UserLikePage"),
