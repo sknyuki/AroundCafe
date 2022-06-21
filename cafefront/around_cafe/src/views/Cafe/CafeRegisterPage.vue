@@ -6,6 +6,7 @@
       @submitContents="contentsSubmit"
       :cafeImgLists="cafeImgLists"
     />
+    <p v-else>로딩중</p>
   </div>
 </template>
 

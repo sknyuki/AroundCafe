@@ -111,6 +111,7 @@
                 placeholder="카페 소개하는 글 작성"
               ></textarea>
             </div>
+            <span>등록한 사진 보기</span>
             <div v-for="(item, idx) in cafeImgLists" :key="idx">
               <img
                 v-bind:src="

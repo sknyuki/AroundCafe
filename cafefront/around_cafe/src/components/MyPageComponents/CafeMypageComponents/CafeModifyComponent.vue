@@ -13,7 +13,7 @@
                 <tr>
                   <td><h4>카페명:</h4></td>
                   <td>
-                    <input type="text" :value="mcafe_name" />
+                    <input type="text" v-model="mcafe_name" />
                   </td>
                 </tr>
                 <tr>
@@ -202,7 +202,7 @@ export default {
       mcafe_adr1: "",
       mcafe_adr2: "",
       mcafe_adr3: "",
-      mcafe_name: "",
+      mcafe_name: this.cafeBoard.cafeNo,
       mcafe_time: "",
       mcafe_content: "",
       mcafe_call: "",
@@ -241,7 +241,6 @@ export default {
     }
   },
   created() {
-    this.mcafe_name = this.cafeBoard.cafe_name
     this.mcafe_content = this.cafeBoard.cafe_content
     this.mcafe_call = this.cafeBoard.cafe_call
     this.mcafe_time = this.cafeBoard.cafe_time

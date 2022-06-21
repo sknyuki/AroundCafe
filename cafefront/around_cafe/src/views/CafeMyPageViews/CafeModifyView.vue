@@ -28,7 +28,7 @@ export default {
     ...mapState(["cafeBoard", "cafeImgLists"]),
   },
   mounted() {
-    this.fetchcafeBoard()
+    this.fetchcafeBoard(2)
     this.fetchCafeImgLists(1)
   },
   methods: {
