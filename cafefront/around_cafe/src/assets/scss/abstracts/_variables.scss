@@ -47,10 +47,10 @@ $letter-spacing-24: -0.01em;
 
 // BreakPoint, 모바일, 테블릿, 데스크탑에 따라 변경할 기준점
 // 그런데 vuetify에서 정한 기준점으로 할까, 사용했던 기준점으로 할까 고민중
-$md-breakpoint: 768px;
-$lg-breakpoint: 1200px;
-$md-breakpoint-1: 767px;
-$lg-breakpoint-1: 1199px;
+$md-breakpoint: 601px;
+$lg-breakpoint: 1265px;
+$md-breakpoint-1: 600px;
+$lg-breakpoint-1: 1264px;
 
 // Grids 그리드 설정해둔 것, 확인해보니  vuetify랑은 다른게 없는거같음 기준점만 바꾸면 될듯??
 $gutter: 20px;
