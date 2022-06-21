@@ -29,7 +29,7 @@ export default {
   },
   mounted() {
     this.fetchcafeBoard()
-    this.fetchCafeImgLists(2)
+    this.fetchCafeImgLists(1)
   },
   methods: {
     ...mapActions(["fetchcafeBoard", "fetchCafeImgLists"]),
@@ -42,7 +42,7 @@ export default {
         mcafe_adr1,
         mcafe_adr2,
         mcafe_adr3,
-        files1,
+        files,
       } = payload
 
       let formData = new FormData()
@@ -64,9 +64,9 @@ export default {
         new Blob([JSON.stringify(fileInfo)], { type: "application/json" })
       )
 
-      if (files1.length > 0) {
-        for (let idx = 0; idx < files1.length; idx++) {
-          formData.append("fileList", files1[idx])
+      if (files.length > 0) {
+        for (let idx = 0; idx < files.length; idx++) {
+          formData.append("fileList", files[idx].file)
         }
       }
 

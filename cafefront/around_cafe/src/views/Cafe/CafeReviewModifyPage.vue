@@ -12,8 +12,8 @@
 <script>
 import axios from 'axios'
 import { mapActions,mapState } from 'vuex'
-import CafeReviewModify from "@/components/Cafe/CafeReviewModify"
-import CafeReviewList from "@/components/Cafe/CafeReviewList"
+import CafeReviewModify from "@/components/CafeReview/CafeReviewModify"
+import CafeReviewList from "@/components/CafeReview/CafeReviewList"
 
 export default {
     name: 'CafeReviewModifyPage',
