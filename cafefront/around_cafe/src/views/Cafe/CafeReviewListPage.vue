@@ -4,7 +4,7 @@
   </div>
 </template>
 <script>
-import CafeReviewList from "@/components/Cafe/CafeReviewList.vue"
+import CafeReviewList from "@/components/CafeReview/CafeReviewList.vue"
 import { mapActions, mapState } from "vuex"
 
 export default {
@@ -15,7 +15,7 @@ export default {
   },
 
   mounted() {
-    this.fetchReviewList(2)
+    this.fetchReviewList()
   },
 
   methods: {

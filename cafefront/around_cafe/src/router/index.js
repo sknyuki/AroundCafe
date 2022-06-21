@@ -43,6 +43,9 @@ const routes = [
     path: "/",
     redirect: "/main",
     component: () => import("@/views/MainPage.vue"),
+    meta: {
+      title: "Around Cafe",
+    },
   },
   {
     path: "/main",
@@ -122,6 +125,11 @@ const routes = [
     component: () => import("@/views/User/UserOrderListPage"),
   },
   {
+    path: "/user/history",
+    name: "UserOrderHistoryPage",
+    component: () => import("@/views/User/UserOrderHistoryPage"),
+  },
+  {
     path: "/user/pw",
     name: "UserPasswordPage",
     component: () => import("@/views/User/UserPasswordPage"),
@@ -130,6 +138,16 @@ const routes = [
     path: "/user/modify",
     name: "UserModifyPage",
     component: () => import("@/views/User/UserModifyPage"),
+  },
+  {
+    path: "/user/review",
+    name: "UserReviewPage",
+    component: () => import("@/views/User/UserReviewPage"),
+  },
+  {
+    path: "/user/like",
+    name: "UserLikePage",
+    component: () => import("@/views/User/UserLikePage"),
   },
 
   //인지연이 만든 페이지 ~ test
@@ -160,7 +178,6 @@ const routes = [
     name: "CafeListPage_manager",
     component: () => import("@/views/CafeMyPageViews/CafeListPage_manager"),
   },
-
   {
     path: "/test",
     name: "TestTest",
@@ -185,6 +202,14 @@ const routes = [
       default: true,
     },
   },
+  {
+    path: "/cafe/review/list",
+    name: "CafeReviewListPage",
+    component: () => import("@/views/Cafe/CafeReviewListPage"),
+    props: {
+      default: true,
+    },
+  },
 
   // 에러처리 페이지
   {
@@ -200,6 +225,13 @@ const router = new VueRouter({
   mode: "history",
   base: process.env.BASE_URL,
   routes,
+})
+/* eslint-disable */
+router.afterEach((to, from) => {
+  const title = to.meta.title === undefined ? "Around Cafe" : to.meta.title
+  Vue.nextTick(() => {
+    document.title = title
+  })
 })
 
 export default router

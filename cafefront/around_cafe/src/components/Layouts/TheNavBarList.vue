@@ -45,6 +45,14 @@
           </v-list-item>
         </v-list-group>
       </v-list>
+      <ul>
+        <li>
+          <router-link :to="{ name: 'CafeUserModifyPage' }"
+            >마이페이지</router-link
+          >
+        </li>
+        <li><button>로그아웃</button></li>
+      </ul>
     </div>
   </div>
 </template>
