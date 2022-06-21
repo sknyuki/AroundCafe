@@ -48,19 +48,19 @@ export default {
           id: 2,
           icon: "mdi-format-list-bulleted",
           title: "주문내역",
-          link: "/",
+          link: "/user/history",
         },
         {
           id: 3,
           icon: "mdi-message-text-outline",
           title: "내리뷰",
-          link: "/",
+          link: "/user/review",
         },
         {
           id: 4,
           icon: "mdi-heart-outline",
           title: "좋아요",
-          link: "/",
+          link: "/user/like",
         },
       ],
       sidebarTwo: [
@@ -68,7 +68,7 @@ export default {
           id: 1,
           icon: "mdi-account-outline",
           title: "내 정보수정",
-          link: "/",
+          link: "/user/modify",
         },
         {
           id: 2,
