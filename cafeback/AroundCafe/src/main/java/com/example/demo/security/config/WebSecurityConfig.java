@@ -72,9 +72,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     // 권한 없이 접근 가능한 패턴
                     .antMatchers("/**", "/auth/**").permitAll()
                     // ADMIN 권한이 필요한 패턴
-                    //.antMatchers("/admin").hasRole("ADMIN")
+                    //.antMatchers("/admin/**").hasAnyRole("ADMIN")
                     // cafe, admin 권한이 필요한 패턴
-                    //.antMatchers("/cafe").hasAnyRole("CAFE","ADMIN")
+                    //.antMatchers("/cafe/**").hasAnyRole("CAFE","ADMIN")
                     // 나머지 모든 Request는 Authenticated되어 있어야 함
                     //.anyRequest().authenticated()
                 .and()

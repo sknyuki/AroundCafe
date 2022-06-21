@@ -29,7 +29,7 @@ public class AuthEntryPointJwt implements AuthenticationEntryPoint {
         } else {
             accessToken = null;
         }
-        if(jwtService.validateJwtTokenWithOutExpiration(accessToken)){
+        if(accessToken != null && jwtService.validateJwtTokenWithOutExpiration(accessToken)){
             log.error("Unauthorized error: {}", "TokenExpired");
             response.setContentType(MediaType.APPLICATION_JSON_VALUE);
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "TokenExpired");

@@ -17,6 +17,7 @@ public class RedisServiceImpl implements RedisService {
     private final StringRedisTemplate redisTemplate;
 
     // 키-벨류 설정
+    @Override
     public void setKeyAndValue(String token, Long memNo) {
         String memNoToString = String.valueOf(memNo);
         ValueOperations<String, String> value = redisTemplate.opsForValue();
@@ -24,6 +25,7 @@ public class RedisServiceImpl implements RedisService {
     }
 
     // 키값으로 벨류 get
+    @Override
     public Long getValueByKey(String token) {
         ValueOperations<String, String> value = redisTemplate.opsForValue();
         String tempMemNo = value.get(token);
@@ -37,10 +39,12 @@ public class RedisServiceImpl implements RedisService {
     }
 
     // 키값을 받아 키-벨류 삭제
+    @Override
     public void deleteByKey(String token) {
         redisTemplate.delete(token);
     }
 
+    @Override
     public boolean isRefreshTokenExists(String token) {
         return getValueByKey(token) != null;
     }
