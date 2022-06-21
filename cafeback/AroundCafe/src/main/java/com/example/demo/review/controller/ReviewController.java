@@ -1,7 +1,10 @@
 package com.example.demo.review.controller;
 
+import com.example.demo.mypage.cafe.entity.Cafe;
+import com.example.demo.mypage.cafe.repository.cafe.CafeRepository;
 import com.example.demo.review.entity.Review;
 import com.example.demo.review.service.ReviewService;
+import com.example.demo.review.service.ReviewServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -18,25 +21,36 @@ import java.util.List;
 public class ReviewController {
 
     @Autowired
-    private ReviewService service;
+    ReviewServiceImpl service;
 
 
     //리뷰 등록
-    @PostMapping("/register")
-    public void reviewRegister (@Validated Review review, @RequestParam(required = false) MultipartFile file) throws Exception {
+    @PostMapping("/register/{membNo}")
+    public void reviewRegister (@Validated Review review, @RequestParam(required = false) MultipartFile file,
+                                @PathVariable("membNo") Integer membNo) throws Exception {
         log.info("reviewRegister()" + review + "file" + file);
 
-        service.register(review, file);
+        service.register(review, file,membNo);
     }
 
 
     //리뷰 목록
-    @GetMapping("/list")
-    public List<Review> reviewList () {
+    @GetMapping("/list/{membNo}")
+    public List<Review> reviewList (@PathVariable("membNo") Integer membNo) {
         log.info("ReviewList()");
-
-        return service.list ();
+        log.info("member no : " + membNo);
+        return service.list (membNo);
     }
+//
+//    //카페에서 리뷰 리스트 조회
+//    @GetMapping("/lists/{membNo}")
+//    public List<Review> cafeReviewList (@PathVariable("membNo") Integer membNo) {
+//        log.info("cafe ReviewList()");
+//        log.info("member no : " + membNo);
+//
+//        return service.CafeList(Long.valueOf(membNo));
+//
+//    }
 
     //리뷰 읽기
     @GetMapping("/{reviewNo}")

@@ -4,6 +4,7 @@ package com.example.demo.review.repository;
 import com.example.demo.review.entity.Review;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
@@ -24,5 +25,8 @@ public interface ReviewRepository extends JpaRepository<Review,Long> {
     @Transactional
     @Query(value ="select * from review where review_no = :reviewNo", nativeQuery = true)
     Optional<Review> findByReviewNo(Long reviewNo);
+
+    @Query("select m from Review m where m.cafeNum = :cafeNum order by m.reviewNo desc")
+    List<Review> findByCafeNo(@Param("cafeNum") Long cafeNum);
 
 }
