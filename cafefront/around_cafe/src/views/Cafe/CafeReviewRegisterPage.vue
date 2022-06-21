@@ -34,12 +34,17 @@ export default {
       formData.append("review_content", review_content)
       formData.append("cafeNum", cafeNum)
 
+      let membNo = 1
       axios
-        .post(`http://localhost:7777/cafe/review/register`, formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        })
+        .post(
+          `http://localhost:7777/cafe/review/register/${membNo}`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        )
         .then(() => {
           alert("Successfully submitted")
           this.$router.push({

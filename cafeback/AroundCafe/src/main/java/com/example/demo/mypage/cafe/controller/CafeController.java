@@ -29,7 +29,6 @@ public class CafeController {
                               @RequestPart(value = "fileList", required = false)List<MultipartFile> fileList) throws IOException {
 
         log.info("uploadContents()" + info);
-        log.info("uploadImg()"+fileList);
 
         service.notIncludeFileModifyCafe(membNo,info);
 
