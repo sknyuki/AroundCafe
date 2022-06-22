@@ -1,4 +1,4 @@
-package com.example.demo.security.jwt.dto;
+package com.example.demo.security.dto;
 
 import lombok.Builder;
 import lombok.Getter;

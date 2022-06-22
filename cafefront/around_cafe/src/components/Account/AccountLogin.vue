@@ -8,7 +8,12 @@
 
     <section class="login-section">
       <div>
-        <form class="login-form" @submit.prevent="onSubmit" action="/" method="POST">
+        <form
+          class="login-form"
+          @submit.prevent="onSubmit"
+          action="/"
+          method="POST"
+        >
           <div class="login-form-member">
             <div class="login-form-id">
               <div class="account-input">
@@ -58,7 +63,12 @@
           <section>
             <div class="login-social">SNS계정으로 간편 로그인/회원가입</div>
             <div class="login-social-group">
-              <v-btn v-on:click="redirect2AuthServer('kakao')" medium fab color="yellow">
+              <v-btn
+                v-on:click="redirect2AuthServer('kakao')"
+                medium
+                fab
+                color="yellow"
+              >
                 <i class="icKaKaoTalk"></i>
               </v-btn>
               <v-btn v-on:click="redirect2AuthServer('naver')" medium fab>
@@ -82,10 +92,11 @@ export default {
   name: "LoginForm",
   methods: {
     onSubmit() {
-      this.$emit('submit', {email: this.email, password: this.password})
+      this.$emit("submit", { email: this.email, password: this.password })
     },
     redirect2AuthServer(socialType) {
-      window.location.href = `http://localhost:5000/oauth/${socialType}/login`
+      let url = `http://localhost:5000/oauth/${socialType}/login`
+      window.open(url, "_blank", "width=617, height=942")
     },
   },
   data() {

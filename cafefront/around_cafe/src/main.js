@@ -3,7 +3,6 @@ import App from "./App.vue"
 import router from "./router"
 import store from "./store"
 import vuetify from "./plugins/vuetify"
-//axios from "./plugins/axios"
 import axios from "axios"
 import "@/utils/validation"
 

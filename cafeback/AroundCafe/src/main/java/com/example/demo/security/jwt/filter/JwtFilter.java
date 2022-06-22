@@ -98,6 +98,7 @@ public class JwtFilter extends OncePerRequestFilter {
         Long memberId = jwtService.getMemberIdFromJwtToken(token);
         // userId 기준으로 principal 조회
         UserDetails userDetails = memberDetailsService.loadUserById(memberId);
+        System.out.println(userDetails.getAuthorities());
         // principal 정보 기준으로 인증 토큰 객체 생성
         UsernamePasswordAuthenticationToken authentication =
                 new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());

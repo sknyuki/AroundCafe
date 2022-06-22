@@ -12,8 +12,8 @@ import java.util.Optional;
 public interface CafeRepository extends JpaRepository<Cafe, Long> {
 
     @Transactional
-    @Query(value = "select * from cafe where member_no :memNo",nativeQuery = true)
-    Optional<Cafe> findByMemberNo(Long memNo);
+    @Query(value = "select * from cafe where member_no = :membNo",nativeQuery = true)
+    Optional<Cafe> findByMemberNo(@Param("membNo") Long membNo);
 
     @Transactional
     @Query(value = "select * from cafe where member_no = :membNo",nativeQuery = true)

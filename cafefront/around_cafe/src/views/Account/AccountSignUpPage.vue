@@ -9,9 +9,10 @@ export default {
   name: "AccountSignUpPage",
   methods: {
     onSubmit(payload) {
+      const unInterceptedAxiosInstance = axios.create();
       const {email, password, memCheckPw, username, birth, socialType, role, cafeBisNo, phoneNum} = payload
 
-      axios.post(`http://localhost:7777/auth/register`, {email, password, memCheckPw, username, birth, socialType, role, cafeBisNo, phoneNum})
+      unInterceptedAxiosInstance.post(`http://localhost:7777/auth/register`, {email, password, memCheckPw, username, birth, socialType, role, cafeBisNo, phoneNum})
           .then(() => {
             alert('회원가입 완료!')
             this.$router.push('/login')

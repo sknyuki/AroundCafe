@@ -11,8 +11,8 @@ import java.util.List;
 
 public interface MenuRepository extends JpaRepository<CafeMenu, Long> {
     @Transactional
-    @Query(value = "select * from cafe_menu where cafe_no : cafeNo order by menu_no desc", nativeQuery = true)
-    public List<CafeMenu> findByCafeNo(Long cafeNo);
+    @Query(value = "select * from cafe_menu where cafe_no = :cafeNo order by menu_no desc", nativeQuery = true)
+    public List<CafeMenu> findByCafeNo(@Param("cafeNo") Long cafeNo);
 
     @Transactional
     @Query(value = "select count(*) from cafe_menu where signature = 1", nativeQuery = true)

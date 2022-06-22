@@ -115,6 +115,7 @@ public class MenuServiceImpl implements MenuService{
     public List<CafeMenu> list(Integer membNo) {
         Cafe cafe = cafeRepository.findByMemberNo(Long.valueOf(membNo)).orElseGet(null);
         Long CafeNo = cafe.getCafeNo();
+        log.info("cafe no = " + CafeNo);
 
         return repository.findByCafeNo(CafeNo);
     }

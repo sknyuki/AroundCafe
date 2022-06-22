@@ -13,7 +13,7 @@ public interface CafeService {
 
     //public Cafe cafeMypageread(Integer membNo);
 
-    public Cafe read();
+    public Cafe read(Integer membNo);
 
     public void checkSavedImg(Long cafeNo) throws IOException;
 

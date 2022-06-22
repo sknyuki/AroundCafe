@@ -1,9 +1,11 @@
-package com.example.demo.security.jwt.controller;
+package com.example.demo.security.controller;
 
 import com.example.demo.common.exception.BadRequestException;
+import com.example.demo.member.dto.MemberDto;
 import com.example.demo.member.entity.Member;
 import com.example.demo.member.repository.MemberRepository;
-import com.example.demo.security.jwt.dto.*;
+import com.example.demo.member.service.MemberService;
+import com.example.demo.security.dto.*;
 import com.example.demo.security.jwt.service.AuthServiceImpl;
 import com.example.demo.security.jwt.service.JwtService;
 import com.example.demo.common.dto.MessageResponse;
@@ -36,6 +38,7 @@ public class AuthController {
 
     private final MemberRepository memberRepository;
     private final AuthServiceImpl authService;
+    private final MemberService memberService;
     private final JwtService jwtService;
     private final RedisServiceImpl redisService;
     private final AuthenticationManager authenticationManager;
@@ -200,7 +203,7 @@ public class AuthController {
             );
         }
     }
-    @PostMapping("/isDuplicated")
+    @PostMapping("/isExists")
     public String isDuplicated(@Valid @RequestBody ExistsDto existsDto) {
         if(existsDto.getMemNick() != null){
             return String.valueOf(memberRepository.existsByMemNick(existsDto.getMemNick()));
@@ -208,6 +211,15 @@ public class AuthController {
         else if(existsDto.getMemId() != null) {
             return String.valueOf(memberRepository.existsByMemId(existsDto.getMemId()));
         }
+        return String.valueOf(true);
+    }
+
+    @PostMapping("/changePassword")
+    public String changePassword(@RequestBody MemberDto memberDto) {
+        Member member = memberService.findByMemId(memberDto.getMemId());
+        String password = memberDto.getMemPw();
+        memberService.changeMemberPassword(member, password);
+
         return String.valueOf(true);
     }
 }
