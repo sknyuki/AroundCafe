@@ -10,19 +10,19 @@
           <div class="sign-form">
             <div class="account-input">
               <ValidationProvider
-                  class="sign-validation"
-                  tag="div"
-                  name="password"
-                  type="password"
-                  v-slot="{ errors }"
-                  :rules="{ memCheckPw }"
+                class="sign-validation"
+                tag="div"
+                name="password"
+                type="password"
+                v-slot="{ errors }"
+                :rules="{ memCheckPw }"
               >
                 <input
-                    v-model="password"
-                    class="form-input input-48"
-                    type="password"
-                    placeholder="새 비밀번호"
-                    required
+                  v-model="password"
+                  class="form-input input-48"
+                  type="password"
+                  placeholder="새 비밀번호"
+                  required
                 />
                 <div class="errmsg" aria-live="polite">
                   {{ errors[0] }}
@@ -31,18 +31,18 @@
             </div>
             <div class="account-input">
               <ValidationProvider
-                  class="sign-validation"
-                  tag="div"
-                  v-slot="{ errors }"
-                  name="memCheckPw"
-                  :rules="{ confirmed: 'password' }"
+                class="sign-validation"
+                tag="div"
+                v-slot="{ errors }"
+                name="memCheckPw"
+                :rules="{ confirmed: 'password' }"
               >
                 <input
-                    v-model="memCheckPw"
-                    class="form-input input-48"
-                    type="password"
-                    placeholder="새 비밀번호 확인"
-                    required
+                  v-model="memCheckPw"
+                  class="form-input input-48"
+                  type="password"
+                  placeholder="새 비밀번호 확인"
+                  required
                 />
                 <div class="errmsg" aria-live="polite">
                   {{ errors[0] }}
@@ -50,22 +50,20 @@
               </ValidationProvider>
             </div>
           </div>
-            <v-btn
-                :disabled="invalid"
-                class="sign-button-vuti"
-                type="submit"
-            >
-              비밀번호 변경하기
-            </v-btn>
+          <v-btn :disabled="invalid" class="sign-button-vuti" type="submit">
+            비밀번호 변경하기
+          </v-btn>
         </form>
       </ValidationObserver>
     </div>
   </div>
 </template>
 <script>
-
 export default {
   name: "ModifyPassword",
+  props : {
+    email: {type:String, required: true}
+  },
   methods: {
     onSubmit() {
       const data = {
@@ -74,12 +72,12 @@ export default {
       this.$emit("submit", data)
     },
   },
-  data () {
+  data() {
     return {
       password: "",
       memCheckPw: "",
     }
-  }
+  },
 }
 </script>
 <style lang="scss" scoped>

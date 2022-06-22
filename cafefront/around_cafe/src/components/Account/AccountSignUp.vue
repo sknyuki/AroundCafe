@@ -456,6 +456,7 @@ export default {
         },
       }
       this.emailVerifyDisabled = true
+      alert("인증 메일이 발송되었습니다.")
       const unInterceptedAxiosInstance = axios.create()
       const code = await unInterceptedAxiosInstance.post(
         url,
@@ -465,7 +466,6 @@ export default {
       // 유저가 확인할 수 없는 장소가 어디일까요?
       // 확인요망 -- 애매하면 그냥 redis 서버에 저장
       this.emailCodeFromServer = code.data["code"]
-      alert("인증 메일이 발송되었습니다.")
       this.emailVerifyUse = true
     },
     existByNickname(username) {

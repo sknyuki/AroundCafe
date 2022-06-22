@@ -7,9 +7,9 @@ export default {
   components: { AccountPassword },
   name: "AccountPasswordPage",
   methods: {
-    onSubmit(payload) {
-      const {email} = payload
-    }
-  }
+    //onSubmit(payload) {
+    //  const {email} = payload
+    //}
+  },
 }
 </script>

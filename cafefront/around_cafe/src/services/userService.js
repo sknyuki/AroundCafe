@@ -7,6 +7,7 @@
 class UserService {
   setUserInfo(userInfo) {
     const user = {
+      memNo: userInfo["memNo"],
       nickname: userInfo["nickname"],
       email: userInfo["email"],
       role: userInfo["role"],
@@ -16,12 +17,17 @@ class UserService {
   }
 
   getUserInfo() {
-    const userinfo = JSON.parse(localStorage.getItem("user"))
+    const userInfo = JSON.parse(localStorage.getItem("user"))
     return {
-      nickname: userinfo["nickname"],
-      email: userinfo["email"],
-      role: userinfo["role"],
+      memNo: userInfo["memNo"],
+      nickname: userInfo["nickname"],
+      email: userInfo["email"],
+      role: userInfo["role"],
     }
+  }
+
+  deleteUserInfo() {
+    localStorage.removeItem("user")
   }
 }
 

@@ -8,9 +8,14 @@ import {
   FETCH_LIKES_LIST,
   FETCH_QNA_LIST,
   FETCH_QNA_LISTS,
+  FETCH_USER,
 } from "./mutation-types"
 
 export default {
+  [FETCH_USER](state, user) {
+    state.user = user
+  },
+
   [FETCH_CAFE_BOARD_LIST](state, cafeBoards) {
     state.cafeBoards = cafeBoards
   },

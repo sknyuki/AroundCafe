@@ -8,11 +8,17 @@ import {
   FETCH_LIKES_LIST,
   FETCH_QNA_LIST,
   FETCH_QNA_LISTS,
+  FETCH_USER,
 } from "./mutation-types"
 
 import axios from "axios"
+import UserService from "@/services/userService"
 
 export default {
+  fetchUser({ commit }) {
+    return commit(FETCH_USER, UserService.getUserInfo())
+  },
+
   fetchcafeBoardList({ commit }) {
     return axios.get("http://localhost:7777/cafe/list").then((res) => {
       commit(FETCH_CAFE_BOARD_LIST, res.data)

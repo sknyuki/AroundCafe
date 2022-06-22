@@ -33,6 +33,13 @@ class TokenService {
       String(Date.now() + Number(userInfo["refreshTokenExp"]))
     )
   }
+
+  deleteTokens() {
+    localStorage.removeItem("accessToken")
+    localStorage.removeItem("accessTokenExp")
+    Vue.$cookies.remove("refreshToken")
+    Vue.$cookies.remove("refreshTokenExp")
+  }
 }
 
 export default new TokenService()
