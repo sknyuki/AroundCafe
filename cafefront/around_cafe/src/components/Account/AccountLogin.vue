@@ -96,7 +96,12 @@ export default {
     },
     redirect2AuthServer(socialType) {
       let url = `http://localhost:5000/oauth/${socialType}/login`
-      window.open(url, "_blank", "width=617, height=942")
+      // location=no는 신뢰할수 있는 사이트만 가능
+      window.open(
+        url,
+        "_blank",
+        "width=617, height=942, menubar=no, toolbar=no, location=no, status=no, scrollbars=no"
+      )
     },
   },
   data() {

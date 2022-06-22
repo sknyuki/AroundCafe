@@ -3,14 +3,12 @@
 </template>
 
 <script>
-import AccountModifyPassword from "@/components/Account/AccountModifyPassword";
+import AccountModifyPassword from "@/components/Account/AccountModifyPassword"
 
 export default {
   components: { AccountModifyPassword },
-  name: "AccountModifyPasswordPage"
+  name: "AccountModifyPasswordPage",
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
