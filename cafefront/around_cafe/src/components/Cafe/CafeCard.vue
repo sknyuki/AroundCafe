@@ -2,15 +2,13 @@
   <div class="cafe-gallery-content">
     <ul class="cafe-list">
       <li
-        v-for="cafeItem in cafeItems"
-        :key="cafeItem.id"
+        v-for="(cafeItem, index) in cafeItems"
+        :key="index"
         class="cafe-item"
-        @mouseover="btnHover = true"
-        @mouseleave="btnHover = false"
+        @mouseover="swiperBtn = index"
+        @mouseleave="swiperBtn = null"
       >
-        <button v-if="!isLoading" class="cafe-item-btn" type="button">
-          <i class="icHeart"></i>
-        </button>
+        <!-- 스켈레톤 UI -->
         <template v-if="isLoading">
           <div>
             <SkeletonBox class="sk-box" />
@@ -30,7 +28,13 @@
         </template>
 
         <template v-else>
-          <a href="">
+          <a href="" @focus.tab="swiperBtn = index">
+            <!-- 좋아요 토글 -->
+            <button class="cafe-item-btn" type="button">
+              <i class="icHeart"></i>
+            </button>
+
+            <!-- 스와이퍼 -->
             <swiper class="swiper" :options="swiperOption">
               <swiper-slide
                 v-for="cafeItem in cafeItem.img"
@@ -38,28 +42,28 @@
                 class="cafe-gallery-image"
               >
                 <picture>
-                  <img :src="cafeItem.image" alt="카페이미지" />
+                  <img loading="lazy" :src="cafeItem.image" alt="카페이미지" />
                 </picture>
               </swiper-slide>
               <v-btn
                 fab
                 x-small
-                :class="['prev-prev', { show: btnHover }]"
                 class="swiper-button-prev is-prev"
                 slot="button-prev"
                 aria-label="이전 이미지"
                 type="button"
+                v-show="swiperBtn === index"
               >
                 <i class="icChevron" aria-hidden></i>
               </v-btn>
               <v-btn
-                :class="['prev-next', { show: btnHover }]"
                 fab
                 x-small
                 class="swiper-button-next is-next"
                 slot="button-next"
                 aria-label="다음 이미지"
                 type="button"
+                v-show="swiperBtn === index"
               >
                 <i class="icChevron" aria-hidden></i>
               </v-btn>
@@ -104,6 +108,7 @@ export default {
     swiperSlide,
     SkeletonBox,
   },
+
   props: {
     cafeItems: {
       type: Array,
@@ -112,10 +117,12 @@ export default {
   },
   data() {
     return {
-      btnHover: false,
-
+      isLoading: false,
+      // onHoverIndex: null,
+      swiperBtn: null,
       // Swiper 데이터
       swiperOption: {
+        touchEventsTarget: "wrapper",
         slidesPerView: 1,
         loop: false,
         speed: 500,
@@ -128,20 +135,23 @@ export default {
           nextEl: ".swiper-button-next",
           prevEl: ".swiper-button-prev",
         },
+        a11y: {
+          prevSlideMessage: "이전 슬라이드",
+          nextSlideMessage: "다음 슬라이드",
+        },
       },
-      // Skeleton UI 데이터
-      isLoading: true,
     }
   },
-  methods: {
-    show: function () {
-      this.isLoading = !this.isLoading
-      setTimeout(() => this.show(), 3500)
-    },
-  },
-  mounted() {
-    setTimeout(() => this.show(), 2000)
-  },
+
+  // methods: {
+  //   show: function () {
+  //     this.isLoading = !this.isLoading
+  //     setTimeout(() => this.show(), 3500)
+  //   },
+  // },
+  // mounted() {
+  //   setTimeout(() => this.show(), 2000)
+  // },
 }
 </script>
 <style lang="scss" scoped>
@@ -149,14 +159,6 @@ export default {
 @import "~@/assets/scss/components/gallery/cafe-gallery";
 @import "~@/assets/scss/components/gallery/cafe-list";
 @import "~@/assets/scss/components/gallery/swiper";
-
-.prev-next,
-.prev-prev {
-  opacity: 0;
-}
-.show {
-  opacity: 1;
-}
 
 .sk {
   &-title,
@@ -180,7 +182,6 @@ export default {
   }
 
   &-box {
-    margin-top: 24px;
     width: 100%;
     height: 0;
     padding-bottom: 100%;
@@ -189,13 +190,13 @@ export default {
 
   @include responsive(T) {
     &-title {
-      width: 240px;
+      width: 180px;
     }
     &-location {
-      width: 160px;
+      width: 140px;
     }
     &-time {
-      width: 120px;
+      width: 100px;
     }
     &-star {
       width: 80px;
