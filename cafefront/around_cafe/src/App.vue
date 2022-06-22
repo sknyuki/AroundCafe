@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <TheHeader v-if="visible" />
+    <TheHeader v-if="visibleHeader" />
     <v-main>
       <v-container>
         <v-row>
@@ -10,7 +10,7 @@
         </v-row>
       </v-container>
     </v-main>
-    <TheFooter v-if="visible" />
+    <TheFooter v-if="visibleFooter" />
   </v-app>
 </template>
 
@@ -23,21 +23,34 @@ export default {
   name: "App",
   data() {
     return {
-      visible: true,
+      visibleHeader: true,
+      visibleFooter: true,
     }
   },
   /* eslint-disable */
   created() {
-    let visible = false
+    let visibleHeader = false
     router.afterEach((to, from) => {
       if (
-        (visible = to.path === "/sign") ||
-        (visible = to.path === "/login") ||
-        (visible = to.path === "/login/callback")
+        (visibleHeader = to.path === "/login") ||
+        (visibleHeader = to.path === "/sign") ||
+        (visibleHeader = to.path === "/chat")
       ) {
-        this.visible = false
+        this.visibleHeader = false
       } else {
-        this.visible = true
+        this.visibleHeader = true
+      }
+    })
+    let visibleFooter = false
+    router.afterEach((to, from) => {
+      if (
+        (visibleFooter = to.path === "/login") ||
+        (visibleFooter = to.path === "/sign") ||
+        (visibleFooter = to.path === "/chat")
+      ) {
+        this.visibleFooter = false
+      } else {
+        this.visibleFooter = true
       }
     })
   },

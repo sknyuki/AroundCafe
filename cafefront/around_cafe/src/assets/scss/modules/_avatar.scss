@@ -26,3 +26,15 @@
   width: 32px;
   height: 32px;
 }
+
+.avatar-40 {
+  @extend %avatar-base;
+  width: 40px;
+  height: 40px;
+}
+
+.avatar-48 {
+  @extend %avatar-base;
+  width: 48px;
+  height: 48px;
+}

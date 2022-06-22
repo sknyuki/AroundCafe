@@ -155,6 +155,12 @@ const routes = [
     component: () => import("@/views/User/UserLikePage"),
   },
 
+  {
+    path: "/chat/",
+    name: "ChatPage",
+    component: () => import("@/views/Chat/ChatPage"),
+  },
+
   //인지연이 만든 페이지 ~ test
   {
     path: "/cafeMenuRegister",
