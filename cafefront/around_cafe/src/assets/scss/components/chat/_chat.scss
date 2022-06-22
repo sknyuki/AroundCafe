@@ -1,0 +1,214 @@
+.chat {
+  &-content {
+    display: flex;
+    overflow-x: auto;
+    position: relative;
+    margin: 0px auto;
+    height: 100%;
+  }
+
+  &-left {
+    @include flexbox(start);
+  }
+
+  &-sidebar {
+    display: flex;
+    flex-direction: column;
+    padding: 20px 13px;
+    width: 72px;
+    border-left: 1px solid $border;
+    border-right: 1px solid $border;
+    background-color: $border;
+    height: 100%;
+
+    a {
+      position: relative;
+      display: inline-block;
+      width: 44px;
+      height: 44px;
+    }
+    img {
+      border-color: $indigo;
+      border-radius: 50%;
+      border: 3px solid $white;
+    }
+  }
+
+  &-room {
+    width: 232px;
+    min-width: 232px;
+    flex-direction: column;
+    height: 100vh;
+    border-right: 1px solid $border;
+
+    &-name {
+      @include text-style(16, $dark);
+      font-weight: 700;
+      position: relative;
+      display: flex;
+      height: 64px;
+      min-height: 64px;
+      padding: 0px 20px;
+      align-items: center;
+      border-bottom: 1px solid $border;
+    }
+
+    &-nick {
+      margin-right: 4px;
+    }
+    &-wrapper {
+      @include flexbox(start);
+      margin-bottom: 4px;
+    }
+
+    &-cafe {
+      @include text-style(12, $tertiary);
+    }
+    &-contents {
+      @include truncate;
+      display: block;
+      width: 200px;
+    }
+    &-text {
+      display: flex;
+      flex-direction: row-reverse;
+      height: 44px;
+      min-height: 44px;
+      padding: 0px 6px;
+      font-size: 12px;
+      align-items: center;
+      border-bottom: 1px solid $border;
+    }
+
+    &-box {
+      @include text-style(12);
+      flex: 100%;
+    }
+    &-msg {
+      position: relative;
+      height: calc(100% - 162px);
+      overflow: hidden auto;
+
+      a {
+        display: flex;
+        padding: 16px;
+        height: 72px;
+        border-bottom: 1px solid $border;
+        align-items: center;
+        position: relative;
+        overflow: hidden;
+      }
+      img {
+        margin-right: 8px;
+        height: 40px;
+      }
+    }
+    &-list {
+      position: relative;
+      .delete-button {
+        position: absolute;
+        z-index: 100;
+        right: 40px;
+        top: 25%;
+        opacity: 0;
+      }
+      .hover {
+        opacity: 1;
+      }
+    }
+
+    &-qna {
+      @include flexbox;
+      border-top: 1px solid $border;
+      padding-left: 10px;
+      height: 56px;
+      min-height: 56px;
+    }
+  }
+
+  &-section {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 812px;
+    max-width: 812px;
+    border-right: 1px solid $border;
+    &-content {
+      @include flexbox;
+      width: 100%;
+      height: 100%;
+      flex-direction: column;
+
+      .v-icon {
+        font-size: 160px;
+      }
+    }
+  }
+
+  // grid
+  &-normal {
+    &-room {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      height: 100%;
+    }
+    &-wrapper {
+      position: relative;
+      display: flex;
+      flex: 110px;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    &-header {
+      @include flexbox(start);
+      height: 64px;
+      min-height: 64px;
+      border-bottom: 1px solid $border;
+      padding: 0px 20px;
+    }
+    &-name {
+      @include text-style(16);
+      margin-left: 8px;
+    }
+  }
+
+  // textarea
+  form {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    justify-content: space-between;
+    border: 1px solid $dark;
+    border-radius: 8px;
+    height: 125px;
+    margin: 16px;
+
+    .v-btn {
+      width: 24px;
+      margin-left: 16px;
+    }
+    span {
+      @include text-style(14, $tertiary);
+      position: absolute;
+      right: 84px;
+      bottom: 11px;
+    }
+    textarea {
+      width: calc(100% - 24px);
+      height: 64px;
+      margin: 12px 12px 0px;
+      padding: 0px;
+      border: none;
+      resize: none;
+      outline: none;
+      line-height: 150%;
+      font-size: 14px;
+    }
+    .textarea-content {
+      @include flexbox(between);
+      margin: 10px;
+    }
+  }
+}

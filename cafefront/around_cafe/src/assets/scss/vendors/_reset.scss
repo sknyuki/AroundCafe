@@ -42,6 +42,10 @@ textarea {
 a,
 button {
   cursor: pointer;
+  // &:focus {
+  //   outline: 4px solid $indigo;
+  //   border-radius: 4px;
+  // }
 }
 
 button {
