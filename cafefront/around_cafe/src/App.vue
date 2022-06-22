@@ -30,7 +30,11 @@ export default {
   created() {
     let visible = false
     router.afterEach((to, from) => {
-      if ((visible = to.path === "/sign") || (visible = to.path === "/login")) {
+      if (
+        (visible = to.path === "/sign") ||
+        (visible = to.path === "/login") ||
+        (visible = to.path === "/login/callback")
+      ) {
         this.visible = false
       } else {
         this.visible = true

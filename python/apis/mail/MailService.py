@@ -1,4 +1,6 @@
 import smtplib
+
+from flask import render_template
 from .MailConfig import *
 
 from ..randomStringGenerator.RandomStringGenerator import RandomStringGenerator
@@ -33,10 +35,24 @@ class MailService:
     def verify_email(self, reciever):
         string = RandomStringGenerator.getRandomString(6)
 
-        title = "Around Cafe 계정 확인 이메일"
-        content = "입력하실 Code는 %s 입니다." % string
+        title = "[Around Cafe] 인증코드 안내"
+        content = """
+            <!doctype html><html><head></head>
+            <body>
+                <div style="font-size: 18px; font-weight: 700; margin-bottom: 10px; margin-top: 60px;">
+                인증코드를 확인해주세요.
+                </div>
+            <span style="font-size: 18px; font-weight: 700; margin-bottom: 10px; margin-top: 60px;">%s</span>
+            <div style="margin-top: 60px; margin-bottom: 40px; line-height: 28px;">
+                <div style="display: inline-block;">이메일 인증 절차에 따라 이메일 인증코드를 </div> 
+                <div style="display: inline-block;"> 발급해드립니다.</div> 
+                <div style="display: inline-block;">인증코드는 이메일 발송</div>
+                <div style="display: inline-block;">시점으로부터 3분동안 유효합니다.</div>
+                </div>
+            </body></html>
+        """ % string
 
-        msg = MIMEText(_text=content, _charset='utf-8')
+        msg = MIMEText(content, 'html')
         msg['Subject'] = title
         msg['To'] = reciever
 

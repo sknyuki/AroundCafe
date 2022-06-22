@@ -65,9 +65,19 @@ const routes = [
     component: () => import("@/views/Account/AccountLoginPage.vue"),
   },
   {
+    path: "/login/callback",
+    name: "AccountCallbackPage",
+    component: () => import("@/views/Account/AccountCallbackPage"),
+  },
+  {
     path: "/password",
     name: "AccountPasswordPage",
     component: () => import("@/views/Account/AccountPasswordPage.vue"),
+  },
+  {
+    path: "/passwordModify",
+    name: "AccountModifyPasswordPage",
+    component: () => import("@/views/Account/AccountModifyPasswordPage.vue"),
   },
 
   // Admin 관리자페이지
