@@ -383,6 +383,34 @@ import axios from "axios"
 
 export default {
   name: "AccountSignUp",
+  data() {
+    return {
+      email: "",
+      password: "",
+      memCheckPw: "",
+      username: "",
+      birth: "",
+      socialType: "LOCAL",
+      role: "USER",
+      cafeBisNo: "",
+      phoneNum: "",
+      emailCode: "",
+      emailCodeFromServer: "",
+      clickUse: true,
+      emailDupChecked: false,
+      emailVerifyUse: false,
+      emailVerify: false,
+      usernameDupChecked: false,
+      usernameDisabled: false,
+      emailVerifyDisabled: false,
+      checkedBox: {
+        checkbox1: false,
+        checkbox2: false,
+        checkbox3: false,
+      },
+      isBoxAllChecked: false,
+    }
+  },
   methods: {
     checkSingleBox(box) {
       if (box === "1") {
@@ -530,34 +558,6 @@ export default {
       }
       this.$emit("submit", data)
     },
-  },
-  data() {
-    return {
-      email: "",
-      password: "",
-      memCheckPw: "",
-      username: "",
-      birth: "",
-      socialType: "LOCAL",
-      role: "USER",
-      cafeBisNo: "",
-      phoneNum: "",
-      emailCode: "",
-      emailCodeFromServer: "",
-      clickUse: true,
-      emailDupChecked: false,
-      emailVerifyUse: false,
-      emailVerify: false,
-      usernameDupChecked: false,
-      usernameDisabled: false,
-      emailVerifyDisabled: false,
-      checkedBox: {
-        checkbox1: false,
-        checkbox2: false,
-        checkbox3: false,
-      },
-      isBoxAllChecked: false,
-    }
   },
 }
 </script>

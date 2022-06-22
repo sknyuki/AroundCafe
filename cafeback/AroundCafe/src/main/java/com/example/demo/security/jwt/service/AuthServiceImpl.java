@@ -35,6 +35,7 @@ public class AuthServiceImpl {
         redisService.setKeyAndValue(refreshToken, member.getMemNo());
         // 저장한 값을 JwtDto로 반환
         return JwtDto.builder()
+                .memNo(member.getMemNo())
                 .email(member.getMemId())
                 .accessToken(accessToken)
                 .accessTokenExp(jwtService.tokenExpTime(accessToken))

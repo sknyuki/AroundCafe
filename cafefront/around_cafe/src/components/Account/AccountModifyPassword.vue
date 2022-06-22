@@ -61,22 +61,23 @@
 <script>
 export default {
   name: "ModifyPassword",
-  props : {
-    email: {type:String, required: true}
-  },
-  methods: {
-    onSubmit() {
-      const data = {
-        password: this.password,
-      }
-      this.$emit("submit", data)
-    },
+  props: {
+    email: { type: String, required: true },
   },
   data() {
     return {
       password: "",
       memCheckPw: "",
     }
+  },
+  methods: {
+    onSubmit() {
+      const data = {
+        email: this.email,
+        password: this.password,
+      }
+      this.$emit("submit", data)
+    },
   },
 }
 </script>
