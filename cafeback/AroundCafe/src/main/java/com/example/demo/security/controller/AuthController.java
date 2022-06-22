@@ -144,7 +144,7 @@ public class AuthController {
                 .body(new MessageResponse("User registered successfully!"));
     }
 
-    @PostMapping("/logout")
+    @DeleteMapping("/logout")
     public String logout(@RequestHeader(value = "refresh_Token") String refreshToken) {
         redisService.deleteByKey(refreshToken);
         HttpResponse<String> response;

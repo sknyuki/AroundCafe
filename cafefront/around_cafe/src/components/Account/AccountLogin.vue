@@ -90,6 +90,12 @@
 <script>
 export default {
   name: "LoginForm",
+  data() {
+    return {
+      email: "",
+      password: "",
+    }
+  },
   methods: {
     onSubmit() {
       this.$emit("submit", { email: this.email, password: this.password })
@@ -103,12 +109,6 @@ export default {
         "width=617, height=942, menubar=no, toolbar=no, location=no, status=no, scrollbars=no"
       )
     },
-  },
-  data() {
-    return {
-      email: "",
-      password: "",
-    }
   },
 }
 </script>
