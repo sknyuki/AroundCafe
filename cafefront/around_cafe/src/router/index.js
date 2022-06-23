@@ -222,6 +222,12 @@ const routes = [
     },
   },
 
+  {
+    path: "/AppleBanana",
+    name: "AppleBanana",
+    component: () => import("@/views/Cafe/AppleBanana"),
+  },
+
   // 에러처리 페이지
   {
     path: "*",

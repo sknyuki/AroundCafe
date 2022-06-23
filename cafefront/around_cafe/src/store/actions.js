@@ -5,10 +5,10 @@ import {
   FETCH_CAFE_IMG_LISTS,
   FETCH_REVIEW_LIST,
   FETCH_REVIEW,
-  FETCH_LIKES_LIST,
+  FETCH_HELPS_LIST,
   FETCH_QNA_LIST,
   FETCH_QNA_LISTS,
-  FETCH_LIKE,
+  FETCH_HELP,
   FETCH_MY_HELPS_LIST,
 } from "./mutation-types"
 
@@ -57,18 +57,18 @@ export default {
         commit(FETCH_REVIEW, res.data)
       })
   },
-  fetchLikesList({ commit }, reviewNo) {
+  fetchHelpsList({ commit }, reviewNo) {
     return axios
       .get(`http://localhost:7777/cafe/like/list/${reviewNo}`)
       .then((res) => {
-        commit(FETCH_LIKES_LIST, res.data)
+        commit(FETCH_HELPS_LIST, res.data)
       })
   },
-  fetchLike({ commit }, { reviewNo, membNo }) {
+  fetchHelp({ commit }, { reviewNo, membNo }) {
     return axios
       .get(`http://localhost:7777/cafe/like/${reviewNo}/${membNo}`)
       .then((res) => {
-        commit(FETCH_LIKE, res.data)
+        commit(FETCH_HELP, res.data)
       })
   },
   fetchMyHelpsList({ commit }, membNo) {

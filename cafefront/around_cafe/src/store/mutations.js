@@ -5,11 +5,11 @@ import {
   FETCH_CAFE_IMG_LISTS,
   FETCH_REVIEW_LIST,
   FETCH_REVIEW,
-  FETCH_LIKES_LIST,
+  FETCH_HELPS_LIST,
   FETCH_QNA_LIST,
   FETCH_QNA_LISTS,
   FETCH_USER,
-  FETCH_LIKE,
+  FETCH_HELP,
   FETCH_MY_HELPS_LIST,
 } from "./mutation-types"
 
@@ -41,12 +41,12 @@ export default {
   [FETCH_REVIEW](state, review) {
     state.review = review
   },
-  [FETCH_LIKES_LIST](state, likes) {
-    state.likes = likes
+  [FETCH_HELPS_LIST](state, helps) {
+    state.helps = helps
   },
 
-  [FETCH_LIKE](state, like) {
-    state.like = like
+  [FETCH_HELP](state, help) {
+    state.help = help
   },
   [FETCH_MY_HELPS_LIST](state, myHelps) {
     state.myHelps = myHelps
