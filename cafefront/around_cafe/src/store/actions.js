@@ -29,10 +29,12 @@ export default {
       })
   },
 
-  fetchMenuLists({ commit }) {
-    return axios.get("http://localhost:7777/menu/list").then((res) => {
-      commit(FETCH_MENU_LISTS, res.data)
-    })
+  fetchMenuLists({ commit }, membNo) {
+    return axios
+      .get(`http://localhost:7777/menu/list/${membNo}`)
+      .then((res) => {
+        commit(FETCH_MENU_LISTS, res.data)
+      })
   },
 
   fetchCafeImgLists({ commit }, cafeNo) {

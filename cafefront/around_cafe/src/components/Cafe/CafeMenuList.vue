@@ -13,7 +13,7 @@
                 v-if="item.menu_img != null"
                 v-bind:src="require(`@/assets/cafe/cafeMenu/${item.menu_img}`)"
               />
-              <div class="test">
+              <div v-if="item.signature == true" class="test">
                 <span>Signature</span>
               </div>
             </div>
@@ -32,6 +32,9 @@
           </div>
 
           <div class="menu-item-btn">
+            <button @click="signature(item)" style="font-size: 12px; right: 3%">
+              시그니처
+            </button>
             <CafeModifyDialog :item="item" @submit="onModifyMenu" />
             <button
               @click="onDeleteMenu(item)"
@@ -228,6 +231,19 @@ export default {
         })
         .catch(() => {
           alert("수정 실패!")
+        })
+    },
+    signature(item) {
+      let menuNo = item.menu_no
+
+      axios
+        .post(`http://localhost:7777/menu/changeSignature/${menuNo}`)
+        .then((res) => {
+          alert(res.data)
+          this.$router.go()
+        })
+        .catch(() => {
+          alert("등록실패!")
         })
     },
   },
