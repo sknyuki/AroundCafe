@@ -11,12 +11,11 @@
 
 <script>
 //import { mapActions, mapState } from "vuex"
-import NoticeBoardList1 from "@/components/ManagementSystem/noticeBoard/NoticeBoardList.vue"
+//import NoticeBoardList1 from "@/components/ManagementSystem/noticeBoard/NoticeBoardList.vue"
 export default {
   name: "NoticeListPage",
   components: {
-    NoticeBoardList,
-    NoticeBoardList1,
+    // NoticeBoardList,
   },
 
   // computed: {

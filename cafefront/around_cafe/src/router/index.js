@@ -120,6 +120,19 @@ const routes = [
     name: "CafeSiteList",
     component: () => import("@/views/CafeSiteViews/CafeSiteList"),
   },
+  {
+    path: "/cafe/Purchase",
+    name: "CafePurchase",
+    component: () => import("@/views/CafeSiteViews/CafePurchase"),
+    props: true,
+  },
+
+  //관리자 시스템
+  {
+    path: "/ManagementPage",
+    name: "ManagementPage",
+    component: () => import("@/views/ManagementSystemViews/ManagementPage"),
+  },
 
   //Policy 이용약관페이지
   {
