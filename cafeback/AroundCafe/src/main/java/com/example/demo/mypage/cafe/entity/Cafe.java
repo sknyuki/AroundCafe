@@ -47,12 +47,12 @@ public class Cafe {
 
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
-    @OneToMany(mappedBy = "cafe", fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(mappedBy = "cafe", fetch = FetchType.EAGER, orphanRemoval = true)
     private Set<CafeImgTable> cafeImgs = new HashSet<>();
 
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
-    @OneToMany(mappedBy = "cafe", fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(mappedBy = "cafe", fetch = FetchType.EAGER, orphanRemoval = true)
     private Set<CafeMenu> cafeMenu = new HashSet<>();
 
     @OneToOne

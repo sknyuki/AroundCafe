@@ -25,8 +25,6 @@ public interface MenuService {
 
     public List<CafeMenu> sigList();
 
-    public String deleteSignature(Integer menuNo);
-
     public String changeSoldOut(Integer menuNo);
 
     public String deleteSoldOut(Integer menuNo);

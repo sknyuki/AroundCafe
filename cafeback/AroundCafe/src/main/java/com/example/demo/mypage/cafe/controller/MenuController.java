@@ -132,11 +132,6 @@ public class MenuController {
         return service.changeSignature(menuNo);
     }
 
-    @PostMapping("/delSignature/{menuNo}")
-    public String deleteSignature(@PathVariable("menuNo") Integer menuNo) {
-        log.info("delete signature");
-        return service.deleteSignature(menuNo);
-    }
 
     @PostMapping("/changeSoldOut/{menuNo}")
     public String registerSoldOut(@PathVariable("menuNo") Integer menuNo) {
