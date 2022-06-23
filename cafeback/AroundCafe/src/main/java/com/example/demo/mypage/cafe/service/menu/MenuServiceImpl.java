@@ -195,6 +195,16 @@ public class MenuServiceImpl implements MenuService{
         return repository.findBySoldTrue();
     }
 
+    @Transactional
+    @Override
+    public List<CafeMenu> findMenu(Integer cafe_no, String menu_name) {
+        // repository.findCafeName(Long.valueOf(cafe_no),cafe_name);
+        //Cafe cafe = cafeRepository.findById(Long.valueOf(cafe_no)).orElseGet(null);
+        List<CafeMenu> cafeMenus = repository.searchList(Long.valueOf(cafe_no), menu_name);
+        log.info("menu list" + cafeMenus);
+        return cafeMenus;
+    }
+
     @Override
     public List<CafeMenu> sigList() {
         log.info("signature list");
