@@ -8,12 +8,11 @@
 
 <script>
 import { mapActions, mapState } from "vuex"
-import NoticeReadForm1 from "@/components/ManagementSystem/noticeBoard/NoticeReadForm.vue"
+import NoticeReadForm from "@/components/ManagementSystem/noticeBoard/NoticeReadForm.vue"
 export default {
   name: "NoticeReadPage",
   components: {
     NoticeReadForm,
-    NoticeReadForm1,
   },
   props: {
     boardNo: {

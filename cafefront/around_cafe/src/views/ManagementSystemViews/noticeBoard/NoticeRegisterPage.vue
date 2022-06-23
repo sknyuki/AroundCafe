@@ -8,12 +8,11 @@
 
 <script>
 import axios from "axios"
-import NoticeRegisterForm1 from "@/components/ManagementSystem/noticeBoard/NoticeRegisterForm.vue"
+import NoticeRegisterForm from "@/components/ManagementSystem/noticeBoard/NoticeRegisterForm.vue"
 export default {
   name: "NoticeRegisterPage",
   components: {
     NoticeRegisterForm,
-    NoticeRegisterForm1,
   },
   methods: {
     onSubmit(payload) {

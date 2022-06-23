@@ -13,12 +13,11 @@
 <script>
 import { mapActions, mapState } from "vuex"
 import axios from "axios"
-import NoticeModifyForm1 from "@/components/ManagementSystem/noticeBoard/NoticeModifyForm.vue"
+import NoticeModifyForm from "@/components/ManagementSystem/noticeBoard/NoticeModifyForm.vue"
 export default {
   name: "NoticeModifyPage",
   components: {
     NoticeModifyForm,
-    NoticeModifyForm1,
   },
   props: {
     boardNo: {

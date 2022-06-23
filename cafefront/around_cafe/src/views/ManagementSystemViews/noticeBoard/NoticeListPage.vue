@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-btn v-if="loginAuth == 'Manager'" class="writeBtn" @click="writeBoard">
+    <v-btn class="writeBtn" @click="writeBoard">
       <v-icon color="black"> mdi-pencil-remove-outline </v-icon></v-btn
     >
     <v-row justify="center">
@@ -10,32 +10,32 @@
 </template>
 
 <script>
-//import { mapActions, mapState } from "vuex"
-//import NoticeBoardList1 from "@/components/ManagementSystem/noticeBoard/NoticeBoardList.vue"
+import { mapActions, mapState } from "vuex"
+import NoticeBoardList from "@/components/ManagementSystem/noticeBoard/NoticeBoardList.vue"
 export default {
   name: "NoticeListPage",
   components: {
-    // NoticeBoardList,
+    NoticeBoardList,
   },
 
-  // computed: {
-  //   ...mapState(["noticeBoards"]),
-  // },
-  // mounted() {
-  //   this.fetchNoticeBoardList()
-  // },
-  // created() {
-  //   if (this.$store.state.session != null) {
-  //     this.loginAuth = this.$store.state.auth.auth
-  //     this.userId = this.$store.state.session.userId
-  //   }
-  // },
-  // methods: {
-  //   ...mapActions(["fetchNoticeBoardList"]),
-  //   writeBoard() {
-  //     this.$router.push("/noticeRegister")
-  //   },
-  // },
+  computed: {
+    ...mapState(["noticeBoards"]),
+  },
+  mounted() {
+    this.fetchNoticeBoardList()
+  },
+  created() {
+    if (this.$store.state.session != null) {
+      this.loginAuth = this.$store.state.auth.auth
+      this.userId = this.$store.state.session.userId
+    }
+  },
+  methods: {
+    ...mapActions(["fetchNoticeBoardList"]),
+    writeBoard() {
+      this.$router.push("/NoticeRegisterPage")
+    },
+  },
 }
 </script>
 <style scoped>

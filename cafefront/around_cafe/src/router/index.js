@@ -133,6 +133,25 @@ const routes = [
     name: "ManagementPage",
     component: () => import("@/views/ManagementSystemViews/ManagementPage"),
   },
+  {
+    path: "/NoticeRegisterPage",
+    name: "NoticeRegisterPage",
+    component: () =>
+      import("@/views/ManagementSystemViews/noticeBoard/NoticeRegisterPage"),
+  },
+  {
+    path: "/NoticeReadPage",
+    name: "NoticeReadPage",
+    components: () =>
+      import("@/views/ManagementSystemViews/noticeBoard/NoticeReadPage"),
+    props: true,
+  },
+  {
+    path: "/NoticeModifyPage",
+    name: "NoticeModifyPage",
+    component: () =>
+      import("@/views/ManagementSystemViews/noticeBoard/NoticeModifyPage"),
+  },
 
   //Policy 이용약관페이지
   {
