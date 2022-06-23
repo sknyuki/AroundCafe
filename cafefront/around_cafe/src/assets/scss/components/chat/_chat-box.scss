@@ -1,26 +1,31 @@
 .chat-box {
+  position: relative;
+
   &.list {
     overflow: hidden auto;
     padding: 0px 20px;
   }
   &.opponent {
-    @include flexbox(start);
+    display: flex;
+    justify-content: start;
     padding: 4px;
   }
   &.me {
-    @include flexbox(end);
+    display: flex;
+    justify-content: end;
     padding: 4px;
   }
-
+  .v-btn {
+    position: absolute;
+  }
   &-contents {
+    @include text-style(12);
     margin: 0px;
-    padding: 10px 14px;
+    padding: 5px 14px;
     max-width: 484px;
     word-break: break-word;
     white-space: pre-wrap;
-    font-size: 14px;
-    line-height: 150%;
-    letter-spacing: -0.02em;
+    overflow: hidden;
     &.me {
       background-color: $indigo;
       color: $white;
@@ -33,11 +38,12 @@
     }
   }
 
-  &-time {
+  &-times {
     @include text-style(12, $tertiary);
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
     padding: 0px 4px;
+    -webkit-box-pack: end;
   }
 }

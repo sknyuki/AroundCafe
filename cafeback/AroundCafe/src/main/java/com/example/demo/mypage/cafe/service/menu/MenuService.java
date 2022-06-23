@@ -32,4 +32,6 @@ public interface MenuService {
     public String deleteSoldOut(Integer menuNo);
 
     public List<CafeMenu> soldList();
+
+    public List<CafeMenu> findMenu(Integer cafe_no, String cafe_name);
 }

@@ -26,8 +26,7 @@
               :key="index"
               class="chat-room-list"
               @mouseover="deleteBtn = index"
-              @mouseleave="deleteBtn = null"
-              @focus="deleteBtn = index"
+              @mouseleave="deleteBtn = ''"
             >
               <v-btn
                 class="delete-button"
@@ -38,19 +37,25 @@
               >
                 <i class="icClose"></i>
               </v-btn>
-              <a href="">
+              <a @click="sendQnaNo(item)">
                 <div class="chat-room-img">
-                  <img src="@/assets/images/avatar.webp" alt="" />
+                  <img
+                    v-if="item.received_img == null"
+                    src="@/assets/images/avatar.webp"
+                    alt=""
+                  />
+                  <img
+                    v-else
+                    v-bind:src="require(`@/assets/qna/${item.received_img}`)"
+                    style="width: 30px"
+                  />
                 </div>
                 <div class="chat-room-box">
                   <div class="chat-room-wrapper">
                     <strong class="chat-room-nick">{{
                       item.received_name
                     }}</strong>
-                    <span class="chat-room-cafe"
-                      >{{ itme.received_cafe }} |
-                      {{ item.received_location }}</span
-                    >
+                    <span class="chat-room-cafe">{{ item.type }}</span>
                   </div>
                   <div>
                     <span class="chat-room-contents">{{ item.content }}</span>
@@ -71,23 +76,23 @@
 
       <section class="chat-section">
         <!-- 채팅방 선택 안할 시 -->
-        <!-- <div
+        <div
           v-if="!qnaList || (Array.isArray(qnaList) && qnaList.length === 0)"
           class="chat-section-content"
         >
           <v-icon style="width: 400px">mdi-wechat</v-icon>
           <div>채팅할 상대를 선택해주세요.</div>
-        </div> -->
+        </div>
 
         <!-- 채팅방 선택 할 시 -->
-        <div class="chat-normal-room">
+        <div v-else class="chat-normal-room">
           <div class="chat-normal-wrapper">
             <div class="chat-normal-header">
               <div class="avatar-40">
                 <img src="@/assets/images/avatar.webp" alt="" />
               </div>
               <div class="chat-normal-name">
-                <span>사람이름</span>
+                <span>{{ cafeName }}</span>
               </div>
             </div>
 
@@ -96,14 +101,19 @@
               :key="item.qna_no"
               class="chat-box list"
             >
-              -->
               <!-- 상대방 -->
-              <div v-if="item.writer == memberNo" class="chat-box opponent">
+              <div v-if="item.writer != memberNo" class="chat-box opponent">
                 <div class="avatar-48">
                   <img src="@/assets/images/avatar.webp" alt="" />
                 </div>
                 <div>
                   <p class="chat-box-contents opponent">{{ item.content }}</p>
+                </div>
+                <div v-if="item.img != null">
+                  <img
+                    v-bind:src="require(`@/assets/qna/${item.img}`)"
+                    style="width: 200px; display: block"
+                  />
                 </div>
                 <div class="chat-box-times">
                   <div class="chat-box-time">{{ item.regTime }}</div>
@@ -111,13 +121,30 @@
               </div>
 
               <!-- 나 -->
-              <div v-if="item.writer != memberNo" class="chat-box me">
+              <div
+                v-if="item.writer == memberNo"
+                @mousedown.right="rightMouse(item)"
+                @contextmenu.prevent
+                class="chat-box me"
+              >
                 <div class="chat-box-times">
                   <div class="chat-box-time">{{ item.regTime }}</div>
                 </div>
-                <div>
+                <div v-if="item.content != null">
                   <p class="chat-box-contents me">{{ item.content }}</p>
                 </div>
+                <div v-if="item.img != null">
+                  <img
+                    v-bind:src="require(`@/assets/qna/${item.img}`)"
+                    style="width: 200px; display: block"
+                  />
+                </div>
+                <v-btn
+                  v-if="item.qna_comment_no == num"
+                  v-show="testBtn"
+                  @click="deleteComment(item)"
+                  >delete</v-btn
+                >
               </div>
             </div>
           </div>
@@ -125,7 +152,7 @@
           <form>
             <textarea
               @keyup="charCount()"
-              @keyup.enter="submitMsg()"
+              @keydown.enter.prevent="submitMsg"
               v-model="chatting"
               maxlength="1000"
               cols="120"
@@ -145,9 +172,9 @@
               <div>
                 <span>{{ totalcharacter }} / 1000</span>
 
-                <v-btn @click="submitMsg()" class="btn-indigo btn-40"
-                  >전송</v-btn
-                >
+                <v-btn @click="submitMsg" class="btn-indigo btn-40"
+                  >전송
+                </v-btn>
               </div>
             </div>
           </form>
@@ -169,12 +196,30 @@ export default {
   },
   data() {
     return {
-      deleteBtn: null,
+      deleteBtn: "",
       chatting: "",
       totalcharacter: 0,
       qnaList: [],
+      cafeName: "문의자",
+      memberNo: "",
+      checkQnaNo: "",
+      testBtn: false,
+      num: "",
     }
   },
+  watch: {
+    testBtn() {
+      if (this.testBtn) {
+        window.addEventListener("click", this.onClick)
+      }
+    },
+  },
+  // computed: {
+  //   chatting() {
+  //     return this.chatting.split("\n").join("<br>")
+  //     //return this.content.replace(/(?:\r\n|\r|\n)/g, '<br>'); 정규식
+  //   },
+  // },
   methods: {
     charCount() {
       this.totalcharacter = this.chatting.length
@@ -222,10 +267,95 @@ export default {
           })
       }
     },
-    sumbitMsg() {
-      const { qnaNo, chatting } = this
-      this.$emit("input", { qnaNo, chatting })
-      this.chatting = ""
+    submitMsg() {
+      let formData = new FormData()
+
+      let fileInfo = {
+        qnaNo: this.checkQnaNo,
+        chatting: this.chatting,
+      }
+
+      formData.append(
+        "info",
+        new Blob([JSON.stringify(fileInfo)], { type: "application/json" })
+      )
+
+      let membNo = this.memberNo
+      axios
+        .post(`http://localhost:7777/qnaComment/register/${membNo}`, formData)
+        .then(() => {
+          axios
+            .get(`http://localhost:7777/qna/memberRead/${this.checkQnaNo}`)
+            .then((res) => {
+              this.qnaList = res.data
+              console.log(res.data)
+              this.chatting = ""
+            })
+            .catch(() => {
+              alert("멤버 리드 읽기 실패")
+            })
+        })
+        .catch(() => {
+          alert("문의사항 등록에 실패하였습니다.")
+        })
+    },
+    sendQnaNo(item) {
+      this.checkQnaNo = item.qna_no
+      axios
+        .get(`http://localhost:7777/qna/memberRead/${this.checkQnaNo}`)
+        .then((res) => {
+          console.log(res.data)
+          this.qnaList = res.data
+          this.cafeName = item.received_name
+          this.memberNo = 1
+        })
+        .catch(() => {
+          alert("문의사항 등록에 실패하였습니다.")
+        })
+    },
+    deleteList(item) {
+      let qnaNo = item.qna_no
+      var result = confirm("삭제 하시겠습니까?")
+      if (result) {
+        axios
+          .delete(`http://localhost:7777/qna/delete/${qnaNo}`)
+          .then((res) => {
+            console.log(res.data)
+            this.$router.go()
+          })
+          .catch(() => {
+            alert("리스트 삭제 실패")
+          })
+      }
+    },
+    rightMouse(item) {
+      this.num = item.qna_comment_no
+      this.testBtn = true
+    },
+    onClick() {
+      this.testBtn = false
+    },
+    deleteComment(item) {
+      let qnaCommentNo = item.qna_comment_no
+      let checkQnaNo = qnaCommentNo
+
+      axios
+        .delete(`http://localhost:7777/qnaComment/delete/${qnaCommentNo}`)
+        .then((res) => {
+          console.log(res.data)
+          axios
+            .get(`http://localhost:7777/qna/memberRead/${checkQnaNo}`)
+            .then((res) => {
+              this.qnaList = res.data
+              console.log(res.data)
+            })
+            .catch(() => {
+              alert("멤버 리드 읽기 실패")
+            })
+        })
+        .catch(() => {
+          alert("리스트 삭제 실패")
+        })
     },
   },
 }
