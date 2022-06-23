@@ -1,5 +1,6 @@
 from oauth.OAuthController import oauthBp
 from apis.mail.MailController import mailBp
+from apis.payment.PaymentController import paymentBp
 from flask_cors import CORS
 from flask import Flask
 
@@ -14,6 +15,7 @@ CORS(app)
 # Oauth Api import
 app.register_blueprint(oauthBp, url_prefix='/oauth')
 app.register_blueprint(mailBp, url_prefix='/mail')
+app.register_blueprint(paymentBp, url_prefix='/payment')
 
 
 # app.py로 실행시 app 실행

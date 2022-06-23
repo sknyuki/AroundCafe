@@ -20,7 +20,7 @@
           </ul>
         </div>
       </div>
-      <section v-for="order in orderList" :key="order.orderNo">
+      <section v-for="order in orderItem" :key="order.orderNo">
         <!-- 상태 -->
         <div class="order-history-day">
           <div class="order-history-content">
@@ -84,7 +84,7 @@ export default {
   name: "OrderHistory",
 
   props: {
-    orderList: {
+    orderItem: {
       type: Array,
       required: true,
     },

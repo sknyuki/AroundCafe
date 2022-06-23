@@ -2,8 +2,12 @@ package com.example.demo.member.dto;
 
 import com.example.demo.member.entity.MemberRole;
 import com.example.demo.member.entity.SocialType;
+import com.example.demo.payment.entity.Payment;
+import com.example.demo.review.entity.Review;
 import lombok.Builder;
 import lombok.Getter;
+
+import java.util.List;
 
 @Getter
 @Builder
@@ -18,4 +22,6 @@ public class MemberDto {
     private String memBirth;
     private SocialType socialType;
     private MemberRole role;
+    private List<Review> review;
+    private List<Payment> payment;
 }

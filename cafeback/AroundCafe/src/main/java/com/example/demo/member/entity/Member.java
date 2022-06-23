@@ -2,6 +2,7 @@ package com.example.demo.member.entity;
 
 import com.example.demo.mypage.cafe.entity.Cafe;
 import com.example.demo.common.entity.BaseDateTime;
+import com.example.demo.payment.entity.Payment;
 import com.example.demo.review.entity.Review;
 import com.example.demo.review.entity.ReviewLike;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -64,6 +65,9 @@ public class Member extends BaseDateTime {
     @JsonIgnoreProperties({"member"})
     @OneToMany(mappedBy = "member", fetch = FetchType.EAGER,orphanRemoval = true)
     private Set<ReviewLike> likes = new HashSet<>();
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Payment> payment = new ArrayList<>();
 
     @Builder
     public Member(Long memNo, String memId, String socialNo, String memPw, String memNick, String memImg, String phoneNum, String memBirth, SocialType socialType, MemberRole role) {
