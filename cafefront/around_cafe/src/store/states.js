@@ -12,4 +12,7 @@ export default {
   qnaLists: [],
 
   user: [],
+
+  like: null,
+  myHelps: [],
 }

@@ -3,15 +3,13 @@ package com.example.demo.member.entity;
 import com.example.demo.mypage.cafe.entity.Cafe;
 import com.example.demo.common.entity.BaseDateTime;
 import com.example.demo.review.entity.Review;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import com.example.demo.review.entity.ReviewLike;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.*;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 
 @Getter
@@ -59,6 +57,13 @@ public class Member extends BaseDateTime {
 
     @OneToMany(mappedBy = "memberInfo",fetch = FetchType.EAGER,orphanRemoval = true)
     private List<Review> review = new ArrayList<>();
+
+    @JsonManagedReference
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    @JsonIgnoreProperties({"member"})
+    @OneToMany(mappedBy = "member", fetch = FetchType.EAGER,orphanRemoval = true)
+    private Set<ReviewLike> likes = new HashSet<>();
 
     @Builder
     public Member(Long memNo, String memId, String socialNo, String memPw, String memNick, String memImg, String phoneNum, String memBirth, SocialType socialType, MemberRole role) {

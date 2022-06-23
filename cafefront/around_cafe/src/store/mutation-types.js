@@ -11,3 +11,6 @@ export const FETCH_QNA_LIST = "FETCH_QNA_LIST"
 export const FETCH_QNA_LISTS = "FETCH_QNA_LISTS"
 
 export const FETCH_USER = "FETCH_USER"
+
+export const FETCH_MY_HELPS_LIST = "FETCH_MY_HELPS_LIST"
+export const FETCH_LIKE = "FETCH_LIKE"

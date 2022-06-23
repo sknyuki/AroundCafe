@@ -1,6 +1,6 @@
 <template>
   <div>
-    <CafeReviewList :reviews="reviews" />
+    <CafeReviewList :reviews="reviews" :myHelps="myHelps" />
   </div>
 </template>
 <script>
@@ -11,15 +11,17 @@ export default {
   components: { CafeReviewList },
   name: "CafeReviewListPage",
   computed: {
-    ...mapState(["reviews"]),
+    ...mapState(["reviews", "myHelps"]),
   },
 
   mounted() {
     this.fetchReviewList(1)
+    this.fetchMyHelpsList(1)
+    this.fetchLikesList(1)
   },
 
   methods: {
-    ...mapActions(["fetchReviewList"]),
+    ...mapActions(["fetchReviewList", "fetchMyHelpsList", "fetchLikesList"]),
 
     onReviewDialog() {
       this.reviewDialog = true
