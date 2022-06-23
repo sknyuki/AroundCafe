@@ -1,0 +1,49 @@
+.chat-box {
+  position: relative;
+
+  &.list {
+    overflow: hidden auto;
+    padding: 0px 20px;
+  }
+  &.opponent {
+    display: flex;
+    justify-content: start;
+    padding: 4px;
+  }
+  &.me {
+    display: flex;
+    justify-content: end;
+    padding: 4px;
+  }
+  .v-btn {
+    position: absolute;
+  }
+  &-contents {
+    @include text-style(12);
+    margin: 0px;
+    padding: 5px 14px;
+    max-width: 484px;
+    word-break: break-word;
+    white-space: pre-wrap;
+    overflow: hidden;
+    &.me {
+      background-color: $indigo;
+      color: $white;
+      border-radius: 20px 2px 20px 20px;
+    }
+    &.opponent {
+      background-color: $border;
+      color: $black;
+      border-radius: 2px 20px 20px;
+    }
+  }
+
+  &-times {
+    @include text-style(12, $tertiary);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 0px 4px;
+    -webkit-box-pack: end;
+  }
+}

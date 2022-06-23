@@ -8,11 +8,17 @@ import {
   FETCH_LIKES_LIST,
   FETCH_QNA_LIST,
   FETCH_QNA_LISTS,
+  FETCH_USER,
 } from "./mutation-types"
 
 import axios from "axios"
+import UserService from "@/services/userService"
 
 export default {
+  fetchUser({ commit }) {
+    return commit(FETCH_USER, UserService.getUserInfo())
+  },
+
   fetchcafeBoardList({ commit }) {
     return axios.get("http://localhost:7777/cafe/list").then((res) => {
       commit(FETCH_CAFE_BOARD_LIST, res.data)
@@ -27,10 +33,12 @@ export default {
       })
   },
 
-  fetchMenuLists({ commit }) {
-    return axios.get("http://localhost:7777/menu/list").then((res) => {
-      commit(FETCH_MENU_LISTS, res.data)
-    })
+  fetchMenuLists({ commit }, membNo) {
+    return axios
+      .get(`http://localhost:7777/menu/list/${membNo}`)
+      .then((res) => {
+        commit(FETCH_MENU_LISTS, res.data)
+      })
   },
 
   fetchCafeImgLists({ commit }, cafeNo) {

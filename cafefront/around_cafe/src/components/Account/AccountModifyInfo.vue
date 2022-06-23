@@ -109,7 +109,6 @@
           />
         </div>
       </div>
-
       <v-btn class="btn-indigo btn-48">회원 정보 수정</v-btn>
     </form>
   </div>
@@ -117,7 +116,6 @@
 <script>
 export default {
   name: "AccountModifyinfo",
-
   data() {
     return {
       image: "",

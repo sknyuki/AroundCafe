@@ -3,9 +3,11 @@ package com.example.demo.mypage.cafe.controller;
 import com.example.demo.mypage.cafe.dto.CafeMenuDto;
 import com.example.demo.mypage.cafe.entity.CafeMenu;
 import com.example.demo.mypage.cafe.service.menu.MenuService;
+import com.example.demo.review.entity.Review;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -146,6 +148,13 @@ public class MenuController {
     public String deleteSoldOut(@PathVariable("menuNo") Integer menuNo) {
         log.info("delete sold out");
         return service.deleteSoldOut(menuNo);
+    }
+
+    @GetMapping("/findMenu/{cafe_no}/{cafe_name}")
+    public List<CafeMenu> findMenu(@PathVariable("cafe_no")Integer cafe_no,
+                                   @PathVariable("cafe_name")String cafe_name){
+        log.info("find menu cafeNo -> " + cafe_no +" cafe name _" + cafe_name);
+        return service.findMenu(cafe_no, cafe_name);
     }
 
 }

@@ -9,3 +9,5 @@ export const FETCH_LIKES_LIST = "FETCH_LIKES_LIST"
 
 export const FETCH_QNA_LIST = "FETCH_QNA_LIST"
 export const FETCH_QNA_LISTS = "FETCH_QNA_LISTS"
+
+export const FETCH_USER = "FETCH_USER"

@@ -8,14 +8,14 @@
       <div>
         <div class="sign-tab">
           <div
-            @click="[clickUse = true, role = 'USER', clearData()]"
+            @click=";[(clickUse = true), (role = 'USER'), clearData()]"
             :class="[clickUse === true ? 'active' : '']"
             class="sign-tab-select"
           >
             <span>이용자</span>
           </div>
           <div
-            @click="[clickUse = false, role = 'CAFE', clearData()]"
+            @click=";[(clickUse = false), (role = 'CAFE'), clearData()]"
             :class="[clickUse === false ? 'active' : '']"
             class="sign-tab-select"
           >
@@ -30,7 +30,9 @@
                 <ValidationProvider
                   class="sign-validation"
                   tag="div"
-                  :rules="`${clickUse === false? 'required' : ''}`"
+                  :rules="`${
+                    clickUse === false ? 'required' : ''
+                  }|min:2|max:15`"
                   v-slot="{ errors }"
                 >
                   <input
@@ -38,9 +40,21 @@
                     class="form-input input-48"
                     type="text"
                     placeholder="상호명(법인명)"
+                    :disabled="usernameDisabled"
                   />
                   <div class="errmsg" aria-live="polite">
                     {{ errors[0] }}
+                  </div>
+                  <div v-show="!usernameDisabled" class="sign-email btn">
+                    <v-btn
+                      @click="existByNickname(username)"
+                      v-model="usernameDupChecked"
+                      :disabled="username.length < 1 || errors.length !== 0"
+                      class="sign-button-vuti"
+                      :validate="(usernameDupChecked = true)"
+                    >
+                      상호명(법인명) 중복확인
+                    </v-btn>
                   </div>
                 </ValidationProvider>
               </div>
@@ -51,7 +65,7 @@
                 <ValidationProvider
                   class="sign-validation"
                   tag="div"
-                  :rules="`${clickUse === false? 'required' : ''}`"
+                  :rules="`${clickUse === false ? 'required' : ''}|bisRegNum`"
                   v-slot="{ errors }"
                 >
                   <input
@@ -59,6 +73,7 @@
                     class="form-input input-48"
                     type="text"
                     placeholder="사업자등록번호"
+                    maxlength="12"
                     required
                   />
                   <div class="errmsg" aria-live="polite">
@@ -81,45 +96,73 @@
                     type="email"
                     placeholder="이메일"
                     required
-                    :disabled="emailDisabled"
+                    :disabled="emailDupChecked"
                   />
                   <div class="errmsg" aria-live="polite">
                     {{ errors[0] }}
                   </div>
+                  <div class="sign-email btn">
+                    <v-btn
+                      @click="existByEmail(email)"
+                      :disabled="
+                        email.length < 1 ||
+                        errors.length !== 0 ||
+                        emailDupChecked
+                      "
+                      class="sign-button-vuti"
+                    >
+                      이메일 인증하기
+                    </v-btn>
+                  </div>
                 </ValidationProvider>
               </div>
             </div>
-            <div @click="existByEmail(email)"
-                 class="sign-email btn">
-              <!-- disable 옵션 수정해야 함 -->
-              <v-btn :disabled="email < 1" v-if="!emailDupChecked" class="sign-button-vuti">이메일 중복확인</v-btn>
-            </div>
-            <div @click="sendVerifyEmail(email)"
-                 class="sign-email btn">
-              <!-- disable 옵션 수정해야 함 -->
-              <v-btn v-if="emailDupChecked && !emailVerifyDisabled" class="sign-button-vuti">이메일 인증하기</v-btn>
-            </div>
-            <div class="sign-form emailVerify" v-if="emailVerifyUse">
+            <div class="sign-code-box codeVerify" v-show="emailVerifyUse">
+              <div>이메일로 전송된 인증코드를 입력해주세요.</div>
               <ValidationProvider
-                  class="sign-validation"
-                  tag="div"
-                  v-slot="{ errors }"
+                class="sign-validation"
+                tag="div"
+                v-slot="{ errors }"
+                display="inline-block"
+                :rules="{ equals: 6 }"
               >
-                <input
+                <div class="sign-code-input">
+                  <input
                     v-model="emailCode"
                     class="form-input input-48"
                     type="text"
-                    placeholder="이메일 코드"
+                    placeholder="인증코드 6자리 입력"
                     required
-                />
+                  />
+                  <v-btn
+                    :disabled="emailCode.length === 0 || errors.length !== 0"
+                    style="float: right"
+                    class="sign-code-btn"
+                    @click="checkEmailCode()"
+                  >
+                    확인
+                  </v-btn>
+                </div>
                 <div class="errmsg" aria-live="polite">
                   {{ errors[0] }}
                 </div>
               </ValidationProvider>
-            </div>
-            <div class="sign-button-vuti" v-if="emailVerifyUse"
-                @click="checkEmailCode()">
-              <v-btn class="sign-button-vuti">이메일 코드 확인하기</v-btn>
+              <div style="margin-top: 30px; margin-bottom: 10px">
+                <div style="display: inline-block">
+                  이메일을 받지 못하셨나요?
+                </div>
+                <a
+                  style="
+                    display: inline-block;
+                    margin-left: 6px;
+                    font-weight: bold;
+                    text-decoration: underline;
+                  "
+                  @click="sendVerifyEmail(email)"
+                >
+                  이메일 재전송하기</a
+                >
+              </div>
             </div>
             <div class="sign-form pw">
               <label class="sign-form-label" for="">비밀번호</label>
@@ -182,7 +225,7 @@
                   tag="div"
                   name="name"
                   v-slot="{ errors }"
-                  :rules="`${clickUse === true? 'required' : ''}|min:2|max:15`"
+                  :rules="`${clickUse === true ? 'required' : ''}|min:2|max:15`"
                 >
                   <input
                     v-model="username"
@@ -195,14 +238,17 @@
                   <div class="errmsg" aria-live="polite">
                     {{ errors[0] }}
                   </div>
+                  <div v-show="!usernameDisabled" class="sign-email btn">
+                    <v-btn
+                      @click="existByNickname(username)"
+                      :disabled="username.length < 1 || errors.length !== 0"
+                      class="sign-button-vuti"
+                    >
+                      닉네임 중복확인
+                    </v-btn>
+                  </div>
                 </ValidationProvider>
               </div>
-            </div>
-            <!-- disable 조건 변경 필요 -->
-            <div @click="existByNickname(username)"
-                 v-if="!usernameDupChecked"
-                 class="sign-email btn">
-              <v-btn :disabled="username < 1" class="sign-button-vuti">닉네임 중복확인</v-btn>
             </div>
             <div class="sign-form bth">
               <label class="sign-form-label" for="">생년월일</label>
@@ -214,6 +260,7 @@
                   class="sign-validation"
                   tag="div"
                   v-slot="{ errors }"
+                  rules="birthday"
                 >
                   <input
                     v-model="birth"
@@ -235,6 +282,7 @@
                   class="sign-validation"
                   tag="div"
                   v-slot="{ errors }"
+                  rules="phoneNum"
                 >
                   <input
                     v-model="phoneNum"
@@ -255,7 +303,12 @@
                 <div class="sign-form-agr-header">
                   <label class="sign-form-agr-label" for="">
                     <div class="sign-form-agr-input">
-                      <input type="checkbox" v-model="isBoxAllChecked" value="" @click="checkAllBox"/>
+                      <input
+                        type="checkbox"
+                        v-model="isBoxAllChecked"
+                        name="checkboxAll"
+                        @click="checkAllBox"
+                      />
                       <span>
                         <div>전체동의</div>
                       </span>
@@ -264,7 +317,12 @@
                 </div>
                 <label for="">
                   <div class="sign-form-agr-input">
-                    <input type="checkbox" v-model="checkedBox.checkbox1" value="1" @click="checkSingleBox('1')"/>
+                    <input
+                      type="checkbox"
+                      v-model="checkedBox.checkbox1"
+                      name="checkbox1"
+                      @click="checkSingleBox('1')"
+                    />
                     <div>
                       만 14세 이상입니다.<span class="sign-form-agr-esn"
                         >(필수)</span
@@ -274,21 +332,40 @@
                 </label>
                 <label for="">
                   <div class="sign-form-agr-input">
-                    <input type="checkbox" v-model="checkedBox.checkbox2" value="2" @click="checkSingleBox('2')"/>
+                    <input
+                      type="checkbox"
+                      v-model="checkedBox.checkbox2"
+                      name="checkbox2"
+                      @click="checkSingleBox('2')"
+                    />
                     <a href="" target="_blank">이용약관</a>
                     <span class="sign-form-agr-esn">(필수)</span>
                   </div>
                 </label>
                 <label for="">
                   <div class="sign-form-agr-input">
-                    <input type="checkbox" v-model="checkedBox.checkbox3" value="3" @click="checkSingleBox('3')"/>
+                    <input
+                      type="checkbox"
+                      v-model="checkedBox.checkbox3"
+                      name="checkbox3"
+                      @click="checkSingleBox('3')"
+                    />
                     <a href="" target="_blank">개인정보수집 및 이용동의</a>
                     <span class="sign-form-agr-esn">(필수)</span>
                   </div>
                 </label>
               </div>
             </div>
-            <v-btn :disabled="invalid" class="sign-button-vuti" type="submit">
+            <v-btn
+              :disabled="
+                invalid ||
+                !isBoxAllChecked ||
+                !usernameDupChecked ||
+                !emailVerify
+              "
+              class="sign-button-vuti"
+              type="submit"
+            >
               회원가입하기
             </v-btn>
           </form>
@@ -302,32 +379,63 @@
   </div>
 </template>
 <script>
-import axios from "axios";
-
+import axios from "axios"
 
 export default {
   name: "AccountSignUp",
-  computed: {
+  data() {
+    return {
+      email: "",
+      password: "",
+      memCheckPw: "",
+      username: "",
+      birth: "",
+      socialType: "LOCAL",
+      role: "USER",
+      cafeBisNo: "",
+      phoneNum: "",
+      emailCode: "",
+      emailCodeFromServer: "",
+      clickUse: true,
+      emailDupChecked: false,
+      emailVerifyUse: false,
+      emailVerify: false,
+      usernameDupChecked: false,
+      usernameDisabled: false,
+      emailVerifyDisabled: false,
+      checkedBox: {
+        checkbox1: false,
+        checkbox2: false,
+        checkbox3: false,
+      },
+      isBoxAllChecked: false,
+    }
   },
   methods: {
-    checkSingleBox(box){
-      if(box === "1") {
+    checkSingleBox(box) {
+      if (box === "1") {
         this.checkedBox.checkbox1 = !this.checkedBox.checkbox1
-      } else if(box === "2"){
+      } else if (box === "2") {
         this.checkedBox.checkbox2 = !this.checkedBox.checkbox2
-      } else if(box === "3") {
+      } else if (box === "3") {
         this.checkedBox.checkbox3 = !this.checkedBox.checkbox3
       }
-      this.isBoxAllChecked = this.checkedBox.checkbox1 === true && this.checkedBox.checkbox2 === true && this.checkedBox.checkbox3 === true;
+      this.isBoxAllChecked =
+        this.checkedBox.checkbox1 === true &&
+        this.checkedBox.checkbox2 === true &&
+        this.checkedBox.checkbox3 === true
     },
     checkAllBox() {
-      if(this.checkedBox.checkbox1 === true && this.checkedBox.checkbox2 === true && this.checkedBox.checkbox3 === true) {
+      if (
+        this.checkedBox.checkbox1 === true &&
+        this.checkedBox.checkbox2 === true &&
+        this.checkedBox.checkbox3 === true
+      ) {
         this.checkedBox.checkbox1 = false
         this.checkedBox.checkbox2 = false
         this.checkedBox.checkbox3 = false
         this.isBoxAllChecked = false
-      }
-      else{
+      } else {
         this.checkedBox.checkbox1 = true
         this.checkedBox.checkbox2 = true
         this.checkedBox.checkbox3 = true
@@ -335,21 +443,31 @@ export default {
       }
     },
     clearData() {
-          this.email= "";
-          this.password= "";
-          this.memCheckPw= "";
-          this.username= "";
-          this.birth= "";
-          this.socialType= "LOCAL";
-          this.cafeBisNo= "";
-          this.phoneNum= "";
-          this.isBoxAllChecked = false;
-          this.checkedBox.checkbox1 = false;
-          this.checkedBox.checkbox2 = false;
-          this.checkedBox.checkbox3 = false;
+      // 기본정보 초기화
+      this.email = ""
+      this.password = ""
+      this.memCheckPw = ""
+      this.username = ""
+      this.birth = ""
+      this.socialType = "LOCAL"
+      this.cafeBisNo = ""
+      this.phoneNum = ""
+      // Email 중복검사 초기화
+      this.emailDupChecked = false
+      this.emailVerifyUse = false
+      this.emailVerify = false
+      this.emailVerifyDisabled = false
+      // Username 중복검사 초기화
+      this.usernameDupChecked = false
+      this.usernameDisabled = false
+      //체크박스 초기화
+      this.isBoxAllChecked = false
+      this.checkedBox.checkbox1 = false
+      this.checkedBox.checkbox2 = false
+      this.checkedBox.checkbox3 = false
     },
     checkEmailCode() {
-      if(this.emailCode === this.emailCodeFromServer){
+      if (this.emailCode === this.emailCodeFromServer) {
         this.emailVerify = true
         alert("Email이 인증되셨습니다.")
         this.emailVerifyUse = false
@@ -359,62 +477,73 @@ export default {
     },
     async sendVerifyEmail(email) {
       const url = "http://localhost:5000/mail/verifyEmail"
-      const data = {'email': email}
+      const data = { email: email }
       const config = {
         headers: {
-          'Content-Type': 'Application/json'
-        }
+          "Content-Type": "Application/json",
+        },
       }
-      alert("인증 메일이 발송되었습니다. 이메일이 도착하는데 시간이 걸릴 수 있습니다.")
-      const code = await axios.post(url,JSON.stringify(data), config)
+      this.emailVerifyDisabled = true
+      alert("인증 메일이 발송되었습니다.")
+      const unInterceptedAxiosInstance = axios.create()
+      const code = await unInterceptedAxiosInstance.post(
+        url,
+        JSON.stringify(data),
+        config
+      )
       // 유저가 확인할 수 없는 장소가 어디일까요?
       // 확인요망 -- 애매하면 그냥 redis 서버에 저장
-      this.emailCodeFromServer = code.data['code']
-      this.emailVerifyDisabled = true
+      this.emailCodeFromServer = code.data["code"]
       this.emailVerifyUse = true
     },
     existByNickname(username) {
-      const url = 'http://localhost:7777/auth/isDuplicated'
+      const unInterceptedAxiosInstance = axios.create()
+      const url = "http://localhost:7777/auth/isExists"
       const data = {
-        'memNick': username
+        memNick: username,
       }
       const config = {
         headers: {
-          'Content-Type': 'Application/json'
-        }
+          "Content-Type": "Application/json",
+        },
       }
-      axios.post(url,JSON.stringify(data),config).then(res => {
-        if(res.data === false){
-          alert("사용 가능한 닉네임입니다.")
-          this.usernameDupChecked = true
-          this.usernameDisabled = true
-        } else{
-          alert("이미 사용하고 있는 닉네임입니다. 다른 닉네임을 사용해주세요")
-          this.usernameDupChecked = false
-        }
-        console.log(this.checkedBox)
-      })
+      unInterceptedAxiosInstance
+        .post(url, JSON.stringify(data), config)
+        .then((res) => {
+          if (res.data === false) {
+            alert("사용 가능한 닉네임입니다.")
+            this.usernameDupChecked = true
+            this.usernameDisabled = true
+          } else {
+            alert("이미 사용하고 있는 닉네임입니다. 다른 닉네임을 사용해주세요")
+            this.usernameDupChecked = false
+            this.usernameDisabled = false
+          }
+          console.log(this.checkedBox)
+        })
     },
     existByEmail(email) {
-      const url = 'http://localhost:7777/auth/isDuplicated'
+      const unInterceptedAxiosInstance = axios.create()
+      const url = "http://localhost:7777/auth/isExists"
       const data = {
-        'memId': email
+        memId: email,
       }
       const config = {
         headers: {
-          'Content-Type': 'Application/json'
-        }
+          "Content-Type": "Application/json",
+        },
       }
-      axios.post(url,JSON.stringify(data),config).then(res => {
-        if(res.data === false){
-          alert("사용 가능한 이메일입니다.")
-          this.emailDupChecked = true
-          this.emailDisabled = true
-        } else{
-          alert("이미 사용하고 있는 이메일입니다. 다른 이메일을 사용해주세요")
-          this.emailDupChecked = false
-        }
-      })
+      unInterceptedAxiosInstance
+        .post(url, JSON.stringify(data), config)
+        .then((res) => {
+          if (res.data === false) {
+            this.emailDupChecked = true
+            this.sendVerifyEmail(email)
+          } else {
+            alert("이미 사용하고 있는 이메일입니다. 다른 이메일을 사용해주세요")
+            this.emailDupChecked = false
+          }
+        })
     },
     onSubmit() {
       const data = {
@@ -427,66 +556,11 @@ export default {
         cafeBisNo: this.cafeBisNo,
         phoneNum: this.phoneNum,
       }
-      this.$emit('submit', data)
+      this.$emit("submit", data)
     },
-  },
-  data() {
-    return {
-      clickUse: true,
-      emailDupChecked: false,
-      emailVerifyUse: false,
-      emailVerify: false,
-      emailCode: "",
-      emailCodeFromServer: "",
-      email: "",
-      password: "",
-      memCheckPw: "",
-      username: "",
-      usernameDupChecked: false,
-      birth: "",
-      socialType: "LOCAL",
-      role: "USER",
-      cafeBisNo: "",
-      phoneNum: "",
-      emailDisabled: false,
-      usernameDisabled: false,
-      emailVerifyDisabled: false,
-      checkedBox: {
-        checkbox1 : false,
-        checkbox2 : false,
-        checkbox3 : false,
-      },
-      isBoxAllChecked: false,
-      required: false,
-    }
   },
 }
 </script>
 <style lang="scss" scoped>
 @import "~@/assets/scss/components/account/sign";
 </style>
-
-<!--
-사업자 번호 정규식
-
-function checkCorporateRegiNumber(number){
-	var numberMap = number.replace(/-/gi, '').split('').map(function (d){
-		return parseInt(d, 10);
-	});
-
-	if(numberMap.length == 10){
-		var keyArr = [1, 3, 7, 1, 3, 7, 1, 3, 5];
-		var chk = 0;
-
-		keyArr.forEach(function(d, i){
-			chk += d * numberMap[i];
-		});
-
-		chk += parseInt((keyArr[8] * numberMap[8])/ 10, 10);
-		console.log(chk);
-		return Math.floor(numberMap[9]) === ( (10 - (chk % 10) ) % 10);
-	}
-
-	return false;
-}
--->

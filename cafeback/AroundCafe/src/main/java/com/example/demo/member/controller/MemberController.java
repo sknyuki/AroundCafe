@@ -3,13 +3,14 @@ package com.example.demo.member.controller;
 import com.example.demo.member.dto.MemberDto;
 import com.example.demo.member.entity.Member;
 import com.example.demo.member.map.MemberMapStruct;
-import com.example.demo.member.service.MemberServiceImpl;
+import com.example.demo.member.service.MemberService;
 import com.example.demo.security.annotation.CurrentMember;
 import com.example.demo.security.dto.MemberPrincipal;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
@@ -18,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class MemberController {
 
-    private final MemberServiceImpl memberService;
+    private final MemberService memberService;
 
     @PostMapping
     public ResponseEntity<?> postUser(@RequestBody MemberDto memberDto) {

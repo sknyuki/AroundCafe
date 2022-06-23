@@ -145,3 +145,10 @@ $flex-map: (
     display: none !important;
   }
 }
+// 글씨 잘라버리기
+
+@mixin truncate() {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

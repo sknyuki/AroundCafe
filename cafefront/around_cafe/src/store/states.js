@@ -1,6 +1,6 @@
 export default {
   cafeBoards: [],
-  cafeBoard: null,
+  cafeBoard: {},
   menuLists: [],
   cafeImgLists: [],
 
@@ -10,4 +10,6 @@ export default {
 
   qnaList: [],
   qnaLists: [],
+
+  user: [],
 }

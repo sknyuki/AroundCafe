@@ -115,6 +115,7 @@ public class MenuServiceImpl implements MenuService{
     public List<CafeMenu> list(Integer membNo) {
         Cafe cafe = cafeRepository.findByMemberNo(Long.valueOf(membNo)).orElseGet(null);
         Long CafeNo = cafe.getCafeNo();
+        log.info("cafe no = " + CafeNo);
 
         return repository.findByCafeNo(CafeNo);
     }
@@ -192,6 +193,16 @@ public class MenuServiceImpl implements MenuService{
     public List<CafeMenu> soldList() {
         log.info("sold out list");
         return repository.findBySoldTrue();
+    }
+
+    @Transactional
+    @Override
+    public List<CafeMenu> findMenu(Integer cafe_no, String menu_name) {
+        // repository.findCafeName(Long.valueOf(cafe_no),cafe_name);
+        //Cafe cafe = cafeRepository.findById(Long.valueOf(cafe_no)).orElseGet(null);
+        List<CafeMenu> cafeMenus = repository.searchList(Long.valueOf(cafe_no), menu_name);
+        log.info("menu list" + cafeMenus);
+        return cafeMenus;
     }
 
     @Override

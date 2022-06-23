@@ -8,7 +8,12 @@
 
     <section class="login-section">
       <div>
-        <form class="login-form" @submit.prevent="onSubmit" action="/" method="POST">
+        <form
+          class="login-form"
+          @submit.prevent="onSubmit"
+          action="/"
+          method="POST"
+        >
           <div class="login-form-member">
             <div class="login-form-id">
               <div class="account-input">
@@ -58,7 +63,12 @@
           <section>
             <div class="login-social">SNS계정으로 간편 로그인/회원가입</div>
             <div class="login-social-group">
-              <v-btn v-on:click="redirect2AuthServer('kakao')" medium fab color="yellow">
+              <v-btn
+                v-on:click="redirect2AuthServer('kakao')"
+                medium
+                fab
+                color="yellow"
+              >
                 <i class="icKaKaoTalk"></i>
               </v-btn>
               <v-btn v-on:click="redirect2AuthServer('naver')" medium fab>
@@ -80,19 +90,25 @@
 <script>
 export default {
   name: "LoginForm",
-  methods: {
-    onSubmit() {
-      this.$emit('submit', {email: this.email, password: this.password})
-    },
-    redirect2AuthServer(socialType) {
-      window.location.href = `http://localhost:5000/oauth/${socialType}/login`
-    },
-  },
   data() {
     return {
       email: "",
       password: "",
     }
+  },
+  methods: {
+    onSubmit() {
+      this.$emit("submit", { email: this.email, password: this.password })
+    },
+    redirect2AuthServer(socialType) {
+      let url = `http://localhost:5000/oauth/${socialType}/login`
+      // location=no는 신뢰할수 있는 사이트만 가능
+      window.open(
+        url,
+        "_blank",
+        "width=617, height=942, menubar=no, toolbar=no, location=no, status=no, scrollbars=no"
+      )
+    },
   },
 }
 </script>

@@ -14,7 +14,6 @@ html {
 body {
   font-family: $font-main;
   color: $primary;
-  overflow: hidden;
 }
 
 h1 {
@@ -42,6 +41,10 @@ textarea {
 a,
 button {
   cursor: pointer;
+  // &:focus {
+  //   outline: 4px solid $indigo;
+  //   border-radius: 4px;
+  // }
 }
 
 button {

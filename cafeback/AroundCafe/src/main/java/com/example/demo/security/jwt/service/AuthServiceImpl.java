@@ -5,22 +5,22 @@ import com.example.demo.member.entity.MemberRole;
 import com.example.demo.member.entity.MemberRoleType;
 import com.example.demo.member.entity.SocialType;
 import com.example.demo.member.repository.MemberRepository;
+import com.example.demo.member.service.MemberService;
 import com.example.demo.mypage.cafe.entity.Cafe;
 import com.example.demo.mypage.cafe.repository.cafe.CafeRepository;
-import com.example.demo.security.jwt.dto.JwtDto;
-import com.example.demo.security.jwt.dto.RegisterRequest;
+import com.example.demo.security.dto.JwtDto;
+import com.example.demo.security.dto.RegisterRequest;
 import lombok.RequiredArgsConstructor;
 import net.bytebuddy.utility.RandomString;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.Date;
 
 @Service
 @RequiredArgsConstructor
 public class AuthServiceImpl {
     private final JwtService jwtService;
     private final MemberRepository memberRepository;
+    private final MemberService memberService;
     private final CafeRepository cafeRepository;
     private final RedisService redisService;
     private final PasswordEncoder passwordEncoder;
@@ -35,6 +35,7 @@ public class AuthServiceImpl {
         redisService.setKeyAndValue(refreshToken, member.getMemNo());
         // 저장한 값을 JwtDto로 반환
         return JwtDto.builder()
+                .memNo(member.getMemNo())
                 .email(member.getMemId())
                 .accessToken(accessToken)
                 .accessTokenExp(jwtService.tokenExpTime(accessToken))
@@ -80,7 +81,6 @@ public class AuthServiceImpl {
         }
         return member;
     }
-
     public String generateNickname(int length) {
         String nickname;
         do {

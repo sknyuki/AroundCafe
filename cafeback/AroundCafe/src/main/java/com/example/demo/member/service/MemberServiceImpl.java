@@ -8,6 +8,7 @@ import com.example.demo.common.exception.ResourceNotFoundException;
 import com.example.demo.member.repository.MemberRoleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -20,6 +21,7 @@ public class MemberServiceImpl implements MemberService {
 
     private MemberRepository memberRepository;
     private MemberRoleRepository memberRoleRepository;
+    private PasswordEncoder passwordEncoder;
 
     @Override
     @Transactional
@@ -64,6 +66,7 @@ public class MemberServiceImpl implements MemberService {
         return memberRepository.existsByMemNick(memNick);
     }
 
+    @Override
     public List<Member> findMembersByRoleType(MemberRoleType name) {
         List<MemberRole> memberRoles = memberRoleRepository.findAllByName(name);
         List<Member> members = new ArrayList<>();
@@ -72,5 +75,10 @@ public class MemberServiceImpl implements MemberService {
             members.add(member);
         }
         return members;
+    }
+    @Override
+    public void changeMemberPassword(Member member, String password) {
+        member.setMemPw(passwordEncoder.encode(password));
+        this.save(member);
     }
 }
