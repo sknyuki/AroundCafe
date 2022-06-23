@@ -519,7 +519,6 @@ export default {
             this.usernameDupChecked = false
             this.usernameDisabled = false
           }
-          console.log(this.checkedBox)
         })
     },
     existByEmail(email) {
