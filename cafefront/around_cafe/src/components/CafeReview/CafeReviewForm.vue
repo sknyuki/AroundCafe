@@ -55,19 +55,7 @@
 
               <p>{{ review.review_content }}</p>
             </div>
-
-            <div class="cafe-review-footer">
-              <v-btn @click="like_count()" aria-label="좋아요 버튼">
-                <i class="icCheck"></i> 도움됨
-              </v-btn>
-
-              <p>
-                <strong>
-                  <span> {{ review.likeCnt }}</span
-                  >명</strong
-                >에게 도움이 되었습니다.
-              </p>
-            </div>
+            <CafeReviewLike v-if="review" :review="review" :myHelps="myHelps" />
 
             <button
               class="delete-button"
@@ -105,29 +93,54 @@
 <script>
 import StarRating from "vue-star-rating"
 import CafeReviewModify from "@/components/CafeReview/CafeReviewModify"
+import CafeReviewLike from "@/components/CafeReview/CafeReviewLike"
 import axios from "axios"
+import { mapActions, mapState } from "vuex"
 
 export default {
   name: "ReviewForm",
   components: {
     StarRating,
     CafeReviewModify,
+    CafeReviewLike,
   },
   props: {
     reviews: {
       type: Array,
       required: true,
     },
+    myHelps: {
+      type: Array,
+      required: true,
+    },
+  },
+  computed: {
+    ...mapState(["myHelps"]),
+  },
+  mounted() {
+    this.fetchMyHelpsList(this.loginInfo)
   },
 
   data() {
     return {
+      loginInfo: JSON.parse("1"),
       reviewDialog: false,
       reviewNo: "",
     }
   },
+  /*
+  mounted() {
+    this.onHelp = false
+    for (let i = 0; i < this.reviews[0].reviewLike.length; i++) {
+      if (this.myHelps[i].review.reviewNo == this.review.reviewNo) {
+        this.onHelp = true
+      }
+    }
+  },*/
 
   methods: {
+    ...mapActions(["fetchMyHelpsList"]),
+
     onModify(payload) {
       console.log(this.reviewNo)
       const { reviewNo, star_score, review_content, cafeNum, file } = payload
@@ -158,17 +171,46 @@ export default {
           alert("문제 발생!")
         })
     },
+
     onReviewDialog() {
       this.reviewDialog = true
     },
     closeDialog() {
       this.reviewDialog = false
     },
+
     created() {
       this.fetchReview(this.reviewNo).catch(() => {
         alert("게시물 DB조회 실패!")
       })
     },
+
+    onLikes(reviewNo) {
+      axios
+        .post(`http://localhost:7777/likes/${reviewNo}/${this.loginInfo}`, {
+          reviewNo,
+          memberNo: this.loginInfo,
+        })
+        .then(() => {
+          history.go(0)
+        })
+        .catch(() => {
+          alert("문제 발생!")
+        })
+    },
+    /*
+    onLikes() {
+      axios
+        .post(
+          `http://localhost:7777/cafe/like/${this.review.reviewNo}/${this.membNo}`
+        )
+        .then(() => {
+          history.go(0)
+        })
+        .catch(() => {
+          alert("문제 발생!")
+        })
+    },*/
   },
 }
 </script>

@@ -9,6 +9,8 @@ import {
   FETCH_QNA_LIST,
   FETCH_QNA_LISTS,
   FETCH_USER,
+  FETCH_LIKE,
+  FETCH_MY_HELPS_LIST,
 } from "./mutation-types"
 
 export default {
@@ -41,6 +43,13 @@ export default {
   },
   [FETCH_LIKES_LIST](state, likes) {
     state.likes = likes
+  },
+
+  [FETCH_LIKE](state, like) {
+    state.like = like
+  },
+  [FETCH_MY_HELPS_LIST](state, myHelps) {
+    state.myHelps = myHelps
   },
 
   [FETCH_QNA_LIST](state, qnaList) {
