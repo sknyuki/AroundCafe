@@ -17,18 +17,16 @@ import java.util.Optional;
 public interface ReviewLikeRepository extends JpaRepository<ReviewLike, Long> {
 
 
-   // Optional<ReviewLike> findByReviewAndWriter (Review review, String writer);
+    // Optional<ReviewLike> findByReviewAndWriter (Review review, String writer);
 
     //@Transactional
     //@Query("select m from Member m and select r from Review r")
     //Optional<ReviewLike> findByMemberAndReview (Member member, Review review);
 
     /*
-
     @Transactional
     @Query("select * from member (where member_no = :member) and select * from review (where review_no = :review)")
     Optional<ReviewLike> findByMemberAndReview (Member member, Review review);
-
      */
 
     @Transactional
@@ -57,7 +55,12 @@ public interface ReviewLikeRepository extends JpaRepository<ReviewLike, Long> {
 
 
 
+
+
+
+
 }
+
 
 
 

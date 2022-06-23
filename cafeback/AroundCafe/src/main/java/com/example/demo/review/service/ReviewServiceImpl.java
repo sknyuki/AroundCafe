@@ -91,7 +91,7 @@ public class ReviewServiceImpl implements ReviewService{
     @Override
     public void modify(Review review, @RequestParam(required = false) MultipartFile file) throws Exception {
 
-        if (review.getFileName().equals(Optional.empty())) {
+        if (review.getFileName() != null) {
 
             Path filePath = Paths.get("c:\\TeamProject\\AroundCafe\\cafefront\\around_cafe\\src\\assets\\review\\" + review.getFileName());
             Files.delete(filePath);

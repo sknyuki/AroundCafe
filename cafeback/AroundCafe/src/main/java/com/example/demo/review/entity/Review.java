@@ -10,6 +10,7 @@ import org.hibernate.annotations.Formula;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import javax.transaction.Transactional;
 import java.util.*;
 
 
@@ -40,12 +41,11 @@ public class Review {
     @JoinColumn(name="member_no")
     private Member memberInfo;
 
-
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @JsonIgnoreProperties({"reviews", "review"})
-    @OneToMany(mappedBy = "review_info", fetch = FetchType.EAGER,orphanRemoval = true)
-    private List<ReviewLike> reviewLike = new ArrayList<>();
+    @OneToMany(mappedBy = "review", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private Set<ReviewLike> reviewLike = new HashSet<>();
 
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
