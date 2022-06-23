@@ -8,13 +8,20 @@
         </div>
         <div class="col-sm-8 col-md-9 col-lg-9">
           <CafeRegisterDialog @submit="onSubmitMenu" />
-          <input
-            class="form-input input-40"
-            type="text"
-            placeholder="메뉴 검색"
-            v-model="modi_name"
-          />
-          <CafeMenuList :filterMenuLists="filterMenuLists" />
+          <div class="input-group">
+            <i class="icSearch" aria-hidden="true"></i>
+            <input
+              class="form-input input-40"
+              style="width: 350px"
+              type="text"
+              placeholder="메뉴 검색후 엔터"
+              v-model="modi_name"
+              @keydown.enter.prevent="findList"
+              @change="isSearchempty(modi_name)"
+            />
+            <v-btn @click="resetList">초기화</v-btn>
+          </div>
+          <CafeMenuList :menuLists="menuLists" :fileterArray="fileterArray" />
         </div>
       </div>
     </div>
@@ -41,7 +48,6 @@ export default {
       required: true,
     },
   },
-
   data() {
     return {
       listData: [],
@@ -54,23 +60,7 @@ export default {
       fileterArray: [],
     }
   },
-  computed: {
-    filterMenuLists() {
-      if (this.modi_name) {
-        return this.menuLists.filter((item) => {
-          return this.modi_name
-            .toLowerCase()
-            .split(" ")
-            .every((v) => item.menu_name.toLowerCase().includes(v))
-        })
-      } else {
-        return this.menuLists
-      }
-    },
-  },
-  mounted() {
-    this.pagingMethod(this.page)
-  },
+
   methods: {
     onSubmitMenu(payload) {
       const { menu_name, menu_price, menu_content, file } = payload
@@ -107,6 +97,44 @@ export default {
           alert("메뉴 등록에 실패하였습니다.")
         })
     },
+    findList() {
+      let cafe_no = 1
+      let cafe_name = this.modi_name
+
+      axios
+        .get(`http://localhost:7777/menu/findMenu/${cafe_no}/${cafe_name}`)
+        .then((res) => {
+          if (res.data.length > 0) {
+            this.fileterArray = res.data
+          } else {
+            alert("찾는 메뉴가 없습니다.")
+          }
+        })
+        .catch(() => {
+          alert("찾는 메뉴가 없습니다.")
+        })
+    },
+    resetList() {
+      this.fileterArray = ""
+      this.modi_name = ""
+    },
+    isSearchempty(modi_name) {
+      if (modi_name.length === 0) {
+        this.fileterArray = ""
+      }
+    },
   },
 }
 </script>
+<style lang="scss" scoped>
+.v-btn {
+  position: absolute;
+  top: 7px;
+  left: 270px;
+  min-width: 13px !important;
+  height: 24px !important;
+}
+.input {
+  position: relative;
+}
+</style>

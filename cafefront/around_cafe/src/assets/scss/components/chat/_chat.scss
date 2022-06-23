@@ -59,6 +59,7 @@
     &-wrapper {
       @include flexbox(start);
       margin-bottom: 4px;
+      overflow: hidden;
     }
 
     &-cafe {
