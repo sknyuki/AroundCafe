@@ -93,7 +93,7 @@ public class MenuController {
 
     @GetMapping("/list/{membNo}")
     public List<CafeMenu> menuList(@PathVariable("membNo") Integer membNo) {
-        log.info("get menu list");
+        log.info("get menu list, member no: " +membNo);
 
         return service.list(membNo);
     }

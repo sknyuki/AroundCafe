@@ -1,5 +1,7 @@
 package com.example.demo.mypage.cafe.service.menu;
 
+import com.example.demo.member.entity.Member;
+import com.example.demo.member.repository.MemberRepository;
 import com.example.demo.mypage.cafe.dto.CafeMenuDto;
 import com.example.demo.mypage.cafe.entity.Cafe;
 import com.example.demo.mypage.cafe.entity.CafeMenu;
@@ -114,6 +116,7 @@ public class MenuServiceImpl implements MenuService{
     @Override
     public List<CafeMenu> list(Integer membNo) {
         Cafe cafe = cafeRepository.findByMemberNo(Long.valueOf(membNo)).orElseGet(null);
+        log.info("cafe name:" +cafe.getCafe_name());
         Long CafeNo = cafe.getCafeNo();
         log.info("cafe no = " + CafeNo);
 
@@ -124,13 +127,16 @@ public class MenuServiceImpl implements MenuService{
     @Override
     public void delete(Integer menuNo) throws IOException {
         CafeMenu menu = repository.findById(Long.valueOf(menuNo)).orElseGet(null);
+        log.info("cafe name" +menu.getMenu_name());
 
         if(menu.getMenu_img() != null) {
             Path file = Paths.get("../../cafefront/around_cafe/src/assets/cafe/cafeMenu/" + menu.getMenu_img());
             Files.delete(file);
+            log.info("img is deleted!!");
         }
 
         repository.deleteById(Long.valueOf(menuNo));
+        log.info("delete menu complete!");
     }
 
     @Transactional
