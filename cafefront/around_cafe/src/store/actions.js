@@ -8,17 +8,13 @@ import {
   FETCH_LIKES_LIST,
   FETCH_QNA_LIST,
   FETCH_QNA_LISTS,
-  FETCH_USER,
+  FETCH_LIKE,
+  FETCH_MY_HELPS_LIST,
 } from "./mutation-types"
 
 import axios from "axios"
-import UserService from "@/services/userService"
 
 export default {
-  fetchUser({ commit }) {
-    return commit(FETCH_USER, UserService.getUserInfo())
-  },
-
   fetchcafeBoardList({ commit }) {
     return axios.get("http://localhost:7777/cafe/list").then((res) => {
       commit(FETCH_CAFE_BOARD_LIST, res.data)
@@ -33,12 +29,10 @@ export default {
       })
   },
 
-  fetchMenuLists({ commit }, membNo) {
-    return axios
-      .get(`http://localhost:7777/menu/list/${membNo}`)
-      .then((res) => {
-        commit(FETCH_MENU_LISTS, res.data)
-      })
+  fetchMenuLists({ commit }) {
+    return axios.get("http://localhost:7777/menu/list").then((res) => {
+      commit(FETCH_MENU_LISTS, res.data)
+    })
   },
 
   fetchCafeImgLists({ commit }, cafeNo) {
@@ -58,16 +52,30 @@ export default {
   },
   fetchReview({ commit }, reviewNo) {
     return axios
-      .get(`http://localhost:7777/cafe/review/${reviewNo}`)
+      .get(`http://localhost:7777/cafe/review/list/${reviewNo}`)
       .then((res) => {
         commit(FETCH_REVIEW, res.data)
       })
   },
   fetchLikesList({ commit }, reviewNo) {
     return axios
-      .get(`http://localhost:7777/cafe/review/${reviewNo}/like`)
+      .get(`http://localhost:7777/cafe/like/list/${reviewNo}`)
       .then((res) => {
         commit(FETCH_LIKES_LIST, res.data)
+      })
+  },
+  fetchLike({ commit }, { reviewNo, membNo }) {
+    return axios
+      .get(`http://localhost:7777/cafe/like/${reviewNo}/${membNo}`)
+      .then((res) => {
+        commit(FETCH_LIKE, res.data)
+      })
+  },
+  fetchMyHelpsList({ commit }, membNo) {
+    return axios
+      .get(`http://localhost:7777/cafe/like/list/my/${membNo}`)
+      .then((res) => {
+        commit(FETCH_MY_HELPS_LIST, res.data)
       })
   },
 

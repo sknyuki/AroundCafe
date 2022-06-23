@@ -11,7 +11,7 @@
           <header>
             <h1>리뷰</h1>
           </header>
-          <CafeReviewForm :reviews="reviews" />
+          <CafeReviewForm :reviews="reviews" :myHelps="myHelps" />
           <div class="cafe-review-pag">
             <PaginationForm />
           </div>
@@ -34,7 +34,12 @@ export default {
       type: Array,
       required: true,
     },
+    myHelps: {
+      type: Array,
+      required: true,
+    },
   },
+
   data() {
     return {
       reviewNo: "",

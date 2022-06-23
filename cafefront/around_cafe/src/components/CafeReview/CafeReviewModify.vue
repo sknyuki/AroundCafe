@@ -3,8 +3,9 @@
     <v-dialog v-model="reviewDialog" max-width="750">
         
     <template v-slot:activator="{ on, attrs }"> 
-      <v-btn color="#e6f0dd" class="btn-flat" v-on="on" v-bind="attrs"><i class="icHeart"> </i></v-btn>
+      <button type="button" v-on="on" v-bind="attrs"><i class="icHeart"> </i></button>
     </template>    
+    
 
       <v-card>
         <v-form @submit.prevent="onModify">
