@@ -19,6 +19,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -42,6 +43,7 @@ public class AuthController {
     private final JwtService jwtService;
     private final RedisServiceImpl redisService;
     private final AuthenticationManager authenticationManager;
+    private final PasswordEncoder passwordEncoder;
 
     //Token 발급이 되지 않은 경우
     @PostMapping("/login")
@@ -214,11 +216,15 @@ public class AuthController {
         return String.valueOf(true);
     }
 
-    @PostMapping("/changePassword")
+    @PutMapping("/changePassword")
     public String changePassword(@RequestBody MemberDto memberDto) {
-        Member member = memberService.findByMemId(memberDto.getMemId());
-        String password = memberDto.getMemPw();
-        memberService.changeMemberPassword(member, password);
+        log.info(memberDto.toString());
+        //Member member = memberService.findByMemId(memberDto.getMemId());
+        Member member = memberRepository.findByMemId(memberDto.getMemId())
+                        .orElseThrow(() -> new UsernameNotFoundException("No User"));
+
+        member.setMemPw(passwordEncoder.encode(memberDto.getMemPw()));
+        memberRepository.save(member);
 
         return String.valueOf(true);
     }

@@ -77,7 +77,17 @@ const routes = [
   {
     path: "/passwordModify",
     name: "AccountModifyPasswordPage",
-    component: () => import("@/views/Account/AccountModifyPasswordPage.vue"),
+    components: {
+      default: () => import("@/views/Account/AccountModifyPasswordPage"),
+    },
+    props: {
+      default: true,
+    },
+  },
+  {
+    path: "/account/test",
+    name: "AccountTestPage",
+    component: () => import("@/views/Account/AccountTestPage.vue"),
   },
 
   // Admin 관리자페이지
