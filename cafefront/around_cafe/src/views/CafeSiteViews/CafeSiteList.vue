@@ -13,10 +13,7 @@
           <!--<the-v-card-form :menuList='menuList'/>-->
         </div>
         <div class="col-sm-4 col-md-3 col-lg-3">
-          <cafe-sticky-sidebar
-            :basketlist="basketlist"
-            @SelectdeMenuSubmit="SelectdeMenuSubmit"
-          />
+          <cafe-sticky-sidebar :basketlist="basketlist" />
         </div>
       </div>
       <header>

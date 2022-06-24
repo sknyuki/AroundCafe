@@ -120,6 +120,38 @@ const routes = [
     name: "CafeSiteList",
     component: () => import("@/views/CafeSiteViews/CafeSiteList"),
   },
+  {
+    path: "/cafe/Purchase",
+    name: "CafePurchase",
+    component: () => import("@/views/CafeSiteViews/CafePurchase"),
+    props: true,
+  },
+
+  //관리자 시스템
+  {
+    path: "/ManagementPage",
+    name: "ManagementPage",
+    component: () => import("@/views/ManagementSystemViews/ManagementPage"),
+  },
+  {
+    path: "/NoticeRegisterPage",
+    name: "NoticeRegisterPage",
+    component: () =>
+      import("@/views/ManagementSystemViews/noticeBoard/NoticeRegisterPage"),
+  },
+  {
+    path: "/NoticeReadPage",
+    name: "NoticeReadPage",
+    components: () =>
+      import("@/views/ManagementSystemViews/noticeBoard/NoticeReadPage"),
+    props: true,
+  },
+  {
+    path: "/NoticeModifyPage",
+    name: "NoticeModifyPage",
+    component: () =>
+      import("@/views/ManagementSystemViews/noticeBoard/NoticeModifyPage"),
+  },
 
   //Policy 이용약관페이지
   {

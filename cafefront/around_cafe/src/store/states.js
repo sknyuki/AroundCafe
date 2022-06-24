@@ -15,4 +15,8 @@ export default {
 
   like: null,
   myHelps: [],
+
+  //공지사항
+  noticeBoards: [],
+  noticeBoard: [],
 }
