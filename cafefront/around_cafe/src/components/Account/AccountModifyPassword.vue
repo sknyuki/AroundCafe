@@ -73,8 +73,8 @@ export default {
   methods: {
     onSubmit() {
       const data = {
-        email: this.email,
-        password: this.password,
+        memId: this.email,
+        memPw: this.password,
       }
       this.$emit("submit", data)
     },

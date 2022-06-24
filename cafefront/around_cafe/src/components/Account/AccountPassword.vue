@@ -41,13 +41,15 @@
             placeholder="인증코드 6자리 입력"
             required
           />
+          <div>{{ timeString }}</div>
           <v-btn
-            :disabled="emailCode.length < 1 || isEmailVerified"
+            :disabled="emailCode.length < 1 || isEmailVerified || time === 0"
             class="password-btns"
             @click="checkEmailCode()"
             >확인</v-btn
           >
         </div>
+        <div v-if="time <= 0">인증코드가 만료되었습니다.</div>
         <div style="margin-bottom: 10px">
           <div style="display: inline-block">이메일을 받지 못하셨나요?</div>
           <a
@@ -79,6 +81,7 @@
 </template>
 <script>
 import axios from "axios"
+import TimerBeforeHour from "@/utils/timer"
 
 export default {
   name: "PasswordForm",
@@ -87,23 +90,39 @@ export default {
       email: "",
       emailCode: "",
       emailCodeFromServer: "",
+      time: 0,
       isEmailExists: false,
       isEmailVerified: false,
       emailVerifyUse: false,
     }
+  },
+  computed: {
+    timeString: {
+      get() {
+        if (this.time > 0) {
+          return TimerBeforeHour.timeToString(this.time)
+        } else {
+          clearInterval(this.timerId)
+          return "00:00"
+        }
+      },
+    },
   },
   methods: {
     //router-link : data 같이
     transfer2ModifyPasswordPage(email) {
       this.$router.push({
         name: "AccountModifyPasswordPage",
-        params: { email: email.toString() },
+        params: { email: email },
       })
-      console.log(this.email)
+    },
+    timerStart() {
+      this.timerId = setInterval(() => {
+        this.time--
+        //this.timeString = TimerBeforeHour.timeToString(time)
+      }, 1000)
     },
     checkEmailCode() {
-      console.log(this.emailCodeFromServer)
-      console.log(this.emailCode)
       if (this.emailCode === this.emailCodeFromServer) {
         this.isEmailVerified = true
         alert("Email이 인증되셨습니다.")
@@ -119,6 +138,10 @@ export default {
           "Content-Type": "Application/json",
         },
       }
+      this.time = 180
+      alert("인증 메일이 발송되었습니다.")
+      this.timerStart()
+      this.emailVerifyUse = true
       const unInterceptedAxiosInstance = axios.create()
       const code = await unInterceptedAxiosInstance.post(
         url,
@@ -128,8 +151,6 @@ export default {
       // 유저가 확인할 수 없는 장소가 어디일까요?
       // 확인요망 -- 애매하면 그냥 redis 서버에 저장
       this.emailCodeFromServer = code.data["code"]
-      alert("인증 메일이 발송되었습니다.")
-      this.emailVerifyUse = true
     },
     existByEmail(email) {
       const unInterceptedAxiosInstance = axios.create()

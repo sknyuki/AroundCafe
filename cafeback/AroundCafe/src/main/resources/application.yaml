@@ -30,6 +30,12 @@ spring:
       max-file-size: 20MB
       max-request-size: 20MB
 
+  data:
+    redis:
+      repositories:
+        enabled: false
+
+
 app:
   auth:
     jwt-secret: TEj9ZyurkG3LiRqjU9u9KrWrPDL5UDa/vL03rjMv5GqPXCYjOySIfOIqAXBkDzdU/rPALuyxGwj1z4tN4cayoA==

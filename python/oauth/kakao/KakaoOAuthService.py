@@ -54,12 +54,15 @@ class KakaoOauthService:
     def post2MainServer(self, userinfo):
         socialNo = userinfo.get('id')
         email = userinfo.get('kakao_account').get('email')
-
-        birthdayInit = userinfo.get('kakao_account').get('birthday')
-        birthMonth = birthdayInit[0:2]
-        birthDay = birthdayInit[2:4]
-        birth = "0000-{month}-{day}".format(
-            month=birthMonth, day=birthDay)
+        
+        if(userinfo.get('kakao_account').get('birthday') != None) :
+            birthdayInit = userinfo.get('kakao_account').get('birthday')
+            birthMonth = birthdayInit[0:2]
+            birthDay = birthdayInit[2:4]
+            birth = "1900-{month}-{day}".format(
+                month=birthMonth, day=birthDay)
+        else :
+            birth = "1900-01-01"
 
         imageUrl = userinfo.get('kakao_account').get(
             'profile').get('profile_image_url')
