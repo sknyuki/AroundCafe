@@ -139,11 +139,6 @@ public class MenuController {
         return service.changeSoldOut(menuNo);
     }
 
-    @PostMapping("/delSoldOut/{menuNo}")
-    public String deleteSoldOut(@PathVariable("menuNo") Integer menuNo) {
-        log.info("delete sold out");
-        return service.deleteSoldOut(menuNo);
-    }
 
     @GetMapping("/findMenu/{cafe_no}/{cafe_name}")
     public List<CafeMenu> findMenu(@PathVariable("cafe_no")Integer cafe_no,

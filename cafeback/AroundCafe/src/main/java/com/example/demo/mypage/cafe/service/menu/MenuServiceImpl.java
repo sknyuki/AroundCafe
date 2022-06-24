@@ -10,6 +10,7 @@ import com.example.demo.mypage.cafe.repository.menu.MenuRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -175,19 +176,15 @@ public class MenuServiceImpl implements MenuService{
     public String changeSoldOut(Integer menuNo) {
         CafeMenu menu = repository.findById(Long.valueOf(menuNo)).orElseGet(null);
 
-        menu.setSold_out(true);
-        repository.save(menu);
-        return "솔드아웃 메뉴로 등록되었습니다.";
+        if(menu.getSold_out() == true) {
+            menu.setSold_out(false);
+            repository.save(menu);
+            return "솔드아웃 메뉴 취소하였습니다..";
+        }else
+            menu.setSold_out(true);
+            repository.save(menu);
+            return "솔드아웃 메뉴로 등록되었습니다.";
         
-    }
-
-    @Override
-    public String deleteSoldOut(Integer menuNo) {
-        CafeMenu menu = repository.findById(Long.valueOf(menuNo)).orElseGet(null);
-
-        menu.setSold_out(false);
-        repository.save(menu);
-        return "솔드아웃 메뉴가 삭제되었습니다.";
     }
 
     @Transactional

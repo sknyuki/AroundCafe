@@ -27,7 +27,6 @@ public interface MenuService {
 
     public String changeSoldOut(Integer menuNo);
 
-    public String deleteSoldOut(Integer menuNo);
 
     public List<CafeMenu> soldList();
 

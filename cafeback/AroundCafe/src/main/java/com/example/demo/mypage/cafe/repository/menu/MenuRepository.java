@@ -36,5 +36,4 @@ public interface MenuRepository extends JpaRepository<CafeMenu, Long> {
     @Query(value = "select * from cafe_menu where menu_name like %:menuName% and cafe_no = :cafeNo order by menu_no desc",nativeQuery = true)
     List<CafeMenu> searchList(@Param("cafeNo") Long cafeNo, @Param("menuName") String menuName);
 
-    //List<CafeMenu> findByCafeMenuContainingIgnoreCase(Integer cafe_no, String menu_name);
 }
