@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-btn class="writeBtn" @click="writeBoard">
-      <v-icon color="black"> mdi-pencil-remove-outline </v-icon></v-btn
+      <v-icon color="black"> mdi-pencil </v-icon></v-btn
     >
     <v-row justify="center">
       <notice-board-list :noticeBoards="noticeBoards" />

@@ -26,7 +26,7 @@ export default {
         .then(() => {
           alert("Successfully submitted")
           this.$router.push({
-            name: "NoticeListPage",
+            name: "ManagementPage",
           })
         })
         .catch(() => {

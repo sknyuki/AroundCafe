@@ -1,7 +1,7 @@
 <template>
   <v-card class="cardStyle">
     <v-card-title>
-      <h2>Notice</h2>
+      <h2>공지사항</h2>
 
       <v-spacer></v-spacer>
 
@@ -27,24 +27,24 @@
     </v-row>
 
     <v-data-table
-      @click:row="showBoard"
       :headers="headers"
       :items="noticeBoards"
+      :search="search"
       :key="noticeBoards.boardNo"
-      :page.sync="page"
-      :items-per-page="itemsPerPage"
-      class="table"
-      hide-default-footer
-      @page-count="pageCount = $event"
-    ></v-data-table>
-
-    <div class="text-center pt-2">
-      <v-pagination
-        class="grey lighten-4"
-        v-model="page"
-        :length="pageCount"
-      ></v-pagination>
-    </div>
+      class="elevation-1"
+    >
+      <template v-slot:[`item.title`]="{ item }">
+        <router-link
+          :to="{
+            name: 'NoticeReadPage',
+            params: { boardNo: item.boardNo.toString() },
+          }"
+        >
+          {{ item.title }}
+        </router-link>
+      </template>
+      ></v-data-table
+    >
   </v-card>
 </template>
 
@@ -60,9 +60,6 @@ export default {
   data() {
     return {
       search: "",
-      page: 1,
-      pageCount: 0,
-      itemsPerPage: 9,
       headers: [
         {
           text: " No",
@@ -72,28 +69,28 @@ export default {
           class: "grey lighten-4",
         },
         {
-          text: "Title",
+          text: "제목",
           align: "center",
           value: "title",
           width: "45%",
           class: "grey lighten-4",
         },
         {
-          text: "Writer",
+          text: "작성자",
           align: "center",
           value: "writer",
           width: "10%",
           class: "grey lighten-4",
         },
         {
-          text: "Views",
+          text: "조회수",
           align: "center",
           value: "viewCount",
           width: "15%",
           class: "grey lighten-4",
         },
         {
-          text: "Date",
+          text: "작성일",
           align: "center",
           value: "regDate",
           width: "20%",
@@ -104,21 +101,11 @@ export default {
       loginAuth: "",
     }
   },
-
-  methods: {
-    showBoard(event, idx) {
-      console.log("글 번호: " + idx.item.boardNo)
-      this.$router.push({
-        name: "NoticeReadPage",
-        params: { boardNo: String(idx.item.boardNo) },
-      })
-    },
-  },
 }
 </script>
 
 <style scoped>
-@import url("https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Poiret+One&family=Sunflower:wght@300&display=swap");
+/* @import url("https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Poiret+One&family=Sunflower:wght@300&display=swap"); */
 
 .table {
   cursor: pointer;
