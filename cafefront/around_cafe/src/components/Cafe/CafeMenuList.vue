@@ -159,6 +159,10 @@ export default {
       type: Array,
       required: true,
     },
+    cafeNo: {
+      type: Number,
+      required: true,
+    },
   },
   data() {
     return {
@@ -260,7 +264,7 @@ export default {
       }
 
       console.log(fileInfo)
-      let cafeNo = 1
+      let cafeNo = this.cafeNo
       axios
         .put(`http://localhost:7777/menu/modify/${cafeNo}`, formData)
         .then(() => {

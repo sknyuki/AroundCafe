@@ -3,19 +3,14 @@
     <div class="my-menu-content">
       <ul class="my-menu-list">
         <!-- 로그인 안되어있을 때  -->
-        <template>
+        <template v-if="user.memNo == null">
           <li class="my-menu-item" v-for="item in menuModal" :key="item.id">
             <router-link :to="item.link">{{ item.title }}</router-link>
           </li>
         </template>
-        <li class="my-menu-item" v-if="checkUser != null">
-          <button @click="onLogout" type="submit" aria-label="로그아웃 ">
-            로그아웃
-          </button>
-        </li>
 
         <!-- User 로그인일 시  -->
-        <!-- <template>
+        <template v-if="user.role == 'USER'">
           <li
             class="my-menu-item"
             v-for="item in myMenuUserLogin"
@@ -23,11 +18,11 @@
           >
             <router-link :to="item.link">{{ item.title }}</router-link>
           </li>
-        </template> -->
+        </template>
 
         <!-- Cafe 로그인일 시  -->
-        <!-- 
-        <template>
+
+        <template v-if="user.role == 'CAFE'">
           <li
             class="my-menu-item"
             v-for="item in myMenuCafeLogin"
@@ -35,10 +30,10 @@
           >
             <router-link :to="item.link">{{ item.title }}</router-link>
           </li>
-        </template> -->
+        </template>
 
         <!-- Admin 로그인일 시  -->
-        <!-- <template>
+        <template v-if="user.role == 'ADMIN'">
           <li
             class="my-menu-item"
             v-for="item in myMenuAdminLogin"
@@ -46,21 +41,59 @@
           >
             <router-link :to="item.link">{{ item.title }}</router-link>
           </li>
-        </template> -->
+        </template>
+        <li class="my-menu-item" v-if="user.memNo != null">
+          <button @click="onLogout" type="submit" aria-label="로그아웃 ">
+            로그아웃
+          </button>
+        </li>
       </ul>
     </div>
   </div>
 </template>
 <script>
+import axios from "axios"
+import userService from "@/services/userService"
+import tokenService from "@/services/tokenService"
+
 export default {
   name: "MyMenuModal",
 
   methods: {
-    onLogout() {},
+    onLogout() {
+      const url = "http://localhost:7777/auth/logout"
+      const refreshToken = tokenService.getRefreshToken()
+      const config = {
+        headers: {
+          refresh_token: `${refreshToken}`,
+        },
+      }
+      axios
+        .delete(url, config)
+        .then(() => {
+          userService.deleteUserInfo()
+          tokenService.deleteTokens()
+          alert("로그아웃되었습니다.")
+          this.$router.push({ name: "MainPage" })
+          this.$router.go()
+        })
+
+        .catch((err) => {
+          alert(err)
+        })
+    },
   },
   props: {
     menuModal: {
       type: Array,
+      required: true,
+    },
+    user: {
+      type: Object,
+      required: true,
+    },
+    cafeNo: {
+      type: Number,
       required: true,
     },
   },
@@ -72,44 +105,48 @@ export default {
         {
           id: 1,
           title: "내 정보",
-          link: "/sign",
+          link: "/user/modify",
         },
         {
           id: 2,
-          title: "주문현황",
-          link: "/login",
+          title: "주문내역",
+          link: "/user/history",
         },
         {
           id: 3,
-          title: "주문내역",
-          link: "/login",
-        },
-        {
-          id: 4,
           title: "내리뷰",
           link: "/login",
         },
         {
-          id: 5,
+          id: 4,
           title: "좋아요",
-          link: "/login",
+          link: "/user/like",
         },
       ],
       myMenuCafeLogin: [
         {
           id: 1,
           title: "내 정보",
-          link: "/cafe/modify",
+          link: {
+            name: "CafeUserModifyPage",
+            params: { cafeNo: this.cafeNo },
+          },
         },
         {
           id: 2,
           title: "카페 관리",
-          link: "/cafe/register",
+          link: {
+            name: "CafeRegisterPage",
+            params: { cafeNo: this.cafeNo },
+          },
         },
         {
           id: 3,
           title: "메뉴 관리",
-          link: "/cafe/menu",
+          link: {
+            name: "CafeRegisterMenuPage",
+            params: { cafeNo: this.cafeNo },
+          },
         },
         {
           id: 4,
@@ -124,7 +161,10 @@ export default {
         {
           id: 6,
           title: "고객 리뷰",
-          link: "/cafe/review",
+          link: {
+            name: "CafeReviewListPage",
+            params: { cafeNo: this.cafeNo },
+          },
         },
       ],
       myMenuAdminLogin: [
