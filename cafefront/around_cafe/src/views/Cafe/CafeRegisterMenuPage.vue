@@ -1,5 +1,5 @@
 <template>
-  <CafeRegisterMenu :menuLists="menuLists" />
+  <CafeRegisterMenu :menuLists="menuLists" :cafeNo="cafeNo" />
 </template>
 <script>
 import CafeRegisterMenu from "@/components/Cafe/CafeRegisterMenu.vue"
@@ -7,13 +7,20 @@ import { mapState, mapActions } from "vuex"
 export default {
   components: { CafeRegisterMenu },
   name: "CafeRegisterMenuPage",
+  props: {
+    cafeNo: {
+      type: Number,
+      required: true,
+    },
+  },
   computed: {
-    ...mapState(["menuLists"]),
+    ...mapState(["user", "menuLists"]),
   },
   mounted() {
-    this.fetchMenuLists(2)
+    this.fetchUser(), this.fetchMenuLists(this.user.memNo)
   },
   methods: {
+    ...mapActions(["fetchUser"]),
     ...mapActions(["fetchMenuLists"]),
   },
 }

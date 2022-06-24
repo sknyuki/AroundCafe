@@ -2,7 +2,7 @@
   <div class="cafe-gallery-content">
     <ul class="cafe-list">
       <li
-        v-for="(cafeItem, index) in cafeItems"
+        v-for="(cafeItem, index) in cafeBoards"
         :key="index"
         class="cafe-item"
         @mouseover="swiperBtn = index"
@@ -37,12 +37,18 @@
             <!-- 스와이퍼 -->
             <swiper class="swiper" :options="swiperOption">
               <swiper-slide
-                v-for="cafeItem in cafeItem.img"
-                :key="cafeItem.id"
+                v-for="img in cafeItem.cafeImgs"
+                :key="img.cafeImgNo"
                 class="cafe-gallery-image"
               >
                 <picture>
-                  <img loading="lazy" :src="cafeItem.image" alt="카페이미지" />
+                  <img
+                    loading="lazy"
+                    v-bind:src="
+                      require(`@/assets/cafe/cafeMypage/${img.cafe_img}`)
+                    "
+                    alt="카페이미지"
+                  />
                 </picture>
               </swiper-slide>
               <v-btn
@@ -70,14 +76,17 @@
               <div class="swiper-pagination" slot="pagination"></div>
             </swiper>
 
-            <h1 class="cafe-list-title">{{ cafeItem.title }}</h1>
+            <h1 class="cafe-list-title">{{ cafeItem.cafe_name }}</h1>
 
             <div class="cafe-list-location">
-              <span>{{ cafeItem.location }}</span>
+              <span
+                >{{ cafeItem.cafe_adr1 }} {{ cafeItem.cafe_adr2 }}
+                {{ cafeItem.cafe_adr3 }}</span
+              >
             </div>
 
             <div class="cafe-list-time">
-              <span>{{ cafeItem.time }}</span>
+              <span>{{ cafeItem.cafe_time }}</span>
             </div>
 
             <dl class="cafe-list-rating">
@@ -110,7 +119,7 @@ export default {
   },
 
   props: {
-    cafeItems: {
+    cafeBoards: {
       type: Array,
       required: true,
     },

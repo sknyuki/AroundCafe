@@ -1,6 +1,7 @@
 import {
   FETCH_CAFE_BOARD_LIST,
   FETCH_CAFE_BOARD,
+  FETCH_CAFE_NO,
   FETCH_MENU_LISTS,
   FETCH_CAFE_IMG_LISTS,
   FETCH_REVIEW_LIST,
@@ -28,6 +29,10 @@ export default {
 
   [FETCH_CAFE_BOARD](state, cafeBoard) {
     state.cafeBoard = cafeBoard
+  },
+
+  [FETCH_CAFE_NO](state, cafeNo) {
+    state.cafeNo = cafeNo
   },
 
   [FETCH_MENU_LISTS](state, menuLists) {
