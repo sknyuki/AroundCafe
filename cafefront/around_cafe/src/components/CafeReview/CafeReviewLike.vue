@@ -13,7 +13,7 @@
     </div>
 
     <div class="cafe-review-footer" v-else>
-      <v-btn @click="onLikes()" aria-label="좋아요 버튼">
+      <v-btn @click="onLikes()" aria-label="좋아요 버튼" color="grey">
         <i class="icCheck"></i> 도움됨
       </v-btn>
 
@@ -62,6 +62,7 @@ export default {
 
     for (let i = 0; i < this.myHelps.length; i++) {
       if (this.myHelps[i] == this.review.reviewNo) {
+        this.myHelps
         this.onHelp = true
       }
     }
