@@ -11,6 +11,10 @@ import {
   FETCH_USER,
   FETCH_HELP,
   FETCH_MY_HELPS_LIST,
+
+  //공지사항
+  FETCH_NOTICE_BOARD_LIST,
+  FETCH_NOTICE_BOARD,
 } from "./mutation-types"
 
 export default {
@@ -58,5 +62,14 @@ export default {
 
   [FETCH_QNA_LISTS](state, qnaLists) {
     state.qnaLists = qnaLists
+  },
+
+  //공지사항
+  [FETCH_NOTICE_BOARD_LIST](state, noticeBoards) {
+    state.noticeBoards = noticeBoards
+  },
+
+  [FETCH_NOTICE_BOARD](state, noticeBoard) {
+    state.noticeBoard = noticeBoard
   },
 }

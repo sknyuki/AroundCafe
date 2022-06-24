@@ -77,7 +77,17 @@ const routes = [
   {
     path: "/passwordModify",
     name: "AccountModifyPasswordPage",
-    component: () => import("@/views/Account/AccountModifyPasswordPage.vue"),
+    components: {
+      default: () => import("@/views/Account/AccountModifyPasswordPage"),
+    },
+    props: {
+      default: true,
+    },
+  },
+  {
+    path: "/account/test",
+    name: "AccountTestPage",
+    component: () => import("@/views/Account/AccountTestPage.vue"),
   },
 
   // Admin 관리자페이지
@@ -119,6 +129,38 @@ const routes = [
     path: "/cafe/CafeSite",
     name: "CafeSiteList",
     component: () => import("@/views/CafeSiteViews/CafeSiteList"),
+  },
+  {
+    path: "/cafe/Purchase",
+    name: "CafePurchase",
+    component: () => import("@/views/CafeSiteViews/CafePurchase"),
+    props: true,
+  },
+
+  //관리자 시스템
+  {
+    path: "/ManagementPage",
+    name: "ManagementPage",
+    component: () => import("@/views/ManagementSystemViews/ManagementPage"),
+  },
+  {
+    path: "/NoticeRegisterPage",
+    name: "NoticeRegisterPage",
+    component: () =>
+      import("@/views/ManagementSystemViews/noticeBoard/NoticeRegisterPage"),
+  },
+  {
+    path: "/NoticeReadPage",
+    name: "NoticeReadPage",
+    components: () =>
+      import("@/views/ManagementSystemViews/noticeBoard/NoticeReadPage"),
+    props: true,
+  },
+  {
+    path: "/NoticeModifyPage",
+    name: "NoticeModifyPage",
+    component: () =>
+      import("@/views/ManagementSystemViews/noticeBoard/NoticeModifyPage"),
   },
 
   //Policy 이용약관페이지

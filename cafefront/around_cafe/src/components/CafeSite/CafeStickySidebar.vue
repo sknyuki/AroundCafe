@@ -115,18 +115,31 @@ export default {
     },
 
     SelectdeMenuSubmit() {
-      const { totalPrice, basketlist } = this
-      this.$emit("selectedMenu", { totalPrice, basketlist })
-      console.log("넘어가는 파일:")
-      console.log(this.totalPrice, this.basketlist)
+      var result = confirm("결제 페이지로 이동하시겠습니까?")
+      if (result) {
+        //const { totalPrice, basketlist } = this
+        // console.log("넘어가는 파일:")
+        // console.log(this.totalPrice, this.basketlist)
+        this.$router.push({
+          name: "CafePurchase",
+          params: {
+            totalPrice: this.totalPrice,
+            basketlist: this.basketlist,
+          },
+        })
+        console.log("넘어가는 파일:")
+        console.log(this.totalPrice, this.basketlist)
+      }
     },
+
+    // this.$emit("selectedMenu", { totalPrice, basketlist })
   },
 }
 </script>
 <style scoped>
 .sidebar {
   position: sticky;
-  top: 500px;
+  top: 100px;
 }
 .total-price {
   color: primary-color;

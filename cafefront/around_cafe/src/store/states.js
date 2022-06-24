@@ -15,4 +15,8 @@ export default {
 
   help: null,
   myHelps: [],
+
+  //공지사항
+  noticeBoards: [],
+  noticeBoard: [],
 }

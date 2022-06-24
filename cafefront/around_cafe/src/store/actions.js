@@ -5,11 +5,13 @@ import {
   FETCH_CAFE_IMG_LISTS,
   FETCH_REVIEW_LIST,
   FETCH_REVIEW,
-  FETCH_HELPS_LIST,
+  FETCH_LIKES_LIST,
   FETCH_QNA_LIST,
   FETCH_QNA_LISTS,
-  FETCH_HELP,
-  FETCH_MY_HELPS_LIST,
+
+  //공지사항
+  FETCH_NOTICE_BOARD_LIST,
+  FETCH_NOTICE_BOARD,
 } from "./mutation-types"
 
 import axios from "axios"
@@ -29,10 +31,12 @@ export default {
       })
   },
 
-  fetchMenuLists({ commit }) {
-    return axios.get("http://localhost:7777/menu/list").then((res) => {
-      commit(FETCH_MENU_LISTS, res.data)
-    })
+  fetchMenuLists({ commit }, membNo) {
+    return axios
+      .get(`http://localhost:7777/menu/list/${membNo}`)
+      .then((res) => {
+        commit(FETCH_MENU_LISTS, res.data)
+      })
   },
 
   fetchCafeImgLists({ commit }, cafeNo) {
@@ -52,30 +56,16 @@ export default {
   },
   fetchReview({ commit }, reviewNo) {
     return axios
-      .get(`http://localhost:7777/cafe/review/list/${reviewNo}`)
+      .get(`http://localhost:7777/cafe/review/${reviewNo}`)
       .then((res) => {
         commit(FETCH_REVIEW, res.data)
       })
   },
-  fetchHelpsList({ commit }, reviewNo) {
+  fetchLikesList({ commit }, reviewNo) {
     return axios
-      .get(`http://localhost:7777/cafe/like/list/${reviewNo}`)
+      .get(`http://localhost:7777/cafe/review/${reviewNo}/like`)
       .then((res) => {
-        commit(FETCH_HELPS_LIST, res.data)
-      })
-  },
-  fetchHelp({ commit }, { reviewNo, membNo }) {
-    return axios
-      .get(`http://localhost:7777/cafe/like/${reviewNo}/${membNo}`)
-      .then((res) => {
-        commit(FETCH_HELP, res.data)
-      })
-  },
-  fetchMyHelpsList({ commit }, membNo) {
-    return axios
-      .get(`http://localhost:7777/cafe/like/list/my/${membNo}`)
-      .then((res) => {
-        commit(FETCH_MY_HELPS_LIST, res.data)
+        commit(FETCH_LIKES_LIST, res.data)
       })
   },
 
@@ -92,6 +82,21 @@ export default {
       .get(`http://localhost:7777/qna/memberList/${membNo}`)
       .then((res) => {
         commit(FETCH_QNA_LISTS, res.data)
+      })
+  },
+
+  //공지사항
+
+  fetchNoticeBoardList({ commit }) {
+    return axios.get(`http://localhost:7777/noticeBoard/list/`).then((res) => {
+      commit(FETCH_NOTICE_BOARD_LIST, res.data)
+    })
+  },
+  fetchNoticeBoard({ commit }, boardNo) {
+    return axios
+      .get(`http://localhost:7777/noticeBoard/${boardNo}`)
+      .then((res) => {
+        commit(FETCH_NOTICE_BOARD, res.data)
       })
   },
 }

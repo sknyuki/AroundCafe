@@ -48,12 +48,15 @@ class NaverOAuthService:
         phoneNum = userinfo.get('response').get('mobile')
         birthyear = userinfo.get('response').get('birthyear')
         birthdayInit = userinfo.get('response').get('birthday')
-
-        if birthyear == None:
-            birthday = "0000-%s" % birthdayInit
-        else:
-            birthday = "{year}-{monthday}".format(
-                year=birthyear, monthday=birthdayInit)
+        
+        if(birthdayInit != None) : 
+            if birthyear == None:
+                birthday = "1900-%s" % birthdayInit
+            else:
+                birthday = "{year}-{monthday}".format(
+                    year=birthyear, monthday=birthdayInit)
+        else :
+            birthday = "1900-01-01"
 
         headers = {
             "Content-Type": "application/json"
