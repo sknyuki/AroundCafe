@@ -37,7 +37,7 @@ public class NoticeBoardController {
     public NoticeBoard noticeBoardRead(@PathVariable("boardNo")Long boardNo){
         log.info("noticeBoardRead()" +boardNo);
         service.updateViewCount(boardNo);
-
+        log.info(service.read(boardNo).toString());
         return service.read(boardNo);
     }
 

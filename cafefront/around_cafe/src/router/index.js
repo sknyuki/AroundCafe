@@ -28,6 +28,9 @@ import NotFoundPage from "@/views/NotFoundPage.vue"
 // import CafePasswordPage from "../views/Cafe/CafePasswordPage.vue"
 // import CafeUserModifyPage from "../views/Cafe/CafeUserModifyPage.vue"
 
+//관리자 시스템
+import NoticeReadPage from "@/views/ManagementSystemViews/noticeBoard/NoticeReadPage"
+import NoticeModifyPage from "@/views/ManagementSystemViews/noticeBoard/NoticeModifyPage"
 //CafeMyPage
 // import CafeModifyView from "../views/CafeMyPageViews/CafeModifyView.vue"
 import CafeMenuRegister from "../views/CafeMyPageViews/CafeMenuRegister.vue"
@@ -150,17 +153,31 @@ const routes = [
       import("@/views/ManagementSystemViews/noticeBoard/NoticeRegisterPage"),
   },
   {
-    path: "/NoticeReadPage",
+    path: "/NoticeReadPage/:boardNo",
     name: "NoticeReadPage",
-    components: () =>
-      import("@/views/ManagementSystemViews/noticeBoard/NoticeReadPage"),
-    props: true,
+    components: {
+      default: NoticeReadPage,
+    },
+    props: {
+      default: true,
+    },
   },
+  // {
+  //   path: "/NoticeReadPage/:boardNo",
+  //   name: "NoticeReadPage",
+  //   component: () =>
+  //     import("@/views/ManagementSystemViews/noticeBoard/NoticeReadPage"),
+  //   props: true,
+  // },
   {
-    path: "/NoticeModifyPage",
+    path: "/NoticeModifyPage/:boardNo",
     name: "NoticeModifyPage",
-    component: () =>
-      import("@/views/ManagementSystemViews/noticeBoard/NoticeModifyPage"),
+    components: {
+      default: NoticeModifyPage,
+    },
+    props: {
+      default: true,
+    },
   },
 
   //Policy 이용약관페이지

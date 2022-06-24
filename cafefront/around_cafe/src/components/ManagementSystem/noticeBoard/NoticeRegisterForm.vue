@@ -1,40 +1,71 @@
 <template>
   <v-container>
     <v-form @submit.prevent="onSubmit">
-      <table>
-        <v-row justify="center">
-          <v-col cols="2" class="label mt-5 mr-3">Title</v-col>
-          <v-col>
-            <v-text-field color="#e3c832" type="text" v-model="title" />
-          </v-col>
-        </v-row>
+      <table style="text-align: center; margin-right: 50px; margin-left: 50px">
+        <div class="text-h4 font-weight-black mb-10">공지사항 등록</div>
+        <div>
+          <div>
+            <tr>
+              <td>
+                <validation-provider
+                  v-slot="{ errors }"
+                  name="제목"
+                  :rules="{ required: true }"
+                >
+                  <v-text-field
+                    style="width: 700px"
+                    v-model="title"
+                    label="제목"
+                    clearable
+                    outlined
+                    color="grey"
+                    :error-messages="errors"
+                  />
+                </validation-provider>
+              </td>
+            </tr>
 
-        <v-row>
-          <v-col cols="12">
-            <v-textarea
-              cols="80"
-              rows="20"
-              outlined
-              color="grey"
-              style="white-space: pre-line"
-              placeholder="Enter content"
-              class="mt-3"
-              v-model="content"
+            <tr>
+              <td>
+                <v-text-field
+                  style="width: 700px"
+                  v-model="this.writer"
+                  label="작성자"
+                  clearable
+                  disabled
+                  outlined
+                  color="grey"
+                />
+              </td>
+            </tr>
+          </div>
+        </div>
+
+        <tr>
+          <td>
+            <validation-provider
+              v-slot="{ errors }"
+              name="본문"
+              :rules="{ required: true }"
             >
-            </v-textarea>
-          </v-col>
-        </v-row>
-
-        <v-row wrap>
-          <v-btn @click="cancel" class="cancleBtn" color="grey" text>
-            <v-icon class="listIcon" justify="center">
-              mdi-keyboard-backspace</v-icon
-            ></v-btn
-          >
-          <v-btn type="submit" class="writeBtn" color="black" dark
-            >submit</v-btn
-          >
-        </v-row>
+              <v-textarea
+                style="width: 700px"
+                v-model="content"
+                label="본문"
+                clearable
+                auto-grow
+                outlined
+                color="grey"
+                rows="10"
+                :error-messages="errors"
+              />
+            </validation-provider>
+          </td>
+        </tr>
+        <v-btn @click="cancel" class="cancleBtn" color="black" dark>
+          돌아가기</v-btn
+        >
+        <v-btn type="submit" class="writeBtn" color="black" dark>submit</v-btn>
       </table>
     </v-form>
   </v-container>
@@ -47,24 +78,24 @@ export default {
     return {
       title: "",
       content: "",
-      userInfo: JSON.parse(localStorage.getItem("userInfo")),
+      writer: JSON.parse(localStorage.getItem("user")).nickname,
     }
   },
+
   methods: {
     onSubmit() {
-      this.writer = this.userInfo.userId
       const { title, content, writer } = this
       this.$emit("submit", { title, content, writer })
+      console.log(this.writer)
     },
     cancel() {
-      this.$router.push("/noticeList")
+      this.$router.push("/ManagementPage")
     },
   },
 }
 </script>
 
 <style scoped>
-@import url("https://fonts.googleapis.com/css2?family=Poiret+One&display=swap");
 .label {
   font-size: 17pt;
   margin-right: 5%;
@@ -72,7 +103,6 @@ export default {
   font-family: "Poiret One", cursive;
 }
 table {
-  background-color: #f3f3f3;
   padding: 5% 10% 5% 10%;
   margin-left: auto;
   margin-right: auto;
@@ -85,9 +115,5 @@ table {
 .writeBtn {
   margin-top: 1%;
   margin-left: 210px;
-}
-.imageDeleteBtn {
-  zoom: 0.8;
-  margin-left: 3%;
 }
 </style>
