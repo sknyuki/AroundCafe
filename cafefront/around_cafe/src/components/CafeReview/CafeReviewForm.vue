@@ -1,8 +1,8 @@
 <template>
   <form class="cafe-review">
     <div
-      v-for="review in reviews"
-      :key="review.reviewNo"
+      v-for="(review, index) in reviews"
+      :key="index"
       class="cafe-review-content"
     >
       <ol class="cafe-review-list">
@@ -56,7 +56,12 @@
               <p>{{ review.review_content }}</p>
             </div>
 
-            <CafeReviewLike v-if="review" :review="review" :myHelps="myHelps" />
+            <CafeReviewLike
+              v-if="review"
+              :review="review"
+              :myHelps="myHelps"
+              :index="index"
+            />
 
             <button
               class="delete-button"
