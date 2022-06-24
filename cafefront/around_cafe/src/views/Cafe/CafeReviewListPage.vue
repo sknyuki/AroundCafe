@@ -19,7 +19,7 @@ export default {
 
   mounted() {
     this.fetchReviewList(1)
-    this.fetchMyHelpsList(2)
+    this.fetchMyHelpsList(3)
   },
 
   methods: {

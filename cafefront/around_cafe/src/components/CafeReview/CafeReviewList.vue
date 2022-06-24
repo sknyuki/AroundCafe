@@ -12,6 +12,7 @@
             <h1>리뷰</h1>
           </header>
           <CafeReviewForm :reviews="reviews" :myHelps="myHelps" />
+         
           <div class="cafe-review-pag">
             <PaginationForm />
           </div>
