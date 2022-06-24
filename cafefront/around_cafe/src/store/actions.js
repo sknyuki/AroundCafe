@@ -5,13 +5,15 @@ import {
   FETCH_CAFE_IMG_LISTS,
   FETCH_REVIEW_LIST,
   FETCH_REVIEW,
-  FETCH_LIKES_LIST,
+  FETCH_HELPS_LIST,
   FETCH_QNA_LIST,
   FETCH_QNA_LISTS,
 
   //공지사항
   FETCH_NOTICE_BOARD_LIST,
   FETCH_NOTICE_BOARD,
+  FETCH_HELP,
+  FETCH_MY_HELPS_LIST,
 } from "./mutation-types"
 
 import axios from "axios"
@@ -61,14 +63,13 @@ export default {
         commit(FETCH_REVIEW, res.data)
       })
   },
-  fetchLikesList({ commit }, reviewNo) {
+  fetchHelpsList({ commit }, reviewNo) {
     return axios
       .get(`http://localhost:7777/cafe/review/${reviewNo}/like`)
       .then((res) => {
-        commit(FETCH_LIKES_LIST, res.data)
+        commit(FETCH_HELPS_LIST, res.data)
       })
   },
-
   fetchQnAList({ commit }, qnaNo) {
     return axios
       .get(`http://localhost:7777/qna/memberRead/${qnaNo}`)
@@ -97,6 +98,20 @@ export default {
       .get(`http://localhost:7777/noticeBoard/${boardNo}`)
       .then((res) => {
         commit(FETCH_NOTICE_BOARD, res.data)
+      })
+  },
+  fetchHelp({ commit }, { reviewNo, membNo }) {
+    return axios
+      .get(`http://localhost:7777/cafe/like/${reviewNo}/${membNo}`)
+      .then((res) => {
+        commit(FETCH_HELP, res.data)
+      })
+  },
+  fetchMyHelpsList({ commit }, membNo) {
+    return axios
+      .get(`http://localhost:7777/cafe/like/list/my/${membNo}`)
+      .then((res) => {
+        commit(FETCH_MY_HELPS_LIST, res.data)
       })
   },
 }
