@@ -18,8 +18,10 @@ public class JwtDto {
     private final String nickname;
     private final String role;
 
+    private final Long cafeNo;
+
     @Builder
-    public JwtDto(Long memNo, String accessToken, Long accessTokenExp, String refreshToken, Long refreshTokenExp, String email, String nickname, String role) {
+    public JwtDto(Long memNo, String accessToken, Long accessTokenExp, String refreshToken, Long refreshTokenExp, String email, String nickname, String role, Long cafeNo) {
         this.memNo = memNo;
         this.accessToken = accessToken;
         this.accessTokenExp = accessTokenExp;
@@ -28,5 +30,6 @@ public class JwtDto {
         this.email = email;
         this.nickname = nickname;
         this.role = role;
+        this.cafeNo = cafeNo;
     }
 }

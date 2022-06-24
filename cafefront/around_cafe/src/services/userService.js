@@ -11,6 +11,7 @@ class UserService {
       nickname: userInfo["nickname"],
       email: userInfo["email"],
       role: userInfo["role"],
+      cafeNo: userInfo["cafeNo"],
     }
 
     localStorage.setItem("user", JSON.stringify(user))
@@ -23,6 +24,7 @@ class UserService {
       nickname: userInfo["nickname"],
       email: userInfo["email"],
       role: userInfo["role"],
+      cafeNo: userInfo["cafeNo"],
     }
   }
 
