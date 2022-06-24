@@ -194,6 +194,7 @@
 <script>
 import CafeSidebar from "@/components/Cafe/CafeSidebar.vue"
 import ImgBox from "@/components/ImgBox.vue"
+//import { mapState, mapActions } from "vuex"
 
 export default {
   components: { ImgBox, CafeSidebar },
@@ -213,14 +214,14 @@ export default {
       images: "",
       comment: "",
       files: [],
-      cafeName: "",
-      cafeBusNo: "",
-      cafeTime: "",
-      cafeContent: "",
-      cafeCall: "",
-      cafeAdr1: "",
-      cafeAdr2: "",
-      cafeAdr3: "",
+      cafeName: this.cafeBoard.cafe_name,
+      cafeBusNo: this.cafeBoard.cafe_bis_no,
+      cafeTime: this.cafeBoard.cafe_time,
+      cafeContent: this.cafeBoard.cafe_content,
+      cafeCall: this.cafeBoard.cafe_call,
+      cafeAdr1: this.cafeBoard.cafe_adr1,
+      cafeAdr2: this.cafeBoard.cafe_adr2,
+      cafeAdr3: this.cafeBoard.cafe_adr3,
       states1: ["서울시"],
       states2: [
         "강남구",
@@ -252,21 +253,20 @@ export default {
       totalcharacter: 0,
     }
   },
-  created() {
-    this.cafeName = this.cafeBoard.cafe_name
-    this.cafeBusNo = this.cafeBoard.cafe_bis_no
-    this.cafeTime = this.cafeBoard.cafe_time
-    this.cafeContent = this.cafeBoard.cafe_content
-    this.cafeCall = this.cafeBoard.cafe_call
-    this.cafeAdr1 = this.cafeBoard.cafe_adr1
-    this.cafeAdr2 = this.cafeBoard.cafe_adr2
-    this.cafeAdr3 = this.cafeBoard.cafe_adr3
-  },
+  // created() {
+  //   this.cafeName = this.cafeBoard.cafe_name
+  //   this.cafeBusNo = this.cafeBoard.cafe_bis_no
+  //   this.cafeTime = this.cafeBoard.cafe_time
+  //   this.cafeContent = this.cafeBoard.cafe_content
+  //   this.cafeCall = this.cafeBoard.cafe_call
+  //   this.cafeAdr1 = this.cafeBoard.cafe_adr1
+  //   this.cafeAdr2 = this.cafeBoard.cafe_adr2
+  //   this.cafeAdr3 = this.cafeBoard.cafe_adr3
+  // },
   methods: {
     onUpload() {
       this.$refs.files.click()
     },
-
     imageUpload() {
       console.log(this.$refs.files.files)
 

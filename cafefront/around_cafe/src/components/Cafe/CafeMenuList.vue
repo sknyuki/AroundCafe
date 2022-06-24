@@ -16,6 +16,9 @@
               <div v-if="item.signature == true" class="test">
                 <span>Signature</span>
               </div>
+              <div v-if="item.sold_out == true" class="test">
+                <span>Sold_out</span>
+              </div>
             </div>
 
             <div class="menu-card-info">
@@ -32,8 +35,14 @@
           </div>
 
           <div class="menu-item-btn">
-            <button @click="signature(item)" style="font-size: 12px; right: 3%">
+            <button
+              @click="signature(item)"
+              style="font-size: 12px; right: 13%"
+            >
               시그니처
+            </button>
+            <button @click="soldOut(item)" style="font-size: 12px; right: 7%">
+              솔드아웃
             </button>
             <CafeModifyDialog :item="item" @submit="onModifyMenu" />
             <button
@@ -66,7 +75,7 @@
                     require(`@/assets/cafe/cafeMenu/${item.menu_img}`)
                   "
                 />
-                <div class="test">
+                <div v-if="item.signature == true" class="test">
                   <span>Signature</span>
                 </div>
               </div>
@@ -86,6 +95,15 @@
           </a>
 
           <div class="menu-item-btn">
+            <button
+              @click="signature(item)"
+              style="font-size: 12px; right: 13%"
+            >
+              시그니처
+            </button>
+            <button @click="soldOut(item)" style="font-size: 12px; right: 7%">
+              솔드아웃
+            </button>
             <CafeModifyDialog :item="item" @submit="onModifyMenu" />
             <!-- <button class="modify-button" aria-label="해당 메뉴 수정하기">
               <i class="icBell"></i>
@@ -244,6 +262,19 @@ export default {
         })
         .catch(() => {
           alert("등록실패!")
+        })
+    },
+    soldOut(item) {
+      let menuNo = item.menu_no
+
+      axios
+        .post(`http://localhost:7777/menu/changeSoldOut/${menuNo}`)
+        .then((res) => {
+          alert(res.data)
+          this.$router.go()
+        })
+        .catch(() => {
+          alert("삭제 실패!")
         })
     },
   },
