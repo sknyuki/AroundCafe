@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="cafe-review-footer" v-if="!onHelp[index]">
+    <div class="cafe-review-footer" v-if="onHelp">
       <v-btn @click="onLikes()" aria-label="좋아요 버튼"> 도움이 돼요 </v-btn>
       <p>
         <strong>
@@ -27,21 +27,17 @@
 
 <script>
 import axios from "axios"
-import { mapActions, mapState } from "vuex"
+import { mapState, mapActions } from "vuex"
 export default {
   name: "CafeReviewLike",
 
   computed: {
-    ...mapState(["help", "helps"]),
+    ...mapState(["help", "helps", "myHelps"]),
   },
 
   props: {
     review: {
       type: Object,
-      require: true,
-    },
-    myHelps: {
-      type: Array,
       require: true,
     },
     index: {
@@ -51,31 +47,31 @@ export default {
   },
   data() {
     return {
-      onHelp: [],
-      loginInfo: JSON.parse("2"),
+      onHelp: "",
+      loginInfo: JSON.parse("3"),
     }
   },
 
   mounted() {
     this.fetchHelpsList(this.review.reviewNo)
     this.fetchHelp({ reviewNo: this.review.reviewNo, membNo: this.loginInfo })
+    this.fetchMyHelpsList(3)
 
-    //
-
-    for (let i = 0; i < this.myHelps.length; i++) {
-      let count = 0
-
-      if (this.myHelps[i] == this.review.reviewNo) {
-        this.onHelp[count] = true
-        count++
-      } else {
-        this.onHelp[count] = false
-      }
-    }
+    setTimeout(this.change, 0.1)
   },
 
   methods: {
-    ...mapActions(["fetchHelp", "fetchHelpsList"]),
+    ...mapActions(["fetchHelp", "fetchHelpsList", "fetchMyHelpsList"]),
+    change() {
+      for (let i = 0; i < this.myHelps.length; i++) {
+        if (this.myHelps[i] == this.review.reviewNo) {
+          this.onHelp = true
+          break
+        } else {
+          this.onHelp = false
+        }
+      }
+    },
 
     onLikes() {
       axios
