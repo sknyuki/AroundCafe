@@ -166,7 +166,7 @@ export default {
 }
 .edit {
   margin-top: 15px;
-  margin-left: 155px;
+  margin-left: 400px;
 }
 .deleteBtn {
   margin-top: 9px;
