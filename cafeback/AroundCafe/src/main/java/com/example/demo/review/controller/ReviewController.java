@@ -65,7 +65,7 @@ public class ReviewController {
     public Review reviewModify (
             @PathVariable("reviewNo") Integer reviewNo,
             Review review, @RequestParam(required = false) MultipartFile file) throws Exception {
-        log.info("reviewModify(): " + review + "reviewNo" + reviewNo);
+        log.info("reviewModify(): " + review + "reviewNo: " + reviewNo);
 
         review.setReviewNo(Long.valueOf(reviewNo));
         service.modify(review, file);

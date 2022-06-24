@@ -64,7 +64,7 @@ public class Member extends BaseDateTime {
     @ToString.Exclude
     @JsonIgnoreProperties({"member"})
     @OneToMany(mappedBy = "member", fetch = FetchType.EAGER,orphanRemoval = true)
-    private Set<ReviewLike> likes = new HashSet<>();
+    private Set<ReviewLike> reviewLikes = new HashSet<>();
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Payment> payment = new ArrayList<>();
