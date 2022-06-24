@@ -1,5 +1,7 @@
 package com.example.demo.mypage.cafe.service.menu;
 
+import com.example.demo.member.entity.Member;
+import com.example.demo.member.repository.MemberRepository;
 import com.example.demo.mypage.cafe.dto.CafeMenuDto;
 import com.example.demo.mypage.cafe.entity.Cafe;
 import com.example.demo.mypage.cafe.entity.CafeMenu;
@@ -8,6 +10,7 @@ import com.example.demo.mypage.cafe.repository.menu.MenuRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -114,6 +117,7 @@ public class MenuServiceImpl implements MenuService{
     @Override
     public List<CafeMenu> list(Integer membNo) {
         Cafe cafe = cafeRepository.findByMemberNo(Long.valueOf(membNo)).orElseGet(null);
+        log.info("cafe name:" +cafe.getCafe_name());
         Long CafeNo = cafe.getCafeNo();
         log.info("cafe no = " + CafeNo);
 
@@ -124,13 +128,16 @@ public class MenuServiceImpl implements MenuService{
     @Override
     public void delete(Integer menuNo) throws IOException {
         CafeMenu menu = repository.findById(Long.valueOf(menuNo)).orElseGet(null);
+        log.info("cafe name" +menu.getMenu_name());
 
         if(menu.getMenu_img() != null) {
             Path file = Paths.get("../../cafefront/around_cafe/src/assets/cafe/cafeMenu/" + menu.getMenu_img());
             Files.delete(file);
+            log.info("img is deleted!!");
         }
 
         repository.deleteById(Long.valueOf(menuNo));
+        log.info("delete menu complete!");
     }
 
     @Transactional
@@ -145,50 +152,42 @@ public class MenuServiceImpl implements MenuService{
     public String changeSignature(Integer menuNo) {
 
         Integer countSignature = repository.countSignature();
-        
-        if(countSignature >=2) {
-            return "시그니처가 두개가 넘었습니다.";
-        }else {
-            CafeMenu menu = repository.findById(Long.valueOf(menuNo)).orElseGet(null);
-            
-            menu.setSignature(true);
+        CafeMenu menu = repository.findById(Long.valueOf(menuNo)).orElseGet(null);
+
+
+        if(menu.getSignature() == true){
+            menu.setSignature(false);
             repository.save(menu);
-            return "시그니처가 등록되었습니다.";
+            return "시그니처를 해제했습니다.";
+        }else {
+            if (countSignature >=2){
+                return "시그니처가 두개가 넘었습니다.";
+            }else {
+                menu.setSignature(true);
+                repository.save(menu);
+                return "시그니처가 등록되었습니다.";
+            }
         }
         
     }
-    
-    @Transactional
-    @Override
-    public String deleteSignature(Integer menuNo) {
-        
-        CafeMenu menu = repository.findById(Long.valueOf(menuNo)).orElseGet(null);
 
-        menu.setSignature(false);
-        repository.save(menu);
-        return "시그니처가 삭제되었습니다.";
-        
-    }
 
     @Override
     public String changeSoldOut(Integer menuNo) {
         CafeMenu menu = repository.findById(Long.valueOf(menuNo)).orElseGet(null);
 
-        menu.setSold_out(true);
-        repository.save(menu);
-        return "솔드아웃 메뉴로 등록되었습니다.";
+        if(menu.getSold_out() == true) {
+            menu.setSold_out(false);
+            repository.save(menu);
+            return "솔드아웃 메뉴 취소하였습니다..";
+        }else
+            menu.setSold_out(true);
+            repository.save(menu);
+            return "솔드아웃 메뉴로 등록되었습니다.";
         
     }
 
-    @Override
-    public String deleteSoldOut(Integer menuNo) {
-        CafeMenu menu = repository.findById(Long.valueOf(menuNo)).orElseGet(null);
-
-        menu.setSold_out(false);
-        repository.save(menu);
-        return "솔드아웃 메뉴가 삭제되었습니다.";
-    }
-
+    @Transactional
     @Override
     public List<CafeMenu> soldList() {
         log.info("sold out list");
@@ -205,6 +204,7 @@ public class MenuServiceImpl implements MenuService{
         return cafeMenus;
     }
 
+    @Transactional
     @Override
     public List<CafeMenu> sigList() {
         log.info("signature list");

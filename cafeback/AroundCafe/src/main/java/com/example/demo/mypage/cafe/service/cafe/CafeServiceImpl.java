@@ -115,7 +115,10 @@ public class CafeServiceImpl implements CafeService{
     @Transactional
     @Override
     public Cafe read(Integer membNo) {
-        Cafe cafe = repository.findByMemberNo(Long.valueOf(membNo)).orElseGet(null);
+        Member member = memberRepository.findById(Long.valueOf(membNo)).orElseGet(null);
+        log.info("member id: " +member.getMemId());
+        Cafe cafe = repository.findByMemberInfo(member).orElseGet(null);
+        log.info("cafe info" + cafe);
 
         return cafe;
     }

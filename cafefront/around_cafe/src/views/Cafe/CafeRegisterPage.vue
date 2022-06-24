@@ -23,7 +23,7 @@ export default {
   },
   mounted() {
     this.fetchcafeBoard(2)
-    this.fetchCafeImgLists(this.cafeBoard.cafeNo)
+    this.fetchCafeImgLists(1)
   },
   methods: {
     ...mapActions(["fetchcafeBoard", "fetchCafeImgLists"]),
@@ -71,6 +71,7 @@ export default {
         .put(`http://localhost:7777/cafe/modify/${membNo}`, formData)
         .then(() => {
           alert("수정되었습니다!")
+          this.$router.go()
         })
         .catch(() => {
           alert("수정 실패!")

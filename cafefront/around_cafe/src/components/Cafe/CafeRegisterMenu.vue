@@ -14,14 +14,19 @@
               class="form-input input-40"
               style="width: 350px"
               type="text"
-              placeholder="메뉴 검색후 엔터"
+              placeholder="메뉴 검색"
               v-model="modi_name"
               @keydown.enter.prevent="findList"
               @change="isSearchempty(modi_name)"
             />
-            <v-btn @click="resetList">초기화</v-btn>
+            <button @click="resetList">X</button>
+            <v-btn @click="findList">검색</v-btn>
           </div>
-          <CafeMenuList :menuLists="menuLists" :fileterArray="fileterArray" />
+          <br />
+          <div v-if="menuLists.length == 0"><p>메뉴를 등록해주세요!</p></div>
+          <div v-else>
+            <CafeMenuList :fileterArray="fileterArray" />
+          </div>
         </div>
       </div>
     </div>
@@ -80,13 +85,11 @@ export default {
       )
 
       if (file != null) {
-        for (let idx = 0; idx < 1; idx++) {
-          formData.append("fileList", file[idx])
-        }
+        formData.append("fileList", file)
       }
 
       console.log(fileInfo)
-      console.log(file)
+      console.log(formData)
       axios
         .post("http://localhost:7777/menu/register", formData)
         .then((res) => {
@@ -127,14 +130,19 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.v-btn {
-  position: absolute;
-  top: 7px;
-  left: 270px;
-  min-width: 13px !important;
-  height: 24px !important;
-}
 .input {
   position: relative;
+}
+button {
+  position: absolute;
+  top: 7px;
+  left: 320px;
+  width: 13px;
+  height: 24px;
+}
+.v-btn {
+  position: absolute;
+  top: 0px;
+  left: 360px;
 }
 </style>

@@ -19,7 +19,7 @@ public class CafeImgTable {
     @Column(length = 128, nullable = true)
     private String cafe_img;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "cafe_no")
     @JsonIgnore
     private Cafe cafe;

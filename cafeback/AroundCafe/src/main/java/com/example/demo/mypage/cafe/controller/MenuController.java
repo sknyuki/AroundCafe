@@ -93,7 +93,7 @@ public class MenuController {
 
     @GetMapping("/list/{membNo}")
     public List<CafeMenu> menuList(@PathVariable("membNo") Integer membNo) {
-        log.info("get menu list");
+        log.info("get menu list, member no: " +membNo);
 
         return service.list(membNo);
     }
@@ -132,11 +132,6 @@ public class MenuController {
         return service.changeSignature(menuNo);
     }
 
-    @PostMapping("/delSignature/{menuNo}")
-    public String deleteSignature(@PathVariable("menuNo") Integer menuNo) {
-        log.info("delete signature");
-        return service.deleteSignature(menuNo);
-    }
 
     @PostMapping("/changeSoldOut/{menuNo}")
     public String registerSoldOut(@PathVariable("menuNo") Integer menuNo) {
@@ -144,11 +139,6 @@ public class MenuController {
         return service.changeSoldOut(menuNo);
     }
 
-    @PostMapping("/delSoldOut/{menuNo}")
-    public String deleteSoldOut(@PathVariable("menuNo") Integer menuNo) {
-        log.info("delete sold out");
-        return service.deleteSoldOut(menuNo);
-    }
 
     @GetMapping("/findMenu/{cafe_no}/{cafe_name}")
     public List<CafeMenu> findMenu(@PathVariable("cafe_no")Integer cafe_no,

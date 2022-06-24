@@ -1,11 +1,11 @@
 <template>
-  <CafeMenuRegister @submit="onSubmitMenu" :menuLists="menuLists" />
+  <CafeRegisterMenu :menuLists="menuLists" />
 </template>
 <script>
-import CafeMenuRegister from "@/components/Cafe/CafeRegisterMenu.vue"
+import CafeRegisterMenu from "@/components/Cafe/CafeRegisterMenu.vue"
 import { mapState, mapActions } from "vuex"
 export default {
-  components: { CafeMenuRegister },
+  components: { CafeRegisterMenu },
   name: "CafeRegisterMenuPage",
   computed: {
     ...mapState(["menuLists"]),
@@ -15,7 +15,6 @@ export default {
   },
   methods: {
     ...mapActions(["fetchMenuLists"]),
-    onSubmitMenu() {},
   },
 }
 </script>
