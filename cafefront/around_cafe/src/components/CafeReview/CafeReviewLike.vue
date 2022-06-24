@@ -1,9 +1,7 @@
 <template>
   <div>
-    <div class="cafe-review-footer" v-if="onHelp">
-      <v-btn @click="onLikes()" aria-label="좋아요 버튼" color="#3f51b5">
-        <i class="icCheck"></i> 도움됨
-      </v-btn>
+    <div class="cafe-review-footer" v-if="!onHelp[index]">
+      <v-btn @click="onLikes()" aria-label="좋아요 버튼"> 도움이 돼요 </v-btn>
       <p>
         <strong>
           <span> {{ review.reviewLike.length }}</span
@@ -13,7 +11,7 @@
     </div>
 
     <div class="cafe-review-footer" v-else>
-      <v-btn @click="onLikes()" aria-label="좋아요 버튼" color="grey">
+      <v-btn @click="onLikes()" aria-label="좋아요 버튼" color="#3f51b5">
         <i class="icCheck"></i> 도움됨
       </v-btn>
 
@@ -46,10 +44,14 @@ export default {
       type: Array,
       require: true,
     },
+    index: {
+      type: Number,
+      require: true,
+    },
   },
   data() {
     return {
-      onHelp: "",
+      onHelp: [],
       loginInfo: JSON.parse("2"),
     }
   },
@@ -58,12 +60,16 @@ export default {
     this.fetchHelpsList(this.review.reviewNo)
     this.fetchHelp({ reviewNo: this.review.reviewNo, membNo: this.loginInfo })
 
-    this.onHelp = false
+    //
 
     for (let i = 0; i < this.myHelps.length; i++) {
+      let count = 0
+
       if (this.myHelps[i] == this.review.reviewNo) {
-        this.myHelps
-        this.onHelp = true
+        this.onHelp[count] = true
+        count++
+      } else {
+        this.onHelp[count] = false
       }
     }
   },
