@@ -114,7 +114,20 @@
               ></textarea>
               <span>{{ totalcharacter }} / 1000</span>
             </div>
-
+            <div>내가 등록한 이미지 보기</div>
+            <div
+              v-for="(item, index) in cafeImgLists"
+              :key="index"
+              class="select-picture"
+            >
+              <img
+                v-bind:src="
+                  require(`@/assets/cafe/cafeMypage/${item.cafe_img}`)
+                "
+                width="280px;"
+                class="select-picture-contents"
+              />
+            </div>
             <div>
               <div v-if="!files.length" class="cafe-register-image">
                 <button
@@ -175,15 +188,6 @@
               </div>
             </div>
 
-            <div v-for="(item, index) in cafeImgLists" :key="index">
-              <img
-                v-bind:src="
-                  require(`@/assets/cafe/cafeMypage/${item.cafe_img}`)
-                "
-                width="280px;"
-              />
-            </div>
-
             <v-btn class="btn-indigo btn-40" type="submit">등록하기 </v-btn>
           </form>
         </div>
@@ -214,14 +218,6 @@ export default {
       images: "",
       comment: "",
       files: [],
-      cafeName: this.cafeBoard.cafe_name,
-      cafeBusNo: this.cafeBoard.cafe_bis_no,
-      cafeTime: this.cafeBoard.cafe_time,
-      cafeContent: this.cafeBoard.cafe_content,
-      cafeCall: this.cafeBoard.cafe_call,
-      cafeAdr1: this.cafeBoard.cafe_adr1,
-      cafeAdr2: this.cafeBoard.cafe_adr2,
-      cafeAdr3: this.cafeBoard.cafe_adr3,
       states1: ["서울시"],
       states2: [
         "강남구",
@@ -251,19 +247,30 @@ export default {
         "중랑구",
       ],
       totalcharacter: 0,
+      cafeName: "",
+      cafeBusNo: "",
+      cafeTime: "",
+      cafeContent: "",
+      cafeCall: "",
+      cafeAdr1: "",
+      cafeAdr2: "",
+      cafeAdr3: "",
     }
   },
-  // created() {
-  //   this.cafeName = this.cafeBoard.cafe_name
-  //   this.cafeBusNo = this.cafeBoard.cafe_bis_no
-  //   this.cafeTime = this.cafeBoard.cafe_time
-  //   this.cafeContent = this.cafeBoard.cafe_content
-  //   this.cafeCall = this.cafeBoard.cafe_call
-  //   this.cafeAdr1 = this.cafeBoard.cafe_adr1
-  //   this.cafeAdr2 = this.cafeBoard.cafe_adr2
-  //   this.cafeAdr3 = this.cafeBoard.cafe_adr3
-  // },
+  mounted() {
+    setTimeout(this.change, 50)
+  },
   methods: {
+    change() {
+      this.cafeName = this.cafeBoard.cafe_name
+      this.cafeBusNo = this.cafeBoard.cafe_bis_no
+      this.cafeTime = this.cafeBoard.cafe_time
+      this.cafeContent = this.cafeBoard.cafe_content
+      this.cafeCall = this.cafeBoard.cafe_call
+      this.cafeAdr1 = this.cafeBoard.cafe_adr1
+      this.cafeAdr2 = this.cafeBoard.cafe_adr2
+      this.cafeAdr3 = this.cafeBoard.cafe_adr3
+    },
     onUpload() {
       this.$refs.files.click()
     },

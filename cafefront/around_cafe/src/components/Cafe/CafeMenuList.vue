@@ -66,6 +66,10 @@
             <div class="menu-card">
               <div class="menu-card-image">
                 <img
+                  v-if="item.sold_out == true"
+                  src="@/assets/images/sold_out.jpg"
+                />
+                <img
                   v-if="item.menu_img == null"
                   v-bind:src="require(`@/assets/cafe/cafeMenu/imgNull.png`)"
                 />
@@ -105,9 +109,6 @@
               솔드아웃
             </button>
             <CafeModifyDialog :item="item" @submit="onModifyMenu" />
-            <!-- <button class="modify-button" aria-label="해당 메뉴 수정하기">
-              <i class="icBell"></i>
-            </button> -->
             <button
               @click="onDeleteMenu(item)"
               class="delete-button"
