@@ -12,7 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,7 +39,7 @@ public class ReviewLikeServiceImpl implements ReviewLikeService{
 
         if(repository.findReviewLikeReviewNoAndMemberNo(reviewNo, membNo).isEmpty()) {
             reviewlike.setMember(member);
-            reviewlike.setReview_info(review);
+            reviewlike.setReview(review);
             repository.save(reviewlike);
             return true;
 
@@ -51,7 +51,7 @@ public class ReviewLikeServiceImpl implements ReviewLikeService{
     }
 
     @Override
-    public ReviewLike likes(Long reviewNo, Long membNo) {
+    public ReviewLike helps(Long reviewNo, Long membNo) {
         Optional<ReviewLike> maybeReadLikes = repository.findReviewLikeReviewNoAndMemberNo(reviewNo, membNo);
         if (maybeReadLikes.equals(Optional.empty())) {
             return null;
@@ -67,34 +67,41 @@ public class ReviewLikeServiceImpl implements ReviewLikeService{
     }
 
     @Override
-    public List<ReviewLike> myLikes(Long membNo) {
-       // return repository.findByMemberNo(membNo);
+    public List<Long> myHelps(Long membNo) {
 
+        List<Long> reviewList = new ArrayList<>();
 
         List<ReviewLike> rlList = repository.findByMemberNo(membNo);
+        for(ReviewLike reviewLike :rlList){
+            reviewList.add(reviewLike.getReview().getReviewNo());
+        }
+        /*
         ReviewLike first = rlList.get(0);
 
         Member member = first.getMember();
         Long id = member.getMemNo();
 
         log.info("id: " + id);
-        log.info("mem_id: " + member.getMemId());
+        log.info("rlList: " + rlList);
 
+         */
+
+
+
+/*
         List<Review> rList = reviewRepository.findReviewByMemberNo(membNo);
         Review second = rList.get(0);
-        log.info("id: " + id);
-        log.info("mem_id: " + member.getMemId());
 
-
-        Review review = first.getReview_info();
+        Review review = (Review) second.getReviewLike();
         Long review_num = review.getReviewNo();
 
         log.info("review_num: " + review_num);
         log.info("review_Like : " + review.getReviewLike());
 
 
+ */
 
-        return rlList;
+        return reviewList;
 
 
     }

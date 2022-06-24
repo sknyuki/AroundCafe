@@ -55,6 +55,7 @@
 
               <p>{{ review.review_content }}</p>
             </div>
+
             <CafeReviewLike v-if="review" :review="review" :myHelps="myHelps" />
 
             <button
@@ -62,7 +63,7 @@
               aria-label="해당 리뷰 삭제하기"
               type="button"
             >
-              <i class="icClose"></i>
+              <i @click="deleteReview()" class="icClose"></i>
             </button>
 
             <CafeReviewModify
@@ -70,20 +71,6 @@
               :review="review"
               @submit="onModify"
             />
-
-            <!--
-            <button @click="onReviewDialog()" class="delete-button" aria-label="다이얼로그 등장" type="button">
-
-              <i class="icHeart">  </i>
-      
-            </button>
-            
-
-            <v-dialog max-width="750" v-model="reviewDialog">
-
-            <cafe-review-modify v-if="review" :review="review" @submit="onModify()"/>
-
-            </v-dialog>-->
           </article>
         </li>
       </ol>
@@ -95,7 +82,6 @@ import StarRating from "vue-star-rating"
 import CafeReviewModify from "@/components/CafeReview/CafeReviewModify"
 import CafeReviewLike from "@/components/CafeReview/CafeReviewLike"
 import axios from "axios"
-import { mapActions, mapState } from "vuex"
 
 export default {
   name: "ReviewForm",
@@ -114,35 +100,16 @@ export default {
       required: true,
     },
   },
-  computed: {
-    ...mapState(["myHelps"]),
-  },
-  mounted() {
-    this.fetchMyHelpsList(this.loginInfo)
-  },
-
   data() {
     return {
-      loginInfo: JSON.parse("1"),
+      loginInfo: JSON.parse("2"),
       reviewDialog: false,
       reviewNo: "",
     }
   },
-  /*
-  mounted() {
-    this.onHelp = false
-    for (let i = 0; i < this.reviews[0].reviewLike.length; i++) {
-      if (this.myHelps[i].review.reviewNo == this.review.reviewNo) {
-        this.onHelp = true
-      }
-    }
-  },*/
 
   methods: {
-    ...mapActions(["fetchMyHelpsList"]),
-
     onModify(payload) {
-      console.log(this.reviewNo)
       const { reviewNo, star_score, review_content, cafeNum, file } = payload
       let formData = new FormData()
       if (file != null) {
@@ -187,10 +154,7 @@ export default {
 
     onLikes(reviewNo) {
       axios
-        .post(`http://localhost:7777/likes/${reviewNo}/${this.loginInfo}`, {
-          reviewNo,
-          memberNo: this.loginInfo,
-        })
+        .post(`http://localhost:7777/likes/${reviewNo}/${this.loginInfo}`, {})
         .then(() => {
           history.go(0)
         })
@@ -198,19 +162,20 @@ export default {
           alert("문제 발생!")
         })
     },
-    /*
-    onLikes() {
+    deleteReview() {
+      console.log()
       axios
-        .post(
-          `http://localhost:7777/cafe/like/${this.review.reviewNo}/${this.membNo}`
-        )
+        .delete(`http://localhost:7777/cafe/review/${this.review.reviewNo}`)
         .then(() => {
-          history.go(0)
+          alert("삭제 완료")
+          this.$router.push({
+            name: "CafeReviewListPage",
+          })
         })
         .catch(() => {
-          alert("문제 발생!")
+          alert("삭제 실패!")
         })
-    },*/
+    },
   },
 }
 </script>

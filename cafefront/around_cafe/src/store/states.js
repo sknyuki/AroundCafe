@@ -6,14 +6,14 @@ export default {
 
   reviews: [],
   review: null,
-  likes: [],
+  helps: [],
 
   qnaList: [],
   qnaLists: [],
 
   user: [],
 
-  like: null,
+  help: null,
   myHelps: [],
 
   //공지사항

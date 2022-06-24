@@ -6,9 +6,9 @@ import java.util.List;
 public interface  ReviewLikeService {
 
     public boolean register (Long reviewNo, Long membNo, ReviewLike reviewlike);
-    ReviewLike likes (Long reviewNo, Long membNo);
+    ReviewLike helps (Long reviewNo, Long membNo);
     List<ReviewLike> list (Long reviewNo);
-    List<ReviewLike> myLikes (Long membNo);
+    List<Long> myHelps (Long membNo);
 }
 
 

@@ -22,6 +22,7 @@ public class MemberRole {
     @Column(name = "blacklist")
     private Boolean isMemberOnBlacklist;
 
+
     @OneToOne(mappedBy = "role")
     private Member member;
 

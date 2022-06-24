@@ -5,6 +5,9 @@
 </template>
 <script>
 import CafeReviewList from "@/components/CafeReview/CafeReviewList.vue"
+import axios from "axios"
+import userService from "@/services/userService"
+import tokenService from "@/services/tokenService"
 import { mapActions, mapState } from "vuex"
 
 export default {
@@ -16,12 +19,11 @@ export default {
 
   mounted() {
     this.fetchReviewList(1)
-    this.fetchMyHelpsList(1)
-    this.fetchLikesList(1)
+    this.fetchMyHelpsList(2)
   },
 
   methods: {
-    ...mapActions(["fetchReviewList", "fetchMyHelpsList", "fetchLikesList"]),
+    ...mapActions(["fetchReviewList", "fetchMyHelpsList"]),
 
     onReviewDialog() {
       this.reviewDialog = true
@@ -30,6 +32,26 @@ export default {
     closeDialog() {
       this.reviewDialog = false
     },
+  },
+  logout() {
+    const url = "http://localhost:7777/auth/logout"
+    const refreshToken = tokenService.getRefreshToken()
+    const config = {
+      headers: {
+        refresh_token: `${refreshToken}`,
+      },
+    }
+    axios
+      .delete(url, config)
+      .then(() => {
+        userService.deleteUserInfo()
+        tokenService.deleteTokens()
+        alert("로그아웃")
+      })
+
+      .catch((err) => {
+        alert(err)
+      })
   },
 }
 </script>
