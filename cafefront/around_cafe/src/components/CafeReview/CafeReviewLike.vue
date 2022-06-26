@@ -1,7 +1,9 @@
 <template>
   <div>
     <div class="cafe-review-footer" v-if="onHelp">
-      <v-btn @click="onLikes()" aria-label="좋아요 버튼"> 도움이 돼요 </v-btn>
+      <v-btn @click="onLikes()" aria-label="좋아요 버튼" class="btn-indigo">
+        <i class="icCheck"></i> 도움됨
+      </v-btn>
       <p>
         <strong>
           <span> {{ review.reviewLike.length }}</span
@@ -11,8 +13,8 @@
     </div>
 
     <div class="cafe-review-footer" v-else>
-      <v-btn @click="onLikes()" aria-label="좋아요 버튼" color="#3f51b5">
-        <i class="icCheck"></i> 도움됨
+      <v-btn @click="onLikes()" aria-label="좋아요 버튼" class="btn-outlined">
+        도움이 돼요
       </v-btn>
 
       <p>
@@ -94,3 +96,7 @@ export default {
   },
 }
 </script>
+
+<style lang="scss" scoped>
+@import "~@/assets/scss/components/cafe/cafe-review-btn";
+</style>
