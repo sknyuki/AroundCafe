@@ -12,7 +12,6 @@
                     <span class="sm-hidden">Around Cafe</span>
                   </router-link>
                 </h1>
-
                 <v-btn
                   class="gnb-icon-button is-menu sm-only"
                   icon
@@ -72,7 +71,6 @@
                         :menuModal="menuModal"
                         :class="{ active: isActive }"
                         :user="user"
-                        :cafeNo="cafeNo"
                       />
                     </div>
                     <!-- <router-link
@@ -140,14 +138,13 @@ export default {
     }
   },
   computed: {
-    ...mapState(["user", "cafeNo"]),
+    ...mapState(["user"]),
   },
   mounted() {
-    this.fetchUser(), this.fetchcafeNo(this.user.memNo)
+    this.fetchUser()
   },
   methods: {
     ...mapActions(["fetchUser"]),
-    ...mapActions(["fetchcafeNo"]),
     toggleMyMenu() {
       this.isActive = !this.isActive
     },
