@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CafeMenuDto {
     private Long cafe_no;
+    private Long memNo;
     private String menu_name;
     private String menu_price;
     private String menu_content;

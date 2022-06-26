@@ -23,14 +23,14 @@ public class CafeController {
     private CafeService service;
 
     @ResponseBody
-    @PutMapping(value = "/modify/{membNo}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
-    public String  cafeRegister (@PathVariable("membNo") Integer membNo,
+    @PutMapping(value = "/modify/{memNo}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
+    public String  cafeRegister (@PathVariable("memNo") Integer memNo,
                               @RequestPart(value = "info", required = false) Cafe info,
                               @RequestPart(value = "fileList", required = false)List<MultipartFile> fileList) throws IOException {
 
         log.info("uploadContents()" + info);
 
-        service.notIncludeFileModifyCafe(membNo,info);
+        service.notIncludeFileModifyCafe(memNo,info);
 
         if(fileList != null) {
             service.checkSavedImg(info.getCafeNo());
@@ -61,16 +61,16 @@ public class CafeController {
 //        return service.cafeMypageread(membNo);
 //    }
 
-    @GetMapping("/mypage/read/{membNo}")
-    public Cafe myPageRead1(@PathVariable("membNo") Integer membNo) {
-        log.info("read Page no : "  + membNo);
-        return service.read(membNo);
+    @GetMapping("/mypage/read/{memNo}")
+    public Cafe myPageRead1(@PathVariable("memNo") Integer memNo) {
+        log.info("read Page no : "  + memNo);
+        return service.read(memNo);
     }
 
-    @GetMapping("/mypageImg/{cafeNo}")
-    public List<CafeImgTable> readCafeImgTable(@PathVariable("cafeNo") Integer cafeNo) {
+    @GetMapping("/mypageImg/{memNo}")
+    public List<CafeImgTable> readCafeImgTable(@PathVariable("memNo") Integer memNo) {
         log.info("read cafe img list");
-        return service.imgList(cafeNo);
+        return service.imgList(memNo);
     }
 
     @GetMapping("/list")
@@ -85,4 +85,5 @@ public class CafeController {
 
         service.delete(cafeNo);
     }
+
 }

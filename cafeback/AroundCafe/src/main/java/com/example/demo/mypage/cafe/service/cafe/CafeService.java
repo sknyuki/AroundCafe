@@ -17,9 +17,10 @@ public interface CafeService {
 
     public void checkSavedImg(Long cafeNo) throws IOException;
 
-    public List<CafeImgTable> imgList(Integer cafeNo);
+    public List<CafeImgTable> imgList(Integer memNo);
 
     public List<Cafe> cafeList();
 
     public void delete(String cafeNo) throws IOException;
+
 }

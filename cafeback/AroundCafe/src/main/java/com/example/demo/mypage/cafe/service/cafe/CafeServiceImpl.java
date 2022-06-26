@@ -10,16 +10,13 @@ import com.example.demo.mypage.cafe.repository.menu.MenuRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Slf4j
@@ -36,13 +33,20 @@ public class CafeServiceImpl implements CafeService{
     @Autowired
     MenuRepository menuRepository;
 
+    @Transactional
+    @Override
+    public void notIncludeFileModifyCafe(Integer membNo,Cafe info) {
+        Member member = memberRepository.findById(Long.valueOf(membNo)).orElseGet(null);
+        info.setMemberInfo(member);
+
+        repository.save(info);
+    }
 
     @Transactional
     @Override
     public void includeFileModifyCafe(Long cafeNo, String cafeImg) throws IOException {
         log.info("***service -> modify yes~ file info : "+ cafeNo);
-
-        Cafe cafe = repository.findById(cafeNo).orElseGet(null);
+        Cafe cafe = repository.findById(Long.valueOf(cafeNo)).orElseGet(null);
         CafeImgTable img = CafeImgTable.builder()
                 .cafe_img(cafeImg)
                 .cafe(cafe)
@@ -72,8 +76,9 @@ public class CafeServiceImpl implements CafeService{
 
     @Transactional
     @Override
-    public List<CafeImgTable> imgList(Integer cafeNo) {
-        return cafeImgRepository.CafeImgList(Long.valueOf(cafeNo));
+    public List<CafeImgTable> imgList(Integer memNo) {
+        Cafe cafe = repository.findByMemberNo(Long.valueOf(memNo)).orElseGet(null);
+        return cafeImgRepository.CafeImgList(cafe.getCafeNo());
     }
 
     @Transactional
@@ -93,16 +98,7 @@ public class CafeServiceImpl implements CafeService{
     }
 
 
-    @Transactional
-    @Override
-    public void notIncludeFileModifyCafe(Integer membNo,Cafe info) {
 
-        Member member = memberRepository.findById(Long.valueOf(membNo)).orElseGet(null);
-
-        info.setMemberInfo(member);
-
-        repository.save(info);
-    }
 
 //    @Override
 //    public Cafe cafeMypageread(Integer membNo) {

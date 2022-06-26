@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 @Slf4j
 @RestController
@@ -59,65 +60,60 @@ public class MenuController {
     }
 
     @ResponseBody
-    @PutMapping(value = "/modify/{cafeNo}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
-    public String menuModify(@PathVariable("cafeNo") Integer cafeNo,
+    @PutMapping(value = "/modify/{memNo}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
+    public String menuModify(@PathVariable("memNo") Integer memNo,
                                @RequestPart(value = "info", required = false) CafeMenu info,
                                @RequestPart(value = "fileList", required = false) List<MultipartFile> fileList) {
 
-        log.info("cafe name : " + cafeNo);
-        log.info("cafe info : " +info);
+        log.info("member name : " + memNo);
+        log.info("menu info : " +info);
         log.info("file name : " +fileList);
 
         if(fileList != null) {
             try{
                 for(MultipartFile multipartFile : fileList) {
-                    String fileName = cafeNo + "." + multipartFile.getOriginalFilename();
+                    UUID uuid = UUID.randomUUID();
+                    String fileName = uuid + "." + multipartFile.getOriginalFilename();
 
                     FileOutputStream writer = new FileOutputStream(
                             "../../cafefront/around_cafe/src/assets/cafe/cafeMenu/" + fileName);
 
                     writer.write(multipartFile.getBytes());
                     writer.close();
-                    service.includeImgModify(info, fileName, cafeNo);
+                    service.includeImgModify(info, fileName, memNo);
                 }
             } catch (Exception e) {
                 return "modify is failed.";
             }
         }else if (fileList == null) {
-            service.exceptImgModify(info, cafeNo);
+            service.exceptImgModify(info, memNo);
         }
 
         log.info("modify is complete");
         return "modify complete!!";
     }
 
-    @GetMapping("/list/{membNo}")
-    public List<CafeMenu> menuList(@PathVariable("membNo") Integer membNo) {
-        log.info("get menu list, member no: " +membNo);
+    @GetMapping("/list/{memNo}")
+    public List<CafeMenu> menuList(@PathVariable("memNo") Integer memNo) {
+        log.info("get menu list, member no: " +memNo);
 
-        return service.list(membNo);
+        return service.list(memNo);
     }
 
-    @GetMapping("/list")
-    public List<CafeMenu> menuList1() {
-        log.info("get menu list");
-
-        return service.list1();
-    }
-
-    @GetMapping("/signatureList")
-    public List<CafeMenu> signatureList() {
-        log.info("get menu list");
-
-        return service.sigList();
-    }
-
-    @GetMapping("/soldOutList")
-    public List<CafeMenu> soldOutList() {
-        log.info("get menu list");
-
-        return service.soldList();
-    }
+//
+//    @GetMapping("/signatureList")
+//    public List<CafeMenu> signatureList() {
+//        log.info("get menu list");
+//
+//        return service.sigList();
+//    }
+//
+//    @GetMapping("/soldOutList")
+//    public List<CafeMenu> soldOutList() {
+//        log.info("get menu list");
+//
+//        return service.soldList();
+//    }
 
     @DeleteMapping("/delete/{menuNo}")
     public void deleteMenu (@PathVariable("menuNo") Integer menuNo) throws IOException {
