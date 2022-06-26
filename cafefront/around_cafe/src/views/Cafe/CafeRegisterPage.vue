@@ -18,14 +18,21 @@ import axios from "axios"
 export default {
   name: "CafeRegisterPage",
   components: { CafeRegister },
+  props: {
+    cafeNo: {
+      type: Number,
+      required: true,
+    },
+  },
   computed: {
-    ...mapState(["cafeBoard", "cafeImgLists"]),
+    ...mapState(["user", "cafeBoard", "cafeImgLists"]),
   },
   mounted() {
-    this.fetchcafeBoard(2)
-    this.fetchCafeImgLists(1)
+    this.fetchUser(), this.fetchcafeBoard(this.user.memNo)
+    this.fetchCafeImgLists(this.cafeNo)
   },
   methods: {
+    ...mapActions(["fetchUser"]),
     ...mapActions(["fetchcafeBoard", "fetchCafeImgLists"]),
     contentsSubmit(payload) {
       const {
@@ -66,7 +73,7 @@ export default {
       }
 
       console.log(fileInfo)
-      let membNo = 2
+      let membNo = this.user.memNo
       axios
         .put(`http://localhost:7777/cafe/modify/${membNo}`, formData)
         .then(() => {

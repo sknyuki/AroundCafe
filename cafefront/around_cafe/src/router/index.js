@@ -23,7 +23,7 @@ import NotFoundPage from "@/views/NotFoundPage.vue"
 // import AdminMemberListPage from "../views/Admin/AdminMemberListPage.vue"
 
 // Cafe 카페페이지
-// import CafeRegisterPage from "../views/Cafe/CafeRegisterPage.vue"
+import CafeRegisterPage from "../views/Cafe/CafeRegisterPage.vue"
 // import CafeReviewListPage from "../views/Cafe/CafeReviewListPage.vue"
 // import CafePasswordPage from "../views/Cafe/CafePasswordPage.vue"
 // import CafeUserModifyPage from "../views/Cafe/CafeUserModifyPage.vue"
@@ -102,29 +102,46 @@ const routes = [
 
   // Cafe 카페페이지
   {
-    path: "/cafe/register",
+    path: "/cafe/register/:cafeNo",
     name: "CafeRegisterPage",
-    component: () => import("@/views/Cafe/CafeRegisterPage.vue"),
+    components: { default: CafeRegisterPage },
+    props: {
+      default: true,
+    },
   },
   {
-    path: "/cafe/review",
+    path: "/cafe/review/:cafeNo",
     name: "CafeReviewListPage",
-    component: () => import("@/views/Cafe/CafeReviewListPage.vue"),
+    components: {
+      default: () => import("@/views/Cafe/CafeReviewListPage.vue"),
+    },
+    props: {
+      default: true,
+    },
   },
   {
-    path: "/cafe/modify",
+    path: "/cafe/modify/:cafeNo",
     name: "CafeUserModifyPage",
-    component: () => import("@/views/Cafe/CafeUserModifyPage"),
+    components: { default: () => import("@/views/Cafe/CafeUserModifyPage") },
+    props: {
+      default: true,
+    },
   },
   {
-    path: "/cafe/pw",
+    path: "/cafe/pw/:cafeNo",
     name: "CafePasswordPage",
-    component: () => import("@/views/Cafe/CafePasswordPage"),
+    components: { default: () => import("@/views/Cafe/CafePasswordPage") },
+    props: {
+      default: true,
+    },
   },
   {
-    path: "/cafe/menu",
+    path: "/cafe/menu/:cafeNo",
     name: "CafeRegisterMenuPage",
-    component: () => import("@/views/Cafe/CafeRegisterMenuPage"),
+    components: { default: () => import("@/views/Cafe/CafeRegisterMenuPage") },
+    props: {
+      default: true,
+    },
   },
 
   //CafeSite
@@ -293,22 +310,20 @@ const routes = [
     },
   },
   {
-    path: "/cafe/review/list",
+    path: "/cafe/review/list/:cafeNo",
     name: "CafeReviewListPage",
-    component: () => import("@/views/Cafe/CafeReviewListPage"),
+    components: { default: () => import("@/views/Cafe/CafeReviewListPage") },
     props: {
       default: true,
     },
   },
 
-  // 에러처리 페이지
   {
     path: "*",
     redirect: "/404",
   },
   {
     path: "/404",
-    component: NotFoundPage,
   },
 ]
 const router = new VueRouter({

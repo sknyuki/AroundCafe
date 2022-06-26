@@ -5,19 +5,30 @@
         <li v-for="item in listData" :key="item.menu_no" class="menu-item">
           <div class="menu-card">
             <div class="menu-card-image">
-              <img
-                v-if="item.menu_img == null"
-                v-bind:src="require(`@/assets/cafe/cafeMenu/imgNull.png`)"
-              />
-              <img
-                v-if="item.menu_img != null"
-                v-bind:src="require(`@/assets/cafe/cafeMenu/${item.menu_img}`)"
-              />
+              <template>
+                <img
+                  position="relative"
+                  v-if="item.menu_img != null"
+                  v-bind:src="
+                    require(`@/assets/cafe/cafeMenu/${item.menu_img}`)
+                  "
+                />
+              </template>
+              <template v-if="item.sold_out == true">
+                <img
+                  position="absolute"
+                  v-bind:src="require(`@/assets/images/sold_out2.webp`)"
+                />
+              </template>
+              <template>
+                <img
+                  v-if="item.menu_img == null"
+                  v-bind:src="require(`@/assets/cafe/cafeMenu/imgNull.png`)"
+                />
+              </template>
+
               <div v-if="item.signature == true" class="test">
                 <span>Signature</span>
-              </div>
-              <div v-if="item.sold_out == true" class="test">
-                <span>Sold_out</span>
               </div>
             </div>
 
@@ -65,20 +76,28 @@
           <a href="">
             <div class="menu-card">
               <div class="menu-card-image">
-                <img
-                  v-if="item.sold_out == true"
-                  src="@/assets/images/sold_out.jpg"
-                />
-                <img
-                  v-if="item.menu_img == null"
-                  v-bind:src="require(`@/assets/cafe/cafeMenu/imgNull.png`)"
-                />
-                <img
-                  v-if="item.menu_img != null"
-                  v-bind:src="
-                    require(`@/assets/cafe/cafeMenu/${item.menu_img}`)
-                  "
-                />
+                <template>
+                  <img
+                    position="relative"
+                    v-if="item.menu_img != null"
+                    v-bind:src="
+                      require(`@/assets/cafe/cafeMenu/${item.menu_img}`)
+                    "
+                  />
+                </template>
+                <template v-if="item.sold_out == true">
+                  <img
+                    position=""
+                    v-bind:src="require(`@/assets/images/sold_out2.webp`)"
+                  />
+                </template>
+                <template>
+                  <img
+                    v-if="item.menu_img == null"
+                    v-bind:src="require(`@/assets/cafe/cafeMenu/imgNull.png`)"
+                  />
+                </template>
+
                 <div v-if="item.signature == true" class="test">
                   <span>Signature</span>
                 </div>
@@ -138,6 +157,10 @@ export default {
   props: {
     fileterArray: {
       type: Array,
+      required: true,
+    },
+    cafeNo: {
+      type: Number,
       required: true,
     },
   },
@@ -241,7 +264,7 @@ export default {
       }
 
       console.log(fileInfo)
-      let cafeNo = 1
+      let cafeNo = this.cafeNo
       axios
         .put(`http://localhost:7777/menu/modify/${cafeNo}`, formData)
         .then(() => {

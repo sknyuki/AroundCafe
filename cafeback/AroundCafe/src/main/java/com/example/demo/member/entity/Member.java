@@ -34,6 +34,7 @@ public class Member extends BaseDateTime {
 
     @Column(unique = true)
     private String memNick;
+    private Integer memPoint;
 
     //이미지 경로 저장
     private String memImg;
@@ -53,7 +54,7 @@ public class Member extends BaseDateTime {
     @JoinColumn(name = "role_id")
     private MemberRole role;
 
-    @OneToOne(mappedBy = "memberInfo", orphanRemoval = true)
+    @OneToOne(cascade = CascadeType.REMOVE, mappedBy = "memberInfo", orphanRemoval = true)
     private Cafe cafe;
 
     @OneToMany(mappedBy = "memberInfo",fetch = FetchType.EAGER,orphanRemoval = true)
@@ -66,8 +67,8 @@ public class Member extends BaseDateTime {
     @OneToMany(mappedBy = "member", fetch = FetchType.EAGER,orphanRemoval = true)
     private Set<ReviewLike> reviewLikes = new HashSet<>();
 
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Payment> payment = new ArrayList<>();
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    private Set<Payment> payment = new HashSet<>();
 
     @Builder
     public Member(Long memNo, String memId, String socialNo, String memPw, String memNick, String memImg, String phoneNum, String memBirth, SocialType socialType, MemberRole role) {

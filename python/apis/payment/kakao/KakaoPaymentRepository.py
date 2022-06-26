@@ -11,30 +11,30 @@ class KakaoPaymentsRepository :
             db = Mysql.DB
         )
     
-    def savePayment(self, orderInfo, tid) :
+    def saveTID(self, paymentNo, tid) :
         db = self.connectDB()
         cursor = db.cursor()
         
         sql = """
-            insert into payment(ex_payment_no, payment_method, total_amount, total_point_amount) values (%s, %s, %s, %s, %r)
-        """
-        
-        cursor.execute(sql, (tid, 'kakao', int(orderInfo['totalAmount']), int(orderInfo['totalPointAmount']), tuple(orderInfo['menuList'])))
-        
-        db.commit()
-        db.close()
-        
-    # TID(카카오결제 고유 결제키(Trade Id))
-    # def savePayment(orderID):
-    def getPayment(self, orderNo) :
-        db = self.connectDB()
-        cursor = db.cursor()
-        
-        sql = """
-            select * from payment where orderNo = :%s
-        """ % orderNo
+            UPDATE payment SET ex_payment_no = '%s' WHERE payment_no = %s
+        """ %(tid, paymentNo)
         
         cursor.execute(sql)
         
         db.commit()
         db.close()
+        
+    def findByPaymentNo(self, paymentNo) :
+        db = self.connectDB()
+        cursor = db.cursor()
+        
+        sql = """
+            select * from payment where payment_no = %s
+        """ % paymentNo
+        
+        cursor.execute(sql)
+        payment = cursor.fetchall()[0]
+        db.commit()
+        db.close()
+        
+        return payment

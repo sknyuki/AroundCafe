@@ -71,6 +71,8 @@
                       <MyMenuModal
                         :menuModal="menuModal"
                         :class="{ active: isActive }"
+                        :user="user"
+                        :cafeNo="cafeNo"
                       />
                     </div>
                     <!-- <router-link
@@ -113,6 +115,8 @@
 import TheNavBar from "@/components/Layouts/TheNavBar.vue"
 import TheNavBarList from "@/components/Layouts/TheNavBarList.vue"
 import MyMenuModal from "@/components/MyMenuModal.vue"
+import { mapState, mapActions } from "vuex"
+
 export default {
   components: { TheNavBarList, TheNavBar, MyMenuModal },
   name: "TheHeader",
@@ -135,8 +139,15 @@ export default {
       ],
     }
   },
-
+  computed: {
+    ...mapState(["user", "cafeNo"]),
+  },
+  mounted() {
+    this.fetchUser(), this.fetchcafeNo(this.user.memNo)
+  },
   methods: {
+    ...mapActions(["fetchUser"]),
+    ...mapActions(["fetchcafeNo"]),
     toggleMyMenu() {
       this.isActive = !this.isActive
     },

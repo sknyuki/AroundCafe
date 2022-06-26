@@ -4,6 +4,8 @@
     <v-btn @click="timerStart()">확인</v-btn>
     <div class="sign-form-label">{{ timeString }}</div>
     <v-btn @click="logout()">로그아웃</v-btn>
+    <input class="form-input input-48" v-model="paymentId" />
+    <v-btn @click="kakaoPayment()">결제</v-btn>
   </div>
 </template>
 
@@ -19,6 +21,7 @@ export default {
     return {
       timerId: "",
       time: "",
+      paymentId: "",
     }
   },
   computed: {
@@ -53,6 +56,15 @@ export default {
       }).catch((err) => {
         alert(err)
       })
+    },
+    kakaoPayment() {
+      const url = `http://localhost:5000/payment/ready/kakao/${this.paymentId}`
+      //window.document.location.href = url
+      window.open(
+          url,
+          "_blank",
+          "width=440, height=680, menubar=no, toolbar=no, location=no, status=no, scrollbars=no"
+      )
     }
   },
 }

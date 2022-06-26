@@ -34,7 +34,7 @@ public interface ReviewLikeRepository extends JpaRepository<ReviewLike, Long> {
     Optional<ReviewLike> findReviewLikeReviewNoAndMemberNo(@Param("reviewNo") Long reviewNo, @Param("membNo") Long membNo);
 
     @Transactional
-    @Query(value = "select * from review_like where review_no = :reviewNo", nativeQuery = true)
+    @Query(value = "select * from review_like where review_no = ?1", nativeQuery = true)
     List<ReviewLike> findByReviewNo(@Param("reviewNo") Long reviewNo);
 
     @Query(value = "select * from review_like where member_no = ?1", nativeQuery = true)

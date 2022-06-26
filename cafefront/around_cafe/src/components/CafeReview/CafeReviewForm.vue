@@ -62,14 +62,15 @@
               :myHelps="myHelps"
               :index="index"
             />
-
+             <CafeReviewDelete :review="review"/>
+<!--
             <button
               class="delete-button"
               aria-label="해당 리뷰 삭제하기"
               type="button"
             >
               <i @click="deleteReview()" class="icClose"></i>
-            </button>
+            </button>-->
 
             <CafeReviewModify
               v-if="review"
@@ -86,6 +87,7 @@
 import StarRating from "vue-star-rating"
 import CafeReviewModify from "@/components/CafeReview/CafeReviewModify"
 import CafeReviewLike from "@/components/CafeReview/CafeReviewLike"
+import CafeReviewDelete from "@/components/Cafe/CafeReviewDelete"
 import axios from "axios"
 
 export default {
@@ -94,6 +96,7 @@ export default {
     StarRating,
     CafeReviewModify,
     CafeReviewLike,
+    CafeReviewDelete
   },
   props: {
     reviews: {
@@ -105,6 +108,7 @@ export default {
       required: true,
     },
   },
+
   data() {
     return {
       loginInfo: JSON.parse("2"),
@@ -112,8 +116,8 @@ export default {
       reviewNo: "",
     }
   },
-
   methods: {
+ 
     onModify(payload) {
       const { reviewNo, star_score, review_content, cafeNum, file } = payload
       let formData = new FormData()
@@ -168,7 +172,6 @@ export default {
         })
     },
     deleteReview() {
-      console.log()
       axios
         .delete(`http://localhost:7777/cafe/review/${this.review.reviewNo}`)
         .then(() => {

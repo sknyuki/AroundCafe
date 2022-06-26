@@ -2,6 +2,7 @@ import {
   FETCH_CAFE_BOARD_LIST,
   FETCH_CAFE_BOARD,
   FETCH_MENU_LISTS,
+  FETCH_CAFE_NO,
   FETCH_CAFE_IMG_LISTS,
   FETCH_REVIEW_LIST,
   FETCH_REVIEW,
@@ -14,31 +15,42 @@ import {
   FETCH_NOTICE_BOARD,
   FETCH_HELP,
   FETCH_MY_HELPS_LIST,
+  FETCH_USER,
 } from "./mutation-types"
 
 import axios from "axios"
+import UserService from "@/services/userService.js"
 
 export default {
+  fetchUser({ commit }) {
+    return commit(FETCH_USER, UserService.getUserInfo())
+  },
   fetchcafeBoardList({ commit }) {
     return axios.get("http://localhost:7777/cafe/list").then((res) => {
       commit(FETCH_CAFE_BOARD_LIST, res.data)
       //console.log(res)
     })
   },
-  fetchcafeBoard({ commit }, membNo) {
+  fetchcafeNo({ commit }, memNo) {
     return axios
-      .get(`http://localhost:7777/cafe/mypage/read/${membNo}`)
+      .get(`http://localhost:7777/cafe/findCafeNo/${memNo}`)
+      .then((res) => {
+        commit(FETCH_CAFE_NO, res.data)
+        //console.log(res)
+      })
+  },
+  fetchcafeBoard({ commit }, memNo) {
+    return axios
+      .get(`http://localhost:7777/cafe/mypage/read/${memNo}`)
       .then((res) => {
         commit(FETCH_CAFE_BOARD, res.data)
       })
   },
 
-  fetchMenuLists({ commit }, membNo) {
-    return axios
-      .get(`http://localhost:7777/menu/list/${membNo}`)
-      .then((res) => {
-        commit(FETCH_MENU_LISTS, res.data)
-      })
+  fetchMenuLists({ commit }, memNo) {
+    return axios.get(`http://localhost:7777/menu/list/${memNo}`).then((res) => {
+      commit(FETCH_MENU_LISTS, res.data)
+    })
   },
 
   fetchCafeImgLists({ commit }, cafeNo) {
