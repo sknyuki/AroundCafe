@@ -7,27 +7,6 @@ import PolicyPage from "../views/Policy/PolicyPage.vue"
 // NotFoundPage 에러페이지
 import NotFoundPage from "@/views/NotFoundPage.vue"
 
-// Main 메인페이지
-// import MainPage from "../views/MainPage.vue"
-
-// Account 계정
-// import AccountSignUpPage from "../views/Account/AccountSignUpPage.vue"
-// import AccountLoginPage from "../views/Account/AccountLoginPage.vue"
-// import AccountPasswordPage from "../views/Account/AccountPasswordPage.vue"
-
-// User 회원페이지
-// import UserOrderListPage from "../views/User/UserOrderListPage.vue"
-// import UserPasswordPage from "../views/User/UserPasswordPage.vue"
-
-// Admin 관리자페이지
-// import AdminMemberListPage from "../views/Admin/AdminMemberListPage.vue"
-
-// Cafe 카페페이지
-import CafeRegisterPage from "../views/Cafe/CafeRegisterPage.vue"
-// import CafeReviewListPage from "../views/Cafe/CafeReviewListPage.vue"
-// import CafePasswordPage from "../views/Cafe/CafePasswordPage.vue"
-// import CafeUserModifyPage from "../views/Cafe/CafeUserModifyPage.vue"
-
 //관리자 시스템
 import NoticeReadPage from "@/views/ManagementSystemViews/noticeBoard/NoticeReadPage"
 import NoticeModifyPage from "@/views/ManagementSystemViews/noticeBoard/NoticeModifyPage"
@@ -102,46 +81,29 @@ const routes = [
 
   // Cafe 카페페이지
   {
-    path: "/cafe/register/:cafeNo",
+    path: "/cafe/register",
     name: "CafeRegisterPage",
-    components: { default: CafeRegisterPage },
-    props: {
-      default: true,
-    },
+    component: () => import("@/views/Cafe/CafeRegisterPage.vue"),
   },
   {
-    path: "/cafe/review/:cafeNo",
+    path: "/cafe/review",
     name: "CafeReviewListPage",
-    components: {
-      default: () => import("@/views/Cafe/CafeReviewListPage.vue"),
-    },
-    props: {
-      default: true,
-    },
+    component: () => import("@/views/Cafe/CafeReviewListPage.vue"),
   },
   {
-    path: "/cafe/modify/:cafeNo",
+    path: "/cafe/modify",
     name: "CafeUserModifyPage",
-    components: { default: () => import("@/views/Cafe/CafeUserModifyPage") },
-    props: {
-      default: true,
-    },
+    component: () => import("@/views/Cafe/CafeUserModifyPage"),
   },
   {
-    path: "/cafe/pw/:cafeNo",
+    path: "/cafe/pw",
     name: "CafePasswordPage",
-    components: { default: () => import("@/views/Cafe/CafePasswordPage") },
-    props: {
-      default: true,
-    },
+    component: () => import("@/views/Cafe/CafePasswordPage"),
   },
   {
-    path: "/cafe/menu/:cafeNo",
+    path: "/cafe/menu",
     name: "CafeRegisterMenuPage",
-    components: { default: () => import("@/views/Cafe/CafeRegisterMenuPage") },
-    props: {
-      default: true,
-    },
+    component: () => import("@/views/Cafe/CafeRegisterMenuPage"),
   },
 
   //CafeSite
@@ -290,7 +252,7 @@ const routes = [
     },
   },
   {
-    path: "/cafe/review/list/:cafeNo",
+    path: "/cafe/review/list",
     name: "CafeReviewListPage",
     components: { default: () => import("@/views/Cafe/CafeReviewListPage") },
     props: {

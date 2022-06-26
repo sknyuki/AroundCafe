@@ -9,7 +9,6 @@ export const FETCH_REVIEW = "FETCH_REVIEW"
 export const FETCH_HELPS_LIST = "FETCH_HELPS_LIST"
 
 export const FETCH_QNA_LIST = "FETCH_QNA_LIST"
-export const FETCH_QNA_LISTS = "FETCH_QNA_LISTS"
 
 export const FETCH_USER = "FETCH_USER"
 

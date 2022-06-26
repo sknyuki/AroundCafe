@@ -32,9 +32,8 @@
     </div>
   </div>
 </template>
-<script>
-import { mapState, mapActions } from "vuex"
 
+<script>
 export default {
   name: "CafeSidebar",
   data() {
@@ -44,16 +43,13 @@ export default {
           id: 1,
           icon: "mdi-home-outline",
           title: "카페 관리",
-          link: { name: "CafeRegisterPage", params: { cafeNo: this.cafeNo } },
+          link: "/cafe/register",
         },
         {
           id: 2,
           icon: "mdi-coffee-outline",
           title: "메뉴 관리",
-          link: {
-            name: "CafeRegisterMenuPage",
-            params: { cafeNo: this.cafeNo },
-          },
+          link: "/cafe/menu",
         },
         {
           id: 3,
@@ -71,7 +67,7 @@ export default {
           id: 5,
           icon: "mdi-message-text-outline",
           title: "고객 리뷰",
-          link: { name: "CafeReviewListPage", params: { cafeNo: this.cafeNo } },
+          link: "/cafe/review",
         },
         {
           id: 6,
@@ -85,13 +81,13 @@ export default {
           id: 1,
           icon: "mdi-account-outline",
           title: "내 정보수정",
-          link: { name: "CafeUserModifyPage", params: { cafeNo: this.cafeNo } },
+          link: "/cafe/modify",
         },
         {
           id: 2,
           icon: "mdi-lock",
           title: "비밀번호 변경",
-          link: { name: "CafePasswordPage", params: { cafeNo: this.cafeNo } },
+          link: "/cafe/pw",
         },
         {
           id: 3,
@@ -103,16 +99,6 @@ export default {
       infoOne: "카페 정보",
       infoTwo: "내 정보",
     }
-  },
-  computed: {
-    ...mapState(["user", "cafeNo"]),
-  },
-  mounted() {
-    this.fetchUser(), this.fetchcafeNo(this.user.memNo)
-  },
-  methods: {
-    ...mapActions(["fetchUser"]),
-    ...mapActions(["fetchcafeNo"]),
   },
 }
 </script>

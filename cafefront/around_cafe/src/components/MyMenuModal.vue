@@ -92,10 +92,6 @@ export default {
       type: Object,
       required: true,
     },
-    cafeNo: {
-      type: Number,
-      required: true,
-    },
   },
 
   data() {
@@ -127,26 +123,17 @@ export default {
         {
           id: 1,
           title: "내 정보",
-          link: {
-            name: "CafeUserModifyPage",
-            params: { cafeNo: this.cafeNo },
-          },
+          link: "/cafe/modify",
         },
         {
           id: 2,
           title: "카페 관리",
-          link: {
-            name: "CafeRegisterPage",
-            params: { cafeNo: this.cafeNo },
-          },
+          link: "/cafe/register",
         },
         {
           id: 3,
           title: "메뉴 관리",
-          link: {
-            name: "CafeRegisterMenuPage",
-            params: { cafeNo: this.cafeNo },
-          },
+          link: "/cafe/menu",
         },
         {
           id: 4,
@@ -161,10 +148,7 @@ export default {
         {
           id: 6,
           title: "고객 리뷰",
-          link: {
-            name: "CafeReviewListPage",
-            params: { cafeNo: this.cafeNo },
-          },
+          link: "/cafe/review",
         },
       ],
       myMenuAdminLogin: [
