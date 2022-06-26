@@ -2,11 +2,9 @@ package com.example.demo.payment.controller;
 
 import com.example.demo.member.entity.Member;
 import com.example.demo.member.repository.MemberRepository;
-import com.example.demo.payment.dto.PaymentDto;
+import com.example.demo.payment.dto.PaymentRequest;
 import com.example.demo.payment.dto.PaymentResponse;
-import com.example.demo.payment.entity.Payment;
 import com.example.demo.payment.service.PaymentService;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,20 +29,23 @@ public class PaymentController {
     // 4. 주문내역 삭제(DELETE)
 
     @PostMapping
-    public String savePayment(@Valid @RequestBody PaymentDto paymentDto) {
-        log.info("접속");
-        log.info(paymentDto.toString());
-        paymentService.savePayment(paymentDto);
-        return "잘됨";
+    @ResponseStatus(HttpStatus.OK)
+    public Long savePayment(@Valid @RequestBody PaymentRequest paymentRequest) {
+        return paymentService.savePayment(paymentRequest);
     }
 
-    @GetMapping("/{memNo}")
+    @GetMapping("/{paymentNo}")
+    public PaymentResponse getPayment(@PathVariable Long paymentNo) {
+        return paymentService.getPaymentResponse(paymentNo);
+    }
+
+    @GetMapping("/list/{memNo}")
     public List<PaymentResponse> getPaymentList(@PathVariable Long memNo) {
 
         Member member = memberRepository.findByMemNo(memNo)
                 .orElseThrow(() -> new UsernameNotFoundException("No user exists"));
 
-        return paymentService.getPaymentList(member);
+        return paymentService.getAllPaymentResponse(member);
     }
 
     @DeleteMapping("/{paymentNo}")

@@ -3,19 +3,20 @@ package com.example.demo.payment.dto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 @Getter
 @Setter
-public class OrderItemDto {
+public class OrderItemRequest {
     private String itemName;
+    private Integer quantity;
     private Integer amount;
-    private Integer price;
+    private Long cafeMenuNo;
 
     @Builder
-    public OrderItemDto(String itemName, Integer amount, Integer price) {
+    public OrderItemRequest(String itemName, Integer quantity, Integer amount, Long cafeMenuNo) {
         this.itemName = itemName;
+        this.quantity = quantity;
         this.amount = amount;
-        this.price = price;
+        this.cafeMenuNo = cafeMenuNo;
     }
 }

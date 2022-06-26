@@ -3,35 +3,46 @@ from .config import *
 import requests
 
 class KakaoPaymentService :
-    def readyToPayment(orderInfo) :
+    def readyToPayment(self, paymentNo) :
+        payment = KakaoPaymentsRepository().findByPaymentNo(paymentNo)
+        
+        partner_user_id = str(payment[11])
+        item_name = str(payment[6])
+        quantity = payment[12]
+        total_amount = str(payment[9] - payment[10])
+        
         url = PAYMENT_READY_URL
         
         headers = {
             "Authorization": "KakaoAK " + APP_ADMIN_KEY,
             "Content-type": "application/x-www-form-urlencoded;charset=utf-8"
         }
-        
         data = {
             "cid": CID,
-            "partner_order_id": orderInfo["orderNo"],
-            "partner_user_id": orderInfo["memNo"],
-            "item_name": orderInfo["itemsName"], # 주문 이름 --- 아이스아메리카노 외 X로 들어오면 좋을듯
-            "quantity": orderInfo["quantity"], # 수량
-            "total_amount": orderInfo["totalAmount"], # 총 금액
+            "partner_order_id": paymentNo,
+            "partner_user_id": partner_user_id,
+            "item_name": item_name, # 주문 이름 --- 아이스아메리카노 외 X로 들어오면 좋을듯
+            "quantity": quantity, # 수량
+            "total_amount": total_amount, # 총 금액
             "tax_free_amount": "0", # TaxFree 금액 -- 0 고정
-            "approval_url": "http://localhost:5000/payment/kakao/success/%s" %orderInfo["orderNo"], # 성공시 URL
-            "fail_url": "https://localhost:5000/payment/kakao/fail/%s" %orderInfo["orderNo"], # 실패시 URL
-            "cancel_url": "https://localhost:5000/payment/kakao/cancel/%s" %orderInfo["orderNo"] # 취소시 URL
+            "approval_url": "http://localhost:5000/payment/kakao/success?paymentNo=%s" %paymentNo, # 성공시 URL
+            "fail_url": "http://localhost:5000/payment/kakao/fail?paymentNo=%s" %paymentNo, # 실패시 URL
+            "cancel_url": "http://localhost:5000/payment/kakao/cancel?paymentNo=%s" %paymentNo # 취소시 URL
         }
     
-        response = requests.post(url=url, headers=headers, data=data)
-
-        if response.status_code != 200 :
-            print("error")
-        else : 
-            return response.json()
+        response = requests.post(url=url, headers=headers, data=data).json()
+                   
+        return response
         
-    def approveToPayment(orderInfo) :
+    def approveToPayment(self, paymentNo, pg_token) :
+        payment = KakaoPaymentsRepository().findByPaymentNo(paymentNo)
+        
+        partner_user_id = str(payment[11])
+        TID = str(payment[3])
+        item_name = str(payment[6])
+        quantity = payment[12]
+        total_amount = str(payment[9] - payment[10])
+        
         url = PAYMENT_APPROVE_URL
 
         headers = {
@@ -41,10 +52,10 @@ class KakaoPaymentService :
 
         data = {
             "cid": CID,
-            "tid": "T2b40e9f69eb7fb59c17",
-            "partner_order_id": "partner_order_id",
-            "partner_user_id": "partner_user_id",
-            "pg_token": "d72700d115272b17fcbc"
+            "tid": TID,
+            "partner_order_id": paymentNo,
+            "partner_user_id": partner_user_id,
+            "pg_token": pg_token
         }
 
         response = requests.post(url=url, headers=headers, data=data)
@@ -52,8 +63,59 @@ class KakaoPaymentService :
         if response.status_code != 200 :
             print("error")
         else : 
-            datainfo = response.json()
-            print(datainfo)
+            return response.json()
+        
+    def checkPayment(self, paymentNo) :
+        payment = KakaoPaymentsRepository().findByPaymentNo(paymentNo)
+        
+        TID = str(payment[3])
+        
+        url = PAYMENT_CHECK_URL
+        
+        headers = {
+            "Authorization": "KakaoAK " + APP_ADMIN_KEY,
+            "Content-type": "application/x-www-form-urlencoded;charset=utf-8"
+        }
+        
+        data = {
+            "cid": CID,
+            "tid": TID,
+        }
+        
+        response = requests.post(url=url, headers=headers, data=data)
+        
+        if response.status_code != 200 :
+            print("error")
+        else : 
+            return response.json()
+        
+        
+    def cancelPayment(self, paymentNo, cancelAmount) :
+        payment = KakaoPaymentsRepository().findByPaymentNo(paymentNo)
+        
+        TID = str(payment[3])
                 
-    def savePayment(orderInfo, tid) :
-        KakaoPaymentsRepository().savePayment(orderInfo, tid)
+        url = PAYMENT_CANCEL_URL
+        
+        headers = {
+            "Authorization": "KakaoAK " + APP_ADMIN_KEY,
+            "Content-type": "application/x-www-form-urlencoded;charset=utf-8"
+        }
+        
+        data = {
+            "cid": CID,
+            "tid": TID,
+            "cancel_amount": cancelAmount,
+            "cancel_tax_free_amount": "0",
+        }
+        
+        response = requests.post(url=url, headers=headers, data=data)
+        
+        if response.status_code != 200 :
+            print("error")
+        else : 
+            return response.json()
+            
+                
+    def savePayment(self, paymentNo, tid) :
+        KakaoPaymentsRepository().saveTID(paymentNo, tid)

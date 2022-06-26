@@ -15,6 +15,8 @@ import net.bytebuddy.utility.RandomString;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
+
 @Service
 @RequiredArgsConstructor
 public class AuthServiceImpl {
@@ -33,6 +35,16 @@ public class AuthServiceImpl {
         redisService.deleteByKey(refreshToken);
         // redis에 리프레시 토큰 저장
         redisService.setKeyAndValue(refreshToken, member.getMemNo());
+        // role to String
+        String role = member.getRole().getName().getValue();
+        Long cafeNo;
+        // Role이 카페이면 cafeNo 반환
+        if(Objects.equals(role, "CAFE")) {
+            cafeNo = cafeRepository.findByMemberNo(member.getMemNo()).orElseThrow().getCafeNo();
+        }
+        else {
+            cafeNo = null;
+        }
         // 저장한 값을 JwtDto로 반환
         return JwtDto.builder()
                 .memNo(member.getMemNo())
@@ -41,8 +53,9 @@ public class AuthServiceImpl {
                 .accessTokenExp(jwtService.tokenExpTime(accessToken))
                 .refreshToken(refreshToken)
                 .refreshTokenExp(jwtService.tokenExpTime(refreshToken))
-                .role(member.getRole().getName().getValue())
+                .role(role)
                 .nickname(member.getMemNick())
+                .cafeNo(cafeNo)
                 .build();
     }
 

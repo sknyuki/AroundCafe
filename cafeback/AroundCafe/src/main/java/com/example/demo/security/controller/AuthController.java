@@ -128,7 +128,6 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<?> localRegister(@Valid @RequestBody RegisterRequest registerRequest) {
         // 이메일이 존재한다면, Exception 반환
-        log.info("Role: " + registerRequest.getRole());
         if (memberRepository.existsByMemId(registerRequest.getEmail())) {
             throw new BadRequestException("Error: Email address already in use!");
         }

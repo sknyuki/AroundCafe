@@ -1,4 +1,6 @@
 PAYMENT_READY_URL = "https://kapi.kakao.com/v1/payment/ready"
 PAYMENT_APPROVE_URL = "https://kapi.kakao.com/v1/payment/approve"
+PAYMENT_CANCEL_URL = "https://kapi/payment/cancel"
+PAYMENT_CHECK_URL = "https://kapi.kakao.com/v1/payment/order"
 APP_ADMIN_KEY = "1bf3b324f223747aa99019c3e2189b04"
 CID = "TC0ONETIME"

@@ -14,6 +14,7 @@ import java.util.List;
 public class MemberDto {
     private Long memNo;
     private String socialNo;
+    private Integer memPoint;
     private String memId;
     private String memPw;
     private String memNick;
@@ -22,6 +23,4 @@ public class MemberDto {
     private String memBirth;
     private SocialType socialType;
     private MemberRole role;
-    private List<Review> review;
-    private List<Payment> payment;
 }
