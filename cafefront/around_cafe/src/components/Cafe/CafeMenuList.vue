@@ -159,8 +159,8 @@ export default {
       type: Array,
       required: true,
     },
-    cafeNo: {
-      type: Number,
+    user: {
+      type: Object,
       required: true,
     },
   },
@@ -185,7 +185,7 @@ export default {
     ...mapState(["menuLists"]),
   },
   mounted() {
-    this.fetchMenuLists(2)
+    this.fetchMenuLists(this.user.memNo)
     this.pagingMethod(this.page)
   },
 
@@ -264,9 +264,9 @@ export default {
       }
 
       console.log(fileInfo)
-      let cafeNo = this.cafeNo
+      let memNo = this.user.memNo
       axios
-        .put(`http://localhost:7777/menu/modify/${cafeNo}`, formData)
+        .put(`http://localhost:7777/menu/modify/${memNo}`, formData)
         .then(() => {
           alert("수정되었습니다!")
           this.$router.go()

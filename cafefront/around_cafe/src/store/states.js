@@ -1,7 +1,6 @@
 export default {
   cafeBoards: [],
   cafeBoard: {},
-  cafeNo: null,
   menuLists: [],
   cafeImgLists: [],
 

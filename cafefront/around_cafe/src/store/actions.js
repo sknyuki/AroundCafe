@@ -2,7 +2,6 @@ import {
   FETCH_CAFE_BOARD_LIST,
   FETCH_CAFE_BOARD,
   FETCH_MENU_LISTS,
-  FETCH_CAFE_NO,
   FETCH_CAFE_IMG_LISTS,
   FETCH_REVIEW_LIST,
   FETCH_REVIEW,
@@ -31,14 +30,6 @@ export default {
       //console.log(res)
     })
   },
-  fetchcafeNo({ commit }, memNo) {
-    return axios
-      .get(`http://localhost:7777/cafe/findCafeNo/${memNo}`)
-      .then((res) => {
-        commit(FETCH_CAFE_NO, res.data)
-        //console.log(res)
-      })
-  },
   fetchcafeBoard({ commit }, memNo) {
     return axios
       .get(`http://localhost:7777/cafe/mypage/read/${memNo}`)
@@ -53,9 +44,9 @@ export default {
     })
   },
 
-  fetchCafeImgLists({ commit }, cafeNo) {
+  fetchCafeImgLists({ commit }, memNo) {
     return axios
-      .get(`http://localhost:7777/cafe/mypageImg/${cafeNo}`)
+      .get(`http://localhost:7777/cafe/mypageImg/${memNo}`)
       .then((res) => {
         commit(FETCH_CAFE_IMG_LISTS, res.data)
       })

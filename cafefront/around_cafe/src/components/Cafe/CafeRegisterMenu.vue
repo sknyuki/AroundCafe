@@ -25,7 +25,7 @@
           <br />
           <div v-if="menuLists.length == 0"><p>메뉴를 등록해주세요!</p></div>
           <div v-else>
-            <CafeMenuList :fileterArray="fileterArray" />
+            <CafeMenuList :fileterArray="fileterArray" :user="user" />
           </div>
         </div>
       </div>
@@ -52,6 +52,10 @@ export default {
       type: Array,
       required: true,
     },
+    user: {
+      type: Object,
+      required: true,
+    },
   },
   data() {
     return {
@@ -73,7 +77,7 @@ export default {
       let formData = new FormData()
 
       let fileInfo = {
-        cafe_no: 1,
+        memNo: this.user.memNo,
         menu_name,
         menu_price,
         menu_content,
@@ -101,11 +105,11 @@ export default {
         })
     },
     findList() {
-      let cafe_no = 1
+      let memNo = this.user.memNo
       let cafe_name = this.modi_name
 
       axios
-        .get(`http://localhost:7777/menu/findMenu/${cafe_no}/${cafe_name}`)
+        .get(`http://localhost:7777/menu/findMenu/${memNo}/${cafe_name}`)
         .then((res) => {
           if (res.data.length > 0) {
             this.fileterArray = res.data

@@ -18,18 +18,12 @@ import axios from "axios"
 export default {
   name: "CafeRegisterPage",
   components: { CafeRegister },
-  props: {
-    cafeNo: {
-      type: Number,
-      required: true,
-    },
-  },
   computed: {
     ...mapState(["user", "cafeBoard", "cafeImgLists"]),
   },
   mounted() {
     this.fetchUser(), this.fetchcafeBoard(this.user.memNo)
-    this.fetchCafeImgLists(this.cafeNo)
+    this.fetchCafeImgLists(this.user.memNo)
   },
   methods: {
     ...mapActions(["fetchUser"]),
@@ -73,9 +67,9 @@ export default {
       }
 
       console.log(fileInfo)
-      let membNo = this.user.memNo
+      let memNo = this.user.memNo
       axios
-        .put(`http://localhost:7777/cafe/modify/${membNo}`, formData)
+        .put(`http://localhost:7777/cafe/modify/${memNo}`, formData)
         .then(() => {
           alert("수정되었습니다!")
           this.$router.go()
