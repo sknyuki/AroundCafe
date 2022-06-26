@@ -198,6 +198,26 @@ const routes = [
     name: "ChatPage",
     component: () => import("@/views/Chat/ChatPage"),
   },
+  {
+    path: "/service",
+    name: "ServiceCenterPage",
+    component: () => import("@/views/Service/ServiceCenterPage"),
+  },
+  {
+    path: "/service/refund",
+    name: "ServiceCenterRefundPage",
+    component: () => import("@/views/Service/ServiceCenterRefundPage"),
+  },
+  {
+    path: "/service/account",
+    name: "ServiceCenterAccountPage",
+    component: () => import("@/views/Service/ServiceCenterAccountPage"),
+  },
+  {
+    path: "/service/evidence",
+    name: "ServiceCenterEvidencePage",
+    component: () => import("@/views/Service/ServiceCenterEvidencePage"),
+  },
 
   //인지연이 만든 페이지 ~ test
   {
@@ -260,20 +280,12 @@ const routes = [
     },
   },
 
-  // {
-  //   path: "/AppleBanana",
-  //   name: "AppleBanana",
-  //   component: () => import("@/views/Cafe/AppleBanana"),
-  // },
-
-  // 에러처리 페이지
   {
     path: "*",
     redirect: "/404",
   },
   {
     path: "/404",
-    component: NotFoundPage,
   },
 ]
 const router = new VueRouter({

@@ -1,0 +1,165 @@
+.service {
+  h2 {
+    @include text-style(18);
+    margin-top: 32px;
+  }
+  ul {
+    padding-top: 24px;
+  }
+  &-list {
+    @include text-style(16);
+    margin-bottom: 16px;
+    span {
+      @include inline-flexbox;
+      width: 32px;
+      height: 32px;
+      color: $indigo;
+      border-radius: 50%;
+      border: 1px solid $border;
+      margin-right: 8px;
+    }
+  }
+  &-content {
+    .time {
+      color: $indigo;
+    }
+    .btn-group {
+      margin-top: 24px;
+      button {
+        margin-bottom: 8px;
+      }
+    }
+    &-list {
+      @include text-style(16);
+      h3 {
+        @include text-style(16);
+        padding: 8px 0;
+        border-bottom: 1px solid $border;
+        font-weight: 400;
+        &.is-active {
+          border-bottom: none;
+          font-weight: 700;
+        }
+      }
+    }
+    &-button {
+      display: inline-block;
+      position: relative;
+      width: 100%;
+      text-align: left;
+      padding: 10px 40px 10px 40px;
+      margin: 0px;
+
+      .icon {
+        @include inline-flexbox;
+        position: absolute;
+        top: 4px;
+        left: 0px;
+        width: 32px;
+        height: 32px;
+        color: $indigo;
+        border-radius: 50%;
+        border: 1px solid $border;
+        margin-right: 8px;
+      }
+
+      .icChevron {
+        position: absolute;
+        right: 10px;
+        top: 14px;
+        transition: all 0.2s ease 0s;
+        font-size: 24px;
+        &.is-active {
+          transform: rotate(180deg);
+        }
+      }
+    }
+    &-info {
+      opacity: 0;
+      height: 0px;
+      padding: 0px 16px;
+      transition: all 200ms ease-in-out;
+
+      &.is-active {
+        opacity: 1;
+        padding: 16px;
+        display: block;
+        height: auto;
+        border-radius: 4px;
+        background-color: $background;
+      }
+    }
+  }
+  &-section {
+    margin-bottom: 40px;
+  }
+
+  &-chip {
+    text-align: center;
+    padding: 40px 24px 0;
+    a {
+      cursor: pointer;
+    }
+    label {
+      display: inline-block;
+      height: 38px;
+      border-radius: 19px;
+      padding-left: 12px;
+      padding-right: 12px;
+      padding-top: 6px;
+      margin-right: 8px;
+      margin-bottom: 8px;
+      color: $primary;
+      background-color: $background;
+      cursor: pointer !important;
+
+      &:hover {
+        background-color: $border;
+      }
+      &.is-active {
+        color: $white;
+        background-color: $indigo;
+      }
+
+      input {
+        position: absolute;
+        top: 0px;
+        left: 0px px;
+        width: 0px;
+        height: 0px;
+        opacity: 0;
+      }
+    }
+  }
+
+  @include responsive(D) {
+    &-wrapper {
+      display: flex;
+      margin-top: 16px;
+    }
+    &-content {
+      padding: 16px 0;
+      h2 {
+        margin: 0;
+      }
+      &.tel {
+        border-radius: 8px;
+        background-color: rgb(247, 249, 250);
+        margin-left: 40px;
+        width: 60%;
+        padding: 16px 24px;
+      }
+      .telephone {
+        margin-top: 16px;
+        @include text-style(24, $indigo);
+        .v-icon {
+          color: $indigo;
+          font-size: 24px;
+        }
+      }
+      .btn-group {
+        margin-top: 16px;
+      }
+    }
+  }
+}
