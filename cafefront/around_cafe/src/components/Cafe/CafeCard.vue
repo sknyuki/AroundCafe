@@ -11,19 +11,19 @@
         <!-- 스켈레톤 UI -->
         <template v-if="isLoading">
           <div>
-            <SkeletonBox class="sk-box" />
+            <SkeletonBox class="skeleton-box" />
           </div>
           <div>
-            <SkeletonBox class="sk-title" />
+            <SkeletonBox class="skeleton-title" />
           </div>
           <div>
-            <SkeletonBox class="sk-location" />
+            <SkeletonBox class="skeleton-location" />
           </div>
           <div>
-            <SkeletonBox class="sk-time" />
+            <SkeletonBox class="skeleton-time" />
           </div>
           <div>
-            <SkeletonBox class="sk-star" />
+            <SkeletonBox class="skeleton-star" />
           </div>
         </template>
 
@@ -168,48 +168,5 @@ export default {
 @import "~@/assets/scss/components/gallery/cafe-gallery";
 @import "~@/assets/scss/components/gallery/cafe-list";
 @import "~@/assets/scss/components/gallery/swiper";
-
-.sk {
-  &-title,
-  &-location,
-  &-time,
-  &-star {
-    height: 18px;
-  }
-
-  &-title {
-    width: 320px;
-  }
-  &-location {
-    width: 240px;
-  }
-  &-time {
-    width: 200px;
-  }
-  &-star {
-    width: 80px;
-  }
-
-  &-box {
-    width: 100%;
-    height: 0;
-    padding-bottom: 100%;
-    overflow: hidden;
-  }
-
-  @include responsive(T) {
-    &-title {
-      width: 180px;
-    }
-    &-location {
-      width: 140px;
-    }
-    &-time {
-      width: 100px;
-    }
-    &-star {
-      width: 80px;
-    }
-  }
-}
+@import "~@/assets/scss/components/gallery/cafe-skeleton";
 </style>
