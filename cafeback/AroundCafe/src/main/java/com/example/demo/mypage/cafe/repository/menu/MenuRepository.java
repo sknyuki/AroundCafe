@@ -16,8 +16,8 @@ public interface MenuRepository extends JpaRepository<CafeMenu, Long> {
     public List<CafeMenu> findByCafeNo(@Param("cafeNo") Long cafeNo);
 
     @Transactional
-    @Query(value = "select count(*) from cafe_menu where signature = 1", nativeQuery = true)
-    public Integer countSignature();
+    @Query(value = "select count(*) from cafe_menu where signature = 1 and cafe_no =:checkCafeNo", nativeQuery = true)
+    public Integer countSignature(@Param("checkCafeNo") Long checkCafeNo);
 
     @Transactional
     @Query(value = "select * from cafe_menu where signature = 1", nativeQuery = true)

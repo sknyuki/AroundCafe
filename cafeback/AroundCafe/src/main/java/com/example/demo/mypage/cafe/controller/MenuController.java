@@ -136,11 +136,11 @@ public class MenuController {
     }
 
 
-    @GetMapping("/findMenu/{cafe_no}/{cafe_name}")
-    public List<CafeMenu> findMenu(@PathVariable("cafe_no")Integer cafe_no,
+    @GetMapping("/findMenu/{memNo}/{cafe_name}")
+    public List<CafeMenu> findMenu(@PathVariable("memNo")Integer memNo,
                                    @PathVariable("cafe_name")String cafe_name){
-        log.info("find menu cafeNo -> " + cafe_no +" cafe name _" + cafe_name);
-        return service.findMenu(cafe_no, cafe_name);
+        log.info("find menu memNo -> " + memNo +" cafe name _" + cafe_name);
+        return service.findMenu(memNo, cafe_name);
     }
 
 }

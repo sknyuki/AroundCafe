@@ -150,9 +150,10 @@ public class MenuServiceImpl implements MenuService{
     @Transactional
     @Override
     public String changeSignature(Integer menuNo) {
-
-        Integer countSignature = repository.countSignature();
         CafeMenu menu = repository.findById(Long.valueOf(menuNo)).orElseGet(null);
+        Long checkCafeNo = menu.getCafe().getCafeNo();
+        Integer countSignature = repository.countSignature(Long.valueOf(checkCafeNo));
+        log.info("check cafe no : " + checkCafeNo+", count signature : " +countSignature);
 
 
         if(menu.getSignature() == true){
@@ -196,10 +197,9 @@ public class MenuServiceImpl implements MenuService{
 
     @Transactional
     @Override
-    public List<CafeMenu> findMenu(Integer cafe_no, String menu_name) {
-        // repository.findCafeName(Long.valueOf(cafe_no),cafe_name);
-        //Cafe cafe = cafeRepository.findById(Long.valueOf(cafe_no)).orElseGet(null);
-        List<CafeMenu> cafeMenus = repository.searchList(Long.valueOf(cafe_no), menu_name);
+    public List<CafeMenu> findMenu(Integer memNo, String menu_name) {
+        Cafe cafe = cafeRepository.findByMemberNo(Long.valueOf(memNo)).orElseGet(null);
+        List<CafeMenu> cafeMenus = repository.searchList(Long.valueOf(cafe.getCafeNo()), menu_name);
         log.info("menu list" + cafeMenus);
         return cafeMenus;
     }
