@@ -2,10 +2,10 @@ import axios from "axios"
 import tokenService from "@/services/tokenService"
 import userService from "@/services/userService"
 
-const instance = axios.create({
-  //baseURL: "http://localhost:7777/",
-  timeout: 1000,
-})
+// const instance = axios.create({
+//   //baseURL: "http://localhost:7777/",
+//   timeout: 1000,
+// })
 
 let isTokenReissuing = false
 let reissuingSubscribers = []
@@ -74,6 +74,8 @@ axios.interceptors.request.use(
     // AccessToken이 만료되지 않은경우 Header에 Authorization 추가
     if (tokenService.getAccessToken()) {
       config.headers.Authorization = `Bearer ${tokenService.getAccessToken()}`
+      return config
+    } else {
       return config
     }
   },
