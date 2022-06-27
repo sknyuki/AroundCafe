@@ -193,6 +193,13 @@ const routes = [
     component: () => import("@/views/User/UserLikePage"),
   },
 
+  //CafeDetail
+  {
+    path: "/detail",
+    name: "CafeDetailPage",
+    component: () => import("@/views/CafeDetail/CafeDetailPage"),
+  },
+
   {
     path: "/chat/",
     name: "ChatPage",
