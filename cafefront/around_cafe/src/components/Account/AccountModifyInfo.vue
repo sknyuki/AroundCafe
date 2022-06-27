@@ -19,6 +19,8 @@
                   class="form-input input-40"
                   type="email"
                   placeholder="이메일"
+                  v-model="memId"
+                  disabled
                 />
               </label>
             </span>
@@ -38,6 +40,7 @@
                   class="form-input input-40"
                   type="email"
                   placeholder="닉네임"
+                  v-model="memNick"
                 />
               </label>
             </span>
@@ -57,6 +60,7 @@
                   class="form-input input-40"
                   type="email"
                   placeholder="휴대폰 번호"
+                  v-model="phoneNum"
                 />
               </label>
             </span>
@@ -73,6 +77,7 @@
                   class="form-input input-40"
                   type="email"
                   placeholder="YYYY-MM-DD"
+                  v-model="memBirth"
                 />
               </label>
             </span>
@@ -109,11 +114,34 @@
           />
         </div>
       </div>
-      <v-btn class="btn-indigo btn-48">회원 정보 수정</v-btn>
+      <v-btn class="btn-indigo btn-48" @click="onSumbit">회원 정보 수정</v-btn>
     </form>
+    <!-- <div v-if="userInfo.socialType == 'LOCAL'">
+        등록된 이미지
+        <img
+          v-if="userInfo.memImg != null"
+          v-bind:src="require(`@/assets/images/memberImg/${userInfo.memImg}`)"
+        />
+        <img v-else src="@/assets/images/memberImg/noMemberImg.png" />
+      </div>
+      <div>
+        <img v-if="userInfo.socialType == 'KAKAO'" src="userInfo.memImg" />
+      </div> -->
+    <img
+      v-if="userInfo.memImg != null"
+      v-bind:src="require(`@/assets/images/memberImg/${userInfo.memImg}`)"
+      style="width: 20px"
+    />
+    <img
+      v-else
+      src="@/assets/images/memberImg/noMemberImg.png"
+      style="width: 20px"
+    />
   </div>
 </template>
 <script>
+import { mapState, mapActions } from "vuex"
+
 export default {
   name: "AccountModifyinfo",
   data() {
@@ -121,9 +149,27 @@ export default {
       image: "",
       files: "",
       uploadReady: true,
+      memId: "",
+      memNick: "",
+      phoneNum: "",
+      memBirth: "",
     }
   },
+  computed: {
+    ...mapState(["userInfo"]),
+  },
+  mounted() {
+    this.fetchUserInfo()
+    setTimeout(this.change, 70)
+  },
   methods: {
+    change() {
+      this.memId = this.userInfo.memId
+      this.memNick = this.userInfo.memNick
+      this.phoneNum = this.userInfo.phoneNum
+      this.memBirth = this.userInfo.memBirth
+    },
+    ...mapActions(["fetchUserInfo"]),
     onUpload() {
       this.$refs.files.click()
     },
@@ -143,6 +189,19 @@ export default {
       this.$nextTick(() => {
         this.uploadReady = true
       })
+    },
+    onSumbit() {
+      var result = confirm("등록 하시겠습니까?")
+      if (result) {
+        const { memId, memNick, phoneNum, memBirth, files } = this
+        this.$emit("submitContents", {
+          memId,
+          memNick,
+          phoneNum,
+          memBirth,
+          files,
+        })
+      }
     },
   },
 }

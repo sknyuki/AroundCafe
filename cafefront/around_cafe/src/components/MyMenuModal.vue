@@ -74,8 +74,7 @@ export default {
           userService.deleteUserInfo()
           tokenService.deleteTokens()
           alert("로그아웃되었습니다.")
-          this.$router.push({ name: "MainPage" })
-          this.$router.go()
+          window.location.href = "/"
         })
 
         .catch((err) => {

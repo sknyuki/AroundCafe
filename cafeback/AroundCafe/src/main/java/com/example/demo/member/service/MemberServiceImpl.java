@@ -8,15 +8,21 @@ import com.example.demo.member.repository.MemberRepository;
 import com.example.demo.common.exception.ResourceNotFoundException;
 import com.example.demo.member.repository.MemberRoleRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -85,13 +91,20 @@ public class MemberServiceImpl implements MemberService {
         this.save(member);
     }
 
-    public void modifyMember(MemberDto memberDto) {
+    public void modifyMember(MemberDto memberDto, String filename) throws IOException {
         Member member = memberRepository.findByMemNo(memberDto.getMemNo()).orElseGet(null);
+
+        if(member.getMemImg() != null) {
+            Path filePath = Paths.get("../../cafefront/around_cafe/src/assets/images/memberImg/" + member.getMemImg());
+            Files.delete(filePath);
+            log.info("file delete complete");
+        }
+
         member.setMemId(memberDto.getMemId());
         member.setMemNick(memberDto.getMemNick());
         member.setPhoneNum(memberDto.getPhoneNum());
         member.setMemBirth(memberDto.getMemBirth());
-        member.setMemImg(memberDto.getMemImg());
+        member.setMemImg(filename);
         memberRepository.save(member);
     }
 }
