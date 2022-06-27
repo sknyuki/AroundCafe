@@ -1,0 +1,26 @@
+.cafe-review {
+  &-footer {
+    @include flexbox(start);
+    button {
+      width: 120px;
+      margin-right: 8px;
+
+      i {
+        margin-right: 4px;
+        margin-left: -4px;
+        font-size: 20px;
+        color: $white;
+      }
+    }
+    p {
+      @include text-style(12, $primary);
+      strong {
+        font-weight: 400;
+        span {
+          font-weight: 700;
+          color: $dark;
+        }
+      }
+    }
+  }
+}
