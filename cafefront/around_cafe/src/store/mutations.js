@@ -9,6 +9,7 @@ import {
   FETCH_QNA_LIST,
   FETCH_QNA_LISTS,
   FETCH_USER,
+  FETCH_USER_INFO,
   FETCH_HELP,
   FETCH_MY_HELPS_LIST,
 
@@ -20,6 +21,10 @@ import {
 export default {
   [FETCH_USER](state, user) {
     state.user = user
+  },
+
+  [FETCH_USER_INFO](state, userInfo) {
+    state.userInfo = userInfo
   },
 
   [FETCH_CAFE_BOARD_LIST](state, cafeBoards) {

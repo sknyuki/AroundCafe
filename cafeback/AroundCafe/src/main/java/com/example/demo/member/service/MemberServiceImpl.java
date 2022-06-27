@@ -1,5 +1,6 @@
 package com.example.demo.member.service;
 
+import com.example.demo.member.dto.MemberDto;
 import com.example.demo.member.entity.Member;
 import com.example.demo.member.entity.MemberRole;
 import com.example.demo.member.entity.MemberRoleType;
@@ -7,6 +8,7 @@ import com.example.demo.member.repository.MemberRepository;
 import com.example.demo.common.exception.ResourceNotFoundException;
 import com.example.demo.member.repository.MemberRoleRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -16,12 +18,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService {
 
-    private MemberRepository memberRepository;
-    private MemberRoleRepository memberRoleRepository;
-    private PasswordEncoder passwordEncoder;
+    private final MemberRepository memberRepository;
+    private final MemberRoleRepository memberRoleRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     @Transactional
@@ -80,5 +83,15 @@ public class MemberServiceImpl implements MemberService {
     public void changeMemberPassword(Member member, String password) {
         member.setMemPw(passwordEncoder.encode(password));
         this.save(member);
+    }
+
+    public void modifyMember(MemberDto memberDto) {
+        Member member = memberRepository.findByMemNo(memberDto.getMemNo()).orElseGet(null);
+        member.setMemId(memberDto.getMemId());
+        member.setMemNick(memberDto.getMemNick());
+        member.setPhoneNum(memberDto.getPhoneNum());
+        member.setMemBirth(memberDto.getMemBirth());
+        member.setMemImg(memberDto.getMemImg());
+        memberRepository.save(member);
     }
 }

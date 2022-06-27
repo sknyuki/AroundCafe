@@ -34,7 +34,7 @@ public class Member extends BaseDateTime {
 
     @Column(unique = true)
     private String memNick;
-    private Integer memPoint;
+    private Integer memPoint = 0;
 
     //이미지 경로 저장
     private String memImg;
@@ -50,7 +50,7 @@ public class Member extends BaseDateTime {
     // ManyToMany 형태로 연결할지, OneToOne형태로 연결할지 고민중
     // ManyToMany의 경우 Role 컬럼의 isMemberOnBlacklist를 Member 컬럼으로 옮겨야함.
     // Set<E>형태로 여러가지 권한을 보유할 수 있게할 수 있음. 우리 서비스에서는 필요없을듯?
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "role_id")
     private MemberRole role;
 

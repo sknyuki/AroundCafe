@@ -15,6 +15,7 @@ import {
   FETCH_HELP,
   FETCH_MY_HELPS_LIST,
   FETCH_USER,
+  FETCH_USER_INFO,
 } from "./mutation-types"
 
 import axios from "axios"
@@ -23,6 +24,11 @@ import UserService from "@/services/userService.js"
 export default {
   fetchUser({ commit }) {
     return commit(FETCH_USER, UserService.getUserInfo())
+  },
+  fetchUserInfo({ commit }) {
+    return axios.get("http://localhost:7777/members").then((res) => {
+      commit(FETCH_USER_INFO, res.data)
+    })
   },
   fetchcafeBoardList({ commit }) {
     return axios.get("http://localhost:7777/cafe/list").then((res) => {
