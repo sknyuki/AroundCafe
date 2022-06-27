@@ -19,6 +19,9 @@ public interface PaymentRepository extends JpaRepository<Payment,Long> {
     @Query("select m from Payment m where m.member = :member")
     public List<Payment> findAllByMember(@Param("memNo") Member member);
 
+    @Query("select m from Payment m where m.cafeNo = :cafeNo")
+    public List<Payment> findAllByCafeNo(@Param("cafeNo") Long cafeNo);
+
     @Query("select m from Payment m where m.paymentNo = :paymentNo")
     public Optional<Payment> findByPaymentNo(@Param("paymentNo") Long paymentNo);
 

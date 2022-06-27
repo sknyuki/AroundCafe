@@ -1,5 +1,6 @@
 package com.example.demo.security.config;
 
+import com.example.demo.security.jwt.exceptions.AccessDeniedJwt;
 import com.example.demo.security.jwt.filter.JwtFilter;
 import com.example.demo.security.jwt.exceptions.AuthEntryPointJwt;
 import com.example.demo.security.service.CorsConfigurationSource;
@@ -27,6 +28,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final MemberDetailsServiceImpl memberDetailsService;
     private final CorsConfigurationSource corsConfigurationSource;
     private final AuthEntryPointJwt unAuthorizedHandler;
+    private final AccessDeniedJwt accessDeniedHandler;
     private final JwtFilter jwtFilter;
 
     @Override
@@ -64,19 +66,22 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // 기본 로그인 화면 비활성화
                 .httpBasic().disable()
                 // 첫 인증시 발생하는 에러 AuthEntryPointJwt를 통하여 처리
-                .exceptionHandling().authenticationEntryPoint(unAuthorizedHandler)
+                .exceptionHandling()
+                    .authenticationEntryPoint(unAuthorizedHandler)
+                    .accessDeniedHandler(accessDeniedHandler)
                 .and()
                 .authorizeRequests()
                     // Preflight Request 접근 가능
                     .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                     // 권한 없이 접근 가능한 패턴
-                    .antMatchers("/**", "/auth/**").permitAll()
+                    .antMatchers("/auth/**").permitAll()
                     // ADMIN 권한이 필요한 패턴
                     //.antMatchers("/admin/**").hasAnyRole("ADMIN")
                     // cafe, admin 권한이 필요한 패턴
                     //.antMatchers("/cafe/**").hasAnyRole("CAFE","ADMIN")
                     // 나머지 모든 Request는 Authenticated되어 있어야 함
                     //.anyRequest().authenticated()
+                    .anyRequest().permitAll()
                 .and()
                 //헤더 정보의 x-frame-options 비활성화
                 .headers().frameOptions().disable()

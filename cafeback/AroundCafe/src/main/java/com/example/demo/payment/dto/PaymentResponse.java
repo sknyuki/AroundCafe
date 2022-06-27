@@ -20,9 +20,10 @@ public class PaymentResponse {
     private Date paymentDate;
     private Boolean isCancelled;
     private List<OrderItemResponse> orderItems;
+    private Long cafeNo;
 
     @Builder
-    public PaymentResponse(Long paymentNo, String itemInitName, String paymentMethod, Long totalQuantity, Long totalAmount, Long totalPointAmount, Date paymentDate, Boolean isCancelled, ArrayList<OrderItemResponse> orderItems) {
+    public PaymentResponse(Long paymentNo, String itemInitName, String paymentMethod, Long totalQuantity, Long totalAmount, Long totalPointAmount, Date paymentDate, Boolean isCancelled, ArrayList<OrderItemResponse> orderItems, Long cafeNo) {
         this.paymentNo = paymentNo;
         this.itemInitName = itemInitName;
         this.paymentMethod = paymentMethod;
@@ -32,5 +33,6 @@ public class PaymentResponse {
         this.paymentDate = paymentDate;
         this.isCancelled = isCancelled;
         this.orderItems = orderItems;
+        this.cafeNo = cafeNo;
     }
 }

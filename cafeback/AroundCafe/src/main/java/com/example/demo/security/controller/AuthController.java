@@ -64,7 +64,8 @@ public class AuthController {
     }
 
 
-    //oauth 형태로 로그인 하는 경우
+    // oauth 형태로 로그인 하는 경우
+    // Refactoring 필요
     @PostMapping("/oauth")
     public ResponseEntity<?> oauthLogin(@Valid @RequestBody OAuth2Request oauth2Request) {
         // SocialNo, MemId 존재여부 확인

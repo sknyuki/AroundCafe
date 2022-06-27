@@ -6,6 +6,8 @@
     <v-btn @click="logout()">로그아웃</v-btn>
     <input class="form-input input-48" v-model="paymentId" />
     <v-btn @click="kakaoPayment()">결제</v-btn>
+    <v-btn @click="getUser()">유저가져오기</v-btn>
+    <div>{{user}}</div>
   </div>
 </template>
 
@@ -14,6 +16,7 @@ import TimerBeforeHour from "@/utils/timer"
 import tokenService from "@/services/tokenService";
 import axios from "axios";
 import userService from "@/services/userService";
+import instance from "@/plugins/axiosInterceptors";
 
 export default {
   name: "AccountTestPage",
@@ -22,6 +25,7 @@ export default {
       timerId: "",
       time: "",
       paymentId: "",
+      user: [],
     }
   },
   computed: {
@@ -65,6 +69,14 @@ export default {
           "_blank",
           "width=440, height=680, menubar=no, toolbar=no, location=no, status=no, scrollbars=no"
       )
+    },
+    getUser() {
+      const url = `http://localhost:7777/members`
+      instance.get(url).then((response) => {
+        this.user = response.data;
+      }).catch((err) => {
+        alert(err)
+      })
     }
   },
 }

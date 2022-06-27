@@ -33,8 +33,10 @@ public class Payment extends BaseDateTime {
     @JoinColumn(name = "mem_no")
     private Member member;
 
+    private Long cafeNo;
+
     @Builder
-    public Payment(String itemInitName, String exPaymentNo, String paymentMethod, Long totalQuantity, Long totalAmount, Long totalPointAmount, Date paymentDate, Date expTime, Boolean isCancelled, HashSet<OrderItem> orderItem, Member member) {
+    public Payment(String itemInitName, String exPaymentNo, String paymentMethod, Long totalQuantity, Long totalAmount, Long totalPointAmount, Date paymentDate, Date expTime, Boolean isCancelled, HashSet<OrderItem> orderItem, Member member, Long cafeNo) {
         this.itemInitName = itemInitName;
         this.exPaymentNo = exPaymentNo;
         this.paymentMethod = paymentMethod;
@@ -46,5 +48,6 @@ public class Payment extends BaseDateTime {
         this.isCancelled = isCancelled;
         this.orderItem = orderItem;
         this.member = member;
+        this.cafeNo = cafeNo;
     }
 }

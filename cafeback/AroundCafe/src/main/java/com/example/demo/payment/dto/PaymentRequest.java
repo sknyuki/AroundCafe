@@ -23,8 +23,10 @@ public class PaymentRequest {
     private List<OrderItemRequest> orderItems;
     private Long memNo;
 
+    private Long cafeNo;
+
     @Builder
-    public PaymentRequest(String itemInitName, String exPaymentNo, String paymentMethod, Long totalQuantity, Long totalAmount, Long totalPointAmount, Date paymentDate, ArrayList<OrderItemRequest> orderItems, Long memNo) {
+    public PaymentRequest(String itemInitName, String exPaymentNo, String paymentMethod, Long totalQuantity, Long totalAmount, Long totalPointAmount, Date paymentDate, ArrayList<OrderItemRequest> orderItems, Long memNo, Long cafeNo) {
         this.itemInitName = itemInitName;
         this.exPaymentNo = exPaymentNo;
         this.paymentMethod = paymentMethod;
@@ -34,5 +36,6 @@ public class PaymentRequest {
         this.orderItems = orderItems;
         this.paymentDate = paymentDate;
         this.memNo = memNo;
+        this.cafeNo = cafeNo;
     }
 }
