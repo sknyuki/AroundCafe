@@ -13,7 +13,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.UUID;
 
 @Slf4j
 @RestController
@@ -47,13 +54,26 @@ public class MemberController {
 
     @PutMapping("/modifyMember")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public void modifyMember(MemberDto memberDto) {
-        memberService.modifyMember(memberDto);
+    public void modifyMember(@Validated @RequestBody MemberDto memberDto) throws IOException {
+
+        String filename = null;
+        if(memberDto.getMemImg() != null){
+            UUID uuid = UUID.randomUUID();
+            filename = uuid +"." +memberDto.getMemImg();
+            FileOutputStream writer = new FileOutputStream(
+                    "../../cafefront/around_cafe/src/assets/images/memberImg/"  + filename);
+            log.info("save complete!");
+
+            writer.write(memberDto.getMemImg().getBytes(StandardCharsets.UTF_8));
+            writer.close();
+        }
+        memberService.modifyMember(memberDto,filename);
     }
 
     @PutMapping("/changePassword")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public void changePassword(MemberDto memberDto) {
+    public void changePassword(@RequestBody MemberDto memberDto) {
+        log.info("change pw");
         Member member = memberService.findByMemNo(memberDto.getMemNo());
         memberService.changeMemberPassword(member, memberDto.getMemPw());
     }

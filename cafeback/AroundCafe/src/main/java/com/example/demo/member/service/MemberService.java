@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -21,7 +22,7 @@ public interface MemberService {
     public Boolean existsByMemNick(String memNick);
     public Member findByMemId(String memId);
     public Member findByMemNick(String memNick);
-    public void modifyMember(MemberDto memberDto);
+    public void modifyMember(MemberDto memberDto,String filename) throws IOException;
     public List<Member> findMembersByRoleType(MemberRoleType name);
     public void changeMemberPassword(Member member, String password);
 }
