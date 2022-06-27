@@ -20,11 +20,8 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 public class PaymentController {
-
-    @Autowired
-    MemberRepository memberRepository;
-    @Autowired
-    PaymentService paymentService;
+    private final MemberRepository memberRepository;
+    private final PaymentService paymentService;
     // 3. 주문내역 수정(PUT) ---- 할일이 없을거 같음(환불시?)
     // 4. 주문내역 삭제(DELETE)
 
