@@ -45,10 +45,17 @@ public class MemberController {
         memberService.deleteByMemNo(memNo);
     }
 
-    @PutMapping()
+    @PutMapping("/modifyMember")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void modifyMember(MemberDto memberDto) {
         memberService.modifyMember(memberDto);
+    }
+
+    @PutMapping("/changePassword")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public void changePassword(MemberDto memberDto) {
+        Member member = memberService.findByMemNo(memberDto.getMemNo());
+        memberService.changeMemberPassword(member, memberDto.getMemPw());
     }
 }
 
