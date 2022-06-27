@@ -59,7 +59,17 @@
 
       dd {
         .bar-graph {
-          width: 180px;
+          width: 100px;
+          margin-right: 8px;
+        }
+      }
+    }
+  }
+  @include responsive(D) {
+    &-item {
+      dd {
+        .bar-graph {
+          width: 140px;
           margin-right: 8px;
         }
       }

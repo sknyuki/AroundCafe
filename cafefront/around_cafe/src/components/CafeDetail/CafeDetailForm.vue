@@ -19,9 +19,9 @@
                 </button>
               </div>
             </div>
-            <div class="container">
+            <div class="contaianer">
               <div class="row">
-                <div class="col-sm-8 col-md-8 col-lg-8">
+                <div class="col-sm-12 col-md-12 col-lg-8">
                   <div>
                     <div class="detail-content">
                       <div class="detail-info">
@@ -83,8 +83,9 @@
                     </div>
                     <div class="detail-content">
                       <h3 class="detail-int-header">메뉴</h3>
-
-                      <CafeMenuList />
+                      <CafeSiteMenuList
+                        @submitCheckBasketList="submitCheckBasketList"
+                      />
                     </div>
                     <div class="detail-content">
                       <section class="detail-section">
@@ -189,8 +190,8 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-sm-4 col-md-4 col-lg-4 lg-only">
-                  <CafeDetailSidebar />
+                <div class="col-lg-4 lg-only">
+                  <CafeDetailSidebar :baskeList="baskeList" />
                 </div>
                 <div class="detail-content">
                   지도
@@ -209,14 +210,14 @@
 import StarRating from "vue-star-rating"
 import CafeReviewForm from "@/components/CafeReview/CafeReviewForm.vue"
 import CafeDetailSidebar from "@/components/CafeDetail/CafeDetailSidebar.vue"
-import CafeMenuList from "@/components/Cafe/CafeMenuList.vue"
+import CafeSiteMenuList from "../CafeSite/CafeSiteMenuList.vue"
 export default {
   name: "CafeDetailForm",
   components: {
     StarRating,
     CafeReviewForm,
     CafeDetailSidebar,
-    CafeMenuList,
+    CafeSiteMenuList,
   },
   props: {
     reviews: {
@@ -232,7 +233,13 @@ export default {
   data() {
     return {
       reviewNo: "",
+      basketList: [],
     }
+  },
+  methods: {
+    submitCheckBasketList(CheckBasketList) {
+      this.basketList = CheckBasketList
+    },
   },
 }
 </script>

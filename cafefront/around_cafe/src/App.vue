@@ -2,13 +2,7 @@
   <v-app>
     <TheHeader v-if="visibleHeader" />
     <v-main>
-      <v-container>
-        <v-row>
-          <v-col>
-            <router-view />
-          </v-col>
-        </v-row>
-      </v-container>
+      <router-view />
     </v-main>
     <TheFooter v-if="visibleFooter" />
   </v-app>

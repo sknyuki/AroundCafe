@@ -1,4 +1,19 @@
 .menu {
+  &-mark {
+    @include text-style(24, $white);
+    position: absolute;
+    z-index: 3;
+    top: 0;
+    left: 52%;
+    background-color: $red;
+    width: 50%;
+    height: 64px;
+    span {
+      font-size: 42px;
+      padding: 10px;
+      display: block;
+    }
+  }
   &-item {
     padding: 8px 0;
     position: relative;
@@ -59,6 +74,24 @@
     }
   }
   @include responsive(T) {
+    &-mark {
+      @include responsive(T) {
+        @include text-style(14, $white);
+        position: absolute;
+        z-index: 3;
+        top: 0%;
+        left: 52%;
+        width: 48%;
+        height: 14%;
+        background-color: $red;
+
+        span {
+          font-size: 14px;
+          margin-left: 6px;
+          padding: 1px;
+        }
+      }
+    }
     &-card {
       @include flexbox(start);
 
