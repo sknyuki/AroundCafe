@@ -6,7 +6,7 @@
           <div class="menu-card">
             <div class="menu-card-image">
               <img src="@/assets/images/cold.jpg" alt="" />
-              <div class="test">
+              <div class="menu-mark">
                 <span>Signature</span>
               </div>
             </div>
@@ -26,9 +26,9 @@
         </a>
 
         <div class="menu-item-btn">
-          <v-btn class="to-basket" icon @click="tobasket(item)">
-            <v-icon>mdi-cart</v-icon>
-          </v-btn>
+          <button @click="addToBasket(item)">
+            <i class="icCart"></i>
+          </button>
         </div>
       </li>
     </ul>
@@ -48,7 +48,7 @@ export default {
   data() {
     return {
       signatureNo: "",
-      Checkbasketlist: [],
+      CheckbasketList: [],
       menuLists: [
         {
           menu_no: 0,
@@ -156,23 +156,18 @@ export default {
     sendPage(page) {
       this.$emit("paging", page)
     },
-    tobasket(item) {
-      // console.log(item)
-      // console.log(this.Checkbasketlist.length)
-      // console.log(JSON.stringify(this.Checkbasketlist))
-      for (let i = 0; i <= this.Checkbasketlist.length; i++)
-        console.log(this.Checkbasketlist.length)
-      if (this.Checkbasketlist.includes(item)) {
-        console.log(JSON.stringify(this.Checkbasketlist))
+    addToBasket(item) {
+      for (let i = 0; i <= this.CheckBasketList.length; i++)
+        console.log(this.CheckBasketList.length)
+      if (this.CheckBasketList.includes(item)) {
+        console.log(JSON.stringify(this.CheckBasketList))
         console.log(item)
         alert("해당제품은 이미 장바구니에 담으셨습니다!")
       } else {
-        this.Checkbasketlist.push(item)
+        this.CheckBasketList.push(item)
         console.log("값을 정상적으로 저장하였습니다.")
 
-        this.$emit("submitCheckbasketlist", this.Checkbasketlist)
-        // console.log("넘어가는 파일:")
-        // console.log(this.Checkbasketlist)
+        this.$emit("submitCheckBasketList", this.CheckBasketList)
       }
     },
   },
@@ -180,19 +175,4 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import "~@/assets/scss/components/cafe/cafe-menu-list";
-.test {
-  @include text-style(14, $white);
-  position: absolute;
-  z-index: 3;
-  top: 0%;
-  left: 52%;
-  width: 48%;
-  height: 14%;
-  background-color: $red;
-
-  span {
-    margin-left: 6px;
-    padding: 1px;
-  }
-}
 </style>
