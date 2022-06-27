@@ -54,6 +54,7 @@
               </div>
 
               <p>{{ review.review_content }}</p>
+              <p>{{ review.reviewNo }}</p>
             </div>
 
             <CafeReviewLike
@@ -62,8 +63,8 @@
               :myHelps="myHelps"
               :index="index"
             />
-             <CafeReviewDelete :review="review"/>
-<!--
+            <CafeReviewDelete :review="review" />
+            <!--
             <button
               class="delete-button"
               aria-label="해당 리뷰 삭제하기"
@@ -96,7 +97,7 @@ export default {
     StarRating,
     CafeReviewModify,
     CafeReviewLike,
-    CafeReviewDelete
+    CafeReviewDelete,
   },
   props: {
     reviews: {
@@ -117,7 +118,6 @@ export default {
     }
   },
   methods: {
- 
     onModify(payload) {
       const { reviewNo, star_score, review_content, cafeNum, file } = payload
       let formData = new FormData()
@@ -159,17 +159,6 @@ export default {
       this.fetchReview(this.reviewNo).catch(() => {
         alert("게시물 DB조회 실패!")
       })
-    },
-
-    onLikes(reviewNo) {
-      axios
-        .post(`http://localhost:7777/likes/${reviewNo}/${this.loginInfo}`, {})
-        .then(() => {
-          history.go(0)
-        })
-        .catch(() => {
-          alert("문제 발생!")
-        })
     },
     deleteReview() {
       axios

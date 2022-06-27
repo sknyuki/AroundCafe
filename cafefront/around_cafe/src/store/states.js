@@ -20,4 +20,8 @@ export default {
   //공지사항
   noticeBoards: [],
   noticeBoard: [],
+
+  like: null,
+  likes: [],
+  myLikes: [],
 }
