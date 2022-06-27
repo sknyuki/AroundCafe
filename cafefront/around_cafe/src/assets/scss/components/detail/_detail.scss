@@ -1,0 +1,90 @@
+.detail {
+  &-info {
+    @include flexbox(start);
+    @include text-style(18);
+    margin-bottom: 24px;
+    font-weight: 700;
+
+    &:last-child {
+      margin-bottom: 0px;
+    }
+    .v-icon {
+      font-size: 32px;
+      margin-right: 12px;
+      color: $dark;
+    }
+  }
+  &-int {
+    @include truncate;
+
+    &-header {
+      @include text-style(24, $indigo);
+      margin-bottom: 20px;
+    }
+    &-text {
+      @include text-style(18);
+      display: -webkit-box;
+      -webkit-line-clamp: 6;
+      -webkit-box-orient: vertical;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      word-break: break-word;
+    }
+    &-btn {
+      @include text-style(18);
+      margin-top: 16px;
+      font-weight: 700;
+      .view {
+        text-decoration: underline;
+        margin-right: 4px;
+      }
+      .icChevron {
+        display: inline-block;
+        font-size: 20px;
+        padding-bottom: 4px;
+        transform: rotate(-90deg);
+      }
+    }
+  }
+
+  &-section {
+    &-header {
+      @include flexbox(start);
+      width: 100%;
+      position: relative;
+      margin-bottom: 20px;
+      .review-title {
+        @include text-style(16, $dark);
+      }
+      .badge {
+        @include text-style(16, $indigo);
+        margin-left: 8px;
+      }
+      .text-btn {
+        @include pos-center-y;
+        color: $indigo !important;
+        padding: 15px;
+        font-weight: 700;
+        right: -15px;
+        &:active {
+          opacity: 0.4;
+        }
+      }
+    }
+  }
+
+  @include responsive(T) {
+    .review-title,
+    .badge {
+      @include text-style(18);
+    }
+
+    .text-btn {
+      @include text-style(16);
+
+      &:hover {
+        opacity: 0.4;
+      }
+    }
+  }
+}

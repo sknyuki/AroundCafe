@@ -8,24 +8,21 @@
         v-if="pageSetting.first !== null"
         @click="pageSetting.first !== null ? sendPage(pageSetting.first) : ''"
       >
-      <i class="icChevron" aria-hidden></i>
+        <i class="icChevron" aria-hidden></i>
       </v-btn>
-      
-        <ol
-          class="page-list"
+
+      <ol class="page-list">
+        <li
+          class="page-item"
+          :class="{ isactive: page === pageSetting.currentPage }"
+          v-for="page in pageSetting.list"
+          :key="page"
+          @click="sendPage(page)"
         >
-          <li
-            class="page-item"
-            :class="{ isactive: page === pageSetting.currentPage }"
-            v-for="page in pageSetting.list"
-            :key="page"
-            @click="sendPage(page)"
-          >
           <a> {{ page }} </a>
-            
-          </li>
-        </ol>
-      
+        </li>
+      </ol>
+
       <v-btn
         class="page-control page-next"
         type="button"
@@ -33,36 +30,25 @@
         v-if="pageSetting.end !== null"
         @click="pageSetting.end !== null ? sendPage(pageSetting.end) : ''"
       >
-      <i class="icChevron" aria-hidden></i>
+        <i class="icChevron" aria-hidden></i>
       </v-btn>
     </div>
   </div>
 </template>
- 
+
 <script>
-  export default {
-    name:'PaginationForm',
-    props: ["pageSetting"],
- 
-    methods: {
-      sendPage(page) {
-        this.$emit("paging", page)
-      }
-    }
-  }
+export default {
+  name: "PaginationForm",
+  props: ["pageSetting"],
+
+  methods: {
+    sendPage(page) {
+      this.$emit("paging", page)
+    },
+  },
+}
 </script>
 
 <style lang="scss" scoped>
 @import "~@/assets/scss/modules/pagination";
-  .page-item {
-    margin-right: 4px;
-
-    &.isactive {
-      a,
-      button {
-        color: $white !important;
-        background-color: $indigo;
-      }
-    }
-  }
 </style>

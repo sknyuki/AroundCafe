@@ -65,7 +65,7 @@
     }
 
     a,
-    button {
+    v-btn {
       @extend %page-item-base;
       min-width: 26px;
       padding: 0 4px 2px;
