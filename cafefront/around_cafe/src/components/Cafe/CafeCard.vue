@@ -40,6 +40,21 @@
                   <!-- 스와이퍼 -->
                   <swiper class="swiper" :options="swiperOption">
                     <swiper-slide
+                      v-if="cafeItem.cafeImgs.length == 0"
+                      class="cafe-gallery-image"
+                    >
+                      <picture>
+                        <img
+                          loading="lazy"
+                          v-bind:src="
+                            require(`@/assets/cafe/cafeMypage/beforeReady.jpg`)
+                          "
+                          alt="카페이미지"
+                        />
+                      </picture>
+                    </swiper-slide>
+                    <swiper-slide
+                      v-else
                       v-for="img in cafeItem.cafeImgs"
                       :key="img.cafeImgNo"
                       class="cafe-gallery-image"

@@ -1,16 +1,14 @@
 <template>
   <div>
-    <cafe-password/>
+    <CafePassword />
   </div>
 </template>
 <script>
-import CafePassword from '@/components/Cafe/CafePassword.vue'
+import CafePassword from "@/components/Cafe/CafePassword.vue"
+
 export default {
   components: { CafePassword },
-  name: 'CafePasswordPage',
-
+  name: "CafePasswordPage",
 }
 </script>
-<style lang="">
-  
-</style>
+<style lang=""></style>

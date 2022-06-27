@@ -17,6 +17,7 @@
                   class="form-input"
                   type="password"
                   placeholder="새 비밀번호"
+                  v-model="memPw"
                 />
               </span>
             </div>
@@ -29,21 +30,38 @@
                   class="form-input"
                   type="password"
                   placeholder="새 비밀번호 확인"
+                  v-model="memPw1"
                 />
               </span>
             </div>
           </div>
           <div class="sign-email-btn">
-            <v-btn class="sign-button-vuti">비밀번호 변경</v-btn>
+            <v-btn class="sign-button-vuti" @click="changePw"
+              >비밀번호 변경</v-btn
+            >
           </div>
         </form>
       </div>
     </section>
   </div>
 </template>
+
 <script>
 export default {
   name: "ChangePwform",
+  data() {
+    return {
+      memPw: "",
+      memPw1: "",
+    }
+  },
+  methods: {
+    changePw() {
+      if (this.memPw == this.memPw1) {
+        this.$emit("submit", { memPw: this.memPw })
+      } else alert("비밀번호가 일치하지 않습니다!")
+    },
+  },
 }
 </script>
 <style lang="scss" scoped></style>
