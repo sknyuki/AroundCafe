@@ -2,6 +2,7 @@ package com.example.demo.member.entity;
 
 import com.example.demo.mypage.cafe.entity.Cafe;
 import com.example.demo.common.entity.BaseDateTime;
+import com.example.demo.mypage.cafe.entity.CafeLike;
 import com.example.demo.payment.entity.Payment;
 import com.example.demo.review.entity.Review;
 import com.example.demo.review.entity.ReviewLike;
@@ -66,6 +67,13 @@ public class Member extends BaseDateTime {
     @JsonIgnoreProperties({"member"})
     @OneToMany(mappedBy = "member", fetch = FetchType.EAGER,orphanRemoval = true)
     private Set<ReviewLike> reviewLikes = new HashSet<>();
+
+    @JsonManagedReference
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    @JsonIgnoreProperties({"member"})
+    @OneToMany(mappedBy = "member", fetch = FetchType.EAGER,orphanRemoval = true)
+    private Set<CafeLike> cafeLike = new HashSet<>();
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private Set<Payment> payment = new HashSet<>();

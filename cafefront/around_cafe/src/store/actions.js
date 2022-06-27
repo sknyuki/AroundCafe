@@ -16,6 +16,9 @@ import {
   FETCH_MY_HELPS_LIST,
   FETCH_USER,
   FETCH_USER_INFO,
+  FETCH_LIKE,
+  FETCH_LIKES_LIST,
+  FETCH_MY_LIKES_LIST,
 } from "./mutation-types"
 
 import axios from "axios"
@@ -121,6 +124,27 @@ export default {
       .get(`http://localhost:7777/cafe/like/list/my/${membNo}`)
       .then((res) => {
         commit(FETCH_MY_HELPS_LIST, res.data)
+      })
+  },
+  fetchLikesList({ commit }, cafeNo) {
+    return axios
+      .get(`http://localhost:7777/cafe/likes/${cafeNo}/like`)
+      .then((res) => {
+        commit(FETCH_LIKES_LIST, res.data)
+      })
+  },
+  fetchLike({ commit }, { cafeNo, membNo }) {
+    return axios
+      .get(`http://localhost:7777/cafe/likes/${cafeNo}/${membNo}`)
+      .then((res) => {
+        commit(FETCH_LIKE, res.data)
+      })
+  },
+  fetchMyLikesList({ commit }, membNo) {
+    return axios
+      .get(`http://localhost:7777/cafe/likes/list/my/${membNo}`)
+      .then((res) => {
+        commit(FETCH_MY_LIKES_LIST, res.data)
       })
   },
 }

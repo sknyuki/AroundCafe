@@ -1,7 +1,9 @@
 package com.example.demo.mypage.cafe.entity;
 
 import com.example.demo.member.entity.Member;
+import com.example.demo.review.entity.ReviewLike;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 
@@ -54,6 +56,12 @@ public class Cafe {
     @ToString.Exclude
     @OneToMany(mappedBy = "cafe", fetch = FetchType.EAGER, orphanRemoval = true)
     private Set<CafeMenu> cafeMenu = new HashSet<>();
+
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    @JsonIgnoreProperties({"cafe"})
+    @OneToMany(mappedBy = "cafe", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private Set<CafeLike> cafeLike = new HashSet<>();
 
     @OneToOne
     @JsonIgnore
