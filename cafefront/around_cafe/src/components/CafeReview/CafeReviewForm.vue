@@ -45,16 +45,17 @@
             </header>
 
             <div class="cafe-review-body">
-              <div class="review-image">
+              <div
+                class="review-image"
+                v-if="review.fileName !== null && review.fileName !== 'null'"
+              >
                 <img
-                  v-if="review.fileName !== null && review.fileName !== 'null'"
                   class="addImg"
                   :src="require(`@/assets/review/${review.fileName}`)"
                 />
               </div>
 
               <p>{{ review.review_content }}</p>
-              <p>{{ review.reviewNo }}</p>
             </div>
 
             <CafeReviewLike
