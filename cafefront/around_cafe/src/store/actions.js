@@ -47,10 +47,12 @@ export default {
       })
   },
 
-  fetchMenuLists({ commit }, memNo) {
-    return axios.get(`http://localhost:7777/menu/list/${memNo}`).then((res) => {
-      commit(FETCH_MENU_LISTS, res.data)
-    })
+  fetchMenuLists({ commit }, cafeNo) {
+    return axios
+      .get(`http://localhost:7777/menu/list/${cafeNo}`)
+      .then((res) => {
+        commit(FETCH_MENU_LISTS, res.data)
+      })
   },
 
   fetchCafeImgLists({ commit }, memNo) {

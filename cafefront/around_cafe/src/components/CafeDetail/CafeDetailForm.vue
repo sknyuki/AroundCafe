@@ -8,6 +8,21 @@
             <header>
               <h1>{{ cafeBoard.cafe_name }}</h1>
             </header>
+            <div class="image-grid">
+              <picture
+                v-for="(img, index) in cafeBoard.cafeImgs.slice(0, 5)"
+                :key="index"
+                :class="{ row: index === 0 }"
+              >
+                <source />
+                <template v-if="index < 5">
+                  <img
+                    :src="require(`@/assets/cafe/cafeMypage/${img.cafe_img}`)"
+                    alt=""
+                  />
+                </template>
+              </picture>
+            </div>
 
             <div class="detail-image">
               <div class="detail-image-one">
@@ -241,4 +256,32 @@ export default {
 @import "~@/assets/scss/components/detail/detail-content";
 @import "~@/assets/scss/components/review/review-scoreboard";
 @import "~@/assets/scss/components/review/score-stats";
+.image-grid {
+  --gap: 8px;
+  --num-cols: 4;
+  --row-height: 200px;
+  display: grid;
+  padding: var(--gap);
+  grid-template-columns: repeat(var(--num-cols), 1fr);
+  grid-auto-rows: var(--row-height);
+  gap: var(--gap);
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 12px !important;
+  }
+}
+.row {
+  grid-column: span 2 !important;
+  grid-row: span 2 !important;
+}
+/* Anything udner 1024px */
+@media screen and (max-width: 1024p) {
+  .image-grid {
+    --num-cols: 2;
+    --row-height: 120px;
+  }
+}
 </style>

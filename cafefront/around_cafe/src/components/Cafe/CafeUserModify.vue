@@ -33,15 +33,27 @@ export default {
     onSumbit(payload) {
       const { memId, memNick, phoneNum, memBirth, files } = payload
 
+      let formData = new FormData()
+
+      let fileInfo = {
+        memNo: this.writer,
+        memId: memId,
+        memNick: memNick,
+        phoneNum: phoneNum,
+        memBirth: memBirth,
+        memImg: files.name,
+      }
+
+      formData.append(
+        "info",
+        new Blob([JSON.stringify(fileInfo)], { type: "application/json" })
+      )
+
+      if (files != null) {
+        formData.append("fileList", files)
+      }
       axios
-        .put("http://localhost:7777/members/modifyMember", {
-          memNo: this.writer,
-          memId: memId,
-          memNick: memNick,
-          phoneNum: phoneNum,
-          memBirth: memBirth,
-          memImg: files.name,
-        })
+        .put("http://localhost:7777/members/modifyMember", formData)
         .then(() => {
           alert("수정되었습니다!")
           this.$router.go()

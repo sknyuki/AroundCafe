@@ -1,7 +1,7 @@
 .cafe-list {
   &-title {
     @include text-style(16, $dark);
-    font-weight: 400;
+    font-weight: 700;
   }
   &-location,
   &-time {

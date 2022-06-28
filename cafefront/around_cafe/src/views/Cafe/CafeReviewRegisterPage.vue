@@ -20,6 +20,7 @@ export default {
   data() {
     return {
       reviewDialog: false,
+      membNo: this.$store.state.user.memNo,
     }
   },
 
@@ -34,7 +35,7 @@ export default {
       formData.append("review_content", review_content)
       formData.append("cafeNum", cafeNum)
 
-      let membNo = 1
+      let membNo = this.membNo
       axios
         .post(
           `http://localhost:7777/cafe/review/register/${membNo}`,

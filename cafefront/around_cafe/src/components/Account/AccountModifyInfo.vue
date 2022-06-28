@@ -88,12 +88,21 @@
         <div class="modify-info-title">프로필 이미지</div>
         <div class="modify-info-group">
           <button @click="onUpload" type="button" aria-label="사진 첨부하기">
-            <img v-if="image != ''" :src="image" />
-            <img
-              v-if="image == ''"
-              src="@/assets/images/avatar.webp"
-              alt="기본 이미지"
-            />
+            <template v-if="image.length > 0">
+              <img v-if="image != ''" :src="image" />
+            </template>
+            <template v-else>
+              <img
+                v-if="image == '' || memImg == ''"
+                :src="require(`@/assets/images/avatar.webp`)"
+                alt="기본 이미지"
+              />
+              <img v-if="findKakao > 5 && memImg != ''" :src="memImg" />
+              <img
+                v-if="findKakao < 0"
+                v-bind:src="require(`@/assets/images/memberImg/${memImg}`)"
+              />
+            </template>
           </button>
           <v-btn
             @click="imageDelete"
@@ -127,16 +136,17 @@
       <div>
         <img v-if="userInfo.socialType == 'KAKAO'" src="userInfo.memImg" />
       </div> -->
+    <!-- <img v-if="userInfo.socialType == 'KAKAO'" :src="userInfo.memImg" />
     <img
-      v-if="userInfo.memImg != null"
+      v-if="userInfo.socialType == 'LOCAL'"
       v-bind:src="require(`@/assets/images/memberImg/${userInfo.memImg}`)"
-      style="width: 20px"
+      style="width: 30px"
     />
     <img
-      v-else
+      v-if="userInfo.memImg == null"
       src="@/assets/images/memberImg/noMemberImg.png"
       style="width: 20px"
-    />
+    /> -->
   </div>
 </template>
 <script>
@@ -153,6 +163,8 @@ export default {
       memNick: "",
       phoneNum: "",
       memBirth: "",
+      memImg: "",
+      findKakao: "",
     }
   },
   computed: {
@@ -168,6 +180,8 @@ export default {
       this.memNick = this.userInfo.memNick
       this.phoneNum = this.userInfo.phoneNum
       this.memBirth = this.userInfo.memBirth
+      this.memImg = this.userInfo.memImg
+      this.findKakao = this.memImg.indexOf("k.kakaocdn.net")
     },
     ...mapActions(["fetchUserInfo"]),
     onUpload() {
@@ -181,6 +195,7 @@ export default {
 
     imageDelete() {
       this.image = ""
+      this.memImg = ""
 
       this.clearImage()
     },
