@@ -94,17 +94,27 @@ export default {
   methods: {
     ...mapActions(["fetchMenuLists"]),
     addToBasket(item) {
-      for (let i = 0; i <= 3; i++)
-        if (this.CheckBasketList.includes(item)) {
-          console.log(JSON.stringify(this.CheckBasketList))
-          console.log(item)
-          alert("해당제품은 이미 장바구니에 담으셨습니다!")
-        } else {
-          this.CheckBasketList.push(item)
-          console.log("값을 정상적으로 저장하였습니다.")
-
-          this.$emit("submitCheckBasketList", this.CheckBasketList)
+      // console.log(item)
+      if (this.CheckbasketList.length == 0) {
+        this.CheckbasketList.push(item)
+        console.log("값을 정상적으로 저장하였습니다.")
+        this.$emit("submitCheckBasketList", this.CheckbasketList)
+      } else {
+        for (let i = 0; i <= this.CheckbasketList.length; i++) {
+          // console.log(this.CheckbasketList.length)
+          if (this.CheckbasketList.includes(item)) {
+            console.log(JSON.stringify(this.CheckbasketList))
+            console.log(item)
+            alert("해당제품은 이미 장바구니에 담으셨습니다!")
+            break
+          } else {
+            this.CheckbasketList.push(item)
+            console.log("값을 정상적으로 저장하였습니다.")
+            this.$emit("submitCheckBasketList", this.CheckbasketList)
+            break
+          }
         }
+      }
     },
     pagingMethod(page) {
       this.listData = this.menuLists.slice(
