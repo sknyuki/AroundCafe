@@ -28,7 +28,7 @@ public class Cafe {
     @Column(length = 128, nullable = true)
     private String cafe_time;
 
-    @Column(length = 128, nullable = true)
+    @Lob
     private String cafe_content;
 
     @Column(length = 32, nullable = true)

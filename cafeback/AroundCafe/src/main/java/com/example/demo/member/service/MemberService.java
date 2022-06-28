@@ -22,7 +22,8 @@ public interface MemberService {
     public Boolean existsByMemNick(String memNick);
     public Member findByMemId(String memId);
     public Member findByMemNick(String memNick);
-    public void modifyMember(MemberDto memberDto,String filename) throws IOException;
+    public void addImgmodifyMember(MemberDto memberDto,String filename) throws IOException;
+    public void noImgmodifyMember(MemberDto memberDto) throws IOException;
     public List<Member> findMembersByRoleType(MemberRoleType name);
     public void changeMemberPassword(Member member, String password);
 }

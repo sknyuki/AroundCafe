@@ -6,20 +6,24 @@ import com.example.demo.member.entity.Member;
 import com.example.demo.member.map.MemberMapStruct;
 import com.example.demo.member.map.MemberResponseMapStruct;
 import com.example.demo.member.service.MemberService;
+import com.example.demo.mypage.cafe.entity.CafeMenu;
 import com.example.demo.security.annotation.CurrentMember;
 import com.example.demo.security.dto.MemberPrincipal;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 import java.util.UUID;
 
 @Slf4j
@@ -52,22 +56,28 @@ public class MemberController {
         memberService.deleteByMemNo(memNo);
     }
 
-    @PutMapping("/modifyMember")
+    @PutMapping(value = "/modifyMember", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public void modifyMember(@Validated @RequestBody MemberDto memberDto) throws IOException {
+    public void modifyMember(@RequestPart(value = "info", required = false) MemberDto memberDto,
+                             @RequestPart(value = "fileList", required = false) List<MultipartFile> fileList) throws IOException {
+        log.info("member" + memberDto.getMemNo());
+        if(fileList != null){
+            try{
+                for(MultipartFile multipartFile : fileList) {
+                    String filename = memberDto.getMemNo() + multipartFile.getOriginalFilename();
+                    FileOutputStream writer = new FileOutputStream(
+                            "../../cafefront/around_cafe/src/assets/images/memberImg/"  + filename);
+                    log.info("save complete!"+ filename);
+                    writer.write(multipartFile.getBytes());
+                    writer.close();
 
-        String filename = null;
-        if(memberDto.getMemImg() != null){
-            UUID uuid = UUID.randomUUID();
-            filename = uuid +"." +memberDto.getMemImg();
-            FileOutputStream writer = new FileOutputStream(
-                    "../../cafefront/around_cafe/src/assets/images/memberImg/"  + filename);
-            log.info("save complete!");
-
-            writer.write(memberDto.getMemImg().getBytes(StandardCharsets.UTF_8));
-            writer.close();
+                    memberService.addImgmodifyMember(memberDto, filename);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-        memberService.modifyMember(memberDto,filename);
+        else memberService.noImgmodifyMember(memberDto);
     }
 
     @PutMapping("/changePassword")
