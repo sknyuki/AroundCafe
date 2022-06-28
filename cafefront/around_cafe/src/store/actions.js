@@ -39,9 +39,9 @@ export default {
       //console.log(res)
     })
   },
-  fetchcafeBoard({ commit }, cafeNo) {
+  fetchcafeBoard({ commit }, memNo) {
     return axios
-      .get(`http://localhost:7777/cafe/mypage/read/${cafeNo}`)
+      .get(`http://localhost:7777/cafe/mypage/read/${memNo}`)
       .then((res) => {
         commit(FETCH_CAFE_BOARD, res.data)
       })
@@ -77,7 +77,7 @@ export default {
   },
   fetchHelpsList({ commit }, reviewNo) {
     return axios
-      .get(`http://localhost:7777/cafe/review/${reviewNo}/like`)
+      .get(`http://localhost:7777/cafe/review/list/${reviewNo}`)
       .then((res) => {
         commit(FETCH_HELPS_LIST, res.data)
       })

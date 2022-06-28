@@ -6,15 +6,12 @@ import com.example.demo.mypage.cafe.entity.Cafe;
 import com.example.demo.mypage.cafe.entity.CafeLike;
 import com.example.demo.mypage.cafe.repository.cafe.CafeRepository;
 import com.example.demo.mypage.cafe.repository.cafeLike.CafeLikeRepository;
-import com.example.demo.review.entity.Review;
-import com.example.demo.review.entity.ReviewLike;
-import com.example.demo.review.repository.ReviewLikeRepository;
-import com.example.demo.review.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -76,4 +73,12 @@ public class CafeLikeServiceImpl implements CafeLikeService{
         }
         return reviewList;
     }
+
+    @Transactional
+    @Override
+    public List<CafeLike> searchIdList(Long searchId) {
+        return repository.findIdList(String.valueOf(searchId));
+
+    }
 }
+

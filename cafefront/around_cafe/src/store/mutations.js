@@ -16,6 +16,10 @@ import {
   //공지사항
   FETCH_NOTICE_BOARD_LIST,
   FETCH_NOTICE_BOARD,
+  FETCH_LIKE,
+  FETCH_LIKES_LIST,
+  FETCH_MY_LIKES_LIST,
+  FETCH_LIKES_ID_LISTS,
 } from "./mutation-types"
 
 export default {
@@ -76,5 +80,19 @@ export default {
 
   [FETCH_NOTICE_BOARD](state, noticeBoard) {
     state.noticeBoard = noticeBoard
+  },
+
+  [FETCH_LIKES_LIST](state, likes) {
+    state.likes = likes
+  },
+
+  [FETCH_LIKE](state, like) {
+    state.like = like
+  },
+  [FETCH_MY_LIKES_LIST](state, myLikes) {
+    state.myLikes = myLikes
+  },
+  [FETCH_LIKES_ID_LISTS](state, likesIdLists) {
+    state.likesIdLists = likesIdLists
   },
 }

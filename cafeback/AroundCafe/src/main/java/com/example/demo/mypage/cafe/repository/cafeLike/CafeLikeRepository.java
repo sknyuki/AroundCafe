@@ -36,5 +36,9 @@ public interface CafeLikeRepository extends JpaRepository<CafeLike, Long> {
     @Query(value="select l from cafe_like l join l.member cd where cd.memberNo = :membNo", nativeQuery = true)
     List<CafeLike> findAllLikesMemberNo(@Param("membNo") Long membNo);
 
+    @Transactional
+    @Query(value = "select * from cafe_like where cafe_no = :searchId", nativeQuery = true)
+    public List<CafeLike> findIdList(String searchId);
+
 
 }

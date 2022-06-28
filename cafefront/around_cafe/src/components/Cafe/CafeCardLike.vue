@@ -2,7 +2,7 @@
   <div class="cafe-gallery-content">
     <ul class="cafe-list">
       <li
-        v-for="(cafeItem, index) in cafeBoards"
+        v-for="(cafeItem, index) in cafeMatchBoards"
         :key="index"
         class="cafe-item"
         @mouseover="swiperBtn = index"
@@ -29,12 +29,7 @@
 
         <template v-else>
           <a href="" @focus.tab="swiperBtn = index">
-            <CafeLike
-              class="cafe-item-btn"
-              :cafeItem="cafeItem"
-              :myLikes="myLikes"
-              :key="index"
-            />
+            <CafeLike :cafeItem="cafeItem" :myLikes="myLikes" :key="index" />
 
             <!-- 좋아요 토글 
             <button class="cafe-item-btn" type="button">
@@ -118,7 +113,7 @@ import CafeLike from "@/components/Cafe/CafeLike"
 import "swiper/dist/css/swiper.min.css"
 
 export default {
-  name: "CafeCard",
+  name: "CafeCardLike",
 
   components: {
     swiper,
@@ -128,7 +123,7 @@ export default {
   },
 
   props: {
-    cafeBoards: {
+    cafeMatchBoards: {
       type: Array,
       required: true,
     },
@@ -166,16 +161,6 @@ export default {
       cafeNo: "",
     }
   },
-
-  // methods: {
-  //   show: function () {
-  //     this.isLoading = !this.isLoading
-  //     setTimeout(() => this.show(), 3500)
-  //   },
-  // },
-  // mounted() {
-  //   setTimeout(() => this.show(), 2000)
-  // },
 }
 </script>
 <style lang="scss" scoped>

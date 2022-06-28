@@ -45,17 +45,16 @@
             </header>
 
             <div class="cafe-review-body">
-              <div
-                class="review-image"
-                v-if="review.fileName !== null && review.fileName !== 'null'"
-              >
+              <div class="review-image">
                 <img
+                  v-if="review.fileName !== null && review.fileName !== 'null'"
                   class="addImg"
                   :src="require(`@/assets/review/${review.fileName}`)"
                 />
               </div>
 
               <p>{{ review.review_content }}</p>
+              <p>{{ review.reviewNo }}</p>
             </div>
 
             <CafeReviewLike
@@ -113,7 +112,7 @@ export default {
 
   data() {
     return {
-      loginInfo: JSON.parse("2"),
+      loginInfo: this.$store.state.user.memNo,
       reviewDialog: false,
       reviewNo: "",
     }
