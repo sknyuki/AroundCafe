@@ -1,14 +1,14 @@
 <template>
   <div>
-    <div v-if="onHelp">
-      <button class="cafe-item-btn" type="button" @click="onLikes()">
-        <i class="icHeart" color="red"></i>
+    <div v-if="onLike">
+      <button class="cafe-like-btn" type="button" @click="likeOn()">
+        <i class="icHeartFilled"></i>
       </button>
     </div>
 
     <div v-else>
-      <button class="cafe-item-btn" type="button" @click="onLikes()">
-        <i class="icHeart" color="grey"></i>
+      <button class="cafe-like-btn" type="button" @click="likeOn()">
+        <i class="icHeart"></i>
       </button>
     </div>
   </div>
@@ -21,11 +21,15 @@ export default {
   name: "CafeLike",
 
   computed: {
-    ...mapState(["like", "likes", "mylikes"]),
+    ...mapState(["likes", "myLikes"]),
   },
 
   props: {
-    cafeBoard: {
+    index: {
+      type: Number,
+      require: true,
+    },
+    cafeItem: {
       type: Object,
       require: true,
     },
@@ -33,23 +37,24 @@ export default {
   data() {
     return {
       onLike: "",
-      loginInfo: JSON.parse("3"),
+      membNo: JSON.parse(localStorage.getItem("user")).memNo,
+      cafeNo: this.cafeItem.cafeNo,
     }
   },
 
   mounted() {
-    this.fetchLikesList(this.cafeBoard.cafeNo)
-    this.fetchLike({ cafeNo: this.cafeBoard.cafeNo, membNo: this.loginInfo })
-    this.fetchMyLikesList(3)
-
-    setTimeout(this.change, 0.5)
+    this.fetchLikesList(this.cafeNo)
+    this.likeList()
+    setTimeout(this.matching, 0.5)
   },
 
   methods: {
-    ...mapActions(["fetchLike", "fetchLikesList", "fetchMyLikesList"]),
-    change() {
-      for (let i = 0; i < this.myLikes.length; i++) {
-        if (this.myLikes[i] == this.cafeBoard.cafeNo) {
+    ...mapActions(["fetchLikesList"]),
+
+    matching() {
+      console.log(this.myLikes)
+      for (let j = 0; j < this.myLikes.length; j++) {
+        if (this.myLikes[j] == this.cafeItem.cafeNo) {
           this.onLike = true
           break
         } else {
@@ -58,10 +63,21 @@ export default {
       }
     },
 
+    likeList() {
+      axios
+        .get(`http://localhost:7777/cafe/likes/${this.cafeNo}/${this.membNo}`)
+        .then((res) => {
+          this.$store.state.like = res.data
+        })
+        .catch(() => {
+          alert("리스트 문제발생!")
+        })
+    },
+
     likeOn() {
       axios
         .post(
-          `http://localhost:7777/cafe/like/${this.cafeBoard.cafeNo}/${this.loginInfo}`,
+          `http://localhost:7777/cafe/likes/${this.cafeNo}/${this.membNo}`,
           {},
           {
             headers: {
@@ -79,3 +95,6 @@ export default {
   },
 }
 </script>
+<style lang="scss" scoped>
+@import "~@/assets/scss/components/gallery/cafe-like";
+</style>

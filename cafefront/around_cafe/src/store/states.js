@@ -5,7 +5,7 @@ export default {
   cafeImgLists: [],
 
   reviews: [],
-  review: null,
+  review: {},
   helps: [],
 
   qnaList: [],
@@ -14,14 +14,15 @@ export default {
   user: {},
   userInfo: {},
 
-  help: null,
+  help: {},
   myHelps: [],
 
   //공지사항
   noticeBoards: [],
   noticeBoard: [],
 
-  like: null,
+  like: {},
   likes: [],
   myLikes: [],
+  likesIdLists: [],
 }

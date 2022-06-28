@@ -10,8 +10,13 @@
           <header>
             <h1>좋아요</h1>
           </header>
-          <CafeCard :cafeItems="cafeItems" />
-
+          <div>
+            <CafeCardLike
+              v-if="checkLike"
+              :cafeMatchBoards="cafeMatchBoards"
+              :myLikes="myLikes"
+            />
+          </div>
           <div class="cafe-review-pag">
             <PaginationForm />
           </div>
@@ -24,129 +29,54 @@
 <script>
 import ImgBox from "@/components/ImgBox.vue"
 import UserSidebar from "@/components/User/UserSidebar.vue"
-import CafeCard from "@/components/Cafe/CafeCard.vue"
+import CafeCardLike from "@/components/Cafe/CafeCardLike.vue"
 import PaginationForm from "@/components/PaginationForm.vue"
+import { mapState, mapActions } from "vuex"
 export default {
   name: "UserLike",
+  props: {
+    cafeBoards: {
+      type: Array,
+      required: true,
+    },
+  },
 
-  components: { UserSidebar, ImgBox, CafeCard, PaginationForm },
+  components: { UserSidebar, ImgBox, PaginationForm, CafeCardLike },
+
   data() {
     return {
-      cafeItems: [
-        {
-          id: 1,
-          title: "벤투라",
-          location: "서울",
-          time: "09:00 - 23:00",
-          star: "5",
-          img: [
-            { image: require("@/assets/images/img-review-01.jpg") },
-            { image: require("@/assets/images/img-review-02.jpg") },
-            { image: require("@/assets/images/img-review-03.jpg") },
-            { image: require("@/assets/images/img-review-04.jpg") },
-            { image: require("@/assets/images/img-review-05.jpg") },
-          ],
-        },
-        {
-          id: 2,
-          title: "스타벅스",
-          location: "부산",
-          time: "08:00 - 23:00",
-          star: "4",
-          img: [
-            { image: require("@/assets/images/img-review-01.jpg") },
-            { image: require("@/assets/images/img-review-02.jpg") },
-            { image: require("@/assets/images/img-review-03.jpg") },
-            { image: require("@/assets/images/img-review-04.jpg") },
-            { image: require("@/assets/images/img-review-05.jpg") },
-          ],
-        },
-        {
-          id: 3,
-          title: "투썸플레이스",
-          location: "부산",
-          time: "08:00 - 23:00",
-          star: "4.5",
-          img: [
-            { image: require("@/assets/images/img-review-01.jpg") },
-            { image: require("@/assets/images/img-review-02.jpg") },
-            { image: require("@/assets/images/img-review-03.jpg") },
-            { image: require("@/assets/images/img-review-04.jpg") },
-            { image: require("@/assets/images/img-review-05.jpg") },
-          ],
-        },
-        {
-          id: 4,
-          title: "투썸플레이스",
-          location: "부산",
-          time: "08:00 - 23:00",
-          star: "4.5",
-          img: [
-            { image: require("@/assets/images/img-review-01.jpg") },
-            { image: require("@/assets/images/img-review-02.jpg") },
-            { image: require("@/assets/images/img-review-03.jpg") },
-            { image: require("@/assets/images/img-review-04.jpg") },
-            { image: require("@/assets/images/img-review-05.jpg") },
-          ],
-        },
-        {
-          id: 5,
-          title: "투썸플레이스",
-          location: "부산",
-          time: "08:00 - 23:00",
-          star: "4.5",
-          img: [
-            { image: require("@/assets/images/img-review-01.jpg") },
-            { image: require("@/assets/images/img-review-02.jpg") },
-            { image: require("@/assets/images/img-review-03.jpg") },
-            { image: require("@/assets/images/img-review-04.jpg") },
-            { image: require("@/assets/images/img-review-05.jpg") },
-          ],
-        },
-        {
-          id: 6,
-          title: "투썸플레이스",
-          location: "부산",
-          time: "08:00 - 23:00",
-          star: "4.5",
-          img: [
-            { image: require("@/assets/images/img-review-01.jpg") },
-            { image: require("@/assets/images/img-review-02.jpg") },
-            { image: require("@/assets/images/img-review-03.jpg") },
-            { image: require("@/assets/images/img-review-04.jpg") },
-            { image: require("@/assets/images/img-review-05.jpg") },
-          ],
-        },
-        {
-          id: 7,
-          title: "투썸플레이스",
-          location: "부산",
-          time: "08:00 - 23:00",
-          star: "4.5",
-          img: [
-            { image: require("@/assets/images/img-review-01.jpg") },
-            { image: require("@/assets/images/img-review-02.jpg") },
-            { image: require("@/assets/images/img-review-03.jpg") },
-            { image: require("@/assets/images/img-review-04.jpg") },
-            { image: require("@/assets/images/img-review-05.jpg") },
-          ],
-        },
-        {
-          id: 8,
-          title: "투썸플레이스",
-          location: "부산",
-          time: "08:00 - 23:00",
-          star: "4.5",
-          img: [
-            { image: require("@/assets/images/img-review-01.jpg") },
-            { image: require("@/assets/images/img-review-02.jpg") },
-            { image: require("@/assets/images/img-review-03.jpg") },
-            { image: require("@/assets/images/img-review-04.jpg") },
-            { image: require("@/assets/images/img-review-05.jpg") },
-          ],
-        },
-      ],
+      membNo: JSON.parse(localStorage.getItem("user")).memNo,
+      searchId: "",
+      cafeMatchBoards: [],
     }
+  },
+  computed: {
+    ...mapState(["cafeBoards", "myLikes"]),
+    //...mapState(["myLikes"]),
+  },
+  beforeMounted() {
+    this.fetchcafeBoardList()
+    this.fetchMyLikesList(this.membNo)
+  },
+  mounted() {
+    this.searchId = JSON.parse(localStorage.getItem("user")).memNo
+    setTimeout(this.checkLike(), 1000)
+  },
+  methods: {
+    ...mapActions(["fetchMyLikesList", "fetchcafeBoardList"]),
+
+    checkLike() {
+      for (let i = 0; i < this.cafeBoards.length; i++) {
+        for (let j = 0; j < this.myLikes.length; j++) {
+          if (this.myLikes[j] == this.cafeBoards[i].cafeNo) {
+            this.cafeMatchBoards.push(this.cafeBoards[i])
+
+            console.log(this.cafeMatchBoards)
+            break
+          }
+        }
+      }
+    },
   },
 }
 </script>
