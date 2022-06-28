@@ -128,7 +128,7 @@ export default {
   },
   fetchLikesList({ commit }, cafeNo) {
     return axios
-      .get(`http://localhost:7777/cafe/likes/${cafeNo}/like`)
+      .get(`http://localhost:7777/cafe/likes/list/${cafeNo}`)
       .then((res) => {
         commit(FETCH_LIKES_LIST, res.data)
       })
