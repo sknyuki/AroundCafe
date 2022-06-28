@@ -20,7 +20,11 @@
     }
   }
   &-list {
-    border-color: $border;
+    &.box {
+      border: 1px solid $border;
+      border-radius: 4px;
+      overflow: hidden
+    }
     &.header {
       background-color: #F7F8FA;
       height: 40px;
@@ -28,6 +32,7 @@
     }
     &.content {
       padding: 16px;
+      border-top: 1px solid $border;
     }
   }
   &-line {
@@ -58,21 +63,23 @@
   &-image {
     height: 64px;
     width: 64px;
+    margin-right: 12px;
     &.holder {
-      height: 76px;
-      width: 70px;
+      height: 70px;
+      width: 76px;
+      margin: 0;
     }
   }
   &-point {
     display: flex;
     height: 42px;
     &.input {
-      border-width: 1px;
-      border-color: $border;
+      border: 1px solid $border;
       background-color: #FAFAFA;
       padding: 8px 15px 9px;
+      border-radius: 4px;
     }
-    &.button {
+    &.btn {
       margin-left: 12px;
       margin-right: 0;
       color: $white;
@@ -96,6 +103,12 @@
       margin-left: 3px;
       color: $indigo !important;
       font-weight: 700;
+    }
+    &.validate {
+      font-size: 8px;
+      color: $red !important;
+      font-weight: 700;
+      margin-left: 10px;
     }
   }
 }

@@ -7,11 +7,15 @@
         </div>
         <div class="order-sidebar-contents content">
           <div class="order-sidebar-flexbox left">총 상품 금액</div>
-          <div class="order-sidebar-flexbox right">0원</div>
+          <div class="order-sidebar-flexbox right">
+            {{ this.nullValueCheck(paymentInfo.totalAmount, digit) }} 원
+          </div>
         </div>
         <div class="order-sidebar-contents content">
           <div class="order-sidebar-flexbox left">포인트 사용</div>
-          <div class="order-sidebar-flexbox right">0원</div>
+          <div class="order-sidebar-flexbox right">
+            {{ this.nullValueCheck(paymentInfo.totalPointAmount, digit) }} 원
+          </div>
         </div>
         <v-divider />
         <div class="order-sidebar-contents footer">
@@ -19,28 +23,77 @@
           <div class="order-sidebar-footer rightBox">
             <div>
               <span class="order-sidebar-footer color-text">
-                AAA,AAA,AAA
+                {{
+                  this.nullValueCheck(
+                    paymentInfo.totalAmount - paymentInfo.totalPointAmount,
+                    digit
+                  )
+                }}
               </span>
               <span class="order-sidebar-footer text">원</span>
             </div>
-            <div style="text-align: right; margin-top: 6px;">
-              <span class="order-sidebar-contents point">31,333P</span>
+            <div style="text-align: right">
+              <span class="order-sidebar-contents point">
+                {{
+                  this.nullValueCheck(
+                    parseInt(
+                      (paymentInfo.totalAmount - paymentInfo.totalPointAmount) *
+                        pointAdd
+                    ),
+                    digit
+                  )
+                }}
+                P
+              </span>
               <span class="order-sidebar-contents point2">적립 예정</span>
             </div>
           </div>
         </div>
       </div>
-      <v-btn class="order-sidebar button">AAA,AAA,AAA원 결제하기</v-btn>
+      <v-btn :disabled="isPointValidated === false" class="order-sidebar button"
+        >{{
+          this.nullValueCheck(
+            paymentInfo.totalAmount - paymentInfo.totalPointAmount,
+            3
+          )
+        }}원 결제하기</v-btn
+      >
     </aside>
   </div>
 </template>
 
 <script>
+import Number2String from "@/utils/number2String"
+
 export default {
-  name: "CafeSitePurchaseSidebar"
+  name: "CafeSitePurchaseSidebar",
+  props: {
+    paymentInfo: { Type: Object, required: true },
+    totalPrice: { Type: Number, required: true },
+    isPointValidated: { Type: Boolean, required: true},
+  },
+  data() {
+    return {
+      digit: 3,
+      pointAdd: 0.025,
+    }
+  },
+  methods: {
+    numberToString(number, digit) {
+      return Number2String.do(number, digit)
+    },
+    nullValueCheck(number, digit) {
+      let newNumber
+      if(number === "" || number === null || number < 0) {
+        newNumber = 0;
+      } else {
+        newNumber = number;
+      }
+      return this.numberToString(newNumber, digit)
+    }
+  },
 }
 </script>
-
 
 <style lang="scss" scoped>
 @import "~@/assets/scss/components/order/order-sidebar";
