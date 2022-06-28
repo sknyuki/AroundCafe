@@ -16,7 +16,7 @@
 
           <div class="detail-sidebar-price">
             <dd>
-              <span>{{ basket.menu_price | pricePoint }}</span
+              <span>{{ basket.menu_price }}</span
               >원
             </dd>
           </div>
@@ -24,12 +24,12 @@
       </div>
       <div class="detail-sidebar-price per">
         <dt>
-          <button @click="increaseQuantity(basket)">+</button>
-          <span> {{ basket.number }} </span>
           <button @click="decreaseQuantity(basket)">-</button>
+          <span> {{ basket.number }} </span>
+          <button @click="increaseQuantity(basket)">+</button>
         </dt>
         <dd>
-          <span>{{ basket.PerMenuPrices | pricePoint }}</span
+          <span>{{ basket.PerMenuPrices }}</span
           >원
         </dd>
       </div>
@@ -38,7 +38,7 @@
     <div class="detail-sidebar-price total">
       <dt>총 상품금액</dt>
       <dd>
-        <span>{{ totalPrice | pricePoint }}</span
+        <span>{{ totalPrice }}</span
         >원
       </dd>
     </div>
@@ -72,8 +72,12 @@ export default {
       }
     },
     decreaseQuantity(basket) {
-      basket.number -= 1
-      basket.PerMenuPrices = basket.menu_price * basket.number
+      if (basket.number == 0) {
+        alert("더 이상 줄일 수 없습니다.")
+      } else {
+        basket.number -= 1
+        basket.PerMenuPrices = basket.menu_price * basket.number
+      }
 
       this.totalPrice = 0
       for (let i = 0; i < this.basketList.length; i++) {
@@ -81,6 +85,7 @@ export default {
       }
     },
     selectedMenuSubmit() {
+      console.log(this.basket)
       var result = confirm("결제 페이지로 이동하시겠습니까?")
       if (result) {
         this.$router.push({
