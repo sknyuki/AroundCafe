@@ -80,13 +80,14 @@
     &.text {
       font-size: 22px;
       font-weight: 700;
-      margin-right: 0;
       margin-left: 2px;
+      margin-right: auto;
     }
     &.color-text {
       font-size: 22px;
       font-weight: 700;
       color: $indigo;
+      margin-left: auto;
     }
   }
 
