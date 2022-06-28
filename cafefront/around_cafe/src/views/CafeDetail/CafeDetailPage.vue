@@ -3,7 +3,7 @@
     :cafeBoard="cafeBoard"
     :reviews="reviews"
     :myHelps="myHelps"
-    :menuLists="menuLists"
+    :cafeNo="cafeNo"
   />
 </template>
 
@@ -26,18 +26,17 @@ export default {
     }
   },
   computed: {
-    ...mapState(["cafeBoard", "reviews", "myHelps", "menuLists"]),
+    ...mapState(["cafeBoard", "reviews", "myHelps"]),
   },
   mounted() {
     this.fetchcafeBoard(this.cafeNo)
     this.fetchReviewList(this.cafeNo)
     this.fetchMyHelpsList(this.membNo)
-    this.fetchMenuLists(this.cafeNo)
   },
 
   methods: {
     ...mapActions(["fetchcafeBoard"]),
-    ...mapActions(["fetchReviewList", "fetchMyHelpsList", "fetchMenuLists"]),
+    ...mapActions(["fetchReviewList", "fetchMyHelpsList"]),
   },
 }
 </script>

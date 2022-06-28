@@ -12,7 +12,7 @@
               <h3 class="visually-hidden">{{ review.reviewNo }}</h3>
 
               <a class="avatar-24">
-                <img src="@/assets/images/img-user-default.png" sralt="" />
+                <img src="@/assets/images/img-user-default.png" alt="" />
               </a>
 
               <div class="inf">
@@ -45,16 +45,17 @@
             </header>
 
             <div class="cafe-review-body">
-              <div class="review-image">
+              <div
+                class="review-image"
+                v-if="review.fileName !== null && review.fileName !== 'null'"
+              >
                 <img
-                  v-if="review.fileName !== null && review.fileName !== 'null'"
                   class="addImg"
                   :src="require(`@/assets/review/${review.fileName}`)"
                 />
               </div>
 
               <p>{{ review.review_content }}</p>
-              <p>{{ review.reviewNo }}</p>
             </div>
 
             <CafeReviewLike
@@ -82,6 +83,10 @@
         </li>
       </ol>
     </div>
+    <PaginationForm
+      :pageSetting="pageDataSetting(total, limit, block, this.page)"
+      @paging="pagingMethod"
+    />
   </form>
 </template>
 <script>
@@ -90,14 +95,17 @@ import CafeReviewModify from "@/components/CafeReview/CafeReviewModify"
 import CafeReviewLike from "@/components/CafeReview/CafeReviewLike"
 import CafeReviewDelete from "@/components/Cafe/CafeReviewDelete"
 import axios from "axios"
+import { mapState, mapActions } from "vuex"
+import PaginationForm from "@/components/PaginationForm.vue"
 
 export default {
-  name: "ReviewForm",
+  name: "CafeReviewForm",
   components: {
     StarRating,
     CafeReviewModify,
     CafeReviewLike,
     CafeReviewDelete,
+    PaginationForm,
   },
   props: {
     reviews: {
@@ -108,6 +116,10 @@ export default {
       type: Array,
       required: true,
     },
+    cafeNo: {
+      type: String,
+      required: true,
+    },
   },
 
   data() {
@@ -115,9 +127,23 @@ export default {
       loginInfo: this.$store.state.user.memNo,
       reviewDialog: false,
       reviewNo: "",
+      listData: [],
+      page: 1,
+      limit: 3,
+      block: 5,
+      pageNo: "",
+      total: "",
     }
   },
+  computed: {
+    ...mapState(["reviews"]),
+  },
+  mounted() {
+    this.fetchReviewList(this.cafeNo)
+    this.pagingMethod(this.page)
+  },
   methods: {
+    ...mapActions(["fetchReviewList"]),
     onModify(payload) {
       const { reviewNo, star_score, review_content, cafeNum, file } = payload
       let formData = new FormData()
@@ -172,6 +198,35 @@ export default {
         .catch(() => {
           alert("삭제 실패!")
         })
+    },
+    pagingMethod(page) {
+      this.listData = this.reviews.slice(
+        (page - 1) * this.limit,
+        page * this.limit
+      )
+      this.page = page
+      let total = this.reviews.length
+      this.pageDataSetting(total, this.limit, this.block, page)
+    },
+    pageDataSetting(total, limit, block, page) {
+      total = this.reviews.length
+      const totalPage = Math.ceil(total / limit)
+      let currentPage = page
+      const first =
+        currentPage > 1 ? parseInt(currentPage, 10) - parseInt(1, 10) : null
+      const end =
+        totalPage !== currentPage
+          ? parseInt(currentPage, 10) + parseInt(1, 10)
+          : null
+
+      let startIndex = (Math.ceil(currentPage / block) - 1) * block + 1
+      let endIndex =
+        startIndex + block > totalPage ? totalPage : startIndex + block - 1
+      let list = []
+      for (let index = startIndex; index <= endIndex; index++) {
+        list.push(index)
+      }
+      return { first, end, list, currentPage }
     },
   },
 }

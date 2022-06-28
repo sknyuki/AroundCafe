@@ -84,6 +84,7 @@
                       <h3 class="detail-int-header">메뉴</h3>
                       <CafeSiteMenuList
                         @submitCheckBasketList="submitCheckBasketList"
+                        :cafeNo="cafeNo"
                       />
                     </div>
                     <div class="detail-content">
@@ -186,13 +187,17 @@
                           </div>
                         </div>
 
-                        <CafeReviewForm :reviews="reviews" :myHelps="myHelps" />
+                        <CafeReviewForm
+                          :reviews="reviews"
+                          :myHelps="myHelps"
+                          :cafeNo="cafeNo"
+                        />
                       </section>
                     </div>
                   </div>
                 </div>
                 <div class="col-lg-4 lg-only">
-                  <CafeDetailSidebar :baskeList="baskeList" />
+                  <CafeDetailSidebar :basketList="basketList" />
                 </div>
                 <div class="detail-content">
                   지도
@@ -212,6 +217,7 @@ import StarRating from "vue-star-rating"
 import CafeReviewForm from "@/components/CafeReview/CafeReviewForm.vue"
 import CafeDetailSidebar from "@/components/CafeDetail/CafeDetailSidebar.vue"
 import CafeSiteMenuList from "../CafeSite/CafeSiteMenuList.vue"
+import { mapState, mapActions } from "vuex"
 
 export default {
   name: "CafeDetailForm",
@@ -234,16 +240,28 @@ export default {
       type: Object,
       required: true,
     },
+    cafeNo: {
+      type: String,
+      required: true,
+    },
+  },
+  computed: {
+    ...mapState(["menuLists"]),
+  },
+  mounted() {
+    this.fetchMenuLists(this.cafeNo)
   },
 
   data() {
     return {
       reviewNo: "",
       basketList: [],
+      page: "",
     }
   },
 
   methods: {
+    ...mapActions(["fetchMenuLists"]),
     submitCheckBasketList(CheckBasketList) {
       this.basketList = CheckBasketList
     },
