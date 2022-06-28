@@ -14,6 +14,7 @@
           :totalPrice="totalPrice"
           :paymentInfo="paymentInfo"
           :isPointValidated="isPointValidated"
+          @submit="onSubmit"
         />
       </div>
     </div>
@@ -22,8 +23,9 @@
 
 <script>
 import CafeSitePurchaseList from "@/components/CafeSite/CafeSitePurchaseList"
-import { mapActions, mapState } from "vuex"
 import CafeSitePurchaseSidebar from "@/components/CafeSite/CafeSitePurchaseSidebar"
+import { mapActions, mapState } from "vuex"
+import axios from "axios"
 export default {
   name: "CafePurchase",
   components: { CafeSitePurchaseSidebar, CafeSitePurchaseList },
@@ -46,6 +48,30 @@ export default {
   },
   methods: {
     ...mapActions(["fetchUserInfo"]),
+    onSubmit(paymentInfo) {
+      console.log("submit 시작")
+      const config = {
+        headers: {
+          "Content-Type": "Application/json",
+        },
+      }
+      axios
+        .post(
+          `http://localhost:7777/payment`,
+          JSON.stringify(paymentInfo),
+          config
+        )
+        .then((response) => {
+          window.open(
+            `http://localhost:5000/payment/ready/${this.paymentInfo.paymentMethod}/${response.data}`,
+            "_blank",
+            "width=440, height=680, menubar=no, toolbar=no, location=no, status=no, resizable=no, scrollbars=no"
+          )
+        })
+        .catch((err) => {
+          alert(err)
+        })
+    },
     check() {
       console.log("total Price 확인")
       console.log(this.totalPrice)
@@ -57,7 +83,7 @@ export default {
     },
     getIsPointValidated(isPointValidated) {
       this.isPointValidated = isPointValidated
-    }
+    },
   },
 }
 </script>

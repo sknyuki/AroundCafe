@@ -3,6 +3,7 @@ import requests
 import json
 
 from ..config.OauthConfig import KakaoConfig
+from ..utils.SaveImage import SaveImage
 
 
 class KakaoOauthService:
@@ -66,6 +67,7 @@ class KakaoOauthService:
 
         imageUrl = userinfo.get('kakao_account').get(
             'profile').get('profile_image_url')
+        
         headers = {
             "Content-Type": "application/json"
         }

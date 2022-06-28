@@ -118,6 +118,18 @@ const routes = [
     component: () => import("@/views/CafeSiteViews/CafePurchase"),
     props: true,
   },
+  {
+    path: "/cafe/PurchaseComplete",
+    name: "CafePurchaseComplete",
+    component: () => import("@/views/CafeSiteViews/CafePurchaseComplete"),
+    props: true,
+  },
+  {
+    path: "/cafe/PurchasePopUp",
+    name: "CafePurchasePopUp",
+    component: () => import("@/views/CafeSiteViews/CafePurchasePopUp"),
+    props: true,
+  },
 
   //관리자 시스템
   {
