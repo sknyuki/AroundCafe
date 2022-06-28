@@ -22,7 +22,7 @@ export default {
     ...mapState(["user", "cafeBoard", "cafeImgLists"]),
   },
   mounted() {
-    this.fetchUser(), this.fetchcafeBoard(this.user.memNo)
+    this.fetchUser(), this.fetchcafeBoard(this.user.cafeNo)
     this.fetchCafeImgLists(this.user.memNo)
   },
   methods: {

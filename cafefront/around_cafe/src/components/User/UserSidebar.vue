@@ -20,14 +20,30 @@
         <h1>{{ infoTwo }}</h1>
       </header>
       <ul>
-        <li class="mysidebar-list" v-for="item in sidebarTwo" :key="item.id">
-          <router-link class="mysidebar-link" :to="item.link">
-            <div class="mysidebar-test">
-              <v-icon>{{ item.icon }}</v-icon>
-              <p>{{ item.title }}</p>
-            </div>
-          </router-link>
-        </li>
+        <template v-if="social == 'LOCAL'">
+          <li class="mysidebar-list" v-for="item in sidebarTwo" :key="item.id">
+            <router-link class="mysidebar-link" :to="item.link">
+              <div class="mysidebar-test">
+                <v-icon>{{ item.icon }}</v-icon>
+                <p>{{ item.title }}</p>
+              </div>
+            </router-link>
+          </li>
+        </template>
+        <template v-else>
+          <li
+            class="mysidebar-list"
+            v-for="item in sidebarThree"
+            :key="item.id"
+          >
+            <router-link class="mysidebar-link" :to="item.link">
+              <div class="mysidebar-test">
+                <v-icon>{{ item.icon }}</v-icon>
+                <p>{{ item.title }}</p>
+              </div>
+            </router-link>
+          </li>
+        </template>
       </ul>
     </div>
   </div>
@@ -37,6 +53,7 @@ export default {
   name: "UserSidebar",
   data() {
     return {
+      social: this.$store.state.user.socialType,
       sidebarOne: [
         {
           id: 1,
@@ -78,6 +95,20 @@ export default {
         },
         {
           id: 3,
+          icon: "mdi-email-outline",
+          title: "문의사항",
+          link: "/",
+        },
+      ],
+      sidebarThree: [
+        {
+          id: 1,
+          icon: "mdi-account-outline",
+          title: "내 정보수정",
+          link: "/user/modify",
+        },
+        {
+          id: 2,
           icon: "mdi-email-outline",
           title: "문의사항",
           link: "/",

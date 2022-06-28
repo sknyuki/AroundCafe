@@ -91,9 +91,11 @@ public class MemberServiceImpl implements MemberService {
         this.save(member);
     }
 
-    public void modifyMember(MemberDto memberDto, String filename) throws IOException {
+    @Override
+    public void addImgmodifyMember(MemberDto memberDto, String filename) throws IOException {
         Member member = memberRepository.findByMemNo(memberDto.getMemNo()).orElseGet(null);
 
+        //수정한 디테일에 이미지가 있고 + 기존에 저장한 이미지가 있다면, 기존 이미지 삭제 후 수정 이미지를 저장한다.
         if(member.getMemImg() != null) {
             Path filePath = Paths.get("../../cafefront/around_cafe/src/assets/images/memberImg/" + member.getMemImg());
             Files.delete(filePath);
@@ -105,6 +107,19 @@ public class MemberServiceImpl implements MemberService {
         member.setPhoneNum(memberDto.getPhoneNum());
         member.setMemBirth(memberDto.getMemBirth());
         member.setMemImg(filename);
+        memberRepository.save(member);
+
+    }
+
+    @Override
+    public void noImgmodifyMember(MemberDto memberDto) throws IOException {
+        Member member = memberRepository.findByMemNo(memberDto.getMemNo()).orElseGet(null);
+        //수정한 디테일에 이미지가 없다면 기존 이미지를 가져다 저장한다.
+
+        member.setMemId(memberDto.getMemId());
+        member.setMemNick(memberDto.getMemNick());
+        member.setPhoneNum(memberDto.getPhoneNum());
+        member.setMemBirth(memberDto.getMemBirth());
         memberRepository.save(member);
     }
 }

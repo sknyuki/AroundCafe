@@ -93,11 +93,11 @@ public class MenuController {
         return "modify complete!!";
     }
 
-    @GetMapping("/list/{memNo}")
-    public List<CafeMenu> menuList(@PathVariable("memNo") Integer memNo) {
-        log.info("get menu list, member no: " +memNo);
+    @GetMapping("/list/{cafeNo}")
+    public List<CafeMenu> menuList(@PathVariable("cafeNo") Integer cafeNo) {
+        log.info("get menu list, member no: " +cafeNo);
 
-        return service.list(memNo);
+        return service.list(cafeNo);
     }
 
 //

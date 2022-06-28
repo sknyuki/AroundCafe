@@ -63,39 +63,31 @@
                         <div>
                           <i class="icMenu"></i>
                         </div>
+
                         <div class="avatar-32">
-                          <img src="@/assets/images/avatar.webp" alt="" />
+                          <template v-if="userInfo.memImg == null">
+                            <img src="@/assets/images/avatar.webp" alt="" />
+                          </template>
+                          <template v-if="findKakao > 5">
+                            <img :src="userInfo.memImg" alt="" />
+                          </template>
+                          <template v-if="findKakao < 0">
+                            <img
+                              v-bind:src="
+                                require(`@/assets/images/memberImg/${userInfo.memImg}`)
+                              "
+                              alt=""
+                            />
+                          </template>
                         </div>
                       </button>
-                      <MyMenuModal
-                        :menuModal="menuModal"
-                        :class="{ active: isActive }"
-                        :user="user"
-                      />
                     </div>
-                    <!-- <router-link
-                      :to="{ name: 'AccountLoginPage' }"
-                      class="gnb-login-item"
-                      >로그인</router-link
-                    >
-                    <router-link
-                      :to="{ name: 'AccountSignUpPage' }"
-                      class="gnb-login-item"
-                      >회원가입</router-link
-                    >
-                    <a class="gnb-login-item lg-only" href="">고객센터</a> -->
+                    <MyMenuModal
+                      :menuModal="menuModal"
+                      :class="{ active: isActive }"
+                      :user="user"
+                    />
                   </div>
-
-                  <!-- 로그인을 한 경우  -->
-                  <!-- <div class="my-menu sm-hidden">
-                    <button
-                      class="my-menu-button"
-                      type="button"
-                      aria-label="마이메뉴 열기 버튼"
-                    >
-                      <img src="@/assets/images/img-user-default.png" alt="" />
-                    </button>
-                  </div> -->
                 </div>
               </div>
             </div>
@@ -135,18 +127,26 @@ export default {
           link: "/login",
         },
       ],
+      memImg: "",
+      findKakao: "",
     }
   },
   computed: {
-    ...mapState(["user"]),
+    ...mapState(["user", "userInfo"]),
   },
   mounted() {
     this.fetchUser()
+    this.fetchUserInfo()
+    setTimeout(this.change, 70)
   },
   methods: {
-    ...mapActions(["fetchUser"]),
+    ...mapActions(["fetchUser", "fetchUserInfo"]),
     toggleMyMenu() {
       this.isActive = !this.isActive
+    },
+    change() {
+      this.memImg = this.userInfo.memImg
+      this.findKakao = this.memImg.indexOf("k.kakaocdn.net")
     },
   },
 }

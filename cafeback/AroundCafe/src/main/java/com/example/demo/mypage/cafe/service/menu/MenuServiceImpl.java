@@ -115,8 +115,8 @@ public class MenuServiceImpl implements MenuService{
 
     @Transactional
     @Override
-    public List<CafeMenu> list(Integer membNo) {
-        Cafe cafe = cafeRepository.findByMemberNo(Long.valueOf(membNo)).orElseGet(null);
+    public List<CafeMenu> list(Integer cafeNo) {
+        Cafe cafe = cafeRepository.findById(Long.valueOf(cafeNo)).orElseGet(null);
         log.info("cafe name:" +cafe.getCafe_name());
         Long CafeNo = cafe.getCafeNo();
         log.info("cafe no = " + CafeNo);
