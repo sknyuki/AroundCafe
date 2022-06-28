@@ -61,10 +61,10 @@ public class CafeController {
 //        return service.cafeMypageread(membNo);
 //    }
 
-    @GetMapping("/mypage/read/{memNo}")
-    public Cafe myPageRead1(@PathVariable("memNo") Integer memNo) {
-        log.info("read Page no : "  + memNo);
-        return service.read(memNo);
+    @GetMapping("/mypage/read/{cafeNo}")
+    public Cafe myPageRead1(@PathVariable("cafeNo") Integer cafeNo) {
+        log.info("read Page no : "  + cafeNo);
+        return service.read(cafeNo);
     }
 
     @GetMapping("/mypageImg/{memNo}")

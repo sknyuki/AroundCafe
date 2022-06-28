@@ -31,7 +31,13 @@
               </template>
 
               <template v-else>
-                <a href="" @focus.tab="swiperBtn = index">
+                <router-link
+                  :to="{
+                    name: 'CafeDetailPage',
+                    params: { cafeNo: cafeItem.cafeNo.toString() },
+                  }"
+                  @focus.tab="swiperBtn = index"
+                >
                   <!-- 좋아요 토글 -->
                   <button class="cafe-item-btn" type="button">
                     <i class="icHeart"></i>
@@ -116,7 +122,7 @@
                       <dd>{{ cafeItem.star }}</dd>
                     </div>
                   </dl>
-                </a>
+                </router-link>
               </template>
             </li>
           </ul>
@@ -172,16 +178,16 @@ export default {
       },
     }
   },
-
-  // methods: {
-  //   show: function () {
-  //     this.isLoading = !this.isLoading
-  //     setTimeout(() => this.show(), 3500)
-  //   },
-  // },
   // mounted() {
   //   setTimeout(() => this.show(), 2000)
   // },
+
+  methods: {
+    // show: function () {
+    //   this.isLoading = !this.isLoading
+    //   setTimeout(() => this.show(), 3500)
+    // },
+  },
 }
 </script>
 <style lang="scss" scoped>

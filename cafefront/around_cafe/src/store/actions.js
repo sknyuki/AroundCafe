@@ -39,9 +39,9 @@ export default {
       //console.log(res)
     })
   },
-  fetchcafeBoard({ commit }, memNo) {
+  fetchcafeBoard({ commit }, cafeNo) {
     return axios
-      .get(`http://localhost:7777/cafe/mypage/read/${memNo}`)
+      .get(`http://localhost:7777/cafe/mypage/read/${cafeNo}`)
       .then((res) => {
         commit(FETCH_CAFE_BOARD, res.data)
       })

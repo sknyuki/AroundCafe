@@ -195,11 +195,15 @@ const routes = [
 
   //CafeDetail
   {
-    path: "/detail",
+    path: "/detail/:cafeNo",
     name: "CafeDetailPage",
-    component: () => import("@/views/CafeDetail/CafeDetailPage"),
+    components: {
+      default: () => import("@/views/CafeDetail/CafeDetailPage"),
+    },
+    props: {
+      default: true,
+    },
   },
-
   {
     path: "/chat/",
     name: "ChatPage",
