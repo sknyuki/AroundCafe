@@ -297,7 +297,7 @@ const routes = [
   },
   {
     path: "/404",
-    redirect: NotFoundPage,
+    component: NotFoundPage,
   },
 ]
 const router = new VueRouter({

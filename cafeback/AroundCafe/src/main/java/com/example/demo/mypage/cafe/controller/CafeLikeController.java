@@ -1,5 +1,6 @@
 package com.example.demo.mypage.cafe.controller;
 
+import com.example.demo.mypage.cafe.entity.Cafe;
 import com.example.demo.mypage.cafe.entity.CafeLike;
 import com.example.demo.mypage.cafe.service.cafeLike.CafeLikeService;
 import com.example.demo.review.entity.ReviewLike;
@@ -42,11 +43,21 @@ public class CafeLikeController {
     }
 
     @GetMapping("/list/my/{membNo}")
-    public List<Long> myHelpsList(@PathVariable("membNo") Long membNo) {
+    public List<Long> myLikesList(@PathVariable("membNo") Long membNo) {
 
-        log.info("myHelpsList(): " + membNo);
+        log.info("myLikesList(): " + membNo);
+        log.info("myLikesList3(): " + service.myLikes(membNo));
 
         return service.myLikes(membNo);
+
+    }
+    @GetMapping("/list/my/id/{searchId}")
+    public List<CafeLike> searchIdList(@PathVariable("searchId") Long searchId) {
+
+        log.info("searchIdList(): " + searchId);
+        log.info("searchId(): " +service.searchIdList(searchId).toString() );
+
+        return service.searchIdList(searchId);
 
     }
 
