@@ -76,10 +76,65 @@
       </section>
       <hr class="order-purchase-line" />
       <section class="order-purchase-content-box content">
-        <v-btn @click="setPaymentMethod(`CARD`)">카드</v-btn>
-        <v-btn @click="setPaymentMethod(`BANKING`)">무통장입금</v-btn>
-        <v-btn @click="setPaymentMethod(`KAKAO`)">카카오페이</v-btn>
-        <v-btn @click="setPaymentMethod(`MOBILE`)">핸드폰</v-btn>
+        <div class="order-purchase-wrap">
+          <button @click="setPaymentMethod(`CARD`)">
+            <picture>
+              <source />
+              <img src="@/assets/images/order/img_card.webp" alt="" />
+            </picture>
+            <div>카드</div>
+          </button>
+
+          <button type="button" @click="setPaymentMethod(`KAKAO`)">
+            <picture>
+              <source />
+              <img src="@/assets/images/order/img_vbank.webp" alt="" />
+            </picture>
+            <div>무통장입금</div>
+          </button>
+          <button type="button" @click="setPaymentMethod(`MOBILE`)">
+            <picture>
+              <source />
+              <img src="@/assets/images/order/img_kakaopay.webp" alt="" />
+            </picture>
+            <div>카카오페이</div>
+          </button>
+          <button type="button" @click="setPaymentMethod(`MOBILE`)">
+            <picture>
+              <source />
+              <img src="@/assets/images/order/img_toss.webp" alt="" />
+            </picture>
+            <div>토스</div>
+          </button>
+          <button type="button" @click="setPaymentMethod(`MOBILE`)">
+            <picture>
+              <source />
+              <img src="@/assets/images/order/img_payco.webp" alt="" />
+            </picture>
+            <div>페이코</div>
+          </button>
+          <button type="button" @click="setPaymentMethod(`MOBILE`)">
+            <picture>
+              <source />
+              <img src="@/assets/images/order/img_naver.webp" alt="" />
+            </picture>
+            <div>네이버페이</div>
+          </button>
+          <button type="button" @click="setPaymentMethod(`MOBILE`)">
+            <picture>
+              <source />
+              <img src="@/assets/images/order/img_chai.webp" alt="" />
+            </picture>
+            <div>차이</div>
+          </button>
+          <button type="button" @click="setPaymentMethod(`MOBILE`)">
+            <picture>
+              <source />
+              <img src="@/assets/images/order/img_phone.webp" alt="" />
+            </picture>
+            <div>핸드폰</div>
+          </button>
+        </div>
       </section>
     </section>
   </form>
