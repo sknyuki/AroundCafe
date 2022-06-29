@@ -2,6 +2,7 @@ package com.example.demo.review.controller;
 
 import com.example.demo.mypage.cafe.entity.Cafe;
 import com.example.demo.mypage.cafe.repository.cafe.CafeRepository;
+import com.example.demo.review.dto.ReviewResponseDto;
 import com.example.demo.review.entity.Review;
 import com.example.demo.review.service.ReviewService;
 import com.example.demo.review.service.ReviewServiceImpl;
@@ -36,7 +37,7 @@ public class ReviewController {
 
     //리뷰 목록
     @GetMapping("/list/{cafeNo}")
-    public List<Review> reviewList (@PathVariable("cafeNo") Integer cafeNo) {
+    public List<ReviewResponseDto> reviewList (@PathVariable("cafeNo") Integer cafeNo) {
         log.info("ReviewList()");
         log.info("cafe no : " + cafeNo);
         return service.list (cafeNo);

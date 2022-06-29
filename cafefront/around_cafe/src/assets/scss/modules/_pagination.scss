@@ -67,12 +67,15 @@
     a,
     v-btn {
       @extend %page-item-base;
-      min-width: 26px;
+      min-width: 26px !important;
       padding: 0 4px 2px;
 
       &:hover {
         color: $indigo !important;
       }
     }
+  }
+  .v-btn:not(.v-btn--round).v-size--default {
+    min-width: 26px !important;
   }
 }

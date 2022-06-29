@@ -12,12 +12,21 @@
               <h3 class="visually-hidden">{{ review.reviewNo }}</h3>
 
               <a class="avatar-24">
-                <img src="@/assets/images/img-user-default.png" alt="" />
+                <img
+                  v-if="review.memImg == null"
+                  src="@/assets/images/img-user-default.png"
+                  alt=""
+                />
+                <img
+                  v-else
+                  :src="require(`@/assets/images/memberImg/${review.memImg}`)"
+                  alt=""
+                />
               </a>
 
               <div class="inf">
                 <a class="username" href="">
-                  <strong> cafe.no {{ review.cafeNum }}</strong>
+                  <strong> {{ review.memNick }}</strong>
                 </a>
 
                 <div class="detail">
@@ -37,13 +46,11 @@
                     />
                   </div>
                   <div class="misc">
-                    <time>{{ review.regDate }} </time>
-                    <span>cafe.no{{ review.cafeNum }}</span>
+                    <span>{{ review.updDate }}</span>
                   </div>
                 </div>
               </div>
             </header>
-
             <div class="cafe-review-body">
               <div
                 class="review-image"
