@@ -57,7 +57,7 @@ const routes = [
     component: () => import("@/views/Account/AccountPasswordPage.vue"),
   },
   {
-    path: "/passwordModify",
+    path: "/password/modify",
     name: "AccountModifyPasswordPage",
     components: {
       default: () => import("@/views/Account/AccountModifyPasswordPage"),
@@ -70,6 +70,11 @@ const routes = [
     path: "/account/test",
     name: "AccountTestPage",
     component: () => import("@/views/Account/AccountTestPage.vue"),
+  },
+  {
+    path: "/account/callback/test",
+    name: "AccountCallbackTest",
+    component: () => import("@/views/Account/AccountCallbackTest.vue"),
   },
 
   // Admin 관리자페이지
@@ -113,19 +118,19 @@ const routes = [
     component: () => import("@/views/CafeSiteViews/CafeSiteList"),
   },
   {
-    path: "/cafe/Purchase",
+    path: "/cafe/purchase",
     name: "CafePurchase",
     component: () => import("@/views/CafeSiteViews/CafePurchase"),
     props: true,
   },
   {
-    path: "/cafe/PurchaseComplete",
+    path: "/cafe/purchase/complete",
     name: "CafePurchaseComplete",
     component: () => import("@/views/CafeSiteViews/CafePurchaseComplete"),
     props: true,
   },
   {
-    path: "/cafe/PurchasePopUp",
+    path: "/cafe/purchase/popup",
     name: "CafePurchasePopUp",
     component: () => import("@/views/CafeSiteViews/CafePurchasePopUp"),
     props: true,

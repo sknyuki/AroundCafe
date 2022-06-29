@@ -28,7 +28,9 @@ export default {
       if (
         (visibleHeader = to.path === "/login") ||
         (visibleHeader = to.path === "/sign") ||
-        (visibleHeader = to.path === "/chat")
+        (visibleHeader = to.path === "/chat") ||
+        (visibleHeader = to.path === "/login/callback") ||
+        (visibleHeader = to.path === "/cafe/PurchasePopUp")
       ) {
         this.visibleHeader = false
       } else {
@@ -40,7 +42,9 @@ export default {
       if (
         (visibleFooter = to.path === "/login") ||
         (visibleFooter = to.path === "/sign") ||
-        (visibleFooter = to.path === "/chat")
+        (visibleFooter = to.path === "/chat") ||
+        (visibleFooter = to.path === "/login/callback") ||
+        (visibleFooter = to.path === "/cafe/PurchasePopUp")
       ) {
         this.visibleFooter = false
       } else {

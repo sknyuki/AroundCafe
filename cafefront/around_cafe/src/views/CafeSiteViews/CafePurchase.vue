@@ -32,7 +32,7 @@ export default {
   computed: {
     ...mapState(["userInfo"]),
   },
-  mounted() {
+  created() {
     this.fetchUserInfo()
   },
   data() {
@@ -49,7 +49,9 @@ export default {
   methods: {
     ...mapActions(["fetchUserInfo"]),
     onSubmit(paymentInfo) {
-      console.log("submit 시작")
+      if(paymentInfo.totalPointAmount == null || paymentInfo.totalPointAmount === "") {
+        paymentInfo.totalPointAmount = 0
+      }
       const config = {
         headers: {
           "Content-Type": "Application/json",

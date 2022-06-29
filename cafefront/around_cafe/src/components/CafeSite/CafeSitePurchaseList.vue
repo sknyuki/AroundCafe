@@ -1,14 +1,14 @@
 <template>
-  <form class="order-purchase-form">
-    <section class="order-purchase-section-title">주문/결제</section>
+  <main class="order-purchase-form">
+    <h1 class="order-purchase-section-title">주문/결제</h1>
     <section class="order-purchase-section">
       <section class="order-purchase-content-box title">
         <div class="order-purchase-flexbox section-title">주문상품</div>
       </section>
       <hr class="order-purchase-line" />
       <section
-        v-for="item in paymentInfo.orderItems"
-        :key="item.cafeMenuNo"
+        v-for="item in basketList"
+        :key="item.menu_no"
         class="order-purchase-content-box content"
       >
         <div class="order-purchase-list box">
@@ -18,14 +18,14 @@
           <div class="order-purchase-list content">
             <div class="order-purchase-flexbox content">
               <div class="order-purchase-image holder">
-                <div class="order-purchase-image" v-html="item.image" />
+                <image class="order-purchase-image" v-html="item.menu_img" />
               </div>
               <div>
-                <div style="margin-bottom: 3px" v-html="item.itemName" />
-                <span v-html="numberToString(item.amount, 3)" />
-                <span style="margin-left: 5px; margin-right: 5px" />I
+                <div style="margin-bottom: 3px" v-html="item.menu_name" />
+                <span v-html="numberToString(item.per_menu_total_price, 3)" />
+                <span style="margin-right: 5px" />|
                 <!--              SVG 이미지파일 삽입-->
-                <span v-html="item.quantity" />
+                <span v-html="item.per_menu_quantity" />
               </div>
             </div>
           </div>
@@ -85,42 +85,42 @@
             <div>카드</div>
           </button>
 
-          <button type="button" @click="setPaymentMethod(`KAKAO`)">
+          <button type="button" @click="setPaymentMethod(`BANK`)">
             <picture>
               <source />
               <img src="@/assets/images/order/img_vbank.webp" alt="" />
             </picture>
             <div>무통장입금</div>
           </button>
-          <button type="button" @click="setPaymentMethod(`MOBILE`)">
+          <button type="button" @click="setPaymentMethod(`KAKAO`)">
             <picture>
               <source />
               <img src="@/assets/images/order/img_kakaopay.webp" alt="" />
             </picture>
             <div>카카오페이</div>
           </button>
-          <button type="button" @click="setPaymentMethod(`MOBILE`)">
+          <button type="button" @click="setPaymentMethod(`TOSS`)">
             <picture>
               <source />
               <img src="@/assets/images/order/img_toss.webp" alt="" />
             </picture>
             <div>토스</div>
           </button>
-          <button type="button" @click="setPaymentMethod(`MOBILE`)">
+          <button type="button" @click="setPaymentMethod(`PAYCO`)">
             <picture>
               <source />
               <img src="@/assets/images/order/img_payco.webp" alt="" />
             </picture>
             <div>페이코</div>
           </button>
-          <button type="button" @click="setPaymentMethod(`MOBILE`)">
+          <button type="button" @click="setPaymentMethod(`NAVER`)">
             <picture>
               <source />
               <img src="@/assets/images/order/img_naver.webp" alt="" />
             </picture>
             <div>네이버페이</div>
           </button>
-          <button type="button" @click="setPaymentMethod(`MOBILE`)">
+          <button type="button" @click="setPaymentMethod(`CHAI`)">
             <picture>
               <source />
               <img src="@/assets/images/order/img_chai.webp" alt="" />
@@ -137,7 +137,7 @@
         </div>
       </section>
     </section>
-  </form>
+  </main>
 </template>
 
 <script>
@@ -148,6 +148,7 @@ export default {
   props: {
     // basketList: { type: Object, required: true },
     userInfo: { type: Object, required: true },
+    // cafeInfo: { type: Object, required: true },
   },
   data() {
     return {
@@ -164,18 +165,31 @@ export default {
       minimumPoint: 2000,
       basketList: [
         {
-          menu_no: 1,
+          menu_content: "",
+          menu_img: "",
           menu_name: "아메리카노",
-          number: 1,
+          menu_no: 1,
           menu_price: 5000,
+          per_menu_quantity: 1,
+          per_menu_total_price: 5000,
+          signature: false,
         },
         {
-          menu_no: 2,
+          menu_content: "",
+          menu_img: "",
           menu_name: "라떼",
-          number: 1,
+          menu_no: 2,
           menu_price: 6000,
+          per_menu_quantity: 1,
+          per_menu_total_price: 6000,
+          signature: false,
         },
       ],
+      cafeInfo : {
+        cafeNo: 1,
+        cafeName: "카페",
+        totalPrice: 11000,
+      },
       isPointValidated: true,
       pointValidatedMessage: "",
     }
@@ -185,17 +199,18 @@ export default {
       let newOrderItemObj = {
         cafeMenuNo: obj.menu_no,
         itemName: obj.menu_name,
-        quantity: obj.number,
-        amount: obj.menu_price,
+        quantity: obj.per_menu_quantity,
+        amount: obj.per_menu_total_price,
       }
-      this.paymentInfo.totalAmount += Number(obj.menu_price)
-      this.paymentInfo.totalQuantity += Number(obj.number)
+      // this.paymentInfo.totalAmount += Number(obj.menu_price)
+      this.paymentInfo.totalQuantity += Number(obj.per_menu_quantity)
       this.paymentInfo.orderItems.push(newOrderItemObj)
     }, this)
     this.paymentInfo.itemInitName = `${
       this.paymentInfo.orderItems[0].itemName
     } 외 ${this.paymentInfo.totalQuantity - 1}개`
     this.paymentInfo.memNo = this.userInfo.memNo
+    this.paymentInfo.totalAmount = this.cafeInfo.totalPrice
     console.log(this.paymentInfo)
     this.$emit("getPaymentInfo", this.paymentInfo)
   },
@@ -215,7 +230,12 @@ export default {
   },
   methods: {
     useAllPoint() {
-      this.paymentInfo.totalPointAmount = this.userInfo.memPoint
+      let myPoint = this.userInfo.memPoint
+      if(myPoint >= this.paymentInfo.totalPointAmount) {
+        this.paymentInfo.totalPointAmount = this.paymentInfo.totalAmount
+      } else {
+        this.paymentInfo.totalPointAmount = myPoint
+      }
     },
     setPaymentMethod(method) {
       this.paymentInfo.paymentMethod = method
