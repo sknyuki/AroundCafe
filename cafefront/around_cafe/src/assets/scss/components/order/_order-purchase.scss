@@ -1,6 +1,4 @@
 .order-purchase {
-  &-form {
-  }
   &-section-title {
     margin: 50px 0 20px;
     font-size: 24px;
@@ -17,16 +15,17 @@
     &.content {
       margin: -3px;
       padding: 23px 3px 26px;
+      width: 100%;
     }
   }
   &-list {
     &.box {
       border: 1px solid $border;
       border-radius: 4px;
-      overflow: hidden
+      overflow: hidden;
     }
     &.header {
-      background-color: #F7F8FA;
+      background-color: #f7f8fa;
       height: 40px;
       padding: 11px 16px 10px;
     }
@@ -38,7 +37,7 @@
   &-line {
     border-width: 0;
     height: 1px;
-    background-color : #EAEBEF;
+    background-color: #eaebef;
   }
   &.title {
     font-weight: 700;
@@ -75,7 +74,7 @@
     height: 42px;
     &.input {
       border: 1px solid $border;
-      background-color: #FAFAFA;
+      background-color: #fafafa;
       padding: 8px 15px 9px;
       border-radius: 4px;
     }
@@ -109,6 +108,43 @@
       color: $red !important;
       font-weight: 700;
       margin-left: 10px;
+    }
+  }
+
+  &-wrap {
+    display: flex;
+    border-top: 1px solid rgb(234, 235, 239);
+    border-left: 1px solid rgb(234, 235, 239);
+    button {
+      display: flex;
+      flex-direction: column;
+      -webkit-box-align: center;
+      align-items: center;
+      position: relative;
+      width: 12.5%;
+      box-sizing: border-box;
+      text-align: center;
+      background-color: rgb(255, 255, 255);
+      border-width: 0px 1px 1px 0px;
+      border-top-style: initial;
+      border-left-style: initial;
+      border-top-color: initial;
+      border-left-color: initial;
+      border-image: initial;
+      padding: 0px 1px 5px 0px;
+      margin: 0px;
+      border-right-style: solid;
+      border-right-color: rgb(234, 235, 239);
+      border-bottom-style: solid;
+      border-bottom-color: rgb(234, 235, 239);
+      transition: background-color 0.2s ease 0s;
+      word-break: keep-all;
+      cursor: pointer;
+    }
+    img {
+      width: 60px;
+      height: 60px;
+      margin: 8px auto 4px;
     }
   }
 }
