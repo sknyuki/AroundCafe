@@ -1,5 +1,10 @@
 <template>
-  <CafeCard :cafeBoards="cafeBoards" :myLikes="myLikes" />
+  <div v-if="!isLogin">
+    <CafeCard :cafeBoards="cafeBoards" />
+  </div>
+  <div v-else>
+    <CafeCard :cafeBoards="cafeBoards" :myLikes="myLikes" />
+  </div>
 </template>
 <script>
 import CafeCard from "@/components/Cafe/CafeCard.vue"
@@ -10,6 +15,7 @@ export default {
   data() {
     return {
       membNo: JSON.parse(localStorage.getItem("user")).memNo,
+      isLogin: false,
     }
   },
   computed: {
@@ -17,10 +23,19 @@ export default {
   },
   mounted() {
     this.fetchcafeBoardList()
-    this.fetchMyLikesList(this.membNo)
+    this.onLogin()
+    //
   },
   methods: {
     ...mapActions(["fetchcafeBoardList", "fetchMyLikesList"]),
+    onLogin() {
+      if (this.membNo != null) {
+        this.isLogin = true
+        this.fetchMyLikesList(this.membNo)
+      } else {
+        this.onLogin = false
+      }
+    },
   },
 }
 </script>

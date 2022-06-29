@@ -38,12 +38,14 @@
                   }"
                   @focus.tab="swiperBtn = index"
                 >
-                  <CafeLike
-                    class="cafe-item-btn"
-                    :cafeItem="cafeItem"
-                    :myLikes="myLikes"
-                    :key="index"
-                  />
+                  <div v-if="onLogin">
+                    <CafeLike
+                      class="cafe-item-btn"
+                      :cafeItem="cafeItem"
+                      :myLikes="myLikes"
+                      :key="index"
+                    />
+                  </div>
 
                   <!-- 좋아요 토글 
             <button class="cafe-item-btn" type="button">
@@ -193,16 +195,25 @@ export default {
       cafeNo: "",
     }
   },
+  methods: {
+    onLogin() {
+      if (this.membNo != "") {
+        this.onLogin = true
+      } else {
+        this.onLogin = false
+      }
+    },
 
-  // methods: {
-  //   show: function () {
-  //     this.isLoading = !this.isLoading
-  //     setTimeout(() => this.show(), 3500)
-  //   },
-  // },
-  // mounted() {
-  //   setTimeout(() => this.show(), 2000)
-  // },
+    // methods: {
+    //   show: function () {
+    //     this.isLoading = !this.isLoading
+    //     setTimeout(() => this.show(), 3500)
+    //   },
+    // },
+    // mounted() {
+    //   setTimeout(() => this.show(), 2000)
+    // },
+  },
 }
 </script>
 <style lang="scss" scoped>

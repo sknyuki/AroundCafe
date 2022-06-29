@@ -39,6 +39,7 @@ export default {
       onLike: "",
       membNo: JSON.parse(localStorage.getItem("user")).memNo,
       cafeNo: this.cafeItem.cafeNo,
+      onLogin: false,
     }
   },
 
@@ -69,9 +70,7 @@ export default {
         .then((res) => {
           this.$store.state.like = res.data
         })
-        .catch(() => {
-          alert("리스트 문제발생!")
-        })
+        .catch(() => {})
     },
 
     likeOn() {
@@ -89,7 +88,7 @@ export default {
           history.go(0)
         })
         .catch(() => {
-          alert("문제 발생!")
+          alert("로그인해주세요!")
         })
     },
   },
