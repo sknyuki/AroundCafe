@@ -10,29 +10,32 @@ paymentBp = Blueprint('paymentBp', __name__)
 #결제 준비
 @paymentBp.route('/ready/<string:socialType>/<string:paymentNo>', methods=['GET'])
 def readyToPayment(socialType, paymentNo) :
-    if socialType == "kakao" :
+    if socialType == "KAKAO" :
         paymentInfo = KakaoPaymentService().readyToPayment(paymentNo)
-        KakaoPaymentService().savePayment(paymentNo, paymentInfo['tid'])
+        KakaoPaymentService().saveTID(paymentNo, paymentInfo['tid'])
         return redirect(paymentInfo["next_redirect_pc_url"])
     
 #결제 승인(성공시)
-@paymentBp.route('/<string:socialType>/success', methods=['GET'])
+@paymentBp.route('/<string:socialType>/success', methods=['GET', 'POST'])
 def paymentSuccess(socialType) :
-    if socialType == "kakao" :
+    if socialType == "KAKAO" :
         paymentNo = request.args.get("paymentNo")
         pg_token = request.args.get("pg_token")
-        paymentInfo = KakaoPaymentService().approveToPayment(paymentNo,pg_token)
+        paymentInfo = KakaoPaymentService().approveToPayment(paymentNo, pg_token)
+        
+        KakaoPaymentService().savePaymentDate(paymentNo)
     
-        return redirect("http://localhost:8080/main") # 성공페이지로 리다이렉트
+        return redirect("http://localhost:8080/cafe/PurchasePopUp?paymentResult=success") # 성공페이지로 리다이렉트
+        # return paymentInfo
     
 #결제 거부(실패시)
 @paymentBp.route('/<string:socialType>/fail', methods=['GET', 'POST'])
 def paymentFail(socialType) :
-    if socialType == "kakao" :
+    if socialType == "KAKAO" :
         paymentNo = request.args.get("paymentNo")
         paymentInfo = KakaoPaymentService().checkPayment(paymentNo)
         if(paymentInfo['status'] == 'QUIT_PAYMENT') :
-            return redirect("https://www.naver.com") # 실패페이지로 리다이렉트
+            return redirect("http://localhost:8080/cafe/PurchasePopUp?paymentResult=fail") # 실패페이지로 리다이렉트
         else :
             return redirect("https://www.daum.net") # 오류페이지로 리다이렉트
         
@@ -40,11 +43,11 @@ def paymentFail(socialType) :
 #결제 거부(취소시)
 @paymentBp.route('/<string:socialType>/cancel', methods=['GET', 'POST'])
 def paymentCancel(socialType) :
-    if socialType == "kakao" :
+    if socialType == "KAKAO" :
         paymentNo = request.args.get("paymentNo")
         paymentInfo = KakaoPaymentService().checkPayment(paymentNo)
         if(paymentInfo['status'] == 'QUIT_PAYMENT') :
-            return redirect("https://www.naver.com") # 실패페이지로 리다이렉트
+            return redirect("http://localhost:8080/cafe/PurchasePopUp?paymentResult=cancel") # 실패페이지로 리다이렉트
         else :
             return redirect("https://www.daum.net") # 오류페이지로 리다이렉트
         

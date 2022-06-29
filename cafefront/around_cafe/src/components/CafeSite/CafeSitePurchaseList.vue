@@ -7,7 +7,7 @@
       </section>
       <hr class="order-purchase-line" />
       <section
-        v-for="item in paymentInfo.orderItem"
+        v-for="item in paymentInfo.orderItems"
         :key="item.cafeMenuNo"
         class="order-purchase-content-box content"
       >
@@ -102,8 +102,9 @@ export default {
         totalQuantity: 0,
         totalAmount: 0,
         totalPointAmount: "",
-        orderItem: [],
-        cafeNo: "",
+        orderItems: [],
+        cafeNo: 1,
+        memNo: "",
       },
       minimumPoint: 2000,
       basketList: [
@@ -134,11 +135,13 @@ export default {
       }
       this.paymentInfo.totalAmount += Number(obj.menu_price)
       this.paymentInfo.totalQuantity += Number(obj.number)
-      this.paymentInfo.orderItem.push(newOrderItemObj)
+      this.paymentInfo.orderItems.push(newOrderItemObj)
     }, this)
     this.paymentInfo.itemInitName = `${
-      this.paymentInfo.orderItem[0].itemName
+      this.paymentInfo.orderItems[0].itemName
     } 외 ${this.paymentInfo.totalQuantity - 1}개`
+    this.paymentInfo.memNo = this.userInfo.memNo
+    console.log(this.paymentInfo)
     this.$emit("getPaymentInfo", this.paymentInfo)
   },
   watch: {

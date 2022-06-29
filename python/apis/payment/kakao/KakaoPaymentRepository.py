@@ -1,4 +1,5 @@
 import pymysql
+import datetime
 from ...AppConfig import Mysql
 
 class KakaoPaymentsRepository :       
@@ -24,6 +25,19 @@ class KakaoPaymentsRepository :
         db.commit()
         db.close()
         
+    def savePaymentDate(self, paymentNo) :
+        db = self.connectDB()
+        cursor = db.cursor()
+        
+        sql = """
+            UPDATE payment SET payment_date = '%s' WHERE payment_no = %s
+        """ %(datetime.datetime.now(), paymentNo)
+        
+        cursor.execute(sql)
+        
+        db.commit()
+        db.close()
+        
     def findByPaymentNo(self, paymentNo) :
         db = self.connectDB()
         cursor = db.cursor()
@@ -33,7 +47,10 @@ class KakaoPaymentsRepository :
         """ % paymentNo
         
         cursor.execute(sql)
-        payment = cursor.fetchall()[0]
+        
+        field_names = [i[0] for i in cursor.description]
+        payment = dict(zip(field_names, cursor.fetchone()))
+        
         db.commit()
         db.close()
         

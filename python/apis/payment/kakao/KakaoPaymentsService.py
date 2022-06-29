@@ -6,10 +6,21 @@ class KakaoPaymentService :
     def readyToPayment(self, paymentNo) :
         payment = KakaoPaymentsRepository().findByPaymentNo(paymentNo)
         
-        partner_user_id = str(payment[11])
-        item_name = str(payment[6])
-        quantity = payment[12]
-        total_amount = str(payment[9] - payment[10])
+        partner_user_id = payment['mem_no']
+        item_name = str(payment['item_init_name'])
+        quantity = payment['total_quantity']
+        
+        if(payment['total_amount'] == None) :
+            init_total_amount = 0
+        else :
+            init_total_amount = payment['total_amount']
+            
+        if(payment['total_point_amount'] == None) :
+            init_total_point = 0
+        else :
+            init_total_point = payment['total_point_amount']
+            
+        total_amount = str(init_total_amount - init_total_point)
         
         url = PAYMENT_READY_URL
         
@@ -25,9 +36,9 @@ class KakaoPaymentService :
             "quantity": quantity, # 수량
             "total_amount": total_amount, # 총 금액
             "tax_free_amount": "0", # TaxFree 금액 -- 0 고정
-            "approval_url": "http://localhost:5000/payment/kakao/success?paymentNo=%s" %paymentNo, # 성공시 URL
-            "fail_url": "http://localhost:5000/payment/kakao/fail?paymentNo=%s" %paymentNo, # 실패시 URL
-            "cancel_url": "http://localhost:5000/payment/kakao/cancel?paymentNo=%s" %paymentNo # 취소시 URL
+            "approval_url": "http://localhost:5000/payment/KAKAO/success?paymentNo=%s" %paymentNo, # 성공시 URL
+            "fail_url": "http://localhost:5000/payment/KAKAO/fail?paymentNo=%s" %paymentNo, # 실패시 URL
+            "cancel_url": "http://localhost:5000/payment/KAKAO/cancel?paymentNo=%s" %paymentNo # 취소시 URL
         }
     
         response = requests.post(url=url, headers=headers, data=data).json()
@@ -37,11 +48,8 @@ class KakaoPaymentService :
     def approveToPayment(self, paymentNo, pg_token) :
         payment = KakaoPaymentsRepository().findByPaymentNo(paymentNo)
         
-        partner_user_id = str(payment[11])
-        TID = str(payment[3])
-        item_name = str(payment[6])
-        quantity = payment[12]
-        total_amount = str(payment[9] - payment[10])
+        partner_user_id = str(payment['mem_no'])
+        TID = str(payment['ex_payment_no'])
         
         url = PAYMENT_APPROVE_URL
 
@@ -68,7 +76,7 @@ class KakaoPaymentService :
     def checkPayment(self, paymentNo) :
         payment = KakaoPaymentsRepository().findByPaymentNo(paymentNo)
         
-        TID = str(payment[3])
+        TID = str(payment['ex_payment_no'])
         
         url = PAYMENT_CHECK_URL
         
@@ -93,7 +101,7 @@ class KakaoPaymentService :
     def cancelPayment(self, paymentNo, cancelAmount) :
         payment = KakaoPaymentsRepository().findByPaymentNo(paymentNo)
         
-        TID = str(payment[3])
+        TID = str(payment['ex_payment_no'])
                 
         url = PAYMENT_CANCEL_URL
         
@@ -117,5 +125,8 @@ class KakaoPaymentService :
             return response.json()
             
                 
-    def savePayment(self, paymentNo, tid) :
+    def saveTID(self, paymentNo, tid) :
         KakaoPaymentsRepository().saveTID(paymentNo, tid)
+    
+    def savePaymentDate(self, paymentNo) :
+        KakaoPaymentsRepository().savePaymentDate(paymentNo)

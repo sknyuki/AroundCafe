@@ -1,5 +1,5 @@
 <template>
-  <div class="order-sidebar navigation">
+  <form @submit.prevent="onSubmit" class="order-sidebar navigation">
     <aside>
       <div class="order-sidebar contents">
         <div class="order-sidebar-contents title">
@@ -50,7 +50,10 @@
           </div>
         </div>
       </div>
-      <v-btn :disabled="isPointValidated === false" class="order-sidebar button"
+      <v-btn
+        :disabled="isPointValidated === false"
+        class="order-sidebar button"
+        type="submit"
         >{{
           this.nullValueCheck(
             paymentInfo.totalAmount - paymentInfo.totalPointAmount,
@@ -59,7 +62,7 @@
         }}원 결제하기</v-btn
       >
     </aside>
-  </div>
+  </form>
 </template>
 
 <script>
@@ -70,7 +73,7 @@ export default {
   props: {
     paymentInfo: { Type: Object, required: true },
     totalPrice: { Type: Number, required: true },
-    isPointValidated: { Type: Boolean, required: true},
+    isPointValidated: { Type: Boolean, required: true },
   },
   data() {
     return {
@@ -84,13 +87,20 @@ export default {
     },
     nullValueCheck(number, digit) {
       let newNumber
-      if(number === "" || number === null || number < 0) {
-        newNumber = 0;
+      if (number === "" || number === null || number < 0) {
+        newNumber = 0
       } else {
-        newNumber = number;
+        newNumber = number
       }
       return this.numberToString(newNumber, digit)
-    }
+    },
+    onSubmit() {
+      if(this.paymentInfo.paymentMethod !== "" && this.paymentInfo.paymentMethod !== null){
+        this.$emit("submit", this.paymentInfo)
+      } else {
+       alert("결제 방법을 선택하셔야 합니다.")
+      }
+    },
   },
 }
 </script>
