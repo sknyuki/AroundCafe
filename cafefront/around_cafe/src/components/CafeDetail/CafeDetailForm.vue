@@ -85,6 +85,7 @@
                       <CafeSiteMenuList
                         @submitCheckBasketList="submitCheckBasketList"
                         :cafeNo="cafeNo"
+                        :menuLists="menuLists"
                       />
                     </div>
                     <div class="detail-content">
