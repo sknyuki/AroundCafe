@@ -96,7 +96,8 @@ public class MemberServiceImpl implements MemberService {
         Member member = memberRepository.findByMemNo(memberDto.getMemNo()).orElseGet(null);
 
         //수정한 디테일에 이미지가 있고 + 기존에 저장한 이미지가 있다면, 기존 이미지 삭제 후 수정 이미지를 저장한다.
-        if(member.getMemImg() != null) {
+        //추가, 카톡 이미지는 http형식이기 때문에 삭제하지 않고 덮어씌우기 한다.
+        if(member.getMemImg().indexOf("k.kakaocdn.net") < 5) {
             Path filePath = Paths.get("../../cafefront/around_cafe/src/assets/images/memberImg/" + member.getMemImg());
             Files.delete(filePath);
             log.info("file delete complete");

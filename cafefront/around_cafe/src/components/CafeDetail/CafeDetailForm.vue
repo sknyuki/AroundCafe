@@ -95,7 +95,10 @@
                           <strong class="badge" aria-label="400개">{{
                             reviews.length
                           }}</strong>
-                          <a class="text-btn">리뷰쓰기</a>
+                          <CafeReviewRegisterPage
+                            class="text-btn"
+                            :cafeNo="cafeNo"
+                          />
                         </header>
 
                         <div class="review-scoreboard">
@@ -219,6 +222,7 @@ import CafeReviewForm from "@/components/CafeReview/CafeReviewForm.vue"
 import CafeDetailSidebar from "@/components/CafeDetail/CafeDetailSidebar.vue"
 import CafeSiteMenuList from "../CafeSite/CafeSiteMenuList.vue"
 import { mapState, mapActions } from "vuex"
+import CafeReviewRegisterPage from "@/views/Cafe/CafeReviewRegisterPage.vue"
 
 export default {
   name: "CafeDetailForm",
@@ -227,6 +231,7 @@ export default {
     CafeReviewForm,
     CafeDetailSidebar,
     CafeSiteMenuList,
+    CafeReviewRegisterPage,
   },
   props: {
     reviews: {

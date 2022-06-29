@@ -1,12 +1,10 @@
 <template>
-  <v-container class="writeForm">
-    <v-row>
-      <v-btn @click="onReviewDialog">Review</v-btn>
-      <v-dialog max-width="750" v-model="reviewDialog">
-        <CafeReviewDialog @submit="onSubmit" />
-      </v-dialog>
-    </v-row>
-  </v-container>
+  <div>
+    <a @click="onReviewDialog">리뷰쓰기</a>
+    <v-dialog max-width="750" v-model="reviewDialog">
+      <CafeReviewDialog @submit="onSubmit" @input="close" />
+    </v-dialog>
+  </div>
 </template>
 
 <script>
@@ -23,17 +21,22 @@ export default {
       membNo: this.$store.state.user.memNo,
     }
   },
-
+  props: {
+    cafeNo: {
+      type: String,
+      required: true,
+    },
+  },
   methods: {
     onSubmit(payload) {
-      const { star_score, review_content, cafeNum, file } = payload
+      const { star_score, review_content, file } = payload
       let formData = new FormData()
       if (file != null) {
         formData.append("file", file)
       }
       formData.append("star_score", star_score)
       formData.append("review_content", review_content)
-      formData.append("cafeNum", cafeNum)
+      formData.append("cafeNum", this.cafeNo)
 
       let membNo = this.membNo
       axios
@@ -48,18 +51,16 @@ export default {
         )
         .then(() => {
           alert("Successfully submitted")
-          this.$router.push({
-            name: "CafeReviewListPage",
-          })
+          this.$router.go()
         })
         .catch(() => {
-          alert("문제 발생!")
+          console.log("문제 발생!")
         })
     },
     onReviewDialog() {
       this.reviewDialog = true
     },
-    closeDialog() {
+    close() {
       this.reviewDialog = false
     },
   },
