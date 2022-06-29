@@ -55,7 +55,22 @@
               <label for="">주소</label>
               <div class="account-input">
                 <span>
-                  <td width="0">
+                  <CafeAddress />
+                  <input
+                    type="text"
+                    placeholder="우편번호"
+                    class="form-input"
+                    v-model="post"
+                    readonly
+                    style="margin-right: 10px"
+                  />
+                  <input
+                    type="text"
+                    placeholder="상세주소"
+                    class="form-input"
+                    v-model="address"
+                  />
+                  <!-- <td width="0">
                     <v-select
                       v-model="cafeAdr1"
                       :items="states1"
@@ -83,7 +98,7 @@
                       type="text"
                       placeholder="상세주소"
                     />
-                  </td>
+                  </td> -->
                 </span>
               </div>
             </div>
@@ -197,11 +212,13 @@
 </template>
 <script>
 import CafeSidebar from "@/components/Cafe/CafeSidebar.vue"
+import CafeAddress from "@/components/Cafe/CafeAddress.vue"
 import ImgBox from "@/components/ImgBox.vue"
+import { EventBus } from "@/utils/eventBus"
 //import { mapState, mapActions } from "vuex"
 
 export default {
-  components: { ImgBox, CafeSidebar },
+  components: { ImgBox, CafeSidebar, CafeAddress },
   name: "CafeRegister",
   props: {
     cafeBoard: {
@@ -218,6 +235,10 @@ export default {
       images: "",
       comment: "",
       files: [],
+
+      post: "",
+      address: "",
+
       states1: ["서울시"],
       states2: [
         "강남구",
@@ -252,14 +273,22 @@ export default {
       cafeTime: "",
       cafeContent: "",
       cafeCall: "",
-      cafeAdr1: "",
-      cafeAdr2: "",
-      cafeAdr3: "",
+
+      //cafeAdr3: "",
     }
   },
   mounted() {
     setTimeout(this.change, 50)
+    // EventBus.$on("findPostalcode", ({ post, cafeAdr3 }) => {
+    //   this.post = post
+    //   this.cafeAdr3 = cafeAdr3
+    // })
+    EventBus.$on("findPostalcode", ({ post, address }) => {
+      this.post = post
+      this.address = address
+    })
   },
+
   methods: {
     change() {
       this.cafeName = this.cafeBoard.cafe_name
