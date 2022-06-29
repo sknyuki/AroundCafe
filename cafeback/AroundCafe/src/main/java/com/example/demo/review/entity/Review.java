@@ -8,9 +8,13 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Formula;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.*;
 
 
@@ -52,15 +56,20 @@ public class Review {
     @CreationTimestamp
     private Date regDate;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
-    @UpdateTimestamp
-    private Date updDate;
+    @CreatedDate
+    @Column(length = 128, nullable = true)
+    private String updDate;
+
+    @PrePersist
+    public void onPrePersist(){
+        this.updDate = LocalDateTime.now().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT));
+    }
 
     @Column(length = 32, nullable = false)
     private Long cafeNum;   //카페 번호를 vue 에서 넘길때 받아오는 것
 
     @Builder
-    public Review(String star_score, String review_content,String fileName, Date regDate, Date updDate, Long cafeNum, Member member) {
+    public Review(String star_score, String review_content,String fileName, Date regDate, String updDate, Long cafeNum, Member member) {
         this.star_score = star_score;
         this.review_content = review_content;
         this.fileName = fileName;

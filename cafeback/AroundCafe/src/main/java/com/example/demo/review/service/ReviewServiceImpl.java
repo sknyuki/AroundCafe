@@ -5,6 +5,7 @@ import com.example.demo.member.entity.Member;
 import com.example.demo.member.repository.MemberRepository;
 import com.example.demo.mypage.cafe.entity.Cafe;
 import com.example.demo.mypage.cafe.repository.cafe.CafeRepository;
+import com.example.demo.review.dto.ReviewResponseDto;
 import com.example.demo.review.entity.Review;
 import com.example.demo.review.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -31,7 +33,6 @@ public class ReviewServiceImpl implements ReviewService{
 
     @Autowired
     ReviewRepository repository;
-
 
     @Autowired
     MemberRepository memberRepository;
@@ -64,11 +65,27 @@ public class ReviewServiceImpl implements ReviewService{
     }
 
     @Override
-    public List<Review> list(Integer cafeNo) {
-
+    public List<ReviewResponseDto> list(Integer cafeNo) {
         log.info("cafe no : " + cafeNo);
+
         List<Review> reviews = repository.findByCafeNo(Long.valueOf(cafeNo));
-        return reviews;
+        List<ReviewResponseDto> response = new ArrayList<>();
+
+        for(int i = 0; i <reviews.size(); i++) {
+            ReviewResponseDto reviewResponseDto = ReviewResponseDto.builder()
+                    .reviewNo(reviews.get(i).getReviewNo())
+                    .star_score(reviews.get(i).getStar_score())
+                    .review_content(reviews.get(i).getReview_content())
+                    .likeCnt(reviews.get(i).getLikeCnt())
+                    .updDate(reviews.get(i).getUpdDate())
+                    .memNick(reviews.get(i).getMemberInfo().getMemNick())
+                    .memImg(reviews.get(i).getMemberInfo().getMemImg())
+                    .build();
+
+            response.add(reviewResponseDto);
+        }
+
+        return response;
     }
 
     @Transactional
