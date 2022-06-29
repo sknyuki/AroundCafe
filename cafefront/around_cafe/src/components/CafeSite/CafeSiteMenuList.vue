@@ -61,7 +61,7 @@
 </template>
 <script>
 import PaginationForm from "@/components/PaginationForm.vue"
-import { mapState, mapActions } from "vuex"
+//import { mapState, mapActions } from "vuex"
 
 export default {
   name: "CafeMenuList",
@@ -69,6 +69,10 @@ export default {
   props: {
     cafeNo: {
       type: String,
+      required: true,
+    },
+    menuLists: {
+      type: Array,
       required: true,
     },
   },
@@ -84,15 +88,12 @@ export default {
       total: "",
     }
   },
-  computed: {
-    ...mapState(["menuLists"]),
-  },
   mounted() {
-    this.fetchMenuLists(this.cafeNo)
-    this.pagingMethod(this.page)
+    setTimeout(() => {
+      this.pagingMethod(this.page)
+    }, 70)
   },
   methods: {
-    ...mapActions(["fetchMenuLists"]),
     addToBasket(item) {
       // console.log(item)
       if (this.CheckbasketList.length == 0) {

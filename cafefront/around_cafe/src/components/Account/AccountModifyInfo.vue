@@ -93,7 +93,7 @@
             </template>
             <template v-else>
               <img
-                v-if="image == '' || memImg == ''"
+                v-if="image == '' && memImg == ''"
                 :src="require(`@/assets/images/avatar.webp`)"
                 alt="기본 이미지"
               />
