@@ -1,7 +1,7 @@
 <template>
   <form class="cafe-review">
     <div
-      v-for="(review, index) in reviews"
+      v-for="(review, index) in listData"
       :key="index"
       class="cafe-review-content"
     >
@@ -52,14 +52,8 @@
               </div>
             </header>
             <div class="cafe-review-body">
-              <div
-                class="review-image"
-                v-if="review.fileName !== null && review.fileName !== 'null'"
-              >
-                <img
-                  class="addImg"
-                  :src="require(`@/assets/review/${review.fileName}`)"
-                />
+              <div class="review-image" v-if="review.fileName !== null">
+                <img :src="require(`@/assets/review/${review.fileName}`)" />
               </div>
 
               <p>{{ review.review_content }}</p>
@@ -102,7 +96,6 @@ import CafeReviewModify from "@/components/CafeReview/CafeReviewModify"
 import CafeReviewLike from "@/components/CafeReview/CafeReviewLike"
 import CafeReviewDelete from "@/components/Cafe/CafeReviewDelete"
 import axios from "axios"
-import { mapState, mapActions } from "vuex"
 import PaginationForm from "@/components/PaginationForm.vue"
 
 export default {
@@ -142,15 +135,12 @@ export default {
       total: "",
     }
   },
-  computed: {
-    ...mapState(["reviews"]),
-  },
   mounted() {
-    this.fetchReviewList(this.cafeNo)
-    this.pagingMethod(this.page)
+    setTimeout(() => {
+      this.pagingMethod(this.page)
+    }, 1000)
   },
   methods: {
-    ...mapActions(["fetchReviewList"]),
     onModify(payload) {
       const { reviewNo, star_score, review_content, cafeNum, file } = payload
       let formData = new FormData()
