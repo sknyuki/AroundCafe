@@ -1,0 +1,66 @@
+.complete {
+  margin-top: 16px;
+  &-content {
+    &-header {
+      border-bottom: 1px solid $border;
+      h1,
+      h2 {
+        color: $indigo;
+        margin-bottom: 16px;
+      }
+    }
+    &-history {
+      @include flexbox(between);
+      margin: 8px 0;
+    }
+  }
+  &-alarm {
+    @include text-style(24);
+    @include flexbox;
+    padding: 48px;
+  }
+  &-number {
+    @include text-style(14, $white);
+    @include flexbox;
+    height: 48px;
+    border-radius: 4px;
+    background-color: $indigo;
+    margin-bottom: 48px;
+    .order-number {
+      color: $yellow;
+      font-weight: 700;
+    }
+  }
+  &-info {
+    @include text-style(16);
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  &-pay {
+    @include flexbox;
+
+    border: 3px solid $border;
+    height: 72px;
+    margin-bottom: 48px;
+    .price {
+      font-size: 24px;
+      color: $red;
+      font-weight: 700;
+    }
+    .inf {
+      color: $red;
+    }
+  }
+  .btn-group {
+    @include flexbox;
+    margin-top: 24px;
+    margin-bottom: 8px;
+
+    button {
+      width: 120px !important;
+      &:nth-child(1) {
+        margin-right: 8px;
+      }
+    }
+  }
+}
