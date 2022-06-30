@@ -11,11 +11,7 @@
           <header>
             <h1>리뷰</h1>
           </header>
-          <CafeReviewForm />
-
-          <div class="cafe-review-pag">
-            <PaginationForm />
-          </div>
+          <CafeReviewForm :reviewList="reviewList" :myHelps="myHelps" />
         </div>
       </div>
     </div>
@@ -25,13 +21,12 @@
 import CafeSidebar from "@/components/Cafe/CafeSidebar.vue"
 import ImgBox from "@/components/ImgBox.vue"
 import CafeReviewForm from "@/components/CafeReview/CafeReviewForm.vue"
-import PaginationForm from "@/components/PaginationForm.vue"
 
 export default {
   name: "CafeReviewList",
-  components: { ImgBox, CafeSidebar, CafeReviewForm, PaginationForm },
+  components: { ImgBox, CafeSidebar, CafeReviewForm },
   props: {
-    reviews: {
+    reviewList: {
       type: Array,
       required: true,
     },
