@@ -4,7 +4,7 @@ import requests
 
 class KakaoPaymentService :
     def readyToPayment(self, paymentNo) :
-        payment = KakaoPaymentsRepository().findByPaymentNo(paymentNo)
+        payment = KakaoPaymentsRepository().findPaymentByPaymentNo(paymentNo)
         
         partner_user_id = payment['mem_no']
         item_name = str(payment['item_init_name'])
@@ -20,33 +20,36 @@ class KakaoPaymentService :
         else :
             init_total_point = payment['total_point_amount']
             
-        total_amount = str(init_total_amount - init_total_point)
+        total_amount = init_total_amount - init_total_point
         
-        url = PAYMENT_READY_URL
+        if(total_amount > 0) :
+            url = PAYMENT_READY_URL
+            
+            headers = {
+                "Authorization": "KakaoAK " + APP_ADMIN_KEY,
+                "Content-type": "application/x-www-form-urlencoded;charset=utf-8"
+            }
+            data = {
+                "cid": CID,
+                "partner_order_id": paymentNo,
+                "partner_user_id": partner_user_id,
+                "item_name": item_name, # 주문 이름 --- 아이스아메리카노 외 X로 들어오면 좋을듯
+                "quantity": quantity, # 수량
+                "total_amount": str(total_amount), # 총 금액
+                "tax_free_amount": "0", # TaxFree 금액 -- 0 고정
+                "approval_url": "http://localhost:5000/payment/KAKAO/success?paymentNo=%s" %paymentNo, # 성공시 URL
+                "fail_url": "http://localhost:5000/payment/KAKAO/fail?paymentNo=%s" %paymentNo, # 실패시 URL
+                "cancel_url": "http://localhost:5000/payment/KAKAO/cancel?paymentNo=%s" %paymentNo # 취소시 URL
+            }
         
-        headers = {
-            "Authorization": "KakaoAK " + APP_ADMIN_KEY,
-            "Content-type": "application/x-www-form-urlencoded;charset=utf-8"
-        }
-        data = {
-            "cid": CID,
-            "partner_order_id": paymentNo,
-            "partner_user_id": partner_user_id,
-            "item_name": item_name, # 주문 이름 --- 아이스아메리카노 외 X로 들어오면 좋을듯
-            "quantity": quantity, # 수량
-            "total_amount": total_amount, # 총 금액
-            "tax_free_amount": "0", # TaxFree 금액 -- 0 고정
-            "approval_url": "http://localhost:5000/payment/KAKAO/success?paymentNo=%s" %paymentNo, # 성공시 URL
-            "fail_url": "http://localhost:5000/payment/KAKAO/fail?paymentNo=%s" %paymentNo, # 실패시 URL
-            "cancel_url": "http://localhost:5000/payment/KAKAO/cancel?paymentNo=%s" %paymentNo # 취소시 URL
-        }
-    
-        response = requests.post(url=url, headers=headers, data=data).json()
-                   
-        return response
+            response = requests.post(url=url, headers=headers, data=data).json()
+                    
+            return response
+        else :
+            return "zero_amount"
         
     def approveToPayment(self, paymentNo, pg_token) :
-        payment = KakaoPaymentsRepository().findByPaymentNo(paymentNo)
+        payment = KakaoPaymentsRepository().findPaymentByPaymentNo(paymentNo)
         
         partner_user_id = str(payment['mem_no'])
         TID = str(payment['ex_payment_no'])
@@ -74,7 +77,7 @@ class KakaoPaymentService :
             return response.json()
         
     def checkPayment(self, paymentNo) :
-        payment = KakaoPaymentsRepository().findByPaymentNo(paymentNo)
+        payment = KakaoPaymentsRepository().findPaymentByPaymentNo(paymentNo)
         
         TID = str(payment['ex_payment_no'])
         
@@ -99,7 +102,7 @@ class KakaoPaymentService :
         
         
     def cancelPayment(self, paymentNo, cancelAmount) :
-        payment = KakaoPaymentsRepository().findByPaymentNo(paymentNo)
+        payment = KakaoPaymentsRepository().findPaymentByPaymentNo(paymentNo)
         
         TID = str(payment['ex_payment_no'])
                 
@@ -128,5 +131,15 @@ class KakaoPaymentService :
     def saveTID(self, paymentNo, tid) :
         KakaoPaymentsRepository().saveTID(paymentNo, tid)
     
-    def savePaymentDate(self, paymentNo) :
+    def saveConfirmation(self, paymentNo) :
+        payment = KakaoPaymentsRepository().findPaymentByPaymentNo(paymentNo)
+        mem_no = payment['mem_no']
+        member = KakaoPaymentsRepository().findMemberByMemberNo(mem_no)
+        mem_point = member['mem_point'] - payment['total_point_amount']
+        
         KakaoPaymentsRepository().savePaymentDate(paymentNo)
+        KakaoPaymentsRepository().savePaymentStatus(paymentNo)
+        KakaoPaymentsRepository().saveMemberPoint(mem_no, mem_point)
+        
+        
+        

@@ -3,21 +3,20 @@ package com.example.demo.payment.service;
 import com.example.demo.common.exception.ResourceNotFoundException;
 import com.example.demo.member.entity.Member;
 import com.example.demo.member.repository.MemberRepository;
-import com.example.demo.mypage.cafe.entity.Cafe;
-import com.example.demo.mypage.cafe.repository.menu.MenuRepository;
 import com.example.demo.payment.dto.OrderItemRequest;
 import com.example.demo.payment.dto.OrderItemResponse;
 import com.example.demo.payment.dto.PaymentRequest;
 import com.example.demo.payment.dto.PaymentResponse;
 import com.example.demo.payment.entity.OrderItem;
 import com.example.demo.payment.entity.Payment;
+import com.example.demo.payment.entity.PaymentStatus;
 import com.example.demo.payment.map.OrderItemResponseMapStruct;
 import com.example.demo.payment.map.PaymentResponseMapStruct;
 import com.example.demo.payment.repository.OrderItemRepository;
 import com.example.demo.payment.repository.PaymentRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -34,7 +33,8 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     @Transactional
     public Long savePayment(PaymentRequest paymentRequest) {
-        Member member = memberRepository.findByMemNo(paymentRequest.getMemNo()).orElseGet(null);
+        log.info(paymentRequest.toString());
+        Member member = memberRepository.findByMemNo(paymentRequest.getMemNo()).orElseThrow(() -> new UsernameNotFoundException("no User"));
         List<OrderItemRequest> orderItemRequest = paymentRequest.getOrderItems();
 
         Calendar calendar = Calendar.getInstance();
@@ -49,7 +49,7 @@ public class PaymentServiceImpl implements PaymentService {
                 .totalAmount(paymentRequest.getTotalAmount())
                 .totalPointAmount(paymentRequest.getTotalPointAmount())
                 .expTime(date)
-                .isCancelled(false)
+                .paymentStatus(PaymentStatus.PAYMENT_READY)
                 .member(member)
                 .cafeNo(paymentRequest.getCafeNo())
                 .build();
@@ -113,7 +113,22 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
+    @Transactional
     public void deletePayment(Long paymentNo) {
         paymentRepository.deleteByPaymentNo(paymentNo);
+    }
+
+    @Override
+    @Transactional
+    public void paymentConfirm(Long paymentNo) {
+        Payment payment = paymentRepository.findByPaymentNo(paymentNo)
+                .orElseThrow(() -> new ResourceNotFoundException("payment", "paymentNo", paymentNo));
+
+        Member member = payment.getMember();
+        Long memNo = member.getMemNo();
+        Integer point = member.getMemPoint();
+        Integer addedPoint = (int)((payment.getTotalAmount() - payment.getTotalPointAmount()) * 0.025);
+
+        memberRepository.updateMemberPoint(memNo, (point + addedPoint));
     }
 }

@@ -1,6 +1,8 @@
 package com.example.demo.payment.dto;
 
+import com.example.demo.payment.entity.PaymentStatus;
 import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,15 +12,16 @@ import java.util.List;
 
 @Getter
 @Setter
+@Data
 public class PaymentRequest {
     private String itemInitName;
     private String exPaymentNo; // 외부 결제 ID
     private String paymentMethod; // 우선 KAKAO 고정
-    private Long totalQuantity;
-    private Long totalAmount;
-    private Long totalPointAmount;
+    private Integer totalQuantity;
+    private Integer totalAmount;
+    private Integer totalPointAmount;
     private Date paymentDate;
-    private Boolean isCancelled = false;
+    private PaymentStatus paymentStatus;
 
     private List<OrderItemRequest> orderItems;
     private Long memNo;
@@ -26,7 +29,7 @@ public class PaymentRequest {
     private Long cafeNo;
 
     @Builder
-    public PaymentRequest(String itemInitName, String exPaymentNo, String paymentMethod, Long totalQuantity, Long totalAmount, Long totalPointAmount, Date paymentDate, ArrayList<OrderItemRequest> orderItems, Long memNo, Long cafeNo) {
+    public PaymentRequest(String itemInitName, String exPaymentNo, String paymentMethod, Integer totalQuantity, Integer totalAmount, Integer totalPointAmount, Date paymentDate, ArrayList<OrderItemRequest> orderItems, Long memNo, Long cafeNo) {
         this.itemInitName = itemInitName;
         this.exPaymentNo = exPaymentNo;
         this.paymentMethod = paymentMethod;

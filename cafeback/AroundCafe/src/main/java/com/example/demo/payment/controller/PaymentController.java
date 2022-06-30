@@ -50,4 +50,10 @@ public class PaymentController {
     public void deletePayment(@PathVariable Long paymentNo) {
         paymentService.deletePayment(paymentNo);
     }
+
+    @PutMapping("/{paymentNo}")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public void confirmPayment(@PathVariable Long paymentNo) {
+        paymentService.paymentConfirm(paymentNo);
+    }
 }
