@@ -81,10 +81,7 @@
             <h1 class="cafe-list-title">{{ cafeItem.cafe_name }}</h1>
 
             <div class="cafe-list-location">
-              <span
-                >{{ cafeItem.cafe_adr1 }} {{ cafeItem.cafe_adr2 }}
-                {{ cafeItem.cafe_adr3 }}</span
-              >
+              <span>{{ cafeItem.address }} {{ cafeItem.post }}</span>
             </div>
 
             <div class="cafe-list-time">

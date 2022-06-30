@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-btn @click="findPostalcode()">주소 찾기</v-btn>
+    <v-btn @click="findPostalcode()" class="btn-indigo">주소 찾기</v-btn>
   </div>
 </template>
 

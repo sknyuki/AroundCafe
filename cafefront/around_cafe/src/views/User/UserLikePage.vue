@@ -3,7 +3,7 @@
 </template>
 <script>
 import UserLike from "@/components/User/UserLike.vue"
-//import { mapState, mapActions } from "vuex"
+import { mapState, mapActions } from "vuex"
 export default {
   components: { UserLike },
   name: "UserLikePage",
@@ -13,16 +13,16 @@ export default {
       membNo: JSON.parse(localStorage.getItem("user")).memNo,
     }
   },
-  /*
+
   computed: {
-    //...mapState(["cafeBoards", "myLikes"]),
+    ...mapState(["cafeBoards", "myLikes"]),
   },
-  mounted() {
-    this.fetchcafeBoardList()
-    this.fetchMyLikesList(this.membNo)
+  async mounted() {
+    await this.fetchcafeBoardList()
+    await this.fetchMyLikesList(this.membNo)
   },
   methods: {
     ...mapActions(["fetchcafeBoardList", "fetchMyLikesList"]),
-  },*/
+  },
 }
 </script>
