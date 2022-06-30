@@ -46,6 +46,8 @@ public class MenuServiceImpl implements MenuService{
                 .menu_price(info.getMenu_price())
                 .file(fileName)
                 .menu_content(info.getMenu_content())
+                .per_menu_quantity(info.getPer_menu_quantity())
+                .per_menu_total_price(info.getPer_menu_total_price())
                 .cafe(cafe)
                 .build();
 
@@ -64,6 +66,8 @@ public class MenuServiceImpl implements MenuService{
                 .menu_name(info.getMenu_name())
                 .menu_price(info.getMenu_price())
                 .menu_content(info.getMenu_content())
+                .per_menu_quantity(info.getPer_menu_quantity())
+                .per_menu_total_price(info.getPer_menu_total_price())
                 .cafe(cafe)
                 .build();
 

@@ -243,7 +243,15 @@ export default {
       this.modify_content = item.menu_content
     },
     onModifyMenu(payload) {
-      const { modifyNo, menu_name, menu_price, menu_content, file } = payload
+      const {
+        modifyNo,
+        per_menu_quantity,
+        per_menu_total_price,
+        menu_name,
+        menu_price,
+        menu_content,
+        file,
+      } = payload
 
       let formData = new FormData()
 
@@ -252,6 +260,8 @@ export default {
         menu_name: menu_name,
         menu_price: menu_price,
         menu_content: menu_content,
+        per_menu_quantity: per_menu_quantity,
+        per_menu_total_price: per_menu_total_price,
       }
 
       formData.append(
