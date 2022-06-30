@@ -127,7 +127,7 @@
                         <i class="icStar"></i>
                         <span class="visually-hidden">평점</span>
                       </dt>
-                      <dd>{{ cafeItem.star }}</dd>
+                      <dd>{{ cafeItem.star | ratingPoint }}</dd>
                     </div>
                   </dl>
                 </router-link>

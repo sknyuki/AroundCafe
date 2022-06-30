@@ -28,11 +28,19 @@ public class CafeMenu {
     @Column(length = 128, nullable = true)
     private String menu_content;
 
+    @Column(length = 32, columnDefinition = "varchar(20) default 1")
+    private Integer per_menu_quantity;
+
+    @Column(length=32,nullable = true)
+    private Integer per_menu_total_price;
+
     @Column(columnDefinition = "boolean default false")
     private Boolean signature = false;
 
     @Column(columnDefinition = "boolean default false")
     private Boolean sold_out = false;
+
+
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "cafe_no")
@@ -41,11 +49,13 @@ public class CafeMenu {
 
 
     @Builder
-    public CafeMenu(String menu_name, String menu_price, String file, String menu_content, Cafe cafe) {
+    public CafeMenu(String menu_name, String menu_price, String file, String menu_content, Integer per_menu_quantity,Integer per_menu_total_price,Cafe cafe) {
         this.menu_name = menu_name;
         this.menu_price = menu_price;
         this.menu_img = file;
         this.menu_content = menu_content;
+        this.per_menu_quantity=per_menu_quantity;
+        this.per_menu_total_price=per_menu_total_price;
         this.cafe = cafe;
     }
 }

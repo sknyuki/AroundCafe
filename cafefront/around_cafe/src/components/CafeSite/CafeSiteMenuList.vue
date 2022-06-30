@@ -95,24 +95,26 @@ export default {
   },
   methods: {
     addToBasket(item) {
-      // console.log(item)
-      if (this.CheckbasketList.length == 0) {
-        this.CheckbasketList.push(item)
-        console.log("값을 정상적으로 저장하였습니다.")
-        this.$emit("submitCheckBasketList", this.CheckbasketList)
+      if (item.sold_out == true) {
+        alert("매진된 상품입니다.")
       } else {
-        for (let i = 0; i <= this.CheckbasketList.length; i++) {
-          // console.log(this.CheckbasketList.length)
-          if (this.CheckbasketList.includes(item)) {
-            console.log(JSON.stringify(this.CheckbasketList))
-            console.log(item)
-            alert("해당제품은 이미 장바구니에 담으셨습니다!")
-            break
-          } else {
-            this.CheckbasketList.push(item)
-            console.log("값을 정상적으로 저장하였습니다.")
-            this.$emit("submitCheckBasketList", this.CheckbasketList)
-            break
+        console.log(item)
+        if (this.CheckbasketList.length == 0) {
+          this.CheckbasketList.push(item)
+          console.log("값을 정상적으로 저장하였습니다.")
+          this.$emit("submitCheckBasketList", this.CheckbasketList)
+        } else {
+          for (let i = 0; i <= this.CheckbasketList.length; i++) {
+            // console.log(this.CheckbasketList.length)
+            if (this.CheckbasketList.includes(item)) {
+              alert("해당제품은 이미 장바구니에 담으셨습니다!")
+              break
+            } else {
+              this.CheckbasketList.push(item)
+              console.log("값을 정상적으로 저장하였습니다.")
+              this.$emit("submitCheckBasketList", this.CheckbasketList)
+              break
+            }
           }
         }
       }

@@ -20,6 +20,8 @@
         <h1>리뷰</h1>
       </header>
       <CafeReviewForm :reviews="reviews" />
+
+      <cafe-review-list-page></cafe-review-list-page>
     </div>
   </div>
 </template>
@@ -29,6 +31,7 @@ import CafeReviewForm from "@/components/CafeReview/CafeReviewForm.vue"
 import CafeSiteComponent from "@/components/CafeSite/CafeSiteComponent.vue"
 import CafeImage from "../../components/CafeSite/CafeImage.vue"
 import CafeSiteMenuList from "@/components/CafeSite/CafeSiteMenuList.vue"
+import CafeReviewListPage from "../Cafe/CafeReviewListPage.vue"
 //import TheVCardForm from "@/components/TheVCardForm.vue"
 /* register작업 완료 후 store 열어준 후 열어주세요
 import axios from 'axios'
@@ -40,6 +43,7 @@ export default {
     CafeImage,
     CafeSiteComponent,
     CafeSiteMenuList,
+    CafeReviewListPage,
   },
   name: "CafeSiteList",
 

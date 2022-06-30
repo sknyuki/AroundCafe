@@ -72,7 +72,14 @@ export default {
 
   methods: {
     onSubmitMenu(payload) {
-      const { menu_name, menu_price, menu_content, file } = payload
+      const {
+        menu_name,
+        menu_price,
+        menu_content,
+        per_menu_quantity,
+        per_menu_total_price,
+        file,
+      } = payload
 
       let formData = new FormData()
 
@@ -81,6 +88,8 @@ export default {
         menu_name,
         menu_price,
         menu_content,
+        per_menu_quantity,
+        per_menu_total_price,
       }
 
       formData.append(
@@ -91,7 +100,7 @@ export default {
       if (file != null) {
         formData.append("fileList", file)
       }
-
+      console.info("값이 반영 되는가")
       console.log(fileInfo)
       console.log(formData)
       axios

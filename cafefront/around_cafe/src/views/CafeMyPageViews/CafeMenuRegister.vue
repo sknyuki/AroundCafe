@@ -31,7 +31,16 @@ export default {
   methods: {
     ...mapActions(["fetchMenuLists"]),
     onSubmit(payload) {
-      const { menu_name, menu_price, menu_content, files1 } = payload
+      const {
+        menu_name,
+        menu_price,
+        menu_content,
+        per_menu_quantity,
+        per_menu_total_price,
+        files1,
+      } = payload
+      console.log("값이 넘어왔습니다.")
+      console.log(payload)
 
       let formData = new FormData()
 
@@ -40,6 +49,8 @@ export default {
         menu_name,
         menu_price,
         menu_content,
+        per_menu_quantity,
+        per_menu_total_price,
       }
 
       formData.append(
@@ -66,8 +77,15 @@ export default {
         })
     },
     modifySubmit(payload) {
-      const { modifyNo, modify_name, modify_price, modify_content, files2 } =
-        payload
+      const {
+        modifyNo,
+        modify_name,
+        modify_price,
+        modify_content,
+        per_menu_quantity,
+        per_menu_total_price,
+        files2,
+      } = payload
 
       let formData = new FormData()
 
@@ -76,6 +94,8 @@ export default {
         menu_name: modify_name,
         menu_price: modify_price,
         menu_content: modify_content,
+        per_menu_quantity: per_menu_quantity,
+        per_menu_total_price: per_menu_total_price,
       }
 
       formData.append(
@@ -95,6 +115,7 @@ export default {
         .put(`http://localhost:7777/menu/modify/${cafeNo}`, formData)
         .then(() => {
           alert("수정되었습니다!")
+          console.log(this.FormData)
           this.$router.go()
         })
         .catch(() => {

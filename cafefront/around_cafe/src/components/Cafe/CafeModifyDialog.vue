@@ -123,6 +123,8 @@ export default {
       files: [],
       menuDialog: false,
       uploadReady: true,
+      per_menu_quantity: 1,
+      per_menu_total_price: "",
     }
   },
   methods: {
@@ -152,13 +154,23 @@ export default {
       this.files = this.$refs.files.files[0]
     },
     onModifyMenu() {
-      const { modifyNo, menu_name, menu_price, menu_content } = this
+      this.per_menu_total_price = this.menu_price
+      const {
+        modifyNo,
+        menu_name,
+        menu_price,
+        menu_content,
+        per_menu_quantity,
+        per_menu_total_price,
+      } = this
       const file = this.$refs.files.files[0]
       this.$emit("submit", {
         modifyNo,
         menu_name,
         menu_price,
         menu_content,
+        per_menu_quantity,
+        per_menu_total_price,
         file,
       })
     },
