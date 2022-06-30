@@ -185,8 +185,10 @@ export default {
     ...mapState(["menuLists"]),
   },
   mounted() {
-    this.fetchMenuLists(this.user.memNo)
-    this.pagingMethod(this.page)
+    this.fetchMenuLists(this.user.cafeNo)
+    setTimeout(() => {
+      this.pagingMethod(this.page)
+    }, 50)
   },
 
   methods: {
