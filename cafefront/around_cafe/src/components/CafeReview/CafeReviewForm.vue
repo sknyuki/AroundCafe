@@ -65,7 +65,7 @@
               :myHelps="myHelps"
               :index="index"
             />
-            <CafeReviewDelete :review="review" />
+            <CafeReviewDelete v-if="role == 'USER'" :review="review" />
             <!--
             <button
               class="delete-button"
@@ -76,7 +76,7 @@
             </button>-->
 
             <CafeReviewModify
-              v-if="review"
+              v-if="role == 'USER'"
               :review="review"
               @submit="onModify"
             />
@@ -108,7 +108,7 @@ export default {
     PaginationForm,
   },
   props: {
-    reviews: {
+    reviewList: {
       type: Array,
       required: true,
     },
@@ -125,6 +125,7 @@ export default {
   data() {
     return {
       loginInfo: this.$store.state.user.memNo,
+      role: this.$store.state.user.role,
       reviewDialog: false,
       reviewNo: "",
       listData: [],
@@ -138,7 +139,7 @@ export default {
   mounted() {
     setTimeout(() => {
       this.pagingMethod(this.page)
-    }, 1000)
+    }, 100)
   },
   methods: {
     onModify(payload) {
@@ -182,6 +183,7 @@ export default {
       this.fetchReview(this.reviewNo).catch(() => {
         alert("게시물 DB조회 실패!")
       })
+      this.$root.$refs.CafeReviewLike = this
     },
     deleteReview() {
       axios
@@ -197,16 +199,16 @@ export default {
         })
     },
     pagingMethod(page) {
-      this.listData = this.reviews.slice(
+      this.listData = this.reviewList.slice(
         (page - 1) * this.limit,
         page * this.limit
       )
       this.page = page
-      let total = this.reviews.length
+      let total = this.reviewList.length
       this.pageDataSetting(total, this.limit, this.block, page)
     },
     pageDataSetting(total, limit, block, page) {
-      total = this.reviews.length
+      total = this.reviewList.length
       const totalPage = Math.ceil(total / limit)
       let currentPage = page
       const first =

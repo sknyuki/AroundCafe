@@ -1,12 +1,12 @@
 <template>
   <div>
-    <div class="cafe-review-footer" v-if="onHelp == true">
+    <div class="cafe-review-footer" v-if="review.helps == true">
       <v-btn @click="onLikes()" aria-label="좋아요 버튼" class="btn-indigo">
         <i class="icCheck"></i> 도움됨
       </v-btn>
       <p>
         <strong>
-          <span> {{ review.reviewLike.length }}</span
+          <span> {{ review.likeCnt }}</span
           >명</strong
         >에게 도움이 되었습니다.
       </p>
@@ -19,7 +19,7 @@
 
       <p>
         <strong>
-          <span> {{ review.reviewLike.length }}</span
+          <span> {{ review.likeCnt }}</span
           >명</strong
         >에게 도움이 되었습니다.
       </p>
@@ -49,21 +49,21 @@ export default {
     }
   },
 
-  mounted() {
-    setTimeout(this.change(), 100)
-  },
+  // mounted() {
+  //   setTimeout(this.change(), 130)
+  // },
 
   methods: {
-    change() {
-      for (let i = 0; i < 1; i++) {
-        if (this.myHelps[i] == this.review.reviewNo) {
-          this.onHelp = true
-          break
-        } else {
-          this.onHelp = false
-        }
-      }
-    },
+    // change() {
+    //   for (let i = 0; i < this.myHelps.length; i++) {
+    //     if (this.myHelps[i] == this.review.reviewNo) {
+    //       this.onHelp = true
+    //       break
+    //     } else {
+    //       this.onHelp = false
+    //     }
+    //   }
+    // },
     onLikes() {
       axios
         .post(
@@ -79,7 +79,7 @@ export default {
           history.go(0)
         })
         .catch(() => {
-          alert("문제 발생!")
+          alert("로그인을 해주세요!")
         })
     },
   },

@@ -143,7 +143,7 @@ export default {
         { text: "제목", vlaue: "received_no", width: "200px" },
         { text: "date", value: "regDate", width: "100px" },
       ],
-      membNo: 1,
+      memNo: this.$store.state.user.memNo,
       qnaList: [],
       chatting: "",
       checkQnaNo: "",
@@ -188,7 +188,7 @@ export default {
         new Blob([JSON.stringify(fileInfo)], { type: "application/json" })
       )
 
-      let membNo = 1
+      let membNo = this.memNo
       axios
         .post(`http://localhost:7777/qnaComment/register/${membNo}`, formData)
         .then(() => {

@@ -10,9 +10,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface QnAService {
-    public void includeImgregister(Integer membNo, QnADto info, String fileName);
+    public void includeImgregister(QnADto info, String fileName);
 
-    public void exceptImgRegister(Integer membNo, QnADto info);
+    public void exceptImgRegister(QnADto info);
 
     public List<QnAComment> readQnA(Integer qnaNo);
 
