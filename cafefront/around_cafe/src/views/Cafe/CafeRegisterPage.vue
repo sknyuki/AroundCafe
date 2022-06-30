@@ -35,9 +35,8 @@ export default {
         cafeTime,
         cafeContent,
         cafeCall,
-        cafeAdr1,
-        cafeAdr2,
-        cafeAdr3,
+        post,
+        address,
         files,
       } = payload
 
@@ -49,9 +48,8 @@ export default {
         cafe_time: cafeTime,
         cafe_content: cafeContent,
         cafe_call: cafeCall,
-        cafe_adr1: cafeAdr1,
-        cafe_adr2: cafeAdr2,
-        cafe_adr3: cafeAdr3,
+        post: post,
+        address: address,
         cafe_bis_no: cafeBusNo,
       }
 

@@ -59,7 +59,7 @@
                   <input
                     type="text"
                     placeholder="우편번호"
-                    class="form-input"
+                    class="form-input input-40"
                     v-model="post"
                     readonly
                     style="margin-right: 10px"
@@ -67,7 +67,7 @@
                   <input
                     type="text"
                     placeholder="상세주소"
-                    class="form-input"
+                    class="form-input input-40"
                     v-model="address"
                   />
                   <!-- <td width="0">
@@ -296,9 +296,8 @@ export default {
       this.cafeTime = this.cafeBoard.cafe_time
       this.cafeContent = this.cafeBoard.cafe_content
       this.cafeCall = this.cafeBoard.cafe_call
-      this.cafeAdr1 = this.cafeBoard.cafe_adr1
-      this.cafeAdr2 = this.cafeBoard.cafe_adr2
-      this.cafeAdr3 = this.cafeBoard.cafe_adr3
+      this.post = this.cafeBoard.post
+      this.address = this.cafeBoard.address
     },
     onUpload() {
       this.$refs.files.click()
@@ -357,9 +356,8 @@ export default {
           cafeTime,
           cafeContent,
           cafeCall,
-          cafeAdr1,
-          cafeAdr2,
-          cafeAdr3,
+          post,
+          address,
           files,
         } = this
         this.$emit("submitContents", {
@@ -368,9 +366,8 @@ export default {
           cafeTime,
           cafeContent,
           cafeCall,
-          cafeAdr1,
-          cafeAdr2,
-          cafeAdr3,
+          post,
+          address,
           files,
         })
       }
