@@ -80,12 +80,48 @@ public class ReviewServiceImpl implements ReviewService{
                     .updDate(reviews.get(i).getUpdDate())
                     .memNick(reviews.get(i).getMemberInfo().getMemNick())
                     .memImg(reviews.get(i).getMemberInfo().getMemImg())
+                    .fileName(reviews.get(i).getFileName())
                     .build();
 
             response.add(reviewResponseDto);
         }
 
         return response;
+    }
+
+    @Override
+    public List<ReviewResponseDto> userList(Integer memNo) {
+        Member member = memberRepository.findById(Long.valueOf(memNo)).orElseGet(null);
+        List<Review> reviews = repository.findByMemberInfoOrderByReviewNoDesc(member);
+        List<ReviewResponseDto> response = new ArrayList<>();
+
+        if(reviews.size() == 0){
+            return null;
+        }else{
+
+            for(int i = 0; i <reviews.size(); i++) {
+                Long findCafe = reviews.get(i).getCafeNum();
+                Cafe cafe = cafeRepository.findById(findCafe).orElseGet(null);
+
+                ReviewResponseDto reviewResponseDto = ReviewResponseDto.builder()
+                        .reviewNo(reviews.get(i).getReviewNo())
+                        .star_score(reviews.get(i).getStar_score())
+                        .review_content(reviews.get(i).getReview_content())
+                        .likeCnt(reviews.get(i).getLikeCnt())
+                        .updDate(reviews.get(i).getUpdDate())
+                        .memNick(reviews.get(i).getMemberInfo().getMemNick())
+                        .memImg(reviews.get(i).getMemberInfo().getMemImg())
+                        .cafeNo(reviews.get(i).getCafeNum())
+                        .cafeName(cafe.getCafe_name())
+                        .fileName(reviews.get(i).getFileName())
+                        .build();
+
+                response.add(reviewResponseDto);
+            }
+            log.info("user list");
+            return response;
+        }
+
     }
 
     @Transactional
@@ -107,7 +143,7 @@ public class ReviewServiceImpl implements ReviewService{
     @Transactional
     @Override
     public void modify(Review review, @RequestParam(required = false) MultipartFile file) throws Exception {
-
+        String fileName=null;
         if (review.getFileName() != null) {
 
             Path filePath = Paths.get("c:\\TeamProject\\AroundCafe\\cafefront\\around_cafe\\src\\assets\\review\\" + review.getFileName());
@@ -118,7 +154,7 @@ public class ReviewServiceImpl implements ReviewService{
 
             UUID uuid = UUID.randomUUID();
 
-            String fileName =  uuid + "_" + file.getOriginalFilename();
+            fileName =  uuid + "_" + file.getOriginalFilename();
             FileOutputStream saveFile = new FileOutputStream("../../cafefront/around_cafe/src/assets/review/" + fileName);
 
             saveFile.write(file.getBytes());
@@ -127,7 +163,15 @@ public class ReviewServiceImpl implements ReviewService{
             review.setFileName(fileName);
         }
 
-        repository.save(review);
+        Review checkreview = repository.findById(review.getReviewNo()).orElseGet(null);
+        Member member = memberRepository.findById(checkreview.getMemberInfo().getMemNo()).orElseGet(null);
+        log.info("member info : " + member.getMemNo());
+        checkreview.setStar_score(review.getStar_score());
+        checkreview.setReview_content(review.getReview_content());
+        checkreview.setFileName(fileName);
+        checkreview.setMemberInfo(member);
+
+        repository.save(checkreview);
 
     }
 
@@ -152,6 +196,8 @@ public class ReviewServiceImpl implements ReviewService{
     public List<Review> myReviewList(Long memNo) {
         return repository.findReviewByMemberNo(memNo);
     }
+
+
 //
 //    @Override
 //    public List<Review> CafeList(Long membNo) {

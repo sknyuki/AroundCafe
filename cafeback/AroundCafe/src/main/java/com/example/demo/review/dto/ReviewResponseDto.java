@@ -15,16 +15,23 @@ public class ReviewResponseDto {
     private String updDate;
     private String memNick;
     private String memImg;
+    private Long cafeNo;
+    private String cafeName;
+
 
     @Builder
     public ReviewResponseDto(Long reviewNo,String star_score,String review_content,String fileName,
-                             int likeCnt, String updDate,String memNick,String memImg ){
+                             int likeCnt, String updDate,String memNick,String memImg, Long cafeNo,
+                             String cafeName){
         this.reviewNo = reviewNo;
         this.star_score = star_score;
         this.review_content = review_content;
         this.likeCnt = likeCnt;
         this.updDate = updDate;
         this.memNick = memNick;
+        this.fileName = fileName;
         this.memImg = memImg;
+        this.cafeNo = cafeNo;
+        this.cafeName = cafeName;
     }
 }
