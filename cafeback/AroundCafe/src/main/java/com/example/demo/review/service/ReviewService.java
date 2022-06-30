@@ -12,7 +12,7 @@ import java.util.List;
 public interface ReviewService {
 
     public void register (Review review, @RequestParam(required = false) MultipartFile file, Integer membNo) throws Exception;
-    public List<ReviewResponseDto> list (Integer membNo);
+    public List<ReviewResponseDto> list (Integer cafeNo,Integer membNo);
     public Review read (Long reviewNo);
     public void modify (Review review, @RequestParam(required = false) MultipartFile file) throws Exception;
     public void delete (Integer reviewNo) throws IOException;
