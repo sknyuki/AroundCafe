@@ -31,6 +31,14 @@
               </template>
 
               <template v-else>
+                <div v-if="onLogin">
+                  <CafeLike
+                    class="cafe-item-btn"
+                    :cafeItem="cafeItem"
+                    :myLikes="myLikes"
+                    :key="index"
+                  />
+                </div>
                 <router-link
                   :to="{
                     name: 'CafeDetailPage',
@@ -38,15 +46,6 @@
                   }"
                   @focus.tab="swiperBtn = index"
                 >
-                  <div v-if="onLogin">
-                    <CafeLike
-                      class="cafe-item-btn"
-                      :cafeItem="cafeItem"
-                      :myLikes="myLikes"
-                      :key="index"
-                    />
-                  </div>
-
                   <!-- 좋아요 토글 
             <button class="cafe-item-btn" type="button">
               <i class="icHeart"></i>
