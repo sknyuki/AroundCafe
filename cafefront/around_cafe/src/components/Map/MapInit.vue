@@ -5,7 +5,7 @@
 <script>
 //let kakao = window.kakao
 export default {
-  name: "MapRead",
+  name: "MapInit",
   props: ["options"],
   data() {
     return {
@@ -42,7 +42,7 @@ export default {
 
 <style scoped>
 .kmap {
-  width: 100%;
+  width: 99%;
   height: 100%;
 }
 </style>

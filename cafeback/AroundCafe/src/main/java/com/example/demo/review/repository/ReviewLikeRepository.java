@@ -52,13 +52,7 @@ public interface ReviewLikeRepository extends JpaRepository<ReviewLike, Long> {
     List<ReviewLike> findAllLikesMemberNo(@Param("membNo") Long membNo);
 
 
-
-
-
-
-
-
-
+    List<ReviewLike> findByReview(Review review);
 }
 
 

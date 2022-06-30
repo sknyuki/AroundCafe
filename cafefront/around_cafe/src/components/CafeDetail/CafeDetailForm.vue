@@ -194,9 +194,9 @@
                     :cafeNo="cafeNo"
                   />
                 </div>
-                <div class="detail-content">
-                  <kakao-map-find :cafeBoard="cafeBoard" />
-                </div>
+              </div>
+              <div class="detail-content">
+                <MapKakaoFind :cafeBoard="cafeBoard" />
               </div>
             </div>
           </div>
@@ -211,6 +211,8 @@ import StarRating from "vue-star-rating"
 import CafeReviewForm from "@/components/CafeReview/CafeReviewForm.vue"
 import CafeDetailSidebar from "@/components/CafeDetail/CafeDetailSidebar.vue"
 import CafeSiteMenuList from "../CafeSite/CafeSiteMenuList.vue"
+import MapKakaoFind from "@/components/Map/MapKakaoFind.vue"
+
 import { mapState, mapActions } from "vuex"
 
 export default {
@@ -220,6 +222,7 @@ export default {
     CafeReviewForm,
     CafeDetailSidebar,
     CafeSiteMenuList,
+    MapKakaoFind,
   },
   props: {
     reviews: {

@@ -7,6 +7,8 @@ import com.example.demo.mypage.cafe.entity.Cafe;
 import com.example.demo.mypage.cafe.repository.cafe.CafeRepository;
 import com.example.demo.review.dto.ReviewResponseDto;
 import com.example.demo.review.entity.Review;
+import com.example.demo.review.entity.ReviewLike;
+import com.example.demo.review.repository.ReviewLikeRepository;
 import com.example.demo.review.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -40,6 +42,9 @@ public class ReviewServiceImpl implements ReviewService{
     @Autowired
     CafeRepository cafeRepository;
 
+    @Autowired
+    ReviewLikeRepository reviewLikeRepository;
+
     @Transactional
     @Override
     public void register(Review review,@RequestParam(required = false) MultipartFile file, Integer membNo) throws Exception {
@@ -65,28 +70,46 @@ public class ReviewServiceImpl implements ReviewService{
     }
 
     @Override
-    public List<ReviewResponseDto> list(Integer cafeNo) {
-        log.info("cafe no : " + cafeNo);
+    public List<ReviewResponseDto> list(Integer cafeNo, Integer membNo) {
+        log.info("review list service");
 
         List<Review> reviews = repository.findByCafeNo(Long.valueOf(cafeNo));
         List<ReviewResponseDto> response = new ArrayList<>();
 
-        for(int i = 0; i <reviews.size(); i++) {
-            ReviewResponseDto reviewResponseDto = ReviewResponseDto.builder()
-                    .reviewNo(reviews.get(i).getReviewNo())
-                    .star_score(reviews.get(i).getStar_score())
-                    .review_content(reviews.get(i).getReview_content())
-                    .likeCnt(reviews.get(i).getLikeCnt())
-                    .updDate(reviews.get(i).getUpdDate())
-                    .memNick(reviews.get(i).getMemberInfo().getMemNick())
-                    .memImg(reviews.get(i).getMemberInfo().getMemImg())
-                    .fileName(reviews.get(i).getFileName())
-                    .build();
+        if(reviews.size() == 0){
+            return null;
+        }else {
+            for (int i = 0; i < reviews.size(); i++) {
+                List<ReviewLike> like = reviewLikeRepository.findByReview(reviews.get(i));
 
-            response.add(reviewResponseDto);
+                Boolean checkHelps = false;
+                if(like.size() == 0){
+                    checkHelps = false;
+                }else
+                for(int j = 0; j < like.size() ; j ++) {
+                    if(like.get(j).getMember().getMemNo() == Long.valueOf(membNo)){
+                        checkHelps = true;
+                        break;
+                    }
+                }
+
+                ReviewResponseDto reviewResponseDto = ReviewResponseDto.builder()
+                        .reviewNo(reviews.get(i).getReviewNo())
+                        .star_score(reviews.get(i).getStar_score())
+                        .review_content(reviews.get(i).getReview_content())
+                        .likeCnt(reviews.get(i).getLikeCnt())
+                        .updDate(reviews.get(i).getUpdDate())
+                        .memNick(reviews.get(i).getMemberInfo().getMemNick())
+                        .memImg(reviews.get(i).getMemberInfo().getMemImg())
+                        .fileName(reviews.get(i).getFileName())
+                        .helps(checkHelps)
+                        .build();
+
+                response.add(reviewResponseDto);
+            }
+
+            return response;
         }
-
-        return response;
     }
 
     @Override
@@ -100,8 +123,7 @@ public class ReviewServiceImpl implements ReviewService{
         }else{
 
             for(int i = 0; i <reviews.size(); i++) {
-                Long findCafe = reviews.get(i).getCafeNum();
-                Cafe cafe = cafeRepository.findById(findCafe).orElseGet(null);
+                Cafe cafe = cafeRepository.findById(reviews.get(i).getCafeNum()).orElseGet(null);
 
                 ReviewResponseDto reviewResponseDto = ReviewResponseDto.builder()
                         .reviewNo(reviews.get(i).getReviewNo())

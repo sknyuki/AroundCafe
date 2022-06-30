@@ -11,7 +11,7 @@ export default {
     ...mapState(["user", "menuLists"]),
   },
   mounted() {
-    this.fetchUser(), this.fetchMenuLists(this.user.memNo)
+    this.fetchUser(), this.fetchMenuLists(this.user.cafeNo)
   },
   methods: {
     ...mapActions(["fetchUser"]),

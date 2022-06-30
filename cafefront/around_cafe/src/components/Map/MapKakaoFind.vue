@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  name: "KakaoMapFind",
+  name: "MapKakaoFind",
   props: {
     cafeBoard: {
       type: Object,

@@ -1,7 +1,7 @@
 <template>
   <div class="map_wrap">
 
-    <KakaoMap :options="options" ref="map" id="map"/>
+    <MapInit :options="options"  ref="map" id="map"/>
 
       <v-container id="side">       
         <form @submit.prevent="searchPlace()">
@@ -19,23 +19,22 @@
 
         <v-row class="searchResult"> 
           <v-col cols="11">
-            <div class="llabel"> Total &nbsp;{{results.length}} </div>    
+            <div class="llabel"> Total &nbsp;{{cafeBoards.length}} </div>    
           </v-col>
         </v-row>  
 
         <v-row>
           <v-col cols="11" class="label"> 
-            <div class="place" v-for="rs in results" :key="rs.cafe_no">
+            <div class="place" v-for="rs in cafeBoards" :key="rs.cafe_no">
               <div display: flex justify-content: space-between>
                 <span>
 
-                  <div @click="showInfo(rs)">{{rs.name}}</div>
+                  <div @click="showInfo(rs)">{{rs.cafe_name}}</div>
             
-                  <div class="cafeInfo">{{rs.cafe_location}}</div>
+                  <div class="cafeInfo">{{rs.address}}</div>
 
                 </span>
 
-            
                 <v-icon color="#c9c8c5">mdi-magnify</v-icon>
       
 
@@ -62,24 +61,28 @@
 
 
 //import cafeLoca from '@/assets/data/csvjson.json' 
-//import KakaoMap from '@/components/map/KakaoMap.vue'
+//import MapRead from "@/components/Map/MapRead.vue"
+import MapInit from "@/components/Map/MapInit.vue"
+import { mapState, mapActions } from "vuex"
 
 var kakao = window.kakao 
 
 export default {
 
   components: { 
-    KakaoMap 
+    MapInit 
     },
-  name: "MapTest",
+ 
+  name: "MapMain",
   
   data: () => ({
   
-    cafeLoca: cafeLoca,
+    //cafeLoca: cafeLoca,
     keyword: null,
     results: [],
     marker:[],  
     map:null,
+    geocoder: null,
     options: {
         center: {
           lat: 37.56832,
@@ -88,25 +91,30 @@ export default {
         level: 6
       },     
   }),
+   computed: {
+    ...mapState(["cafeBoards"]),
+  },
 
- 
+   mounted(){ 
+    },
+   
+  
+  
   methods: {
+    ...mapActions(["fetchcafeBoardList"]),
     
     searchPlace(){
-
-      this.results=[]
+      this.cafeBoards=[]
+      
      
       var keyword = document.getElementById('keyword').value;
 
         if (!keyword.replace(/^\s+|\s+$/g, '')) {
-          alert('지역을 입력해주세요!');
+          alert('지역을 입력해주세요');
         return false;
         } 
 
-      var imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png', 
-          imageOption = { offset: new kakao.maps.Point(29, 29) } ,
-          imageSize = new kakao.maps.Size(35, 50)
-      var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption)
+       
 
       var container = document.getElementById('map')
 
@@ -128,31 +136,54 @@ export default {
         level: 5,
         } 
       }
+      else if(keyword === "관악구"){
+        options = {
+        center: new kakao.maps.LatLng(37.4781098, 126.9514931),
+        level: 5,
+        } 
+      }
 
       var map = new kakao.maps.Map(container, options)
-    
-      this.cafeLoca.forEach((item) => {
+      
+      var imageSrc = require(`@/assets/images/Logo.png`),
+        imageOption = { offset: new kakao.maps.Point(29, 29) },
+        imageSize = new kakao.maps.Size(70, 70)
+      var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption)
 
-        if(keyword === item.cafe_location){
+    this.fetchcafeBoardList()
+      this.cafeBoards.forEach((item) => {
 
-        var position = new kakao.maps.LatLng(item.cafe_lon, item.cafe_lat)
+        if( item.cafe_address.includes(keyword)){
 
+        this.geocoder.addressSearch(item.cafe_address, function (result, status) {
+        console.log(kakao.maps.services.Status.OK)
+        if (status === kakao.maps.services.Status.OK) {
+          var coords = new kakao.maps.LatLng(result[0].y, result[0].x)
+          console.log(coords)
+          //map.setCenter(coords)
         var marker = new kakao.maps.Marker({
           map: this.map,
-          position: position,
+          position: coords,
           image: markerImage, 
           clickable: true, 
+          
+
         })
+
         
-        //this.marker.push(marker)
-        //this.results.push(item)
-           
         marker.setMap(map)
-        //this.marker.push(marker)
-        this.results.push(item)
+        this.cafeBoards.push(item)
+        
 
         }
-        //bounds.extend(new kakao.maps.LatLng(item.cafe_lon, item.cafe_lat))
+      })
+
+     
+   
+        // marker.setMap(map)
+        // this.results.push(item)
+
+        }
         else {
           return false
         }
@@ -165,13 +196,13 @@ export default {
 
       var content = 
         `<div class="overlaybox">`+
-        `<div style="padding:5px;">${rs.name}</div>`+   
+        `<div style="padding:5px;">${rs.cafe_name}</div>`+   
         `<div class="boxtitle">hello</div>` +
-        '           <div class="img">' +
-         `           <img :scr=require('${rs.cafe_image}) width="73" height="70">`
-        '           </div>' +
+        ' <img src="' +
+            require(`@/assets/cafe/cafeMypage/${rs.cafeImgs[0].cafe_img}`) +
+            '" width="270" height="160">' +
+            `</div>` +
         +`</div>`
-        //,//iwRemoveable = true 
        
       
 
