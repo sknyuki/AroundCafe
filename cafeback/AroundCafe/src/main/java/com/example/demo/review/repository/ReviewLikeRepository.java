@@ -53,6 +53,8 @@ public interface ReviewLikeRepository extends JpaRepository<ReviewLike, Long> {
 
 
     List<ReviewLike> findByReview(Review review);
+
+    List<ReviewLike> findByMember(Member member);
 }
 
 

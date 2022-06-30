@@ -122,7 +122,19 @@ public class ReviewServiceImpl implements ReviewService{
             return null;
         }else{
 
-            for(int i = 0; i <reviews.size(); i++) {
+            for (int i = 0; i < reviews.size(); i++) {
+                List<ReviewLike> like = reviewLikeRepository.findByMember(member);
+
+                Boolean checkHelps = false;
+                if(like.size() == 0){
+                    checkHelps = false;
+                }else
+                    for(int j = 0; j < like.size() ; j ++) {
+                        if(like.get(j).getReview().getReviewNo() == reviews.get(i).getReviewNo()){
+                            checkHelps = true;
+                            break;
+                        }
+                    }
                 Cafe cafe = cafeRepository.findById(reviews.get(i).getCafeNum()).orElseGet(null);
 
                 ReviewResponseDto reviewResponseDto = ReviewResponseDto.builder()
@@ -136,6 +148,7 @@ public class ReviewServiceImpl implements ReviewService{
                         .cafeNo(reviews.get(i).getCafeNum())
                         .cafeName(cafe.getCafe_name())
                         .fileName(reviews.get(i).getFileName())
+                        .helps(checkHelps)
                         .build();
 
                 response.add(reviewResponseDto);
