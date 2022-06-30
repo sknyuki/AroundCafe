@@ -37,7 +37,7 @@ public class CafeLikeController {
 
     @GetMapping("/list/{cafeNo}")
     public List<CafeLike> likesList(@PathVariable("cafeNo") Long cafeNo) {
-        log.info("likesList()");
+        log.info("like list()");
 
         return service.list(cafeNo);
     }

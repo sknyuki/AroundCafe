@@ -1,11 +1,12 @@
 package com.example.demo.review.dto;
 
 import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
 
 import java.util.Date;
 
-@Getter
+@Data
 public class ReviewResponseDto {
     private Long reviewNo;
     private String star_score;
@@ -17,12 +18,13 @@ public class ReviewResponseDto {
     private String memImg;
     private Long cafeNo;
     private String cafeName;
+    private Boolean helps;
 
 
     @Builder
     public ReviewResponseDto(Long reviewNo,String star_score,String review_content,String fileName,
                              int likeCnt, String updDate,String memNick,String memImg, Long cafeNo,
-                             String cafeName){
+                             String cafeName, Boolean helps){
         this.reviewNo = reviewNo;
         this.star_score = star_score;
         this.review_content = review_content;
@@ -33,5 +35,6 @@ public class ReviewResponseDto {
         this.memImg = memImg;
         this.cafeNo = cafeNo;
         this.cafeName = cafeName;
+        this.helps = helps;
     }
 }
