@@ -209,6 +209,11 @@ const routes = [
     name: "UserLikePage",
     component: () => import("@/views/User/UserLikePage"),
   },
+  {
+    path: "/user/review",
+    name: "UserReviewListPage",
+    component: () => import("@/views/User/UserReviewListPage.vue"),
+  },
 
   //CafeDetail
   {
