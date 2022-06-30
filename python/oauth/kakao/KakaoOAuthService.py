@@ -3,7 +3,6 @@ import requests
 import json
 
 from ..config.OauthConfig import KakaoConfig
-from ..utils.SaveImage import SaveImage
 
 
 class KakaoOauthService:

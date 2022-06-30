@@ -7,6 +7,7 @@
     <input class="form-input input-48" v-model="paymentId" />
     <v-btn @click="kakaoPayment()">결제</v-btn>
     <v-btn @click="getUser()">유저가져오기</v-btn>
+    <v-btn @click="popUp()">팝업테스트</v-btn>
     <div>{{user}}</div>
   </div>
 </template>
@@ -17,6 +18,7 @@ import tokenService from "@/services/tokenService";
 import axios from "axios";
 import userService from "@/services/userService";
 import instance from "@/plugins/axiosInterceptors";
+// import {mapState} from "vuex";
 
 export default {
   name: "AccountTestPage",
@@ -29,6 +31,7 @@ export default {
     }
   },
   computed: {
+    // ...mapState(["loginCallback"]),
     timeString: {
       get() {
         if (this.time > 0) {
@@ -40,6 +43,11 @@ export default {
       },
     },
   },
+  // watch() {
+  //   loginCallback : {
+  //     alert(loginCallback)
+  //   }
+  // },
   methods: {
     timerStart() {
       this.timerId = setInterval(() => {
@@ -77,6 +85,13 @@ export default {
       }).catch((err) => {
         alert(err)
       })
+    },
+    popUp() {
+      window.open("/account/callback/test?id1=hello&id2=hello2", "_blank",
+          "width=617, height=942, menubar=no, toolbar=no, location=no, status=no, scrollbars=no").focus()
+    },
+    getReturnValue: function(returnValue) {
+      alert(returnValue)
     }
   },
 }

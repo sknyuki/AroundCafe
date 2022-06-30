@@ -12,8 +12,12 @@ paymentBp = Blueprint('paymentBp', __name__)
 def readyToPayment(socialType, paymentNo) :
     if socialType == "KAKAO" :
         paymentInfo = KakaoPaymentService().readyToPayment(paymentNo)
-        KakaoPaymentService().saveTID(paymentNo, paymentInfo['tid'])
-        return redirect(paymentInfo["next_redirect_pc_url"])
+        if(paymentInfo == "zero_amount") :
+            KakaoPaymentService().saveConfirmation(paymentNo)
+            return redirect("http://localhost:8080/cafe/purchase/popup?paymentNo=%s&paymentResult=success"%paymentNo)
+        else :
+            KakaoPaymentService().saveTID(paymentNo, paymentInfo['tid'])
+            return redirect(paymentInfo["next_redirect_pc_url"])
     
 #결제 승인(성공시)
 @paymentBp.route('/<string:socialType>/success', methods=['GET', 'POST'])
@@ -23,9 +27,9 @@ def paymentSuccess(socialType) :
         pg_token = request.args.get("pg_token")
         paymentInfo = KakaoPaymentService().approveToPayment(paymentNo, pg_token)
         
-        KakaoPaymentService().savePaymentDate(paymentNo)
+        KakaoPaymentService().saveConfirmation(paymentNo)
     
-        return redirect("http://localhost:8080/cafe/PurchasePopUp?paymentResult=success") # 성공페이지로 리다이렉트
+        return redirect("http://localhost:8080/cafe/purchase/popup?paymentNo=%s&paymentResult=success"%paymentNo) # 성공페이지로 리다이렉트
         # return paymentInfo
     
 #결제 거부(실패시)
@@ -35,7 +39,7 @@ def paymentFail(socialType) :
         paymentNo = request.args.get("paymentNo")
         paymentInfo = KakaoPaymentService().checkPayment(paymentNo)
         if(paymentInfo['status'] == 'QUIT_PAYMENT') :
-            return redirect("http://localhost:8080/cafe/PurchasePopUp?paymentResult=fail") # 실패페이지로 리다이렉트
+            return redirect("http://localhost:8080/cafe/purchase/popup?paymentNo=%s&paymentResult=fail"%paymentNo) # 실패페이지로 리다이렉트
         else :
             return redirect("https://www.daum.net") # 오류페이지로 리다이렉트
         
@@ -47,7 +51,7 @@ def paymentCancel(socialType) :
         paymentNo = request.args.get("paymentNo")
         paymentInfo = KakaoPaymentService().checkPayment(paymentNo)
         if(paymentInfo['status'] == 'QUIT_PAYMENT') :
-            return redirect("http://localhost:8080/cafe/PurchasePopUp?paymentResult=cancel") # 실패페이지로 리다이렉트
+            return redirect("http://localhost:8080/cafe/purchase/popup?paymentNo=%s&paymentResult=cancel"%paymentNo) # 실패페이지로 리다이렉트
         else :
             return redirect("https://www.daum.net") # 오류페이지로 리다이렉트
         

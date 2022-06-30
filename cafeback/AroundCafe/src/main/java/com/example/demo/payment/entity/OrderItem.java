@@ -24,8 +24,7 @@ public class OrderItem extends BaseDateTime {
     private Payment payment;
 
     @Builder
-    public OrderItem(Long orderItemNo, String itemName, Integer quantity, Integer amount, Long cafeMenuNo, Payment payment) {
-        this.orderItemNo = orderItemNo;
+    public OrderItem(String itemName, Integer quantity, Integer amount, Long cafeMenuNo, Payment payment) {
         this.itemName = itemName;
         this.quantity = quantity;
         this.amount = amount;

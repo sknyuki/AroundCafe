@@ -16,5 +16,6 @@ public interface PaymentService {
     public List<PaymentResponse> getAllPaymentResponse(Member member);
     public List<PaymentResponse> getAllPaymentResponse(Long cafeNo);
     public PaymentResponse getPaymentResponse(Long paymentNo);
+    public void paymentConfirm(Long paymentNo);
     public void deletePayment(Long paymentNo);
 }
