@@ -46,24 +46,26 @@ export default {
   data() {
     return {
       membNo: JSON.parse(localStorage.getItem("user")).memNo,
-      searchId: "",
       cafeMatchBoards: [],
     }
   },
   computed: {
-    ...mapState(["cafeBoards", "myLikes"]),
-    //...mapState(["myLikes"]),
+    //...mapState(["cafeBoards", "myLikes"]),
+    ...mapState(["myLikes"]),
   },
-  beforeMounted() {
-    this.fetchcafeBoardList()
-    this.fetchMyLikesList(this.membNo)
-  },
-  mounted() {
-    this.searchId = JSON.parse(localStorage.getItem("user")).memNo
-    setTimeout(this.checkLike(), 1000)
+
+  async mounted() {
+    //await this.fetchcafeBoardList()
+    await this.fetchMyLikesList(this.membNo)
+
+    // await Promise.all((resolve) => {
+    //   resolve(this.fetchcafeBoardList(), this.fetchMyLikesList(this.membNo))
+    // })
+
+    this.checkLike()
   },
   methods: {
-    ...mapActions(["fetchMyLikesList", "fetchcafeBoardList"]),
+    ...mapActions(["fetchMyLikesList"]),
 
     checkLike() {
       for (let i = 0; i < this.cafeBoards.length; i++) {

@@ -31,17 +31,15 @@ public class Cafe {
     @Lob
     private String cafe_content;
 
-    @Column(length = 32, nullable = true)
+    @Column(length = 128, nullable = true)
     private String cafe_call;
 
-    @Column(length = 32, nullable = true)
-    private String cafe_adr1;
-
-    @Column(length = 32, nullable = true)
-    private String cafe_adr2;
-
     @Column(length = 128, nullable = true)
-    private String cafe_adr3;
+    private String post;
+
+    @Lob
+    private String address;
+
 
     @CreatedDate
     @Column(length = 128, nullable = true)
@@ -69,15 +67,14 @@ public class Cafe {
     private Member memberInfo;
 
     @Builder
-    public Cafe(String cafe_name, String cafe_bis_no, String cafe_time, String cafe_content, String cafe_call, String cafe_adr1, String cafe_adr2, String cafe_adr3, Member member) {
+    public Cafe(String cafe_name, String cafe_bis_no, String cafe_time, String cafe_content, String cafe_call, String post, String address, Member member) {
         this.cafe_name = cafe_name;
         this.cafe_bis_no = cafe_bis_no;
         this.cafe_time = cafe_time;
         this.cafe_content = cafe_content;
         this.cafe_call = cafe_call;
-        this.cafe_adr1 = cafe_adr1;
-        this.cafe_adr2 = cafe_adr2;
-        this.cafe_adr3 = cafe_adr3;
+        this.post = post;
+        this.address = address;
         memberInfo = member;
     }
 }

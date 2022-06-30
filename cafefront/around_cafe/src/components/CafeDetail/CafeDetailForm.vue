@@ -50,11 +50,9 @@
                           <v-icon>mdi-map-marker-outline</v-icon>
                         </div>
                         <div>
-                          <span
-                            >{{ cafeBoard.cafe_adr1 }}
-                            {{ cafeBoard.cafe_adr2 }}
-                            {{ cafeBoard.cafe_adr3 }}</span
-                          >
+                          <div>
+                            <span>{{ cafeBoard.address }}</span>
+                          </div>
                         </div>
                       </div>
                       <div class="detail-info">
@@ -197,8 +195,7 @@
                   />
                 </div>
                 <div class="detail-content">
-                  지도
-                  지도지도지도지도지도지도지도지도지도지도지도지도지도지도지도지도지도지도지도지도지도지도지도지도지도지도지도지도지도지도지도지도지도지도지도지도지도지도지도
+                  <kakao-map-find :cafeBoard="cafeBoard" />
                 </div>
               </div>
             </div>

@@ -314,6 +314,15 @@ const routes = [
   },
 
   {
+    path: "/map/main",
+    name: "MapMain",
+    components: { default: () => import("@/views/Map/MapMain") },
+    props: {
+      default: true,
+    },
+  },
+
+  {
     path: "*",
     redirect: "/404",
   },

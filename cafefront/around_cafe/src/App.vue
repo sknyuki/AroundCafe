@@ -44,7 +44,8 @@ export default {
         (visibleFooter = to.path === "/sign") ||
         (visibleFooter = to.path === "/chat") ||
         (visibleFooter = to.path === "/login/callback") ||
-        (visibleFooter = to.path === "/cafe/PurchasePopUp")
+        (visibleFooter = to.path === "/cafe/PurchasePopUp") ||
+        (visibleFooter = to.path === "/map/main")
       ) {
         this.visibleFooter = false
       } else {
