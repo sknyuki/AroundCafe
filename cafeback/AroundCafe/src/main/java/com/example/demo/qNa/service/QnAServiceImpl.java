@@ -36,13 +36,9 @@ public class QnAServiceImpl implements QnAService {
     CafeRepository cafeRepository;
 
     @Override
-    public void includeImgregister(Integer membNo, QnADto info, String fileName) {
-        Member member = memberRepository.findById(Long.valueOf(membNo)).orElseGet(null);
+    public void includeImgregister(QnADto info, String fileName) {
+        Member member = memberRepository.findById(info.getMemNo()).orElseGet(null);
 
-
-        Long writer = Long.valueOf(membNo);
-
-        Cafe findCafe = cafeRepository.findById(info.getReceived_no()).orElseGet(null);
         QnA qnA = null;
 
         if(info.getReceived_no() != 0) {
@@ -50,8 +46,6 @@ public class QnAServiceImpl implements QnAService {
                     .received_no(info.getReceived_no())
                     .member(member)
                     .type(info.getType())
-                    .received_name(findCafe.getCafe_name())
-                    .received_img(member.getMemImg())
                     .build();
 
             repository.save(qnA);
@@ -67,7 +61,7 @@ public class QnAServiceImpl implements QnAService {
 
 
         QnAComment comment = QnAComment.builder()
-                .writer(writer)
+                .writer(info.getMemNo())
                 .content(info.getContent())
                 .img(fileName)
                 .qnA(qnA)
@@ -77,11 +71,8 @@ public class QnAServiceImpl implements QnAService {
     }
 
     @Override
-    public void exceptImgRegister(Integer membNo, QnADto info) {
-        Member member = memberRepository.findById(Long.valueOf(membNo)).orElseGet(null);
-
-        Long writer = Long.valueOf(membNo);
-
+    public void exceptImgRegister(QnADto info) {
+        Member member = memberRepository.findById(Long.valueOf(info.getMemNo())).orElseGet(null);
         Cafe cafe = cafeRepository.findById(info.getReceived_no()).orElseGet(null);
         QnA qnA = null;
 
@@ -107,7 +98,7 @@ public class QnAServiceImpl implements QnAService {
 
 
         QnAComment comment = QnAComment.builder()
-                .writer(Long.valueOf(writer))
+                .writer(info.getMemNo())
                 .content(info.getContent())
                 .qnA(qnA)
                 .build();
@@ -128,14 +119,17 @@ public class QnAServiceImpl implements QnAService {
 
     @Override
     public List<QnAResponse> responseQnAList(Integer membNo) {
+        //회원의 멤버
         Member member = memberRepository.findById(Long.valueOf(membNo)).orElseGet(null);
         List<QnAResponse> comments = new ArrayList<>(); //response를 위한 리스트를 만듦
         List<QnA> qnAS = repository.findByMemberInfo(Long.valueOf(membNo));//qna에 대한 내용 확인을 위하 리스트
 
 
-
         for(int i = 0 ; i<qnAS.size(); i++ ) { //qna에 대한 리스트에서 for문을 돌면서 내용을 찾음
             QnA findQna = qnAS.get(i);
+
+            Cafe cafe = cafeRepository.findById(qnAS.get(i).getReceived_no()).orElseGet(null);
+            Member cafeMem = memberRepository.findById(cafe.getMemberInfo().getMemNo()).orElseGet(null);
 
             List<QnAComment> qnAComments = commentRepository.findByImg(Math.toIntExact(findQna.getQna_no()));
             QnAComment comment = qnAComments.get(0); //0번째가 desc라서 제일 최신것임.
@@ -143,14 +137,15 @@ public class QnAServiceImpl implements QnAService {
             QnAResponse response = QnAResponse.builder()
                     .qna_no(findQna.getQna_no())
                     .received_no(findQna.getReceived_no())
-                    .received_img(findQna.getReceived_img())
+                    .received_img(cafeMem.getMemImg())
                     .type(findQna.getType())
-                    .received_name(findQna.getReceived_name())
+                    .received_name(cafe.getCafe_name())
                     .writer(comment.getWriter())
                     .content(comment.getContent())
                     .regTime(comment.getRegTime())
                     .regYear(comment.getRegYear())
                     .received_img(member.getMemImg())
+                    .writerImg(member.getMemImg())
                     .build();
 
             comments.add(response);

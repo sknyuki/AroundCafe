@@ -27,31 +27,31 @@ public class QnAController {
     QnAService service;
 
     @ResponseBody
-    @PostMapping(value = "/register/{membNo}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
-    public String qnaRegister(@PathVariable("membNo") Integer membNo,
+    @PostMapping(value = "/register", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
+    public String qnaRegister(
                               @RequestPart(value = "info", required = false) QnADto info,
                               @RequestPart(value = "fileList", required = false) List<MultipartFile> fileList) {
-        log.info("member no :" + membNo);
+        log.info("member no :" + info.getMemNo());
         log.info("qna info : " +info.getReceived_no()+"/" +
                 info.getContent());
 
         if(fileList != null) {
             try {
                 for(MultipartFile multipartFile : fileList) {
-                    String fileName = membNo + "." + multipartFile.getOriginalFilename();
+                    String fileName = info.getMemNo() + "." + multipartFile.getOriginalFilename();
                     log.info("file name is : " +fileName);
 
                     FileOutputStream writer = new FileOutputStream(
                             "../../cafefront/around_cafe/src/assets/qna/" + fileName);
                     writer.write(multipartFile.getBytes());
                     writer.close();
-                    service.includeImgregister(membNo,info, fileName);
+                    service.includeImgregister(info, fileName);
                 }
             }catch (IOException e) {
                 return "문의글 등록이 실패되었습니다.";
             }
         }else {
-            service.exceptImgRegister(membNo,info);
+            service.exceptImgRegister(info);
         }
 
         return "문의글이 등록되었습니다!";
