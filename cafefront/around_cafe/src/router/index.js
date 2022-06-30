@@ -125,8 +125,8 @@ const routes = [
   },
   {
     path: "/cafe/purchase/complete",
-    name: "CafePurchaseComplete",
-    component: () => import("@/views/CafeSiteViews/CafePurchaseComplete"),
+    name: "CafePurchaseCompletePage",
+    component: () => import("@/views/CafeSiteViews/CafePurchaseCompletePage"),
     props: true,
   },
   {
