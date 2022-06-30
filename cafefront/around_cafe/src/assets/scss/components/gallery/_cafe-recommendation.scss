@@ -1,7 +1,8 @@
 .cafe {
   &-list {
-    @include flexbox(between, start);
+    display: flex;
     flex-wrap: wrap;
+    gap: 1.3%;
   }
 
   &-item {

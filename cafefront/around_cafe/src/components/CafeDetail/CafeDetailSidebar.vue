@@ -8,7 +8,9 @@
       <div class="detail-sidebar-info">
         <div class="detail-sidebar-image">
           <template>
-            <img src="@/assets/images/cold.jpg" />
+            <img
+              v-bind:src="require(`@/assets/cafe/cafeMenu/${basket.menu_img}`)"
+            />
           </template>
         </div>
         <div class="detail-sidebar-menu">
@@ -62,15 +64,6 @@ export default {
     }
   },
   methods: {
-    increaseQuantity(basket) {
-      basket.number += 1
-      basket.PerMenuPrices = basket.menu_price * basket.number
-
-      this.totalPrice = 0
-      for (let i = 0; i < this.basketList.length; i++) {
-        this.totalPrice += this.basketList[i].PerMenuPrices
-      }
-    },
     decreaseQuantity(basket) {
       if (basket.number == 0) {
         alert("더 이상 줄일 수 없습니다.")
