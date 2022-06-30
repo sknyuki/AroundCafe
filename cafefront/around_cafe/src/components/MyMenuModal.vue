@@ -110,7 +110,7 @@ export default {
         {
           id: 3,
           title: "내리뷰",
-          link: "/login",
+          link: "/user/review",
         },
         {
           id: 4,

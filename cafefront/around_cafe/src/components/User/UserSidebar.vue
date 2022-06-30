@@ -111,7 +111,7 @@ export default {
           id: 2,
           icon: "mdi-email-outline",
           title: "문의사항",
-          link: "/",
+          link: "/chat",
         },
       ],
       infoOne: "나의 활동",

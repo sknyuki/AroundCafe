@@ -73,7 +73,7 @@ export default {
           id: 6,
           icon: "mdi-wechat",
           title: "고객과 대화",
-          link: "/",
+          link: "/chat",
         },
       ],
       sidebarTwo: [

@@ -35,12 +35,20 @@ public class ReviewController {
     }
 
 
-    //리뷰 목록
+    //카페 상세 페이지에서 리뷰 목록
     @GetMapping("/list/{cafeNo}")
     public List<ReviewResponseDto> reviewList (@PathVariable("cafeNo") Integer cafeNo) {
         log.info("ReviewList()");
         log.info("cafe no : " + cafeNo);
         return service.list (cafeNo);
+    }
+
+    //유저 페이지에서 리뷰 목록
+    @GetMapping("/user/list/{memNo}")
+    public List<ReviewResponseDto> userReviewList (@PathVariable("memNo") Integer memNo) {
+        log.info("ReviewList()");
+        log.info("cafe no : " + memNo);
+        return service.userList (memNo);
     }
 //
 //    //카페에서 리뷰 리스트 조회

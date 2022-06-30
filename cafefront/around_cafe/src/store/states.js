@@ -4,6 +4,7 @@ export default {
   menuLists: [],
   cafeImgLists: [],
 
+  userReviews: [],
   reviews: [],
   review: {},
   helps: [],

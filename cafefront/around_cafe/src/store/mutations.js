@@ -4,6 +4,7 @@ import {
   FETCH_MENU_LISTS,
   FETCH_CAFE_IMG_LISTS,
   FETCH_REVIEW_LIST,
+  FETCH_USER_REVIEW_LIST,
   FETCH_REVIEW,
   FETCH_HELPS_LIST,
   FETCH_QNA_LIST,
@@ -50,7 +51,9 @@ export default {
   [FETCH_REVIEW_LIST](state, reviews) {
     state.reviews = reviews
   },
-
+  [FETCH_USER_REVIEW_LIST](state, userReviews) {
+    state.userReviews = userReviews
+  },
   [FETCH_REVIEW](state, review) {
     state.review = review
   },

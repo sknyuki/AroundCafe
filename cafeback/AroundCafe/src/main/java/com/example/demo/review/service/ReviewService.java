@@ -16,6 +16,7 @@ public interface ReviewService {
     public Review read (Long reviewNo);
     public void modify (Review review, @RequestParam(required = false) MultipartFile file) throws Exception;
     public void delete (Integer reviewNo) throws IOException;
-    public List<Review> myReviewList(Long memNo); //멤버 번호로 내 리뷰 찾기
+    public List<Review> myReviewList(Long memNo); //카페 번호로 내 리뷰 찾기
+    public List<ReviewResponseDto> userList(Integer memNo); // 유저 리스트 찾기
     //public List<Review> CafeList(Long cafeNo);
 }

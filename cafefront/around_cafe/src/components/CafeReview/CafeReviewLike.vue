@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="cafe-review-footer" v-if="onHelp">
+    <div class="cafe-review-footer" v-if="onHelp == true">
       <v-btn @click="onLikes()" aria-label="좋아요 버튼" class="btn-indigo">
         <i class="icCheck"></i> 도움됨
       </v-btn>
@@ -29,43 +29,33 @@
 
 <script>
 import axios from "axios"
-import { mapState, mapActions } from "vuex"
 export default {
   name: "CafeReviewLike",
-
-  computed: {
-    ...mapState(["help", "helps", "myHelps"]),
-  },
 
   props: {
     review: {
       type: Object,
       require: true,
     },
-    index: {
-      type: Number,
+    myHelps: {
+      type: Array,
       require: true,
     },
   },
   data() {
     return {
-      onHelp: "",
-      loginInfo: JSON.parse("3"),
+      onHelp: true,
+      membNo: this.$store.state.user.memNo,
     }
   },
 
   mounted() {
-    this.fetchHelpsList(this.review.reviewNo)
-    this.fetchHelp({ reviewNo: this.review.reviewNo, membNo: this.loginInfo })
-    this.fetchMyHelpsList(3)
-
-    setTimeout(this.change, 0.1)
+    setTimeout(this.change(), 100)
   },
 
   methods: {
-    ...mapActions(["fetchHelp", "fetchHelpsList", "fetchMyHelpsList"]),
     change() {
-      for (let i = 0; i < this.myHelps.length; i++) {
+      for (let i = 0; i < 1; i++) {
         if (this.myHelps[i] == this.review.reviewNo) {
           this.onHelp = true
           break
@@ -74,11 +64,10 @@ export default {
         }
       }
     },
-
     onLikes() {
       axios
         .post(
-          `http://localhost:7777/cafe/like/${this.review.reviewNo}/${this.loginInfo}`,
+          `http://localhost:7777/cafe/like/${this.review.reviewNo}/${this.membNo}`,
           {},
           {
             headers: {
