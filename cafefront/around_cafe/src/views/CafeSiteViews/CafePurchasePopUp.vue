@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="this.paymentResult === `success`">
-<!--      그냥 바로 팝업 종료시킬지 고민중-->
+      <!--      그냥 바로 팝업 종료시킬지 고민중-->
       <h1>결제에 성공하셨습니다.</h1>
       <v-btn @click="router2CompletePage">확인</v-btn>
     </div>
