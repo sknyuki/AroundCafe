@@ -22,6 +22,7 @@ class TokenService {
   }
 
   setTokens(userInfo) {
+    this.deleteTokens()
     localStorage.setItem("accessToken", userInfo["accessToken"])
     localStorage.setItem(
       "accessTokenExp",

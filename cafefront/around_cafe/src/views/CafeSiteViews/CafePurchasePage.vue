@@ -5,6 +5,7 @@
         <cafe-site-purchase-list
           :userInfo="userInfo"
           :backetList="basketList"
+          :cafeInfo="cafeInfo"
           @getPaymentInfo="getPaymentInfo"
           @getIsPointValidated="getIsPointValidated"
         />
@@ -27,7 +28,7 @@ import CafeSitePurchaseSidebar from "@/components/CafeSite/CafeSitePurchaseSideb
 import { mapActions, mapState } from "vuex"
 import axios from "axios"
 export default {
-  name: "CafePurchase",
+  name: "CafePurchasePage",
   components: { CafeSitePurchaseSidebar, CafeSitePurchaseList },
   computed: {
     ...mapState(["userInfo"]),
@@ -43,8 +44,9 @@ export default {
     }
   },
   props: {
-    totalPrice: { type: Number },
-    basketList: { type: Object },
+    totalPrice: { type: Number, required: true },
+    basketList: { type: Object, required: true},
+    cafeInfo: { type: Object, required: true}
   },
   methods: {
     ...mapActions(["fetchUserInfo"]),
@@ -73,12 +75,6 @@ export default {
         .catch((err) => {
           alert(err)
         })
-    },
-    check() {
-      console.log("total Price 확인")
-      console.log(this.totalPrice)
-      console.log("결제할 메뉴 목록")
-      console.log(this.basketList)
     },
     getPaymentInfo(paymentInfo) {
       this.paymentInfo = paymentInfo

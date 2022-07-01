@@ -37,10 +37,6 @@ public class PaymentServiceImpl implements PaymentService {
         Member member = memberRepository.findByMemNo(paymentRequest.getMemNo()).orElseThrow(() -> new UsernameNotFoundException("no User"));
         List<OrderItemRequest> orderItemRequest = paymentRequest.getOrderItems();
 
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.HOUR, 2);
-        Date date = calendar.getTime();
-
         Payment payment = Payment.builder()
                 .itemInitName(paymentRequest.getItemInitName())
                 .exPaymentNo(paymentRequest.getExPaymentNo())
@@ -48,7 +44,6 @@ public class PaymentServiceImpl implements PaymentService {
                 .totalQuantity(paymentRequest.getTotalQuantity())
                 .totalAmount(paymentRequest.getTotalAmount())
                 .totalPointAmount(paymentRequest.getTotalPointAmount())
-                .expTime(date)
                 .paymentStatus(PaymentStatus.PAYMENT_READY)
                 .member(member)
                 .cafeNo(paymentRequest.getCafeNo())
@@ -102,6 +97,9 @@ public class PaymentServiceImpl implements PaymentService {
 
     public PaymentResponse payment2PaymentResponse(Payment payment) {
         PaymentResponse paymentResponse = PaymentResponseMapStruct.instance.toDto(payment);
+
+        paymentResponse.setMemNo(payment.getMember().getMemNo());
+
         List<OrderItemResponse> orderItemList = new ArrayList<>();
         for(OrderItem orderItem : payment.getOrderItem()) {
             OrderItemResponse orderItemResponse = OrderItemResponseMapStruct.instance.toDto(orderItem);
