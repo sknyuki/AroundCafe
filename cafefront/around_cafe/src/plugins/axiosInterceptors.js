@@ -92,13 +92,22 @@ axios.interceptors.response.use(
   async (error) => {
     console.log(error)
     const {
-      config,
+      // config,
       response: { status, data },
     } = error
-    const originalConfig = config
-    if (status === 401 && data === "token expired" && !originalConfig._retry) {
-      originalConfig._retry = true
+    // const originalConfig = config
+    // && !originalConfig._retry
+    if (status === 401 && data === "token expired") {
+      // originalConfig._retry = true
       return await tokenReissueAndRetry(error)
+    } else if(status === 401) {
+      alert("로그인이 필요합니다.")
+      logout()
+      return Promise.reject()
+    } else if(status === 403) {
+      alert("권한이 없는 유저의 요청입니다.")
+      logout()
+      return Promise.reject()
     }
 
     return Promise.reject(error)
