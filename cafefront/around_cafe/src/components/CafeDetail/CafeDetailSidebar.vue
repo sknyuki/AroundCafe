@@ -1,8 +1,8 @@
 <template>
   <aside class="detail-sidebar-sticky">
     <dl
-      v-for="(basket, index) in basketList"
-      :key="index"
+      v-for="basket in basketList"
+      :key="basket.menu_no"
       class="detail-sidebar"
     >
       <div class="detail-sidebar-info">
@@ -31,19 +31,9 @@
       </div>
       <div class="detail-sidebar-price per">
         <dt>
-
-  
-
-          <button @click="decreaseQuantity(basket, index)">-</button>
-
+          <button @click="decreaseQuantity(basket)">-</button>
           <span> {{ basket.per_menu_quantity }} </span>
-          <button
-            @click="increaseQuantity(basket)"
-            type="button"
-            aria-label="수량증가"
-          >
-            +
-          </button>
+          <button @click="increaseQuantity(basket)">+</button>
         </dt>
         <dd>
           <span>{{ basket.per_menu_total_price }}</span
@@ -97,25 +87,31 @@ export default {
     increaseQuantity(basket) {
       basket.per_menu_quantity += 1
       basket.per_menu_total_price = basket.menu_price * basket.per_menu_quantity
-
-      this.totalPrice = 0
-      for (let i = 0; i < this.basketList.length; i++) {
-        this.totalPrice += this.basketList[i].per_menu_total_price
-      }
     },
-    decreaseQuantity(basket, index) {
+    decreaseQuantity(basket) {
       if (basket.per_menu_quantity == 0) {
-        this.basketList.splice(index)
+        alert("더 이상 줄일 수 없습니다.")
       } else {
         basket.per_menu_quantity -= 1
         basket.per_menu_total_price =
           basket.menu_price * basket.per_menu_quantity
       }
-
-      this.totalPrice = 0
-      for (let i = 0; i < this.basketList.length; i++) {
-        this.totalPrice += this.basketList[i].per_menu_total_price
-      }
+      //잔이슈부분
+      //       for (let i = 0; i < this.basketList.length; i++) {
+      //     if (this.basketList[i] == 0) {
+      //       this.basketList.splice(i, 1)
+      //       i--
+      //     } else {
+      //       basket.per_menu_quantity -= 1
+      //       basket.per_menu_total_price =
+      //         basket.menu_price * basket.per_menu_quantity
+      //     }
+      //     this.totalPrice = 0
+      //     for (let i = 0; i < this.basketList.length; i++) {
+      //       this.totalPrice += this.basketList[i].per_menu_total_price
+      //     }
+      //   }
+      // },
     },
     selectedMenuSubmit() {
       console.log(this.basket)

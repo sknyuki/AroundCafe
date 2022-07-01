@@ -27,7 +27,7 @@ export default {
       },
       memNo: this.$store.state.user.memNo,
       role: this.$store.state.user.role,
-      cafeNo: 2,
+      cafeNo: 1,
     }
   },
   computed: {
