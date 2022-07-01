@@ -68,10 +68,14 @@
                           <template v-if="userInfo.memImg == null">
                             <img src="@/assets/images/avatar.webp" alt="" />
                           </template>
-                          <template v-if="findKakao > 5">
+                          <template
+                            v-if="findKakao > 5 && userInfo.memImg != null"
+                          >
                             <img :src="userInfo.memImg" alt="" />
                           </template>
-                          <template v-if="findKakao < 0">
+                          <template
+                            v-if="findKakao < 5 && userInfo.memImg != null"
+                          >
                             <img
                               v-bind:src="
                                 require(`@/assets/images/memberImg/${userInfo.memImg}`)
