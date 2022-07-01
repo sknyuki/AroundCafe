@@ -2,7 +2,6 @@
   <CafeDetailForm
     :cafeBoard="cafeBoard"
     :reviewList="reviewList"
-    :myHelps="myHelps"
     :cafeNo="cafeNo"
   />
 </template>
@@ -33,15 +32,13 @@ export default {
   mounted() {
     this.fetchcafeBoard(this.cafeNo)
     this.fetchReviewList(this.cafeNo, this.membNo)
-    this.fetchMyHelpsList(this.membNo)
   },
 
   methods: {
     ...mapActions(["fetchcafeBoard"]),
-    ...mapActions(["fetchMyHelpsList"]),
     fetchReviewList(cafeNo, memNo) {
       if (memNo == null) {
-        this.memNo = 0
+        memNo = 0
       }
       axios
         .get(`http://localhost:7777/cafe/review/list/${cafeNo}/${memNo}`)

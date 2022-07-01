@@ -24,6 +24,7 @@ public class PaymentResponse {
     private Long cafeNo;
     private Long memNo;
 
+
     @Builder
     public PaymentResponse(Long paymentNo, String itemInitName, String paymentMethod, Integer totalQuantity, Integer totalAmount, Integer totalPointAmount, Date paymentDate, PaymentStatus paymentStatus, ArrayList<OrderItemResponse> orderItems, Long cafeNo, Long memNo, String memNick) {
         this.paymentNo = paymentNo;

@@ -1,10 +1,8 @@
 package com.example.demo.payment.dto;
 
 import com.example.demo.payment.entity.PaymentStatus;
-import lombok.Builder;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -12,7 +10,6 @@ import java.util.List;
 
 @Getter
 @Setter
-@Data
 public class PaymentRequest {
     private String itemInitName;
     private String exPaymentNo; // 외부 결제 ID
@@ -22,11 +19,12 @@ public class PaymentRequest {
     private Integer totalPointAmount;
     private Date paymentDate;
     private PaymentStatus paymentStatus;
-
     private List<OrderItemRequest> orderItems;
     private Long memNo;
-
     private Long cafeNo;
+
+
+    public PaymentRequest(){}
 
     @Builder
     public PaymentRequest(String itemInitName, String exPaymentNo, String paymentMethod, Integer totalQuantity, Integer totalAmount, Integer totalPointAmount, Date paymentDate, ArrayList<OrderItemRequest> orderItems, Long memNo, Long cafeNo) {

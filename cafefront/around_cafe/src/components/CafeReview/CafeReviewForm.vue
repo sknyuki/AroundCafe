@@ -59,12 +59,7 @@
               <p>{{ review.review_content }}</p>
             </div>
 
-            <CafeReviewLike
-              v-if="review"
-              :review="review"
-              :myHelps="myHelps"
-              :index="index"
-            />
+            <CafeReviewLike v-if="review" :review="review" :index="index" />
             <CafeReviewDelete v-if="role == 'USER'" :review="review" />
             <!--
             <button
@@ -109,10 +104,6 @@ export default {
   },
   props: {
     reviewList: {
-      type: Array,
-      required: true,
-    },
-    myHelps: {
       type: Array,
       required: true,
     },
