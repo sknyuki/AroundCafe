@@ -77,13 +77,19 @@
       <hr class="order-purchase-line" />
       <section class="order-purchase-content-box content">
         <div class="order-purchase-wrap">
-          <button @click="setPaymentMethod(`CARD`)">
+          <button
+            v-for="(orderBtn, index) in orderBtns"
+            :key="index"
+            :class="{ 'is-active': orderBtn.isActive }"
+            @click.native="setPaymentMethod(orderBtn)"
+          >
             <picture>
               <source />
-              <img src="@/assets/images/order/img_card.webp" alt="" />
+              <img :src="orderBtn.img" alt="" />
             </picture>
-            <div>카드</div>
+            <div>{{ orderBtn.name }}</div>
           </button>
+          <!-- <button @click="setPaymentMethod(`CARD`)"></button>
 
           <button type="button" @click="setPaymentMethod(`BANK`)">
             <picture>
@@ -133,7 +139,7 @@
               <img src="@/assets/images/order/img_phone.webp" alt="" />
             </picture>
             <div>핸드폰</div>
-          </button>
+          </button> -->
         </div>
       </section>
     </section>
@@ -152,6 +158,7 @@ export default {
   },
   data() {
     return {
+      test: "",
       paymentInfo: {
         itemInitName: "",
         paymentMethod: "",
@@ -162,6 +169,57 @@ export default {
         cafeNo: 1,
         memNo: "",
       },
+      orderBtns: [
+        {
+          img: require(`@/assets/images/order/img_card.webp`),
+          name: "카드",
+          isActive: false,
+          type: "CARD",
+        },
+        {
+          img: require(`@/assets/images/order/img_vbank.webp`),
+          name: "무통장 입금",
+          isActive: false,
+          type: "BANK",
+        },
+        {
+          img: require(`@/assets/images/order/img_kakaopay.webp`),
+          name: "카카오페이",
+          isActive: false,
+          type: "KAKAO",
+        },
+        {
+          img: require(`@/assets/images/order/img_toss.webp`),
+          name: "토스",
+          isActive: false,
+          type: "TOSS",
+        },
+        {
+          img: require(`@/assets/images/order/img_payco.webp`),
+          name: "페이코",
+          isActive: false,
+          type: "PAYCO",
+        },
+        {
+          img: require(`@/assets/images/order/img_naver.webp`),
+          name: "네이버",
+          isActive: false,
+          type: "NAVER",
+        },
+        {
+          img: require(`@/assets/images/order/img_chai.webp`),
+          name: "차이",
+          isActive: false,
+          type: "CHAI",
+        },
+        {
+          img: require(`@/assets/images/order/img_phone.webp`),
+          name: "핸드폰",
+          isActive: false,
+          type: "CARD",
+        },
+      ],
+
       minimumPoint: 2000,
       basketList: [
         {
@@ -185,7 +243,7 @@ export default {
           signature: false,
         },
       ],
-      cafeInfo : {
+      cafeInfo: {
         cafeNo: 1,
         cafeName: "카페",
         totalPrice: 11000,
@@ -231,14 +289,15 @@ export default {
   methods: {
     useAllPoint() {
       let myPoint = this.userInfo.memPoint
-      if(myPoint >= this.paymentInfo.totalPointAmount) {
+      if (myPoint >= this.paymentInfo.totalPointAmount) {
         this.paymentInfo.totalPointAmount = this.paymentInfo.totalAmount
       } else {
         this.paymentInfo.totalPointAmount = myPoint
       }
     },
-    setPaymentMethod(method) {
-      this.paymentInfo.paymentMethod = method
+    setPaymentMethod(orderBtn) {
+      this.paymentInfo.paymentMethod = orderBtn.type
+      console.log(this.paymentInfo)
     },
     numberToString(number, digit) {
       return Number2String.do(number, digit)
