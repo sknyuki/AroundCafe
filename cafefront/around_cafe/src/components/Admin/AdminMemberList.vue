@@ -28,12 +28,13 @@
                   <th scope="col" align="center" style="width: 40px">
                     가입일자
                   </th>
-                  <th scope="col" align="center" style="width: 40px">수정</th>
-                  <th scope="col" align="center" style="width: 40px">삭제</th>
+                  <th scope="col" align="center" style="width: 40px">
+                    블랙여부
+                  </th>
                 </tr>
               </thead>
-              <tbody>
-                <tr v-for="(member, index) in listData" :key="index">
+              <tbody v-for="(member, index) in listData" :key="index">
+                <tr>
                   <td align="center">{{ member.memberNo }}</td>
                   <td align="center">{{ member.memId }}</td>
                   <td align="center">{{ member.memNick }}</td>
@@ -41,18 +42,16 @@
                   <td align="center">{{ member.memPhoneNum }}</td>
                   <td align="center">{{ member.regDate }}</td>
                   <td align="center">
-                    <v-btn
-                      class="btn-outlined"
-                      small
-                      aria-label="회원 수정하기"
-                    >
-                      <v-icon>mdi-pencil </v-icon>수정
-                    </v-btn>
-                  </td>
-                  <td align="center">
-                    <v-btn class="btn-red" small aria-label="회원 삭제하기">
-                      <v-icon>mdi-delete </v-icon>삭제
-                    </v-btn>
+                    <div v-if="!member.isblack">
+                      <v-btn class="btn-red" @click="ToBlackList(index)">
+                        <v-icon>mdi-account-remove </v-icon>BlackList
+                      </v-btn>
+                    </div>
+                    <div v-else>
+                      <v-btn class="btn-outlined" @click="TakeBack(index)">
+                        <v-icon>mdi-account-convert </v-icon> take back
+                      </v-btn>
+                    </div>
                   </td>
                 </tr>
               </tbody>
@@ -272,6 +271,18 @@ export default {
         list.push(index)
       }
       return { first, end, list, currentPage }
+    },
+    ToBlackList(index) {
+      var result = confirm("블랙리스틀로 등록하시겠습니까?")
+      if (result) {
+        this.memberList[index].isblack = true
+      }
+    },
+    TakeBack(index) {
+      var result = confirm("블랙리스트를 해제 하겠습니까?")
+      if (result) {
+        this.memberList[index].isblack = false
+      }
     },
   },
 }

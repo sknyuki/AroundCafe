@@ -69,7 +69,7 @@ export default {
           id: 3,
           icon: "mdi-microphone",
           title: "공지사항",
-          link: "/",
+          link: "/admin/noticelist",
         },
       ],
       sidebarTwo: [
