@@ -22,9 +22,11 @@ public class PaymentResponse {
     private PaymentStatus paymentStatus;
     private List<OrderItemResponse> orderItems;
     private Long cafeNo;
+    private Long memNo;
+
 
     @Builder
-    public PaymentResponse(Long paymentNo, String itemInitName, String paymentMethod, Integer totalQuantity, Integer totalAmount, Integer totalPointAmount, Date paymentDate, PaymentStatus paymentStatus, ArrayList<OrderItemResponse> orderItems, Long cafeNo) {
+    public PaymentResponse(Long paymentNo, String itemInitName, String paymentMethod, Integer totalQuantity, Integer totalAmount, Integer totalPointAmount, Date paymentDate, PaymentStatus paymentStatus, ArrayList<OrderItemResponse> orderItems, Long cafeNo, Long memNo, String memNick) {
         this.paymentNo = paymentNo;
         this.itemInitName = itemInitName;
         this.paymentMethod = paymentMethod;
@@ -35,5 +37,6 @@ public class PaymentResponse {
         this.paymentStatus = paymentStatus;
         this.orderItems = orderItems;
         this.cafeNo = cafeNo;
+        this.memNo = memNo;
     }
 }

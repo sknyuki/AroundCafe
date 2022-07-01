@@ -1,187 +1,218 @@
 <template>
   <div class="chat">
-    <div class="chat-content">
-      <div class="chat-left">
-        <nav class="chat-sidebar">
-          <a href="">
-            <div class="avatar-48">
-              <img src="@/assets/images/avatar.webp" alt="" />
-            </div>
-          </a>
-        </nav>
-        <nav class="chat-room">
-          <div class="chat-room-name">
-            <div>내 닉네임</div>
-          </div>
-          <div class="chat-room-text">
-            <label for="">
-              <span>안읽은 메시지만 보기</span>
-            </label>
-          </div>
-
-          <!-- 채팅방룸 -->
-          <ul class="chat-room-msg">
-            <li
-              v-for="(item, index) in qnaLists"
-              :key="index"
-              class="chat-room-list"
-              @mouseover="deleteBtn = index"
-              @mouseleave="deleteBtn = ''"
-            >
-              <v-btn
-                class="delete-button"
-                x-small
-                fab
-                type="button"
-                aria-label="삭제하기"
-                v-show="deleteBtn === index"
-                @click="deletsList(item)"
-              >
-                <i class="icClose"></i>
-              </v-btn>
-              <a @click="sendQnaNo(item)">
-                <div class="chat-room-img">
-                  <img
-                    v-if="item.received_img == null"
-                    src="@/assets/images/avatar.webp"
-                    alt=""
-                  />
-                  <img
-                    v-else
-                    v-bind:src="require(`@/assets/qna/${item.received_img}`)"
-                    style="width: 30px"
-                  />
-                </div>
-                <div class="chat-room-box">
-                  <div class="chat-room-wrapper">
-                    <strong class="chat-room-nick">{{
-                      item.received_name
-                    }}</strong>
-                    <span class="chat-room-cafe">{{ item.type }}</span>
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="chat-content">
+            <div class="chat-left">
+              <nav class="chat-sidebar">
+                <a href="">
+                  <div class="avatar-48">
+                    <img
+                      v-if="qnaLists[0].writerImg == null"
+                      src="@/assets/images/avatar.webp"
+                      alt=""
+                    />
+                    <img
+                      v-else
+                      v-bind:src="
+                        require(`@/assets/images/memberImg/${qnaLists[0].writerImg}`)
+                      "
+                    />
                   </div>
-                  <div>
-                    <span class="chat-room-contents">{{ item.content }}</span>
-                  </div>
+                </a>
+              </nav>
+              <nav class="chat-room">
+                <div class="chat-room-name">
+                  <div>{{ this.nickname }}</div>
                 </div>
-              </a>
-            </li>
-          </ul>
+                <div class="chat-room-text">
+                  <label for="">
+                    <span>안읽은 메시지만 보기</span>
+                  </label>
+                </div>
 
-          <!-- 맨밑 자주묻는 질문 -->
-          <div class="chat-room-qna">
-            <a>
-              <span>자주 묻는 질문</span>
-            </a>
-          </div>
-        </nav>
-      </div>
+                <!-- 채팅방룸 -->
+                <ul class="chat-room-msg">
+                  <li
+                    v-for="(item, index) in qnaLists"
+                    :key="index"
+                    class="chat-room-list"
+                    @mouseover="deleteBtn = index"
+                    @mouseleave="deleteBtn = ''"
+                  >
+                    <v-btn
+                      class="delete-button"
+                      x-small
+                      fab
+                      v-show="deleteBtn === index"
+                      @click="deletsList(item)"
+                    >
+                      <i class="icClose"></i>
+                    </v-btn>
+                    <a @click="sendQnaNo(item)">
+                      <div class="chat-room-img">
+                        <img
+                          v-if="item.received_img == null"
+                          src="@/assets/images/avatar.webp"
+                          alt=""
+                        />
+                        <img
+                          v-else
+                          v-bind:src="
+                            require(`@/assets/images/memberImg/${item.received_img}`)
+                          "
+                        />
+                      </div>
+                      <div class="chat-room-box">
+                        <div class="chat-room-wrapper">
+                          <strong class="chat-room-nick">{{
+                            item.received_name
+                          }}</strong>
+                          <span class="chat-room-cafe">{{ item.type }}</span>
+                        </div>
+                        <div>
+                          <span class="chat-room-contents">{{
+                            item.content
+                          }}</span>
+                        </div>
+                      </div>
+                    </a>
+                  </li>
+                </ul>
 
-      <section class="chat-section">
-        <!-- 채팅방 선택 안할 시 -->
-        <div
-          v-if="!qnaList || (Array.isArray(qnaList) && qnaList.length === 0)"
-          class="chat-section-content"
-        >
-          <v-icon style="width: 400px">mdi-wechat</v-icon>
-          <div>채팅할 상대를 선택해주세요.</div>
-        </div>
-
-        <!-- 채팅방 선택 할 시 -->
-        <div v-else class="chat-normal-room">
-          <div class="chat-normal-wrapper">
-            <div class="chat-normal-header">
-              <div class="avatar-40">
-                <img src="@/assets/images/avatar.webp" alt="" />
-              </div>
-              <div class="chat-normal-name">
-                <span>{{ cafeName }}</span>
-              </div>
+                <!-- 맨밑 자주묻는 질문 -->
+                <div class="chat-room-qna">
+                  <a>
+                    <span>자주 묻는 질문</span>
+                  </a>
+                </div>
+              </nav>
             </div>
 
-            <div
-              v-for="item in qnaList"
-              :key="item.qna_no"
-              class="chat-box list"
-            >
-              <!-- 상대방 -->
-              <div v-if="item.writer != memberNo" class="chat-box opponent">
-                <div class="avatar-48">
-                  <img src="@/assets/images/avatar.webp" alt="" />
-                </div>
-                <div>
-                  <p class="chat-box-contents opponent">{{ item.content }}</p>
-                </div>
-                <div v-if="item.img != null">
-                  <img
-                    v-bind:src="require(`@/assets/qna/${item.img}`)"
-                    style="width: 200px; display: block"
-                  />
-                </div>
-                <div class="chat-box-times">
-                  <div class="chat-box-time">{{ item.regTime }}</div>
-                </div>
-              </div>
-
-              <!-- 나 -->
+            <section class="chat-section">
+              <!-- 채팅방 선택 안할 시 -->
               <div
-                v-if="item.writer == memberNo"
-                @mousedown.right="rightMouse(item)"
-                @contextmenu.prevent
-                class="chat-box me"
+                v-if="
+                  !qnaList || (Array.isArray(qnaList) && qnaList.length === 0)
+                "
+                class="chat-section-content"
               >
-                <div class="chat-box-times">
-                  <div class="chat-box-time">{{ item.regTime }}</div>
-                </div>
-                <div v-if="item.content != null">
-                  <p class="chat-box-contents me">{{ item.content }}</p>
-                </div>
-                <div v-if="item.img != null">
-                  <img
-                    v-bind:src="require(`@/assets/qna/${item.img}`)"
-                    style="width: 200px; display: block"
-                  />
-                </div>
-                <v-btn
-                  v-if="item.qna_comment_no == num"
-                  v-show="testBtn"
-                  @click="deleteComment(item)"
-                  >delete</v-btn
-                >
+                <v-icon style="width: 400px">mdi-wechat</v-icon>
+                <div>채팅할 상대를 선택해주세요.</div>
               </div>
-            </div>
+
+              <!-- 채팅방 선택 할 시 -->
+              <div v-else class="chat-normal-room">
+                <div class="chat-normal-wrapper">
+                  <div class="chat-normal-header">
+                    <div class="avatar-40">
+                      <img
+                        v-if="qnaLists[0].received_img == null"
+                        src="@/assets/images/avatar.webp"
+                        alt=""
+                      />
+                      <img
+                        v-else
+                        v-bind:src="
+                          require(`@/assets/images/memberImg/${qnaLists[0].received_img}`)
+                        "
+                      />
+                    </div>
+                    <div class="chat-normal-name">
+                      <span>{{ cafeName }}</span>
+                    </div>
+                  </div>
+
+                  <div
+                    v-for="item in qnaList"
+                    :key="item.qna_no"
+                    class="chat-box list"
+                  >
+                    <!-- 상대방 -->
+                    <div v-if="item.writer != membNo" class="chat-box opponent">
+                      <div class="avatar-48">
+                        <img src="@/assets/images/avatar.webp" alt="" />
+                      </div>
+                      <div>
+                        <p class="chat-box-contents opponent">
+                          {{ item.content }}
+                        </p>
+                      </div>
+                      <div v-if="item.img != null">
+                        <img
+                          v-bind:src="require(`@/assets/qna/${item.img}`)"
+                          style="width: 200px; display: block"
+                        />
+                      </div>
+                      <div class="chat-box-times">
+                        <div class="chat-box-time">{{ item.regTime }}</div>
+                      </div>
+                    </div>
+
+                    <!-- 나 -->
+                    <div
+                      v-if="item.writer == membNo"
+                      @mousedown.right="rightMouse(item)"
+                      @contextmenu.prevent
+                      class="chat-box me"
+                    >
+                      <div class="chat-box-times">
+                        <div class="chat-box-time">{{ item.regTime }}</div>
+                      </div>
+                      <div v-if="item.content != null">
+                        <p class="chat-box-contents me">{{ item.content }}</p>
+                      </div>
+                      <div v-if="item.img != null">
+                        <img
+                          v-bind:src="require(`@/assets/qna/${item.img}`)"
+                          style="width: 200px; display: block"
+                        />
+                      </div>
+                      <v-btn
+                        v-if="item.qna_comment_no == num"
+                        v-show="testBtn"
+                        @click="deleteComment(item)"
+                        >delete</v-btn
+                      >
+                    </div>
+                  </div>
+                </div>
+
+                <form>
+                  <textarea
+                    @keyup="charCount()"
+                    @keydown.enter.prevent="submitMsg"
+                    v-model="chatting"
+                    maxlength="1000"
+                    cols="120"
+                    rows="32"
+                    placeholder="메시지를 입력해주세요."
+                  ></textarea>
+                  <div class="textarea-content">
+                    <div>
+                      <v-icon
+                        @click="handleFileUpload()"
+                        id="files1"
+                        ref="files1"
+                        multiple
+                        >mdi-panorama-variant
+                      </v-icon>
+                    </div>
+                    <div>
+                      <span>{{ totalcharacter }} / 1000</span>
+
+                      <v-btn @click="submitMsg" class="btn-indigo btn-40"
+                        >전송
+                      </v-btn>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </section>
           </div>
-
-          <form>
-            <textarea
-              @keyup="charCount()"
-              @keydown.enter.prevent="submitMsg"
-              v-model="chatting"
-              maxlength="1000"
-              cols="120"
-              rows="32"
-              placeholder="메시지를 입력해주세요."
-            ></textarea>
-            <div class="textarea-content">
-              <div>
-                <v-icon
-                  @click="handleFileUpload()"
-                  id="files1"
-                  ref="files1"
-                  multiple
-                  >mdi-panorama-variant
-                </v-icon>
-              </div>
-              <div>
-                <span>{{ totalcharacter }} / 1000</span>
-
-                <v-btn @click="submitMsg" class="btn-indigo btn-40"
-                  >전송
-                </v-btn>
-              </div>
-            </div>
-          </form>
         </div>
-      </section>
+      </div>
     </div>
   </div>
 </template>
@@ -203,10 +234,11 @@ export default {
       totalcharacter: 0,
       qnaList: [],
       cafeName: "문의자",
-      memberNo: "",
+      membNo: JSON.parse(localStorage.getItem("user")).memNo,
       checkQnaNo: "",
       testBtn: false,
       num: "",
+      nickname: JSON.parse(localStorage.getItem("user")).nickname,
     }
   },
   watch: {
@@ -282,7 +314,7 @@ export default {
         new Blob([JSON.stringify(fileInfo)], { type: "application/json" })
       )
 
-      let membNo = this.memberNo
+      let membNo = this.membNo
       axios
         .post(`http://localhost:7777/qnaComment/register/${membNo}`, formData)
         .then(() => {
@@ -309,7 +341,6 @@ export default {
           console.log(res.data)
           this.qnaList = res.data
           this.cafeName = item.received_name
-          this.memberNo = 1
         })
         .catch(() => {
           alert("문의사항 등록에 실패하였습니다.")

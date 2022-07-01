@@ -28,13 +28,7 @@ public class QnA {
     private Long received_no;
 
     @Column(length = 32, nullable = true)
-    private String received_img;
-
-    @Column(length = 32, nullable = true)
     private String type;
-
-    @Column(length = 32, nullable = true)
-    private String received_name;
 
     @CreatedDate
     @Column(length = 128, nullable = true)
@@ -61,8 +55,6 @@ public class QnA {
         this.received_no = received_no;
         memberInfo = member;
         this.type = type;
-        this.received_name = received_name;
-        this.received_img = received_img;
     }
 
 }

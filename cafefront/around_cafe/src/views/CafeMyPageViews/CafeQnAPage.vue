@@ -21,28 +21,31 @@ export default {
   },
   data() {
     return {
-      existingQnaNo: 1,
       checkQnaNo: "",
       qnaList: {
         type: Array,
       },
+      memNo: this.$store.state.user.memNo,
+      role: this.$store.state.user.role,
+      cafeNo: 2,
     }
   },
   computed: {
     ...mapState(["qnaLists"]),
   },
   mounted() {
-    this.fetchQnALists(1)
+    this.fetchQnALists(this.memNo)
   },
   methods: {
     ...mapActions(["fetchQnALists"]),
     onSubmit(payload) {
-      const { registerNo, content, findQna, files1 } = payload
+      const { content, findQna, files1 } = payload
 
       let formData = new FormData()
 
       let fileInfo = {
-        received_no: registerNo,
+        memNo: this.$store.state.user.memNo,
+        received_no: this.cafeNo,
         type: findQna,
         content: content,
       }
@@ -58,9 +61,13 @@ export default {
         }
       }
 
-      let membNo = 1 //문의사항 등록은 1번 멤버가 계속쓰기 때문에 이건 일단 그대로 둔다.
+      // let membNo
+      // if (this.role == "ADMIN") {
+      //   membNo = 0
+      // } else membNo = this.memNo
+
       axios
-        .post(`http://localhost:7777/qna/register/${membNo}`, formData)
+        .post(`http://localhost:7777/qna/register`, formData)
         .then((res) => {
           alert(res.data)
           this.$router.go()

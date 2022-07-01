@@ -1,5 +1,5 @@
 <template>
-  <div v-if="!isLogin">
+  <div v-if="isLogin">
     <CafeCard :cafeBoards="cafeBoards" />
   </div>
   <div v-else>

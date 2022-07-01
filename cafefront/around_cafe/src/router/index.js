@@ -119,8 +119,8 @@ const routes = [
   },
   {
     path: "/cafe/purchase",
-    name: "CafePurchase",
-    component: () => import("@/views/CafeSiteViews/CafePurchase"),
+    name: "CafePurchasePage",
+    component: () => import("@/views/CafeSiteViews/CafePurchasePage"),
     props: true,
   },
   {

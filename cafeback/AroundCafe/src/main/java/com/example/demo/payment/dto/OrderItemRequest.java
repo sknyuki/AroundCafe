@@ -12,6 +12,7 @@ public class OrderItemRequest {
     private Integer amount;
     private Long cafeMenuNo;
 
+    public OrderItemRequest(){}
     @Builder
     public OrderItemRequest(String itemName, Integer quantity, Integer amount, Long cafeMenuNo) {
         this.itemName = itemName;

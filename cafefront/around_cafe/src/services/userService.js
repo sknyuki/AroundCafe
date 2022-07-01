@@ -6,6 +6,7 @@
 
 class UserService {
   setUserInfo(userInfo) {
+    this.deleteUserInfo()
     const user = {
       memNo: userInfo["memNo"],
       nickname: userInfo["nickname"],
@@ -13,7 +14,6 @@ class UserService {
       role: userInfo["role"],
       cafeNo: userInfo["cafeNo"],
     }
-
     localStorage.setItem("user", JSON.stringify(user))
   }
 
