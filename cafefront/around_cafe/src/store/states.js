@@ -26,4 +26,6 @@ export default {
   likes: [],
   myLikes: [],
   likesIdLists: [],
+
+  trans: [],
 }
