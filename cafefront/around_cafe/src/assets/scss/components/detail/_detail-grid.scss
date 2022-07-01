@@ -1,0 +1,28 @@
+.image-grid {
+  --gap: 8px;
+  --num-cols: 4;
+  --row-height: 200px;
+  display: grid;
+  padding: var(--gap);
+  grid-template-columns: repeat(var(--num-cols), 1fr);
+  grid-auto-rows: var(--row-height);
+  gap: var(--gap);
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 12px !important;
+  }
+}
+.row {
+  grid-column: span 2 !important;
+  grid-row: span 2 !important;
+}
+/* Anything udner 1024px */
+@media screen and (max-width: 1024p) {
+  .image-grid {
+    --num-cols: 2;
+    --row-height: 120px;
+  }
+}

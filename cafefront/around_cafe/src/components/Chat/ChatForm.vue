@@ -1,5 +1,6 @@
 <template>
   <div class="chat">
+
     <div class="container">
       <div class="row">
         <div class="col-sm-12">
@@ -19,6 +20,7 @@
                         require(`@/assets/images/memberImg/${qnaLists[0].writerImg}`)
                       "
                     />
+
                   </div>
                 </a>
               </nav>

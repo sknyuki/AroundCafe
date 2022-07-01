@@ -1,9 +1,10 @@
-/* eslint-disable no-debugger */
 <template>
   <div class="cafe-register">
-    <ImgBox class="mb-10" />
     <div class="container">
       <div class="row">
+        <div class="col-sm-12">
+          <ImgBox />
+        </div>
         <div class="col-sm-4 col-md-3 col-lg-3">
           <CafeSidebar />
         </div>
@@ -235,7 +236,7 @@ export default {
       images: "",
       comment: "",
       files: [],
-
+      isDragged: false,
       post: "",
       address: "",
 
@@ -302,6 +303,7 @@ export default {
     onUpload() {
       this.$refs.files.click()
     },
+
     imageUpload() {
       console.log(this.$refs.files.files)
 

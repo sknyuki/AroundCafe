@@ -2,7 +2,7 @@
   <div class="modify-info">
     <header class="modify-info-header">
       <h2>내 정보수정</h2>
-      <button>탈퇴하기</button>
+      <button type="submit" aria-label="탈퇴하기">탈퇴하기</button>
     </header>
 
     <form>

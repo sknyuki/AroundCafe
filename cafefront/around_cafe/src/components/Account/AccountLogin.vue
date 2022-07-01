@@ -40,7 +40,9 @@
           </div>
 
           <div class="login-button">
-            <v-btn class="login-button-vuti" type="submit"> 로그인 </v-btn>
+            <v-btn class="login-button-vuti" type="submit" aria-label="로그인">
+              로그인
+            </v-btn>
           </div>
 
           <div class="login-util">

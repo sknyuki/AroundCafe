@@ -1,12 +1,14 @@
 <template>
   <div class="change-pw">
-    <img-box class="mb-10" />
     <div class="container">
       <div class="row">
+        <div class="col-sm-12">
+          <ImgBox />
+        </div>
         <div class="col-sm-4 col-md-3 col-lg-3">
           <UserSidebar />
         </div>
-        <div class="col-sm-4 col-md-3 col-lg-3">
+        <div class="col-sm-8 col-md-9 col-lg-9">
           <ChangePwForm />
         </div>
       </div>

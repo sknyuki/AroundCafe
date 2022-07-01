@@ -31,9 +31,19 @@
       </div>
       <div class="detail-sidebar-price per">
         <dt>
+
+  
+
           <button @click="decreaseQuantity(basket, index)">-</button>
+
           <span> {{ basket.per_menu_quantity }} </span>
-          <button @click="increaseQuantity(basket)">+</button>
+          <button
+            @click="increaseQuantity(basket)"
+            type="button"
+            aria-label="수량증가"
+          >
+            +
+          </button>
         </dt>
         <dd>
           <span>{{ basket.per_menu_total_price }}</span

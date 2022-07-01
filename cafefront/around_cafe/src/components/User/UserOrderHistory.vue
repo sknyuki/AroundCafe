@@ -1,8 +1,10 @@
 <template>
   <div>
-    <ImgBox class="mb-10" />
     <div class="container">
       <div class="row">
+        <div class="col-sm-12">
+          <ImgBox />
+        </div>
         <div class="col-sm-4 col-md-3 col-lg-3">
           <UserSidebar />
         </div>

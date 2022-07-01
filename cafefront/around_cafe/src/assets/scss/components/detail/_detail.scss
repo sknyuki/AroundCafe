@@ -1,4 +1,10 @@
 .detail {
+  &-container {
+    header {
+      padding: 12px;
+      color: $dark;
+    }
+  }
   &-info {
     @include flexbox(start);
     @include text-style(18);

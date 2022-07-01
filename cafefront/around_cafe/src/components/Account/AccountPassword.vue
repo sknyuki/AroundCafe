@@ -41,7 +41,7 @@
             placeholder="인증코드 6자리 입력"
             required
           />
-          <div>{{ timeString }}</div>
+          <span>{{ timeString }}</span>
           <v-btn
             :disabled="emailCode.length < 1 || isEmailVerified || time === 0"
             class="password-btns"

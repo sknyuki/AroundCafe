@@ -113,8 +113,8 @@
 
   &-wrap {
     display: flex;
-    border-top: 1px solid rgb(234, 235, 239);
-    border-left: 1px solid rgb(234, 235, 239);
+    border-top: 1px solid $border;
+    border-left: 1px solid $border;
     button {
       display: flex;
       flex-direction: column;
@@ -122,9 +122,8 @@
       align-items: center;
       position: relative;
       width: 12.5%;
-      box-sizing: border-box;
       text-align: center;
-      background-color: rgb(255, 255, 255);
+      background-color: $background;
       border-width: 0px 1px 1px 0px;
       border-top-style: initial;
       border-left-style: initial;
@@ -132,14 +131,19 @@
       border-left-color: initial;
       border-image: initial;
       padding: 0px 1px 5px 0px;
-      margin: 0px;
       border-right-style: solid;
-      border-right-color: rgb(234, 235, 239);
+      border-right-color: $border;
       border-bottom-style: solid;
-      border-bottom-color: rgb(234, 235, 239);
+      border-bottom-color: $border;
       transition: background-color 0.2s ease 0s;
       word-break: keep-all;
       cursor: pointer;
+      &.is-active {
+        opacity: 0.4;
+      }
+      &:hover {
+        opacity: 0.4;
+      }
     }
     img {
       width: 60px;
