@@ -280,7 +280,7 @@ export default {
 
         axios
           .post(
-            `http://localhost:7777/qnaComment/registerImg/${qnaNo}`,
+            `http://localhost:7777/qnaComment/registerImg/${qnaNo}/${this.membNo}`,
             formData
           )
           .then((response) => {
