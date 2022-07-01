@@ -119,14 +119,14 @@ const routes = [
   },
   {
     path: "/cafe/purchase",
-    name: "CafePurchase",
-    component: () => import("@/views/CafeSiteViews/CafePurchase"),
+    name: "CafePurchasePage",
+    component: () => import("@/views/CafeSiteViews/CafePurchasePage"),
     props: true,
   },
   {
     path: "/cafe/purchase/complete",
-    name: "CafePurchaseComplete",
-    component: () => import("@/views/CafeSiteViews/CafePurchaseComplete"),
+    name: "CafePurchaseCompletePage",
+    component: () => import("@/views/CafeSiteViews/CafePurchaseCompletePage"),
     props: true,
   },
   {

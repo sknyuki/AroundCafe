@@ -113,7 +113,7 @@ export default {
       var result = confirm("결제 페이지로 이동하시겠습니까?")
       if (result) {
         this.$router.push({
-          name: "CafePurchase",
+          name: "CafePurchasePage",
           params: {
             cafeInfo: {
               totalPrice: this.totalPrice,
