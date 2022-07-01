@@ -169,10 +169,6 @@ export default {
     }
   },
   async created() {
-    console.log(this.userInfo)
-    console.log(this.cafeInfo)
-    console.log(this.basketList)
-    let totalQuantity
     this.basketList.forEach(function (obj) {
       let newOrderItemObj = {
         cafeMenuNo: obj.menu_no,
@@ -180,11 +176,11 @@ export default {
         quantity: obj.per_menu_quantity,
         amount: obj.per_menu_total_price,
       }
-      totalQuantity += Number(obj.per_menu_quantity)
+      this.paymentInfo.totalQuantity += Number(newOrderItemObj.quantity)
       this.paymentInfo.orderItems.push(newOrderItemObj)
     }, this)
 
-    if(totalQuantity <= 1) {
+    if(this.basketList.length > 1) {
       this.paymentInfo.itemInitName = `${
           this.paymentInfo.orderItems[0].itemName
       } 외 ${this.paymentInfo.totalQuantity - 1}개`
@@ -194,10 +190,8 @@ export default {
       }`
     }
 
-    this.paymentInfo.totalQuantity = totalQuantity
     this.paymentInfo.memNo = this.userInfo.memNo
     this.paymentInfo.totalAmount = this.cafeInfo.totalPrice
-    console.log(this.paymentInfo)
     this.$emit("getPaymentInfo", this.paymentInfo)
   },
   watch: {
