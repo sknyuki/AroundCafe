@@ -1,9 +1,11 @@
 package com.example.demo.member.service;
 
+import com.example.demo.member.dto.MemberBlackResponse;
 import com.example.demo.member.dto.MemberDto;
 import com.example.demo.member.entity.Member;
 import com.example.demo.member.entity.MemberRole;
 import com.example.demo.member.entity.MemberRoleType;
+import com.example.demo.member.map.MemberBlackResponseStruct;
 import com.example.demo.member.repository.MemberRepository;
 import com.example.demo.common.exception.ResourceNotFoundException;
 import com.example.demo.member.repository.MemberRoleRepository;
@@ -123,4 +125,20 @@ public class MemberServiceImpl implements MemberService {
         member.setMemBirth(memberDto.getMemBirth());
         memberRepository.save(member);
     }
+//멤버+블랙 조회 태호씨에게 질문
+//    @Transactional
+//    @Override
+//    public List<MemberBlackResponse> list(){
+//        List<Member> memberList=memberRepository.findAll();
+//        List<MemberBlackResponse> memberBlackResponses=new ArrayList<>();
+//
+//        for(Member member: memberList){
+//            MemberBlackResponse memberBlackResponse= MemberBlackResponseStruct.instance.toDto(Member);
+//          List<MemberRole> memberRoleList=MemberRoleRepository.findById(member.getMemId());
+//            memberBlackResponse.
+//
+//
+//            }
+//        }
+//    }
 }

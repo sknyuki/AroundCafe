@@ -14,6 +14,8 @@ import java.util.Optional;
 @Repository
 public interface MemberRoleRepository extends JpaRepository<MemberRole, Long> {
 
+
+    List<MemberRole> findById(String memId);
     Optional<MemberRole> findByName(MemberRoleType name);
     List<MemberRole> findAllByName(MemberRoleType name);
 
