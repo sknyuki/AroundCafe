@@ -55,22 +55,7 @@ export default {
             image: markerImage,
           })
 
-          const iwContent =
-            `<div class="overLay">` +
-            ` <div class="img">` +
-            ' <img src="' +
-            require(`@/assets/cafe/cafeMypage/${cafeBoard.cafeImgs[0].cafe_img}`) +
-            '" width="270" height="160">' +
-            `</div>` +
-            `<div> ${cafeBoard.cafe_name} </div>` +
-            `<div style="padding:5px;">영업 시간 ${cafeBoard.cafe_time}</div>` +
-            `<div style="padding:5px;">번호 ${cafeBoard.cafe_call}</div>` +
-            `</div>` +
-            `</div>`
-
-          const infowindow = new kakao.maps.InfoWindow({
-            content: iwContent,
-          })
+          const infowindow = new kakao.maps.InfoWindow({})
           infowindow.open(map, marker)
 
           map.setCenter(coords)
@@ -104,9 +89,4 @@ export default {
 }
 </script>
 
-<style>
-.overLay {
-  width: 270px;
-  height: 260px;
-}
-</style>
+<style lang="scss"></style>

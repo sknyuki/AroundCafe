@@ -1,8 +1,10 @@
 <template>
   <div class="menu-register">
-    <ImgBox class="mb-10" />
     <div class="container">
       <div class="row">
+        <div class="col-sm-12">
+          <ImgBox />
+        </div>
         <div class="col-sm-4 col-md-3 col-lg-3">
           <CafeSidebar />
         </div>
@@ -19,8 +21,12 @@
               @keydown.enter.prevent="findList"
               @change="isSearchempty(modi_name)"
             />
-            <button @click="resetList">X</button>
-            <v-btn @click="findList">검색</v-btn>
+            <button @click="resetList" type="button" aria-label="검색초기화">
+              X
+            </button>
+            <v-btn @click="findList" type="button" aria-label="검색하기"
+              >검색</v-btn
+            >
           </div>
           <br />
           <div v-if="menuLists.length == 0"><p>메뉴를 등록해주세요!</p></div>

@@ -1,66 +1,17 @@
 <template>
   <div class="cafe-register">
-    <img-box class="mb-10" />
     <div class="container">
       <div class="row">
+        <div class="col-sm-12">
+          <ImgBox />
+        </div>
         <div class="col-sm-4 col-md-3 col-lg-3">
           <UserSidebar />
         </div>
         <div class="col-sm-8 col-md-9 col-lg-9">
           <header>
-            <h1>주문 리스트</h1>
+            <h1>주문 현황</h1>
           </header>
-          <div class="member-list">
-            <header class="member-list-header">
-              <h2>회원관리</h2>
-            </header>
-            <table class="member-list-table">
-              <thead>
-                <tr>
-                  <th scope="col" align="center" style="width: 30px">No</th>
-                  <th scope="col" align="center" style="width: 80px">
-                    카페이름
-                  </th>
-                  <th scope="col" align="center" style="width: 120px">
-                    상품이름
-                  </th>
-                  <th scope="col" align="center" style="width: 40px">
-                    주문날짜
-                  </th>
-                  <th scope="col" align="center" style="width: 70px">
-                    주문시간
-                  </th>
-                  <th scope="col" align="center" style="width: 40px">가격</th>
-                  <th scope="col" align="center" style="width: 40px">수정</th>
-                  <th scope="col" align="center" style="width: 40px">삭제</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="member in memberList" :key="member.memberNo">
-                  <td align="center">{{ member.memberNo }}</td>
-                  <td align="center">{{ member.memId }}</td>
-                  <td align="center">{{ member.memNick }}</td>
-                  <td align="center">{{ member.memBirth }}</td>
-                  <td align="center">{{ member.memPhoneNum }}</td>
-                  <td align="center">{{ member.regDate }}</td>
-                  <td align="center">
-                    <v-btn
-                      class="btn-outlined"
-                      small
-                      aria-label="회원 수정하기"
-                    >
-                      <v-icon>mdi-pencil </v-icon>수정
-                    </v-btn>
-                  </td>
-                  <td align="center">
-                    <v-btn class="btn-red" small aria-label="회원 삭제하기">
-                      <v-icon>mdi-delete </v-icon>삭제
-                    </v-btn>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
         </div>
       </div>
     </div>
