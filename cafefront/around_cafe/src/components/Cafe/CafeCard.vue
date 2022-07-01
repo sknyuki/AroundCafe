@@ -5,7 +5,7 @@
         <div class="cafe-gallery-content">
           <ul class="cafe-list">
             <li
-              v-for="(cafeItem, index) in cafeBoards"
+              v-for="(cafeItem, index) in mainlist"
               :key="index"
               class="cafe-item"
               @mouseover="swiperBtn = index"
@@ -124,7 +124,7 @@
                         <i class="icStar"></i>
                         <span class="visually-hidden">평점</span>
                       </dt>
-                      <dd>{{ cafeItem.star | ratingPoint }}</dd>
+                      <dd>{{ cafeItem.starAver | ratingPoint }}</dd>
                     </div>
                   </dl>
                 </router-link>
@@ -153,7 +153,7 @@ export default {
   },
 
   props: {
-    cafeBoards: {
+    mainlist: {
       type: Array,
       required: true,
     },

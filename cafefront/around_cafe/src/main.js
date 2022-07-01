@@ -11,6 +11,7 @@ import { phoneNumber, pricePoint } from "@/utils/filters"
 
 Vue.filter("phoneNumber", phoneNumber)
 Vue.filter("pricePoint", pricePoint)
+// Vue.filter("ratingPoint", ratingPoint)
 
 Vue.config.productionTip = false
 

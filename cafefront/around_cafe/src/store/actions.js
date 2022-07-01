@@ -20,6 +20,7 @@ import {
   FETCH_LIKE,
   FETCH_LIKES_LIST,
   FETCH_MY_LIKES_LIST,
+  FETCH_MAIN_LIST,
 } from "./mutation-types"
 
 import axios from "axios"
@@ -37,7 +38,8 @@ export default {
   fetchcafeBoardList({ commit }) {
     return axios.get("http://localhost:7777/cafe/list").then((res) => {
       commit(FETCH_CAFE_BOARD_LIST, res.data)
-      //console.log(res)
+      // console.log("값이 넘어왔는지 체크")
+      // console.log(res.data)
     })
   },
   fetchcafeBoard({ commit }, cafeNo) {
@@ -156,5 +158,12 @@ export default {
       .then((res) => {
         commit(FETCH_MY_LIKES_LIST, res.data)
       })
+  },
+  fetchMainList({ commit }) {
+    return axios.get(`http://localhost:7777/cafe/main/list`).then((res) => {
+      commit(FETCH_MAIN_LIST, res.data)
+      console.log("main list결과값 확인")
+      console.log(res.data)
+    })
   },
 }

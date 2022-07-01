@@ -1,9 +1,9 @@
 <template>
-  <div v-if="isLogin">
-    <CafeCard :cafeBoards="cafeBoards" />
+  <div v-if="!isLogin">
+    <CafeCard :mainlist="mainlist" />
   </div>
   <div v-else>
-    <CafeCard :cafeBoards="cafeBoards" :myLikes="myLikes" />
+    <CafeCard :mainlist="mainlist" :myLikes="myLikes" />
   </div>
 </template>
 <script>
@@ -19,15 +19,17 @@ export default {
     }
   },
   computed: {
-    ...mapState(["cafeBoards", "myLikes"]),
+    ...mapState(["myLikes", "mainlist"]),
   },
   mounted() {
-    this.fetchcafeBoardList()
+    // this.fetchcafeBoardList()
+    this.fetchMainList()
     this.onLogin()
+
     //
   },
   methods: {
-    ...mapActions(["fetchcafeBoardList", "fetchMyLikesList"]),
+    ...mapActions(["fetchMyLikesList", "fetchMainList"]),
     onLogin() {
       if (this.membNo != null) {
         this.isLogin = true

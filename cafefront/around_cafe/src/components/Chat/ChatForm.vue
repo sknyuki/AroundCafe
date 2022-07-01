@@ -278,9 +278,10 @@ export default {
           formData.append("fileList", this.files[index])
         }
 
+        let membNo = JSON.parse(localStorage.getItem("user")).memNo
         axios
           .post(
-            `http://localhost:7777/qnaComment/registerImg/${qnaNo}/${this.membNo}`,
+            `http://localhost:7777/qnaComment/registerImg/${qnaNo}/${membNo}`,
             formData
           )
           .then((response) => {

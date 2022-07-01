@@ -28,4 +28,7 @@ export default {
   likesIdLists: [],
 
   trans: [],
+
+  //mainlist
+  mainlist: [],
 }

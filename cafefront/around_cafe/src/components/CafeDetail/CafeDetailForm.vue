@@ -93,7 +93,10 @@
                           <strong class="badge" aria-label="400개">{{
                             reviewList.length
                           }}</strong>
-                          <a class="text-btn">리뷰쓰기</a>
+                          <CafeReviewRegisterPage
+                            class="text-btn"
+                            :cafeNo="cafeNo"
+                          />
                         </header>
 
                         <div class="review-scoreboard">
@@ -102,6 +105,7 @@
                               <StarRating
                                 v-model="this.starAver"
                                 :inline="true"
+                                :increment="0.01"
                                 :read-only="true"
                                 :star-size="32"
                                 :incremane="0.1"
@@ -169,9 +173,9 @@
                                   <div class="bar-graph" aria-hidden>
                                     <div class="active-bar" :style="bar1"></div>
                                   </div>
-                                  <strong class="count" aria-label="0명"
-                                    >0</strong
-                                  >
+                                  <strong class="count" aria-label="0명">{{
+                                    this.StarPoint2
+                                  }}</strong>
                                 </dd>
                               </div>
                             </dl>
@@ -207,6 +211,7 @@
 </template>
 
 <script>
+import CafeReviewRegisterPage from "@/views/Cafe/CafeReviewRegisterPage.vue"
 import StarRating from "vue-star-rating"
 import CafeReviewForm from "@/components/CafeReview/CafeReviewForm.vue"
 import CafeDetailSidebar from "@/components/CafeDetail/CafeDetailSidebar.vue"
@@ -223,6 +228,7 @@ export default {
     CafeDetailSidebar,
     CafeSiteMenuList,
     MapKakaoFind,
+    CafeReviewRegisterPage,
   },
   props: {
     reviewList: {
@@ -291,14 +297,18 @@ export default {
     calculateStarAver() {
       console.log(this.reviewList.length)
       this.ReviewsQuantity = this.reviewList.length
-      for (let i = 0; i < this.reviewList; i++) {
+      for (let i = 0; i < this.ReviewsQuantity; i++) {
         this.starSum += parseInt(this.reviewList[i].star_score)
         // console.log("별점일람")
         // console.log(this.reviews[i].star_score)
       }
-      this.starAver = this.starSum / this.ReviewsQuantity
-      // console.log("평균별점")
-      // console.log(this.starAver)
+      if (this.starSum == 0) {
+        this.starAver = 0
+      } else {
+        this.starAver = this.starSum / this.ReviewsQuantity
+      }
+      console.log("평균별점")
+      console.log(this.starAver)
     },
     calculatePersentage() {
       this.ReviewsQuantity = this.reviewList.length

@@ -24,11 +24,15 @@ public interface ReviewRepository extends JpaRepository<Review,Long> {
     List<Review> findAllReviewByCafe(Long cafeNum);
 
     @Transactional
+    @Query(value ="select * from review where cafe_num = :CafeNo", nativeQuery = true)
+    List<Review> findAllReviewByCafeNo(Long CafeNo);
+
+    @Transactional
     @Query(value ="select * from review where review_no = :reviewNo", nativeQuery = true)
     Optional<Review> findByReviewNo(Long reviewNo);
 
     @Query("select m from Review m where m.cafeNum = :cafeNum order by m.reviewNo desc")
-    List<Review> findByCafeNo(@Param("cafeNum") Long cafeNum);
+     List<Review> findByCafeNo(@Param("cafeNum") Long cafeNum);
 
     List<Review> findByMemberInfoOrderByReviewNoDesc(Member member);
 }
