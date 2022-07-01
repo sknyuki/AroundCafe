@@ -37,10 +37,6 @@ export default {
       type: Object,
       require: true,
     },
-    myHelps: {
-      type: Array,
-      require: true,
-    },
   },
   data() {
     return {
@@ -48,22 +44,7 @@ export default {
       membNo: this.$store.state.user.memNo,
     }
   },
-
-  // mounted() {
-  //   setTimeout(this.change(), 130)
-  // },
-
   methods: {
-    // change() {
-    //   for (let i = 0; i < this.myHelps.length; i++) {
-    //     if (this.myHelps[i] == this.review.reviewNo) {
-    //       this.onHelp = true
-    //       break
-    //     } else {
-    //       this.onHelp = false
-    //     }
-    //   }
-    // },
     onLikes() {
       axios
         .post(

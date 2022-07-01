@@ -180,7 +180,6 @@
 
                         <CafeReviewForm
                           :reviewList="reviewList"
-                          :myHelps="myHelps"
                           :cafeNo="cafeNo"
                         />
                       </section>
@@ -226,10 +225,6 @@ export default {
   },
   props: {
     reviewList: {
-      type: Array,
-      required: true,
-    },
-    myHelps: {
       type: Array,
       required: true,
     },
