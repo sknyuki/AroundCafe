@@ -22,12 +22,26 @@
       <ul>
         <template v-if="social == 'LOCAL'">
           <li class="mysidebar-list" v-for="item in sidebarTwo" :key="item.id">
-            <router-link class="mysidebar-link" :to="item.link">
-              <div class="mysidebar-test">
-                <v-icon>{{ item.icon }}</v-icon>
-                <p>{{ item.title }}</p>
-              </div>
-            </router-link>
+            <template v-if="item.id == 3">
+              <router-link
+                class="mysidebar-link"
+                :to="item.link"
+                target="_blank"
+              >
+                <div class="mysidebar-test">
+                  <v-icon>{{ item.icon }}</v-icon>
+                  <p>{{ item.title }}</p>
+                </div>
+              </router-link>
+            </template>
+            <template v-else>
+              <router-link class="mysidebar-link" :to="item.link">
+                <div class="mysidebar-test">
+                  <v-icon>{{ item.icon }}</v-icon>
+                  <p>{{ item.title }}</p>
+                </div>
+              </router-link>
+            </template>
           </li>
         </template>
         <template v-else>
@@ -36,12 +50,26 @@
             v-for="item in sidebarThree"
             :key="item.id"
           >
-            <router-link class="mysidebar-link" :to="item.link">
-              <div class="mysidebar-test">
-                <v-icon>{{ item.icon }}</v-icon>
-                <p>{{ item.title }}</p>
-              </div>
-            </router-link>
+            <template v-if="item.id == 2">
+              <router-link
+                class="mysidebar-link"
+                :to="item.link"
+                target="_blank"
+              >
+                <div class="mysidebar-test">
+                  <v-icon>{{ item.icon }}</v-icon>
+                  <p>{{ item.title }}</p>
+                </div>
+              </router-link>
+            </template>
+            <template v-else>
+              <router-link class="mysidebar-link" :to="item.link">
+                <div class="mysidebar-test">
+                  <v-icon>{{ item.icon }}</v-icon>
+                  <p>{{ item.title }}</p>
+                </div>
+              </router-link>
+            </template>
           </li>
         </template>
       </ul>
@@ -97,7 +125,7 @@ export default {
           id: 3,
           icon: "mdi-email-outline",
           title: "문의사항",
-          link: "/",
+          link: "/chat",
         },
       ],
       sidebarThree: [
