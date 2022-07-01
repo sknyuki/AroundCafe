@@ -1,6 +1,5 @@
 <template>
   <div class="chat">
-
     <div class="container">
       <div class="row">
         <div class="col-sm-12">
@@ -20,7 +19,6 @@
                         require(`@/assets/images/memberImg/${qnaLists[0].writerImg}`)
                       "
                     />
-
                   </div>
                 </a>
               </nav>
@@ -73,10 +71,13 @@
                           }}</strong>
                           <span class="chat-room-cafe">{{ item.type }}</span>
                         </div>
-                        <div>
+                        <div v-if="item.content != null">
                           <span class="chat-room-contents">{{
                             item.content
                           }}</span>
+                        </div>
+                        <div v-else>
+                          <span class="chat-room-contents">이미지</span>
                         </div>
                       </div>
                     </a>
@@ -279,7 +280,7 @@ export default {
 
         axios
           .post(
-            `http://localhost:7777/qnaComment/registerImg/${qnaNo}`,
+            `http://localhost:7777/qnaComment/registerImg/${qnaNo}/${this.membNo}`,
             formData
           )
           .then((response) => {

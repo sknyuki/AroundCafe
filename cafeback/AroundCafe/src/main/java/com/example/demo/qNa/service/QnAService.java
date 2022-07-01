@@ -21,4 +21,5 @@ public interface QnAService {
     public List<QnAResponse> responseQnAList(Integer membNo);
 
     public void deleteQna(Integer qnaNo);
+
 }

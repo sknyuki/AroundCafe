@@ -9,7 +9,7 @@ import java.util.List;
 public interface QnACommentService {
     public void exceptImgRegister(Integer membNo, QnACommentDto info);
 
-    public void saveImg(Integer qnaNo, String fileName);
+    public void saveImg(Integer qnaNo, Integer membNo, String fileName);
 
     public List<String> dateList(Integer qnaNo);
 

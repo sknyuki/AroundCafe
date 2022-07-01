@@ -6,12 +6,22 @@
       </header>
       <ul>
         <li class="mysidebar-list" v-for="item in sidebarOne" :key="item.id">
-          <router-link class="mysidebar-link" :to="item.link">
-            <div class="mysidebar-test">
-              <v-icon>{{ item.icon }}</v-icon>
-              <p>{{ item.title }}</p>
-            </div>
-          </router-link>
+          <template v-if="item.id == 6">
+            <router-link class="mysidebar-link" :to="item.link" target="_blank">
+              <div class="mysidebar-test">
+                <v-icon>{{ item.icon }}</v-icon>
+                <p>{{ item.title }}</p>
+              </div>
+            </router-link>
+          </template>
+          <template v-else>
+            <router-link class="mysidebar-link" :to="item.link">
+              <div class="mysidebar-test">
+                <v-icon>{{ item.icon }}</v-icon>
+                <p>{{ item.title }}</p>
+              </div>
+            </router-link>
+          </template>
         </li>
       </ul>
     </div>

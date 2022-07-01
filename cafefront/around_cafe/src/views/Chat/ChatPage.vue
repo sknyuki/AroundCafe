@@ -1,5 +1,7 @@
 <template>
-  <ChatForm :qnaLists="qnaLists" />
+  <div>
+    <ChatForm :qnaLists="qnaLists" />
+  </div>
 </template>
 
 <script>
@@ -12,6 +14,7 @@ export default {
   data() {
     return {
       membNo: JSON.parse(localStorage.getItem("user")).memNo,
+      role: JSON.parse(localStorage.getItem("user")).role,
     }
   },
   computed: {

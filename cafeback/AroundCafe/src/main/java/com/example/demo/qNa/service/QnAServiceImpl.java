@@ -38,12 +38,12 @@ public class QnAServiceImpl implements QnAService {
     @Override
     public void includeImgregister(QnADto info, String fileName) {
         Member member = memberRepository.findById(info.getMemNo()).orElseGet(null);
-
+        Member revceivedNo = memberRepository.findById(info.getReceived_no()).orElseGet(null);
         QnA qnA = null;
 
         if(info.getReceived_no() != 0) {
             qnA = QnA.builder()
-                    .received_no(info.getReceived_no())
+                    .received_no(revceivedNo.getMemNo())
                     .member(member)
                     .type(info.getType())
                     .build();
@@ -51,12 +51,12 @@ public class QnAServiceImpl implements QnAService {
             repository.save(qnA);
         }else {
             qnA = QnA.builder()
-                    .received_no(info.getReceived_no())
+                    .received_no(revceivedNo.getMemNo())
                     .member(member)
                     .type(info.getType())
                     .received_name("관리자")
-                    .received_img(member.getMemImg())
                     .build();
+            repository.save(qnA);
         }
 
 
@@ -73,7 +73,7 @@ public class QnAServiceImpl implements QnAService {
     @Override
     public void exceptImgRegister(QnADto info) {
         Member member = memberRepository.findById(Long.valueOf(info.getMemNo())).orElseGet(null);
-        Cafe cafe = cafeRepository.findById(info.getReceived_no()).orElseGet(null);
+        Member revceivedNo = memberRepository.findById(info.getReceived_no()).orElseGet(null);
         QnA qnA = null;
 
         if(info.getReceived_no() != 0){
@@ -81,8 +81,6 @@ public class QnAServiceImpl implements QnAService {
                     .received_no(info.getReceived_no())
                     .member(member)
                     .type(info.getType())
-                    .received_name(cafe.getCafe_name())
-                    .received_img(member.getMemImg())
                     .build();
 
             repository.save(qnA);
@@ -92,8 +90,8 @@ public class QnAServiceImpl implements QnAService {
                     .member(member)
                     .type(info.getType())
                     .received_name("관리자")
-                    .received_img(member.getMemImg())
                     .build();
+            repository.save(qnA);
         }
 
 
@@ -119,39 +117,54 @@ public class QnAServiceImpl implements QnAService {
 
     @Override
     public List<QnAResponse> responseQnAList(Integer membNo) {
-        //회원의 멤버
         Member member = memberRepository.findById(Long.valueOf(membNo)).orElseGet(null);
-        List<QnAResponse> comments = new ArrayList<>(); //response를 위한 리스트를 만듦
-        List<QnA> qnAS = repository.findByMemberInfo(Long.valueOf(membNo));//qna에 대한 내용 확인을 위하 리스트
+        String role = member.getRole().getName().getValue();
+        log.info("role = " + role);
+        List<QnAResponse> comments = new ArrayList<>();
+        List<QnA> qnAS = null;
 
+        if(role.equals("CAFE")){
+            qnAS = repository.findByReceived_no(Long.valueOf(membNo));
+        }else if (role.equals("USER")){
+            qnAS = repository.findByMemberInfo(Long.valueOf(membNo));
+        }
 
+        if(qnAS.size() == 0){
+            return null;
+        }else
         for(int i = 0 ; i<qnAS.size(); i++ ) { //qna에 대한 리스트에서 for문을 돌면서 내용을 찾음
             QnA findQna = qnAS.get(i);
-
-            Cafe cafe = cafeRepository.findById(qnAS.get(i).getReceived_no()).orElseGet(null);
-            Member cafeMem = memberRepository.findById(cafe.getMemberInfo().getMemNo()).orElseGet(null);
+            Member orderMem = null;
+            if(role.equals("CAFE")){
+                orderMem = memberRepository.findById(findQna.getMemberInfo().getMemNo()).orElseGet(null);
+            }else if (role.equals("USER")){
+                orderMem  = memberRepository.findById(findQna.getReceived_no()).orElseGet(null);
+            }
 
             List<QnAComment> qnAComments = commentRepository.findByImg(Math.toIntExact(findQna.getQna_no()));
             QnAComment comment = qnAComments.get(0); //0번째가 desc라서 제일 최신것임.
 
             QnAResponse response = QnAResponse.builder()
                     .qna_no(findQna.getQna_no())
-                    .received_no(findQna.getReceived_no())
-                    .received_img(cafeMem.getMemImg())
                     .type(findQna.getType())
-                    .received_name(cafe.getCafe_name())
-                    .writer(comment.getWriter())
+                    .received_no(orderMem.getMemNo())
+                    .received_name(orderMem.getMemNick())
+                    .received_img(orderMem.getMemImg())
+                    .writer(Long.valueOf(membNo))
+                    .writer_name(member.getMemNick())
+                    .writerImg(member.getMemImg())
                     .content(comment.getContent())
                     .regTime(comment.getRegTime())
                     .regYear(comment.getRegYear())
-                    .received_img(member.getMemImg())
-                    .writerImg(member.getMemImg())
+
                     .build();
 
             comments.add(response);
         }
         return comments;
     }
+
+
 
     @Override
     public void deleteQna(Integer qnaNo) {
@@ -162,4 +175,5 @@ public class QnAServiceImpl implements QnAService {
         log.info("delete qna no : " + qnaNo);
 
     }
+
 }
