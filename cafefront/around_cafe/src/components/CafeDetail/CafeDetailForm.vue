@@ -93,7 +93,10 @@
                           <strong class="badge" aria-label="400개">{{
                             reviews.length
                           }}</strong>
-                          <a class="text-btn">리뷰쓰기</a>
+                          <CafeReviewRegisterPage
+                            class="text-btn"
+                            :cafeNo="cafeNo"
+                          />
                         </header>
 
                         <div class="review-scoreboard">
@@ -213,7 +216,7 @@ import CafeReviewForm from "@/components/CafeReview/CafeReviewForm.vue"
 import CafeDetailSidebar from "@/components/CafeDetail/CafeDetailSidebar.vue"
 import CafeSiteMenuList from "../CafeSite/CafeSiteMenuList.vue"
 import MapKakaoFind from "@/components/Map/MapKakaoFind.vue"
-
+import CafeReviewRegisterPage from "@/views/Cafe/CafeReviewRegisterPage.vue"
 import { mapState, mapActions } from "vuex"
 
 export default {
@@ -224,6 +227,7 @@ export default {
     CafeDetailSidebar,
     CafeSiteMenuList,
     MapKakaoFind,
+    CafeReviewRegisterPage,
   },
   props: {
     reviews: {
@@ -242,6 +246,26 @@ export default {
       type: String,
       required: true,
     },
+  },
+  data() {
+    return {
+      reviewNo: "",
+      basketList: [],
+      page: "",
+      starSum: 0,
+      starAver: 0,
+      ReviewsQuantity: 0,
+      StarPoint1: 0,
+      StarPoint2: 0,
+      StarPoint3: 0,
+      StarPoint4: 0,
+      StarPoint5: 0,
+      StarPoint1Persent: 0,
+      StarPoint2Persent: 0,
+      StarPoint3Persent: 0,
+      StarPoint4Persent: 0,
+      StarPoint5Persent: 0,
+    }
   },
   computed: {
     ...mapState(["menuLists"]),
@@ -267,43 +291,25 @@ export default {
     setTimeout(this.calculatePersentage, 500)
   },
 
-  data() {
-    return {
-      reviewNo: "",
-      basketList: [],
-      page: "",
-      starSum: 0,
-      starAver: 0,
-      ReviewsQuantity: 0,
-      StarPoint1: 0,
-      StarPoint2: 0,
-      StarPoint3: 0,
-      StarPoint4: 0,
-      StarPoint5: 0,
-      StarPoint1Persent: 0,
-      StarPoint2Persent: 0,
-      StarPoint3Persent: 0,
-      StarPoint4Persent: 0,
-      StarPoint5Persent: 0,
-    }
-  },
-
   methods: {
     ...mapActions(["fetchMenuLists"]),
     submitCheckBasketList(CheckBasketList) {
       this.basketList = CheckBasketList
     },
     calculateStarAver() {
-      console.log(this.reviews.length)
-      this.ReviewsQuantity = this.reviews.length
-      for (let i = 0; i < this.ReviewsQuantity; i++) {
-        this.starSum += parseInt(this.reviews[i].star_score)
+      console.log(this.reviewList.length)
+      this.ReviewsQuantity = this.reviewList.length
+      for (let i = 0; i < this.reviewList; i++) {
+        this.starSum += parseInt(this.reviewList[i].star_score)
         // console.log("별점일람")
         // console.log(this.reviews[i].star_score)
       }
       this.starAver = this.starSum / this.ReviewsQuantity
-      // console.log("평균별점")
-      // console.log(this.starAver)
+      if (isNaN(this.starAver)) {
+        this.starAver = 0
+      }
+      console.log("평균별점")
+      console.log(this.starAver)
     },
     calculatePersentage() {
       this.ReviewsQuantity = this.reviews.length
@@ -339,32 +345,5 @@ export default {
 @import "~@/assets/scss/components/detail/detail-content";
 @import "~@/assets/scss/components/review/review-scoreboard";
 @import "~@/assets/scss/components/review/score-stats";
-.image-grid {
-  --gap: 8px;
-  --num-cols: 4;
-  --row-height: 200px;
-  display: grid;
-  padding: var(--gap);
-  grid-template-columns: repeat(var(--num-cols), 1fr);
-  grid-auto-rows: var(--row-height);
-  gap: var(--gap);
-
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 12px !important;
-  }
-}
-.row {
-  grid-column: span 2 !important;
-  grid-row: span 2 !important;
-}
-/* Anything udner 1024px */
-@media screen and (max-width: 1024p) {
-  .image-grid {
-    --num-cols: 2;
-    --row-height: 120px;
-  }
-}
+@import "~@/assets/scss/components/detail/detail-grid";
 </style>
