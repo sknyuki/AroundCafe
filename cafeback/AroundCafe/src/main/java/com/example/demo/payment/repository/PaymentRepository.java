@@ -26,7 +26,7 @@ public interface PaymentRepository extends JpaRepository<Payment,Long> {
     public Optional<Payment> findByPaymentNo(@Param("paymentNo") Long paymentNo);
 
     @Transactional
-    public void deleteByPaymentNo(Long paymentNo);
+    public void deleteByPaymentNo(@Param("paymentNo")Long paymentNo);
 
 
 }
