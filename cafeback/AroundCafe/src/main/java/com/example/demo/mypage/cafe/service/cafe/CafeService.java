@@ -1,5 +1,6 @@
 package com.example.demo.mypage.cafe.service.cafe;
 
+import com.example.demo.mypage.cafe.dto.CafeStarAverResponse;
 import com.example.demo.mypage.cafe.entity.Cafe;
 import com.example.demo.mypage.cafe.entity.CafeImgTable;
 
@@ -22,5 +23,7 @@ public interface CafeService {
     public List<Cafe> cafeList();
 
     public void delete(String cafeNo) throws IOException;
+
+    public List<CafeStarAverResponse> list();
 
 }
