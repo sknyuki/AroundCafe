@@ -9,11 +9,16 @@ import { mapActions, mapState } from "vuex"
 export default {
   components: { ChatForm },
   name: "ChatPage",
+  data() {
+    return {
+      membNo: JSON.parse(localStorage.getItem("user")).memNo,
+    }
+  },
   computed: {
     ...mapState(["qnaLists"]),
   },
   mounted() {
-    this.fetchQnALists(1)
+    this.fetchQnALists(this.membNo)
   },
   methods: {
     ...mapActions(["fetchQnALists"]),

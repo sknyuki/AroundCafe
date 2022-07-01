@@ -40,9 +40,9 @@ export default {
       //console.log(res)
     })
   },
-  fetchcafeBoard({ commit }, memNo) {
+  fetchcafeBoard({ commit }, cafeNo) {
     return axios
-      .get(`http://localhost:7777/cafe/mypage/read/${memNo}`)
+      .get(`http://localhost:7777/cafe/mypage/read/${cafeNo}`)
       .then((res) => {
         commit(FETCH_CAFE_BOARD, res.data)
       })
@@ -64,9 +64,9 @@ export default {
       })
   },
 
-  fetchReviewList({ commit }, cafeNo) {
+  fetchReviewList({ commit }, { cafeNo, memNo }) {
     return axios
-      .get(`http://localhost:7777/cafe/review/list/${cafeNo}`)
+      .get(`http://localhost:7777/cafe/review/list/${cafeNo}/${memNo}`)
       .then((res) => {
         commit(FETCH_REVIEW_LIST, res.data)
       })

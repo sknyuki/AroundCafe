@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class QnADto {
+    private Long memNo;
     private Long received_no;
     private String type;
     private String content;

@@ -91,7 +91,7 @@
                         <header class="detail-section-header">
                           <h1 class="review-title">리뷰</h1>
                           <strong class="badge" aria-label="400개">{{
-                            reviews.length
+                            reviewList.length
                           }}</strong>
                           <a class="text-btn">리뷰쓰기</a>
                         </header>
@@ -179,8 +179,7 @@
                         </div>
 
                         <CafeReviewForm
-                          :reviews="reviews"
-                          :myHelps="myHelps"
+                          :reviewList="reviewList"
                           :cafeNo="cafeNo"
                         />
                       </section>
@@ -226,11 +225,7 @@ export default {
     MapKakaoFind,
   },
   props: {
-    reviews: {
-      type: Array,
-      required: true,
-    },
-    myHelps: {
+    reviewList: {
       type: Array,
       required: true,
     },
@@ -294,10 +289,10 @@ export default {
       this.basketList = CheckBasketList
     },
     calculateStarAver() {
-      console.log(this.reviews.length)
-      this.ReviewsQuantity = this.reviews.length
-      for (let i = 0; i < this.ReviewsQuantity; i++) {
-        this.starSum += parseInt(this.reviews[i].star_score)
+      console.log(this.reviewList.length)
+      this.ReviewsQuantity = this.reviewList.length
+      for (let i = 0; i < this.reviewList; i++) {
+        this.starSum += parseInt(this.reviewList[i].star_score)
         // console.log("별점일람")
         // console.log(this.reviews[i].star_score)
       }
@@ -306,17 +301,17 @@ export default {
       // console.log(this.starAver)
     },
     calculatePersentage() {
-      this.ReviewsQuantity = this.reviews.length
+      this.ReviewsQuantity = this.reviewList.length
       for (let i = 0; i < this.ReviewsQuantity; i++) {
-        if (this.reviews[i].star_score == "1") {
+        if (this.reviewList[i].star_score == "1") {
           this.StarPoint1 += 1
-        } else if (this.reviews[i].star_score == "2") {
+        } else if (this.reviewList[i].star_score == "2") {
           this.StarPoint2 += 1
-        } else if (this.reviews[i].star_score == "3") {
+        } else if (this.reviewList[i].star_score == "3") {
           this.StarPoint3 += 1
-        } else if (this.reviews[i].star_score == "4") {
+        } else if (this.reviewList[i].star_score == "4") {
           this.StarPoint4 += 1
-        } else if (this.reviews[i].star_score == "5") {
+        } else if (this.reviewList[i].star_score == "5") {
           this.StarPoint5 += 1
         }
       }

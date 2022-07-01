@@ -1,8 +1,7 @@
 <template>
   <CafeDetailForm
     :cafeBoard="cafeBoard"
-    :reviews="reviews"
-    :myHelps="myHelps"
+    :reviewList="reviewList"
     :cafeNo="cafeNo"
   />
 </template>
@@ -10,6 +9,7 @@
 <script>
 import CafeDetailForm from "@/components/CafeDetail/CafeDetailForm.vue"
 import { mapState, mapActions } from "vuex"
+import axios from "axios"
 
 export default {
   components: { CafeDetailForm },
@@ -23,20 +23,29 @@ export default {
   data() {
     return {
       membNo: this.$store.state.user.memNo,
+      reviewList: [],
     }
   },
   computed: {
-    ...mapState(["cafeBoard", "reviews", "myHelps"]),
+    ...mapState(["cafeBoard", "myHelps"]),
   },
   mounted() {
     this.fetchcafeBoard(this.cafeNo)
-    this.fetchReviewList(this.cafeNo)
-    this.fetchMyHelpsList(this.membNo)
+    this.fetchReviewList(this.cafeNo, this.membNo)
   },
 
   methods: {
     ...mapActions(["fetchcafeBoard"]),
-    ...mapActions(["fetchReviewList", "fetchMyHelpsList"]),
+    fetchReviewList(cafeNo, memNo) {
+      if (memNo == null) {
+        memNo = 0
+      }
+      axios
+        .get(`http://localhost:7777/cafe/review/list/${cafeNo}/${memNo}`)
+        .then((res) => {
+          this.reviewList = res.data
+        })
+    },
   },
 }
 </script>

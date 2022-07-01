@@ -50,6 +50,15 @@ public class MemberController {
         return memberResponse;
     }
 
+    @GetMapping("/{memNo}")
+    @ResponseStatus(HttpStatus.OK)
+    public MemberResponse getMember(@PathVariable("memNo") Long memNo) {
+        Member member = memberService.findByMemNo(memNo);
+        MemberResponse memberResponse = MemberResponseMapStruct.instance.toDto(member);
+        memberResponse.setRoleType(member.getRole().getName().getValue());
+        return memberResponse;
+    }
+
     @DeleteMapping("/{memNo}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteMember(@PathVariable("memNo") Long memNo) {
