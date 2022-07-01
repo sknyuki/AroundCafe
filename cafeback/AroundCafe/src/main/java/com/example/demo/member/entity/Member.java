@@ -35,7 +35,7 @@ public class Member extends BaseDateTime {
 
     @Column(unique = true)
     private String memNick;
-    private Integer memPoint = 0;
+    private Integer memPoint = 1000;
 
     //이미지 경로 저장
     private String memImg;

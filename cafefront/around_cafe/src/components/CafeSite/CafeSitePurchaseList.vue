@@ -13,7 +13,7 @@
       >
         <div class="order-purchase-list box">
           <div class="order-purchase-list header">
-            <div class="order-purchase-flexbox list-title">Cafe Name</div>
+            <div class="order-purchase-flexbox list-title">{{ cafeInfo.cafe_name }}</div>
           </div>
           <div class="order-purchase-list content">
             <div class="order-purchase-flexbox content">
