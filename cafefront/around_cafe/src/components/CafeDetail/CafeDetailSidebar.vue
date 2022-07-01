@@ -1,15 +1,20 @@
 <template>
   <aside class="detail-sidebar-sticky">
     <dl
-      v-for="basket in basketList"
-      :key="basket.menu_no"
+      v-for="(basket, index) in basketList"
+      :key="index"
       class="detail-sidebar"
     >
       <div class="detail-sidebar-info">
         <div class="detail-sidebar-image">
           <template>
             <img
+              v-if="basket.menu_img != null"
               v-bind:src="require(`@/assets/cafe/cafeMenu/${basket.menu_img}`)"
+            />
+            <img
+              v-else
+              v-bind:src="require(`@/assets/cafe/cafeMenu/imgNull.png`)"
             />
           </template>
         </div>
@@ -26,7 +31,7 @@
       </div>
       <div class="detail-sidebar-price per">
         <dt>
-          <button @click="decreaseQuantity(basket)">-</button>
+          <button @click="decreaseQuantity(basket, index)">-</button>
           <span> {{ basket.per_menu_quantity }} </span>
           <button @click="increaseQuantity(basket)">+</button>
         </dt>
@@ -88,9 +93,9 @@ export default {
         this.totalPrice += this.basketList[i].per_menu_total_price
       }
     },
-    decreaseQuantity(basket) {
+    decreaseQuantity(basket, index) {
       if (basket.per_menu_quantity == 0) {
-        alert("더 이상 줄일 수 없습니다.")
+        this.basketList.splice(index)
       } else {
         basket.per_menu_quantity -= 1
         basket.per_menu_total_price =
