@@ -19,4 +19,7 @@ public interface QnARepository extends JpaRepository<QnA, Long> {
     @Modifying(clearAutomatically = true)
     @Query(value = "delete from qna where qna_no =:qnaNo", nativeQuery = true)
     public void deleteAllById(@Param("qnaNo") Long qnaNo);
+
+    @Query("select q from QnA q where q.received_no =:memNo order by q.qna_no desc")
+    public List<QnA> findByReceived_no(Long memNo);
 }

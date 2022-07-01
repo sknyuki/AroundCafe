@@ -71,10 +71,13 @@
                           }}</strong>
                           <span class="chat-room-cafe">{{ item.type }}</span>
                         </div>
-                        <div>
+                        <div v-if="item.content != null">
                           <span class="chat-room-contents">{{
                             item.content
                           }}</span>
+                        </div>
+                        <div v-else>
+                          <span class="chat-room-contents">이미지</span>
                         </div>
                       </div>
                     </a>
@@ -277,7 +280,7 @@ export default {
 
         axios
           .post(
-            `http://localhost:7777/qnaComment/registerImg/${qnaNo}`,
+            `http://localhost:7777/qnaComment/registerImg/${qnaNo}/${this.membNo}`,
             formData
           )
           .then((response) => {

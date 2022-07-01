@@ -7,9 +7,9 @@
       </section>
       <hr class="order-purchase-line" />
       <section
-        v-for="item in basketList"
-        :key="item.menu_no"
-        class="order-purchase-content-box content"
+          v-for="item in basketList"
+          :key="item.menu_no"
+          class="order-purchase-content-box content"
       >
         <div class="order-purchase-list box">
           <div class="order-purchase-list header">
@@ -18,7 +18,9 @@
           <div class="order-purchase-list content">
             <div class="order-purchase-flexbox content">
               <div class="order-purchase-image holder">
-                <image class="order-purchase-image" v-html="item.menu_img" />
+                <img class="order-purchase-image"
+                     :src = getMenuImage(item.menu_img)
+                     alt = "" />
               </div>
               <div>
                 <div style="margin-bottom: 3px" v-html="item.menu_name" />
@@ -40,31 +42,31 @@
       <section class="order-purchase-content-box content">
         <div class="order-purchase-flexbox content">
           <input
-            :disabled="userInfo.memPoint < minimumPoint"
-            v-model="paymentInfo.totalPointAmount"
-            class="order-purchase-point input"
-            placeholder="포인트"
+              :disabled="userInfo.memPoint < minimumPoint"
+              v-model="paymentInfo.totalPointAmount"
+              class="order-purchase-point input"
+              placeholder="포인트"
           />
           <v-btn
-            class="order-purchase-point btn"
-            :disabled="userInfo.memPoint < minimumPoint"
-            @click="useAllPoint()"
-            >전액사용</v-btn
+              class="order-purchase-point btn"
+              :disabled="userInfo.memPoint < minimumPoint"
+              @click="useAllPoint()"
+          >전액사용</v-btn
           >
           <div class="order-purchase-point text-box">
             <span class="order-purchase-point text">사용 가능 포인트</span>
             <span class="order-purchase-point color-text">{{
-              userInfo.memPoint
-            }}</span>
+                userInfo.memPoint
+              }}</span>
             <span class="order-purchase-point color-text">P</span>
             <span class="order-purchase-point text"
-              >(포인트는 {{ minimumPoint }}P 이상부터 사용 가능합니다)</span
+            >(포인트는 {{ minimumPoint }}P 이상부터 사용 가능합니다)</span
             >
           </div>
         </div>
         <div
-          v-show="isPointValidated === false"
-          class="order-purchase-point validate"
+            v-show="isPointValidated === false"
+            class="order-purchase-point validate"
         >
           {{ pointValidatedMessage }}
         </div>
@@ -77,14 +79,27 @@
       <hr class="order-purchase-line" />
       <section class="order-purchase-content-box content">
         <div class="order-purchase-wrap">
-          <button @click="setPaymentMethod(`CARD`)">
+<<<<<<<<< Temporary merge branch 1
+          <button @click="setPaymentMethod(`CARD`)" >
+=========
+          <button
+            v-for="(orderBtn, index) in orderBtns"
+            :key="index"
+            :class="{ 'is-active': orderBtn.isActive }"
+            @click.native="setPaymentMethod(orderBtn)"
+          >
+>>>>>>>>> Temporary merge branch 2
             <picture>
               <source />
-              <img src="@/assets/images/order/img_card.webp" alt="" />
+              <img :src="orderBtn.img" alt="" />
             </picture>
-            <div>카드</div>
+            <div>{{ orderBtn.name }}</div>
           </button>
+<<<<<<<<< Temporary merge branch 1
+=========
+          <!-- <button @click="setPaymentMethod(`CARD`)"></button>
 
+>>>>>>>>> Temporary merge branch 2
           <button type="button" @click="setPaymentMethod(`BANK`)">
             <picture>
               <source />
@@ -133,7 +148,7 @@
               <img src="@/assets/images/order/img_phone.webp" alt="" />
             </picture>
             <div>핸드폰</div>
-          </button>
+          </button> -->
         </div>
       </section>
     </section>
@@ -146,12 +161,13 @@ import Number2String from "@/utils/number2String"
 export default {
   name: "CafeSitePurchaseList",
   props: {
-    // basketList: { type: Object, required: true },
+    basketList: { type: Array, required: true },
     userInfo: { type: Object, required: true },
-    // cafeInfo: { type: Object, required: true },
+    cafeInfo: { type: Object, required: true },
   },
   data() {
     return {
+      test: "",
       paymentInfo: {
         itemInitName: "",
         paymentMethod: "",
@@ -162,7 +178,60 @@ export default {
         cafeNo: 1,
         memNo: "",
       },
+      orderBtns: [
+        {
+          img: require(`@/assets/images/order/img_card.webp`),
+          name: "카드",
+          isActive: false,
+          type: "CARD",
+        },
+        {
+          img: require(`@/assets/images/order/img_vbank.webp`),
+          name: "무통장 입금",
+          isActive: false,
+          type: "BANK",
+        },
+        {
+          img: require(`@/assets/images/order/img_kakaopay.webp`),
+          name: "카카오페이",
+          isActive: false,
+          type: "KAKAO",
+        },
+        {
+          img: require(`@/assets/images/order/img_toss.webp`),
+          name: "토스",
+          isActive: false,
+          type: "TOSS",
+        },
+        {
+          img: require(`@/assets/images/order/img_payco.webp`),
+          name: "페이코",
+          isActive: false,
+          type: "PAYCO",
+        },
+        {
+          img: require(`@/assets/images/order/img_naver.webp`),
+          name: "네이버",
+          isActive: false,
+          type: "NAVER",
+        },
+        {
+          img: require(`@/assets/images/order/img_chai.webp`),
+          name: "차이",
+          isActive: false,
+          type: "CHAI",
+        },
+        {
+          img: require(`@/assets/images/order/img_phone.webp`),
+          name: "핸드폰",
+          isActive: false,
+          type: "CARD",
+        },
+      ],
+
       minimumPoint: 2000,
+<<<<<<<<< Temporary merge branch 1
+=========
       basketList: [
         {
           menu_content: "",
@@ -185,11 +254,12 @@ export default {
           signature: false,
         },
       ],
-      cafeInfo : {
+      cafeInfo: {
         cafeNo: 1,
         cafeName: "카페",
         totalPrice: 11000,
       },
+>>>>>>>>> Temporary merge branch 2
       isPointValidated: true,
       pointValidatedMessage: "",
     }
@@ -202,16 +272,22 @@ export default {
         quantity: obj.per_menu_quantity,
         amount: obj.per_menu_total_price,
       }
-      // this.paymentInfo.totalAmount += Number(obj.menu_price)
-      this.paymentInfo.totalQuantity += Number(obj.per_menu_quantity)
+      this.paymentInfo.totalQuantity += Number(newOrderItemObj.quantity)
       this.paymentInfo.orderItems.push(newOrderItemObj)
     }, this)
-    this.paymentInfo.itemInitName = `${
-      this.paymentInfo.orderItems[0].itemName
-    } 외 ${this.paymentInfo.totalQuantity - 1}개`
+
+    if(this.basketList.length > 1) {
+      this.paymentInfo.itemInitName = `${
+          this.paymentInfo.orderItems[0].itemName
+      } 외 ${this.paymentInfo.totalQuantity - 1}개`
+    } else {
+      this.paymentInfo.itemInitName = `${
+          this.paymentInfo.orderItems[0].itemName
+      }`
+    }
+
     this.paymentInfo.memNo = this.userInfo.memNo
     this.paymentInfo.totalAmount = this.cafeInfo.totalPrice
-    console.log(this.paymentInfo)
     this.$emit("getPaymentInfo", this.paymentInfo)
   },
   watch: {
@@ -231,44 +307,51 @@ export default {
   methods: {
     useAllPoint() {
       let myPoint = this.userInfo.memPoint
-      if(myPoint >= this.paymentInfo.totalPointAmount) {
+      if (myPoint >= this.paymentInfo.totalPointAmount) {
         this.paymentInfo.totalPointAmount = this.paymentInfo.totalAmount
       } else {
         this.paymentInfo.totalPointAmount = myPoint
       }
     },
-    setPaymentMethod(method) {
-      this.paymentInfo.paymentMethod = method
+    setPaymentMethod(orderBtn) {
+      this.paymentInfo.paymentMethod = orderBtn.type
+      console.log(this.paymentInfo)
     },
     numberToString(number, digit) {
       return Number2String.do(number, digit)
     },
     checkPointValidate() {
       if (
-        this.paymentInfo.totalPointAmount < this.minimumPoint &&
-        this.paymentInfo.totalPointAmount > 0 &&
-        this.paymentInfo.totalPointAmount !== null
+          this.paymentInfo.totalPointAmount < this.minimumPoint &&
+          this.paymentInfo.totalPointAmount > 0 &&
+          this.paymentInfo.totalPointAmount !== null
       ) {
         this.pointValidatedMessage = `${this.numberToString(
-          this.minimumPoint,
-          3
+            this.minimumPoint,
+            3
         )}P 이상의 포인트를 사용하셔야 합니다.`
         this.isPointValidated = false
       } else if (
-        this.paymentInfo.totalPointAmount > this.paymentInfo.totalAmount
+          this.paymentInfo.totalPointAmount > this.paymentInfo.totalAmount
       ) {
         this.pointValidatedMessage =
-          "결제금액보다 더 많은 포인트를 사용하실 수 없습니다."
+            "결제금액보다 더 많은 포인트를 사용하실 수 없습니다."
         this.isPointValidated = false
       } else if (this.paymentInfo.totalPointAmount > this.userInfo.memPoint) {
         this.pointValidatedMessage =
-          "보유하신 포인트보다 더 많은 포인트를 사용하실 수 없습니다."
+            "보유하신 포인트보다 더 많은 포인트를 사용하실 수 없습니다."
         this.isPointValidated = false
       } else {
         this.isPointValidated = true
       }
     },
-    getMenuImage() {},
+    getMenuImage(img) {
+      try {
+        return require(`@/assets/cafe/cafeMenu/${img}`)
+      } catch(_) {
+        return require(`@/assets/cafe/cafeMenu/imgNull.png`)
+      }
+    },
   },
 }
 </script>
