@@ -23,16 +23,18 @@
 export default {
   name: "CafePurchasePopUp",
   created() {
+    this.paymentNo = this.$route.query.paymentNo
     this.paymentResult = this.$route.query.paymentResult
   },
   data() {
     return {
       paymentResult: "",
+      paymentNo: "",
     }
   },
   methods: {
     router2CompletePage() {
-      opener.location.href = "http://localhost:8080/cafe/PurchaseComplete"
+      opener.location.href = `http://localhost:8080/cafe/purchase/complete?paymentNo=${this.paymentNo}`
       window.close()
     },
     router2Main() {

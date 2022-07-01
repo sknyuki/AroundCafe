@@ -6,7 +6,6 @@
 import CafePurchaseComplete from "@/components/CafeSite/CafeSitePurchaseComplete.vue"
 export default {
   name: "CafePurchaseCompletePage",
-
   components: {
     CafePurchaseComplete,
   },

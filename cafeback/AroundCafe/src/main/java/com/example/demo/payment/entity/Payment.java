@@ -23,7 +23,6 @@ public class Payment extends BaseDateTime {
     private Integer totalAmount; // 총 가격
     private Integer totalPointAmount; // 총 포인트 사용
     private Date paymentDate;
-    private Date expTime;
     private PaymentStatus paymentStatus;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "payment", orphanRemoval = true, fetch = FetchType.EAGER)
@@ -36,7 +35,7 @@ public class Payment extends BaseDateTime {
     private Long cafeNo;
 
     @Builder
-    public Payment(String itemInitName, String exPaymentNo, String paymentMethod, Integer totalQuantity, Integer totalAmount, Integer totalPointAmount, Date paymentDate, Date expTime, PaymentStatus paymentStatus, HashSet<OrderItem> orderItem, Member member, Long cafeNo) {
+    public Payment(String itemInitName, String exPaymentNo, String paymentMethod, Integer totalQuantity, Integer totalAmount, Integer totalPointAmount, Date paymentDate, PaymentStatus paymentStatus, HashSet<OrderItem> orderItem, Member member, Long cafeNo) {
         this.itemInitName = itemInitName;
         this.exPaymentNo = exPaymentNo;
         this.paymentMethod = paymentMethod;
@@ -44,7 +43,6 @@ public class Payment extends BaseDateTime {
         this.totalAmount = totalAmount;
         this.totalPointAmount = totalPointAmount;
         this.paymentDate = paymentDate;
-        this.expTime = expTime;
         this.paymentStatus = paymentStatus;
         this.orderItem = orderItem;
         this.member = member;
