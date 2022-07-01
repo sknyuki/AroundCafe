@@ -49,7 +49,7 @@ public class QnACommentServiceImpl implements QnACommentService{
 
 
     @Override
-    public void saveImg(Integer qnaNo, String fileName) {
+    public void saveImg(Integer qnaNo, Integer membNo,String fileName) {
         QnA qnA = qnARepository.findById(Long.valueOf(qnaNo)).orElseGet(null);
 
         QnAComment comment = QnAComment.builder()

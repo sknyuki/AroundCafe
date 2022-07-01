@@ -39,8 +39,9 @@ public class QnACommentController {
 
 
     @ResponseBody
-    @PostMapping(value = "/registerImg/{qnaNo}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
+    @PostMapping(value = "/registerImg/{qnaNo}/{membNo}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
     public void registerImg(@PathVariable("qnaNo") Integer qnaNo,
+                            @PathVariable("membNo") Integer membNo,
                             @RequestPart(value = "fileList", required = false) List<MultipartFile> fileList) {
         log.info("qna no :" + qnaNo);
         log.info("??is that right??");
@@ -55,7 +56,7 @@ public class QnACommentController {
                         "../../cafefront/around_cafe/src/assets/qna/" + fileName);
                 writer.write(multipartFile.getBytes());
                 writer.close();
-                service.saveImg(qnaNo, fileName);
+                service.saveImg(qnaNo, membNo, fileName);
             }
         } catch (IOException e) {
         }
