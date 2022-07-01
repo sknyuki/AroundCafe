@@ -61,12 +61,6 @@ public class QnACommentController {
         }
     }
 
-    @GetMapping("/commentDate/{qnaNo}")
-    public List<String> CommentDateList(@PathVariable("qnaNo") Integer qnaNo) {
-        log.info("comment date list!!");
-
-        return service.dateList(qnaNo);
-    }
 
     @DeleteMapping("/delete/{qnaCommentNo}")
     public void deleteComment(@PathVariable("qnaCommentNo")Integer qnaCommentNo) throws IOException {

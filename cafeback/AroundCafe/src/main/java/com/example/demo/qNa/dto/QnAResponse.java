@@ -11,15 +11,18 @@ public class QnAResponse {
     private String type;
     private String received_name;
     private Long writer;
+    private String writerImg;
+    private String writer_name;
     private String content;
     private String regTime;
     private String regYear;
-    private String writerImg;
+
+
 
     @Builder
     public QnAResponse (Long qna_no, Long received_no, String received_img, String type
     ,String received_name, Long writer, String content, String regTime, String regYear,
-                        String writerImg){
+                        String writerImg,String writer_name){
         this.qna_no = qna_no;
         this.received_no = received_no;
         this.received_img = received_img;
@@ -30,5 +33,6 @@ public class QnAResponse {
         this.regTime = regTime;
         this.regYear = regYear;
         this.writerImg = writerImg;
+        this.writer_name = writer_name;
     }
 }
