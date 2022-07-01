@@ -196,6 +196,7 @@
                 </div>
               </div>
               <div class="detail-content">
+                <h3 class="detail-int-header">위치보기</h3>
                 <MapKakaoFind :cafeBoard="cafeBoard" />
               </div>
             </div>

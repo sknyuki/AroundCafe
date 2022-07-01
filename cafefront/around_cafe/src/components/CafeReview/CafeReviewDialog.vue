@@ -3,7 +3,7 @@
     <div class="review-card">
       <div class="review-card-title">
         리뷰 쓰기
-        <button @click="close">
+        <button @click="close" type="button" aria-label="삭제하기">
           <i class="icClose"></i>
         </button>
       </div>

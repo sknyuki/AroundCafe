@@ -36,7 +36,10 @@
             </div>
           </div>
           <div class="sign-email-btn">
-            <v-btn class="sign-button-vuti" @click="changePw"
+            <v-btn
+              class="sign-button-vuti"
+              @click="changePw"
+              aria-label="비밀번호 변경"
               >비밀번호 변경</v-btn
             >
           </div>

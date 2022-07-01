@@ -5,6 +5,7 @@
         class="modify-button"
         aria-label="해당 메뉴 수정하기"
         @click="modify"
+        type="button"
       >
         <i class="icBell"></i>
       </button>
@@ -88,13 +89,18 @@
             ></textarea>
           </div>
           <div class="menu-register-btn">
-            <v-btn class="btn-indigo btn-32" @click="onModifyMenu"
+            <v-btn
+              type="button"
+              aria-label="수정하기"
+              class="btn-indigo btn-32"
+              @click="onModifyMenu"
               >수정하기</v-btn
             >
             <v-btn
               @click="menuDialog = false"
               class="btn-red btn-32"
               type="button"
+              aria-label="다이얼로그 취소하기"
               >취소하기</v-btn
             >
           </div>

@@ -4,7 +4,7 @@
       v-slot:activator="{ on, attrs }"
       v-if="this.$route.name != 'CafeDetailPage'"
     >
-      <button type="button" v-on="on" v-bind="attrs">
+      <button type="button" aria-label="수정하기" v-on="on" v-bind="attrs">
         <v-icon>mdi-pencil</v-icon>
       </button>
     </template>
@@ -13,7 +13,7 @@
       <div class="review-card">
         <div class="review-card-title">
           리뷰 쓰기
-          <button @click="close()">
+          <button @click="close()" type="button" aria-label="리뷰닫기">
             <i class="icClose"></i>
           </button>
         </div>

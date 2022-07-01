@@ -5,14 +5,14 @@
         <div class="order-history-filter list">
           <ul class="order-history-filter left">
             <li class="order-history-filter item">
-              <button>
+              <button type="button" aria-label="기간">
                 기간
                 <i class="icCaret"></i>
               </button>
             </li>
 
             <li class="order-history-filter item">
-              <button>
+              <button type="button" aria-label="주문상태">
                 주문상태
                 <i class="icCaret"></i>
               </button>
@@ -27,7 +27,9 @@
             <span>{{ order.orderNo }} | </span>{{ order.orderDay }}
           </div>
           <div class="btn-group">
-            <v-btn class="btn-indigo btn-40">리뷰 작성</v-btn>
+            <v-btn type="button" aria-label="리뷰작성" class="btn-indigo btn-40"
+              >리뷰 작성</v-btn
+            >
           </div>
         </div>
         <!-- 내용 -->

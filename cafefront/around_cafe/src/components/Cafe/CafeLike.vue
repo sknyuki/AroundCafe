@@ -1,13 +1,23 @@
 <template>
   <div>
     <div v-if="onLike">
-      <button class="cafe-like-btn" type="button" @click="likeOn()">
+      <button
+        class="cafe-like-btn"
+        type="button"
+        @click="likeOn()"
+        aria-label="카페가 좋아요됨"
+      >
         <i class="icHeartFilled"></i>
       </button>
     </div>
 
     <div v-else>
-      <button class="cafe-like-btn" type="button" @click="likeOn()">
+      <button
+        class="cafe-like-btn"
+        type="button"
+        @click="likeOn()"
+        aria-label="카페가 좋아요"
+      >
         <i class="icHeart"></i>
       </button>
     </div>

@@ -47,7 +47,11 @@
         </a>
 
         <div class="menu-item-btn">
-          <button @click="addToBasket(item)">
+          <button
+            type="button"
+            aria-label="장바구니 담기"
+            @click="addToBasket(item)"
+          >
             <i class="icCart"></i>
           </button>
         </div>

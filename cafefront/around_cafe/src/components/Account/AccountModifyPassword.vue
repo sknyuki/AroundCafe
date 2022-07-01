@@ -50,7 +50,12 @@
               </ValidationProvider>
             </div>
           </div>
-          <v-btn :disabled="invalid" class="sign-button-vuti" type="submit">
+          <v-btn
+            :disabled="invalid"
+            class="sign-button-vuti"
+            type="submit"
+            aria-label="비밀번호 변경하기"
+          >
             비밀번호 변경하기
           </v-btn>
         </form>

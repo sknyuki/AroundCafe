@@ -32,6 +32,8 @@
                 class="delete-button"
                 x-small
                 fab
+                type="button"
+                aria-label="삭제하기"
                 v-show="deleteBtn === index"
                 @click="deletsList(item)"
               >

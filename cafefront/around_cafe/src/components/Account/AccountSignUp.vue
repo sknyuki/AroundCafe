@@ -52,6 +52,7 @@
                       :disabled="username.length < 1 || errors.length !== 0"
                       class="sign-button-vuti"
                       :validate="(usernameDupChecked = true)"
+                      aria-label="상호명(법인명) 중복확인"
                     >
                       상호명(법인명) 중복확인
                     </v-btn>
