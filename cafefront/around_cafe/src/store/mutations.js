@@ -21,6 +21,7 @@ import {
   FETCH_LIKES_LIST,
   FETCH_MY_LIKES_LIST,
   FETCH_LIKES_ID_LISTS,
+  FETCH_MAIN_LIST,
 } from "./mutation-types"
 
 export default {
@@ -97,5 +98,9 @@ export default {
   },
   [FETCH_LIKES_ID_LISTS](state, likesIdLists) {
     state.likesIdLists = likesIdLists
+  },
+
+  [FETCH_MAIN_LIST](state, mainlist) {
+    state.mainlist = mainlist
   },
 }

@@ -1,5 +1,6 @@
 package com.example.demo.mypage.cafe.controller;
 
+import com.example.demo.mypage.cafe.dto.CafeStarAverResponse;
 import com.example.demo.mypage.cafe.entity.Cafe;
 import com.example.demo.mypage.cafe.entity.CafeImgTable;
 import com.example.demo.mypage.cafe.service.cafe.CafeService;
@@ -84,6 +85,12 @@ public class CafeController {
         log.info("delete cafe info");
 
         service.delete(cafeNo);
+    }
+
+    @GetMapping("/main/list")
+    public List<CafeStarAverResponse> list(){
+        log.info("요청이 들어왔습니다. ");
+        return service.list();
     }
 
 }
