@@ -1,11 +1,10 @@
 <template>
   <div>
-    <CafeReviewList :reviewList="reviewList" :myHelps="myHelps" />
+    <CafeReviewList :reviewList="reviewList" />
   </div>
 </template>
 <script>
 import CafeReviewList from "@/components/CafeReview/CafeReviewList.vue"
-import { mapActions, mapState } from "vuex"
 import axios from "axios"
 
 export default {
@@ -18,19 +17,11 @@ export default {
       reviewList: [],
     }
   },
-  computed: {
-    ...mapState(["reviews", "myHelps"]),
-  },
-
   mounted() {
-    this.fetchMyHelpsList(this.writer)
-    setTimeout(() => {
-      this.fetchReviewList(this.cafeNo, this.writer)
-    }, 10)
+    this.fetchReviewList(this.cafeNo, this.writer)
   },
 
   methods: {
-    ...mapActions(["fetchMyHelpsList"]),
     fetchReviewList(cafeNo, memNo) {
       if (memNo == null) {
         this.memNo = 0
