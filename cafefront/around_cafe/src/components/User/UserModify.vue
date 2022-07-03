@@ -1,8 +1,10 @@
 <template>
   <div class="edit">
-    <img-box class="mb-10" />
     <div class="container">
       <div class="row">
+        <div class="col-sm-12">
+          <ImgBox />
+        </div>
         <div class="col-sm-4 col-md-3 col-lg-3">
           <UserSidebar />
         </div>
@@ -28,6 +30,7 @@ export default {
       writer: JSON.parse(localStorage.getItem("user")).memNo,
     }
   },
+
   methods: {
     onSumbit(payload) {
       const { memId, memNick, phoneNum, memBirth, files } = payload
