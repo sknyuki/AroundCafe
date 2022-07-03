@@ -31,14 +31,14 @@
               </template>
 
               <template v-else>
-                <div v-if="onLogin">
+                <!-- <div v-if="isLogin">
                   <CafeLike
                     class="cafe-item-btn"
                     :cafeItem="cafeItem"
                     :myLikes="myLikes"
                     :key="index"
                   />
-                </div>
+                </div> -->
                 <router-link
                   :to="{
                     name: 'CafeDetailPage',
@@ -139,7 +139,7 @@
 <script>
 import { swiper, swiperSlide } from "vue-awesome-swiper"
 import SkeletonBox from "@/components/SkeletonBox.vue"
-import CafeLike from "@/components/Cafe/CafeLike"
+//import CafeLike from "@/components/Cafe/CafeLike"
 import "swiper/dist/css/swiper.min.css"
 
 export default {
@@ -149,15 +149,11 @@ export default {
     swiper,
     swiperSlide,
     SkeletonBox,
-    CafeLike,
+    //CafeLike,
   },
 
   props: {
     mainlist: {
-      type: Array,
-      required: true,
-    },
-    myLikes: {
       type: Array,
       required: true,
     },
@@ -187,19 +183,19 @@ export default {
           nextSlideMessage: "다음 슬라이드",
         },
       },
-      membNo: JSON.parse(localStorage.getItem("user")).memNo,
+      //membNo: JSON.parse(localStorage.getItem("user")).memNo,
       cafeNo: "",
+      isLogin: false,
     }
   },
   methods: {
-    onLogin() {
-      if (this.membNo != "") {
-        this.onLogin = true
-      } else {
-        this.onLogin = false
-      }
-    },
-
+    // onLogin() {
+    //   if (this.JSON.parse(localStorage.getItem("user")).memNo != "") {
+    //     this.isLogin = true
+    //   } else {
+    //     this.isLogin = false
+    //   }
+    // },
     // methods: {
     //   show: function () {
     //     this.isLoading = !this.isLoading

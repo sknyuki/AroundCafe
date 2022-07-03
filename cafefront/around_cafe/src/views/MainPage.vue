@@ -1,17 +1,15 @@
 <template>
-  <div v-if="!isLogin">
-    <CafeCard :mainlist="mainlist" />
-  </div>
-  <div v-else>
-    <CafeCard :mainlist="mainlist" :myLikes="myLikes" />
-  </div>
+  <CafeCard :mainlist="mainlist" v-if="!isLogin" />
+
+  <MainLoginPage v-else />
 </template>
 <script>
 import CafeCard from "@/components/Cafe/CafeCard.vue"
+import MainLoginPage from "@/views/MainLoginPage.vue"
 import { mapState, mapActions } from "vuex"
 
 export default {
-  components: { CafeCard },
+  components: { CafeCard, MainLoginPage },
   data() {
     return {
       membNo: JSON.parse(localStorage.getItem("user")).memNo,
@@ -19,23 +17,22 @@ export default {
     }
   },
   computed: {
-    ...mapState(["myLikes", "mainlist"]),
+    ...mapState(["mainlist"]),
   },
   mounted() {
     // this.fetchcafeBoardList()
     this.fetchMainList()
     this.onLogin()
-
     //
   },
   methods: {
-    ...mapActions(["fetchMyLikesList", "fetchMainList"]),
+    ...mapActions(["fetchMainList"]),
     onLogin() {
       if (this.membNo != null) {
         this.isLogin = true
-        this.fetchMyLikesList(this.membNo)
+        //  this.fetchMyLikesList(this.membNo)
       } else {
-        this.onLogin = false
+        this.isLogin = false
       }
     },
   },
