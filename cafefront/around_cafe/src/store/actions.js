@@ -5,6 +5,7 @@ import {
   FETCH_CAFE_IMG_LISTS,
   FETCH_REVIEW_LIST,
   FETCH_USER_REVIEW_LIST,
+  FETCH_CAFE_REVIEW_LIST,
   FETCH_REVIEW,
   FETCH_HELPS_LIST,
   FETCH_QNA_LIST,
@@ -85,6 +86,13 @@ export default {
       .get(`http://localhost:7777/cafe/review/${reviewNo}`)
       .then((res) => {
         commit(FETCH_REVIEW, res.data)
+      })
+  },
+  fetchCafeReviewList({ commit }, cafeNo) {
+    return axios
+      .get(`http://localhost:7777/cafe/likes/list/${cafeNo}`)
+      .then((res) => {
+        commit(FETCH_CAFE_REVIEW_LIST, res.data)
       })
   },
   fetchHelpsList({ commit }, reviewNo) {

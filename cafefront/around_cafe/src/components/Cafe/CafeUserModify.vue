@@ -3,7 +3,7 @@
     <div class="container">
       <div class="row">
         <div class="col-sm-12">
-          <ImgBox :userInfo="userInfo" :cafeBoard="cafeBoard" />
+          <ImgBox />
         </div>
         <div class="col-sm-4 col-md-3 col-lg-3">
           <CafeSidebar />
@@ -25,16 +25,7 @@ import axios from "@/plugins/axiosInterceptors"
 export default {
   name: "CafeEditMemberInfo",
   components: { ImgBox, CafeSidebar, AccountModifyInfo },
-  props: {
-    userInfo: {
-      type: Object,
-      required: true,
-    },
-    cafeBoard: {
-      type: Object,
-      required: true,
-    },
-  },
+
   data() {
     return {
       writer: JSON.parse(localStorage.getItem("user")).memNo,

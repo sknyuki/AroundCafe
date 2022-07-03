@@ -55,28 +55,58 @@
             <span class="text">Point</span>
           </div>
         </div>
+
+        <div class="d-none d-md-flex" v-else>
+          <div class="text-center">
+            <span class="number">{{ this.reviewList.length }}</span>
+            <span class="text">Reviews</span>
+          </div>
+
+          <div class="text-center">
+            <span class="number">{{ cafeReviews.length }}</span>
+            <span class="text">Like</span>
+          </div>
+
+          <div class="text-center">
+            <span class="number">{{ menuLists.length }}</span>
+            <span class="text">Menus</span>
+          </div>
+        </div>
       </div>
     </v-img>
   </div>
 </template>
 <script>
 import { mapActions, mapState } from "vuex"
+import axios from "axios"
+
 export default {
   name: "ImgBox",
   data() {
     return {
       memNo: this.$store.state.user.memNo,
       cafeNo: this.$store.state.user.cafeNo,
+      reviewList: [],
     }
   },
   computed: {
-    ...mapState(["userInfo", "cafeBoard", "myLikes", "userReviews"]),
+    ...mapState([
+      "userInfo",
+      "cafeBoard",
+      "myLikes",
+      "userReviews",
+      "menuLists",
+      "cafeReviews",
+    ]),
   },
   mounted() {
     this.fetchUserInfo()
     this.fetchMyLikesList(this.memNo)
     this.fetchcafeBoard(this.cafeNo)
     this.fetchUserReviewList(this.memNo)
+    this.fetchMenuLists(this.cafeNo)
+    this.fetchReviewList(this.cafeNo, this.memNo)
+    this.fetchCafeReviewList(this.cafeNo)
   },
   methods: {
     ...mapActions([
@@ -84,7 +114,20 @@ export default {
       "fetchcafeBoard",
       "fetchMyLikesList",
       "fetchUserReviewList",
+      "fetchMenuLists",
+      "fetchCafeReviewList",
     ]),
+    fetchReviewList(cafeNo, memNo) {
+      if (memNo == null) {
+        this.memNo = 0
+      }
+
+      axios
+        .get(`http://localhost:7777/cafe/review/list/${cafeNo}/${memNo}`)
+        .then((res) => {
+          this.reviewList = res.data
+        })
+    },
   },
 }
 </script>
