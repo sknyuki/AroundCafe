@@ -45,16 +45,19 @@
                     <i class="icSearch" aria-hidden="true"></i>
                   </v-btn>
 
-                  <v-btn
-                    icon
-                    class="gnb-icon-button"
-                    aria-label="좋아요 페이지로 이동"
+                  <router-link
+                    :to="{ name: 'UserLikePage' }"
+                    style="text-decoration: none"
                   >
-                    <a>
+                    <v-btn
+                      icon
+                      class="gnb-icon-button"
+                      aria-label="좋아요 페이지로 이동"
+                    >
                       <i class="icHeart"></i>
-                      <strong class="badge">1</strong>
-                    </a>
-                  </v-btn>
+                      <strong class="badge">{{ myLikes.length }}</strong>
+                    </v-btn>
+                  </router-link>
 
                   <!-- 로그인을 하지 않은 경우 -->
                   <div class="gnb-login sm-hidden">
@@ -131,20 +134,23 @@ export default {
           link: "/login",
         },
       ],
+      membNo: JSON.parse(localStorage.getItem("user")).memNo,
+
       memImg: "",
       findKakao: "",
     }
   },
   computed: {
-    ...mapState(["user", "userInfo"]),
+    ...mapState(["user", "userInfo", "myLikes"]),
   },
-  mounted() {
-    this.fetchUser()
-    this.fetchUserInfo()
-    setTimeout(this.change, 70)
+  async mounted() {
+    await this.fetchUser()
+    await this.fetchUserInfo()
+    this.change()
+    this.fetchMyLikesList(this.membNo)
   },
   methods: {
-    ...mapActions(["fetchUser", "fetchUserInfo"]),
+    ...mapActions(["fetchUser", "fetchUserInfo", "fetchMyLikesList"]),
     toggleMyMenu() {
       this.isActive = !this.isActive
     },
