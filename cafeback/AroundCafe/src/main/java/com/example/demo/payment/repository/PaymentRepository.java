@@ -17,7 +17,7 @@ import java.util.Set;
 public interface PaymentRepository extends JpaRepository<Payment,Long> {
 
     @Query("select m from Payment m where m.member = :member")
-    public List<Payment> findAllByMember(@Param("memNo") Member member);
+    public List<Payment> findAllByMember(@Param("member") Member member);
 
     @Query("select m from Payment m where m.cafeNo = :cafeNo")
     public List<Payment> findAllByCafeNo(@Param("cafeNo") Long cafeNo);
