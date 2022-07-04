@@ -39,7 +39,7 @@
           </div>
         </div>
 
-        <div class="d-none d-md-flex" v-if="cafeBoard.address == null">
+        <div class="d-none d-md-flex" v-if="cafeNo == null">
           <div class="text-center">
             <span class="number">{{ userReviews.length }}</span>
             <span class="text">Reviews</span>

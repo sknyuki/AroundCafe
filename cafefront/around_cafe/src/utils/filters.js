@@ -1,60 +1,4 @@
 // 필터 관련 함수가 존재하는 파일
-export function phoneNumber(phoneNumber) {
-  if (!phoneNumber) return phoneNumber
-
-  phoneNumber = phoneNumber.replace(/[^0-9]/g, "")
-
-  let tmp = ""
-  if (phoneNumber.length < 4) {
-    return phoneNumber
-  } else if (phoneNumber.length < 7) {
-    tmp += phoneNumber.substr(0, 3)
-    tmp += "-"
-    tmp += phoneNumber.substr(3)
-    return tmp
-  } else if (phoneNumber.length == 8) {
-    tmp += phoneNumber.substr(0, 4)
-    tmp += "-"
-    tmp += phoneNumber.substr(4)
-    return tmp
-  } else if (phoneNumber.length < 10) {
-    if (phoneNumber.substr(0, 2) == "02") {
-      //02-123-5678
-      tmp += phoneNumber.substr(0, 2)
-      tmp += "-"
-      tmp += phoneNumber.substr(2, 3)
-      tmp += "-"
-      tmp += phoneNumber.substr(5)
-      return tmp
-    }
-  } else if (phoneNumber.length < 11) {
-    if (phoneNumber.substr(0, 2) == "02") {
-      //02-1234-5678
-      tmp += phoneNumber.substr(0, 2)
-      tmp += "-"
-      tmp += phoneNumber.substr(2, 4)
-      tmp += "-"
-      tmp += phoneNumber.substr(6)
-      return tmp
-    } else {
-      //010-123-4567
-      tmp += phoneNumber.substr(0, 3)
-      tmp += "-"
-      tmp += phoneNumber.substr(3, 3)
-      tmp += "-"
-      tmp += phoneNumber.substr(6)
-      return tmp
-    }
-  } else {
-    //010-1234-5678
-    tmp += phoneNumber.substr(0, 3)
-    tmp += "-"
-    tmp += phoneNumber.substr(3, 4)
-    tmp += "-"
-    tmp += phoneNumber.substr(7)
-    return tmp
-  }
-}
 
 export function pricePoint(pricePoint) {
   return pricePoint.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
@@ -62,4 +6,43 @@ export function pricePoint(pricePoint) {
 
 export function ratingPoint(ratingPoint) {
   return ratingPoint.toString().replace(/\B(?=(\d{1})+(?!\d))/g, ".")
+}
+
+export function yyyyMMdd(value) {
+  if (value == "") return ""
+
+  var js_date = new Date(value)
+
+  var year = js_date.getFullYear()
+  var month = js_date.getMonth() + 1
+  var day = js_date.getDate()
+
+  if (month < 10) {
+    month = "0" + month
+  }
+
+  if (day < 10) {
+    day = "0" + day
+  }
+
+  return year + "-" + month + "-" + day
+}
+
+export function HHmm(value2) {
+  if (value2 == "") return ""
+
+  var js_time = new Date(value2)
+
+  var hour = js_time.getHours()
+  var min = js_time.getMinutes()
+
+  if (hour < 10) {
+    hour = "0" + hour
+  }
+
+  if (min < 10) {
+    min = "0" + min
+  }
+
+  return hour + ":" + min
 }

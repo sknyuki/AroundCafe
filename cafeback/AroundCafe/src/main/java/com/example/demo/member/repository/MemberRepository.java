@@ -24,4 +24,7 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     @Modifying
     @Query("update Member m set m.memPoint = :memPoint where m.memNo = :memNo")
     void updateMemberPoint(@Param("memNo") Long memNo, @Param("memPoint") Integer memPoint);
+
+    @Query("select m from Member m join fetch m.cafe c where c.cafeNo = :received_no")
+    Optional<Member> findByIdFromCafeNo(@Param("received_no") Long received_no);
 }

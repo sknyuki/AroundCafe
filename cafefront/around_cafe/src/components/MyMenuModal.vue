@@ -115,7 +115,7 @@ export default {
         {
           id: 4,
           title: "주문 리스트",
-          link: "",
+          link: "/cafe/order/list",
         },
         {
           id: 5,

@@ -7,9 +7,18 @@
             <div class="chat-left">
               <nav class="chat-sidebar">
                 <a href="">
-                  <div class="avatar-48">
+                  <div
+                    class="avatar-48"
+                    v-if="
+                      !qnaLists ||
+                      (Array.isArray(qnaLists) && qnaLists.length === 0)
+                    "
+                  >
+                    <img src="@/assets/images/avatar.webp" alt="" />
+                  </div>
+                  <div class="avatar-48" v-else>
                     <img
-                      v-if="qnaLists[0].writerImg == null"
+                      v-if="qnaLists[0].writerImg === null"
                       src="@/assets/images/avatar.webp"
                       alt=""
                     />
@@ -33,7 +42,26 @@
                 </div>
 
                 <!-- 채팅방룸 -->
-                <ul class="chat-room-msg">
+                <ul class="chat-room-msg" v-if="qnaLists === null">
+                  <li class="chat-room-list">
+                    <v-btn class="delete-button">
+                      <i class="icClose"></i>
+                    </v-btn>
+                    <a>
+                      <div class="chat-room-img"></div>
+                      <div class="chat-room-box">
+                        <div class="chat-room-wrapper">
+                          <strong class="chat-room-nick"> </strong>
+                          <span class="chat-room-cafe"></span>
+                        </div>
+                        <div>
+                          <span class="chat-room-contents"></span>
+                        </div>
+                      </div>
+                    </a>
+                  </li>
+                </ul>
+                <ul class="chat-room-msg" v-else>
                   <li
                     v-for="(item, index) in qnaLists"
                     :key="index"
@@ -50,7 +78,7 @@
                     >
                       <i class="icClose"></i>
                     </v-btn>
-                    <a @click="sendQnaNo(item)">
+                    <a @click="sendQnaNo(item, index)">
                       <div class="chat-room-img">
                         <img
                           v-if="item.received_img == null"
@@ -111,14 +139,14 @@
                   <div class="chat-normal-header">
                     <div class="avatar-40">
                       <img
-                        v-if="qnaLists[0].received_img == null"
+                        v-if="qnaLists[selectQna].received_img == null"
                         src="@/assets/images/avatar.webp"
                         alt=""
                       />
                       <img
                         v-else
                         v-bind:src="
-                          require(`@/assets/images/memberImg/${qnaLists[0].received_img}`)
+                          require(`@/assets/images/memberImg/${qnaLists[selectQna].received_img}`)
                         "
                       />
                     </div>
@@ -128,22 +156,33 @@
                   </div>
 
                   <div
-                    v-for="item in qnaList"
-                    :key="item.qna_no"
+                    v-for="(item, index) in qnaList"
+                    :key="index"
                     class="chat-box list"
                   >
+                    <div v-if="index == 0">
+                      {{ qnaList[index].regYear }}
+                    </div>
+                    <div
+                      v-if="
+                        index > 0 &&
+                        qnaList[index].regYear != qnaList[index - 1].regYear
+                      "
+                    >
+                      {{ qnaList[index].regYear }}
+                    </div>
                     <!-- 상대방 -->
                     <div v-if="item.writer != membNo" class="chat-box opponent">
                       <div class="avatar-48">
                         <img
-                          v-if="qnaLists[0].received_img == null"
+                          v-if="qnaLists[selectQna].received_img == null"
                           src="@/assets/images/avatar.webp"
                           alt=""
                         />
                         <img
                           v-else
                           v-bind:src="
-                            require(`@/assets/images/memberImg/${qnaLists[0].received_img}`)
+                            require(`@/assets/images/memberImg/${qnaLists[selectQna].received_img}`)
                           "
                         />
                       </div>
@@ -252,6 +291,8 @@ export default {
       testBtn: false,
       num: "",
       nickname: JSON.parse(localStorage.getItem("user")).nickname,
+      selectQna: "",
+      minusIndex: "",
     }
   },
   watch: {
@@ -347,8 +388,10 @@ export default {
           alert("문의사항 등록에 실패하였습니다.")
         })
     },
-    sendQnaNo(item) {
+    sendQnaNo(item, index) {
       this.checkQnaNo = item.qna_no
+      this.selectQna = index
+      this.minusIndex = index - 1
       axios
         .get(`http://localhost:7777/qna/memberRead/${this.checkQnaNo}`)
         .then((res) => {
