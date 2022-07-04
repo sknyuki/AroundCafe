@@ -89,11 +89,7 @@
                         </div>
                       </button>
                     </div>
-                    <MyMenuModal
-                      :menuModal="menuModal"
-                      :class="{ active: isActive }"
-                      :user="user"
-                    />
+                    <MyMenuModal :class="{ active: isActive }" />
                   </div>
                 </div>
               </div>
@@ -122,20 +118,6 @@ export default {
     return {
       drawer: false,
       isActive: false,
-      menuModal: [
-        {
-          id: 1,
-          title: "회원가입",
-          link: "/sign",
-        },
-        {
-          id: 2,
-          title: "로그인",
-          link: "/login",
-        },
-      ],
-      membNo: JSON.parse(localStorage.getItem("user")).memNo,
-
       memImg: "",
       findKakao: "",
     }
@@ -144,10 +126,9 @@ export default {
     ...mapState(["user", "userInfo", "myLikes"]),
   },
   async mounted() {
-    await this.fetchUser()
     await this.fetchUserInfo()
     this.change()
-    this.fetchMyLikesList(this.membNo)
+    this.fetchMyLikesList(this.user.memNo)
   },
   methods: {
     ...mapActions(["fetchUser", "fetchUserInfo", "fetchMyLikesList"]),
