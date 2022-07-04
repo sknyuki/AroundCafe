@@ -105,7 +105,7 @@
                               <StarRating
                                 v-model="this.starAver"
                                 :inline="true"
-                                :increment="0.01"
+                                :increment="0.1"
                                 :read-only="true"
                                 :star-size="32"
                                 :incremane="0.1"

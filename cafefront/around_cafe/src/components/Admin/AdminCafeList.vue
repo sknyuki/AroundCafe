@@ -11,34 +11,36 @@
         <div class="col-sm-4 col-md-9 col-lg-9">
           <div class="member-list">
             <header class="member-list-header">
-              <h2>회원관리</h2>
+              <h2>카페관리</h2>
             </header>
             <table class="member-list-table">
               <thead>
                 <tr>
                   <th scope="col" align="center" style="width: 30px">No</th>
-                  <th scope="col" align="center" style="width: 80px">아이디</th>
-                  <th scope="col" align="center" style="width: 120px">
-                    닉네임
-                  </th>
+                  <th scope="col" align="center" style="width: 80px">카페명</th>
+                  <th scope="col" align="center" style="width: 120px">주소</th>
                   <th scope="col" align="center" style="width: 40px">
-                    생년월일
+                    영업시간
                   </th>
                   <th scope="col" align="center" style="width: 70px">연락처</th>
-                  <th scope="col" align="center" style="width: 40px">권한</th>
+                  <th scope="col" align="center" style="width: 50px">
+                    사업자 번호
+                  </th>
                   <th scope="col" align="center" style="width: 40px">
-                    블랙여부
+                    평균 별점
                   </th>
                 </tr>
               </thead>
-              <tbody v-for="(member, index) in listData" :key="index">
-                <tr v-if="member.name != ADMIN">
-                  <td align="center">{{ member.memNo }}</td>
-                  <td align="center">{{ member.memId }}</td>
-                  <td align="center">{{ member.memNick }}</td>
-                  <td align="center">{{ member.memBirth }}</td>
-                  <td align="center">{{ member.phoneNum }}</td>
-                  <td align="center">{{ member.name }}</td>
+              <tbody v-for="(cafe, index) in listData" :key="index">
+                <tr>
+                  <td align="center">{{ cafe.cafeNo }}</td>
+                  <td align="center">{{ cafe.cafe_name }}</td>
+                  <td align="center">{{ cafe.address }}</td>
+                  <td align="center">{{ cafe.cafe_time }}</td>
+                  <td align="center">{{ cafe.cafe_call }}</td>
+                  <td align="center">{{ cafe.cafe_bis_no }}</td>
+                  <td align="center">{{ cafe.starAver }}</td>
+                  <!-- <td align="center">{{ cafe.name }}</td>
                   <td align="center">
                     <div v-if="!member.isblack">
                       <v-btn class="btn-red" @click="ToBlackList(index)">
@@ -50,7 +52,7 @@
                         <v-icon>mdi-account-convert </v-icon> take back
                       </v-btn>
                     </div>
-                  </td>
+                  </td> -->
                 </tr>
               </tbody>
             </table>
@@ -85,25 +87,25 @@ export default {
     }
   },
   computed: {
-    ...mapState(["adminlist"]),
+    ...mapState(["mainlist"]),
   },
   async mounted() {
-    await this.fetchAdminMemberList()
+    await this.fetchMainList()
     this.pagingMethod(this.page)
   },
   methods: {
-    ...mapActions(["fetchAdminMemberList"]),
+    ...mapActions(["fetchMainList"]),
     pagingMethod(page) {
-      this.listData = this.adminlist.slice(
+      this.listData = this.mainlist.slice(
         (page - 1) * this.limit,
         page * this.limit
       )
       this.page = page
-      let total = this.adminlist.length
+      let total = this.mainlist.length
       this.pageDataSetting(total, this.limit, this.block, page)
     },
     pageDataSetting(total, limit, block, page) {
-      total = this.adminlist.length
+      total = this.mainlist.length
       const totalPage = Math.ceil(total / limit)
       let currentPage = page
       const first =
@@ -121,30 +123,6 @@ export default {
         list.push(index)
       }
       return { first, end, list, currentPage }
-    },
-    ToBlackList(index) {
-      var result = confirm("블랙리스틀로 등록하시겠습니까?")
-      if (result) {
-        this.adminlist[index].isblack = true
-      }
-      this.$router.go()
-
-      // axios
-      //   .post(
-      //     `http://localhost:7777/cafe/like/${this.review.reviewNo}/${this.membNo}`),
-      //     {},
-      //     {
-      //       headers: {
-      //         "Content-Type": "application/json",
-      //       },
-      //     }
-    },
-    TakeBack(index) {
-      var result = confirm("블랙리스트를 해제 하겠습니까?")
-      if (result) {
-        this.adminlist[index].isblack = false
-      }
-      this.$router.go()
     },
   },
 }

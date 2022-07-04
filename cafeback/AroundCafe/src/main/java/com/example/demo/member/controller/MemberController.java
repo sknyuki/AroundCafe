@@ -1,5 +1,6 @@
 package com.example.demo.member.controller;
 
+import com.example.demo.member.dto.MemberBlackResponse;
 import com.example.demo.member.dto.MemberDto;
 import com.example.demo.member.dto.MemberResponse;
 import com.example.demo.member.entity.Member;
@@ -96,5 +97,21 @@ public class MemberController {
         Member member = memberService.findByMemNo(memberDto.getMemNo());
         memberService.changeMemberPassword(member, memberDto.getMemPw());
     }
+    @GetMapping("/admin/memberlist")
+    @ResponseStatus(HttpStatus.OK)
+        public List<MemberBlackResponse> list(){
+
+        log.info("adminlist");
+        return memberService.list();
+    }
+
+    //블랙 리스트 설정
+
+    @PostMapping("/{memNo}")
+    public boolean balckToTrue (@PathVariable("memNo") Long membNo) {
+        log.info ("black check" );
+        return memberService.balckToTrue(membNo);
+    }
+
 }
 

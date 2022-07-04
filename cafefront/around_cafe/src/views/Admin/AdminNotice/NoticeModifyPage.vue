@@ -13,7 +13,7 @@
 <script>
 import { mapActions, mapState } from "vuex"
 import axios from "axios"
-import NoticeModifyForm from "@/components/ManagementSystem/noticeBoard/NoticeModifyForm.vue"
+import NoticeModifyForm from "@/components/Admin/AdminNoticeComponents/NoticeModifyForm.vue"
 export default {
   name: "NoticeModifyPage",
   components: {
