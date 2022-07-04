@@ -19,6 +19,7 @@ public interface MemberRoleRepository extends JpaRepository<MemberRole, Long> {
     Optional<MemberRole> findByName(MemberRoleType name);
     List<MemberRole> findAllByName(MemberRoleType name);
 
+
 //    @Transactional
 //    @Query(value = "select * from member_roles where role = :membNo", nativeQuery = true)
 //    Optional<MemberRole> findByRole(@Param("membNo") Long membNo);

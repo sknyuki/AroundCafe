@@ -23,6 +23,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -68,7 +69,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public Boolean existsByMemId(String memId){
+    public Boolean existsByMemId(String memId) {
         return memberRepository.existsByMemId(memId);
     }
 
@@ -87,6 +88,7 @@ public class MemberServiceImpl implements MemberService {
         }
         return members;
     }
+
     @Override
     public void changeMemberPassword(Member member, String password) {
         member.setMemPw(passwordEncoder.encode(password));
@@ -99,7 +101,7 @@ public class MemberServiceImpl implements MemberService {
 
         //수정한 디테일에 이미지가 있고 + 기존에 저장한 이미지가 있다면, 기존 이미지 삭제 후 수정 이미지를 저장한다.
         //추가, 카톡 이미지는 http형식이기 때문에 삭제하지 않고 덮어씌우기 한다.
-        if(member.getMemImg().indexOf("k.kakaocdn.net") < 5) {
+        if (member.getMemImg().indexOf("k.kakaocdn.net") < 5) {
             Path filePath = Paths.get("../../cafefront/around_cafe/src/assets/images/memberImg/" + member.getMemImg());
             Files.delete(filePath);
             log.info("file delete complete");
@@ -125,20 +127,35 @@ public class MemberServiceImpl implements MemberService {
         member.setMemBirth(memberDto.getMemBirth());
         memberRepository.save(member);
     }
-//멤버+블랙 조회 태호씨에게 질문
-//    @Transactional
+
+    //멤버+블랙 조회 태호씨에게 질문
+    @Transactional
+    @Override
+    public List<MemberBlackResponse> list() {
+        List<Member> memberList = memberRepository.findAll();
+        List<MemberBlackResponse> memberBlackResponses = new ArrayList<>();
+
+        for (Member member : memberList) {
+            MemberBlackResponse memberBlackResponse = MemberBlackResponseStruct.instance.toDto(member);
+            memberBlackResponse.setIsMemberOnBlacklist(member.getRole().getIsMemberOnBlacklist());
+            memberBlackResponse.setName(member.getRole().getName().getValue());
+            memberBlackResponses.add(memberBlackResponse);
+
+            }
+
+        return memberBlackResponses;
+    }
+
+    @Override
+    public boolean balckToTrue(Long membNo) {
+        return false;
+    }
+
 //    @Override
-//    public List<MemberBlackResponse> list(){
-//        List<Member> memberList=memberRepository.findAll();
-//        List<MemberBlackResponse> memberBlackResponses=new ArrayList<>();
-//
-//        for(Member member: memberList){
-//            MemberBlackResponse memberBlackResponse= MemberBlackResponseStruct.instance.toDto(Member);
-//          List<MemberRole> memberRoleList=MemberRoleRepository.findById(member.getMemId());
-//            memberBlackResponse.
-//
-//
-//            }
-//        }
-//    }
+//    public boolean balckToTrue (Long membNo){
+//        MemberRole memberRole=findByMemId()
+
+
+
+
 }

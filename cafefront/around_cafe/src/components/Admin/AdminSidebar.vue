@@ -77,7 +77,7 @@ export default {
           id: 1,
           icon: "mdi-home-outline",
           title: "카페 리스트",
-          link: "/",
+          link: "/admin/cafe",
         },
         {
           id: 2,
@@ -91,13 +91,13 @@ export default {
           id: 1,
           icon: "mdi-account-outline",
           title: "내 정보수정",
-          link: "/",
+          link: "/admin/adminUserModifyPage",
         },
         {
           id: 2,
           icon: "mdi-lock",
           title: "비밀번호 변경",
-          link: "/",
+          link: "/admin/pw",
         },
         {
           id: 3,

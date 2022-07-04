@@ -8,7 +8,7 @@
 
 <script>
 import { mapActions, mapState } from "vuex"
-import NoticeReadForm from "@/components/ManagementSystem/noticeBoard/NoticeReadForm.vue"
+import NoticeReadForm from "@/components/Admin/AdminNoticeComponents/NoticeReadForm.vue"
 export default {
   name: "NoticeReadPage",
   components: {
