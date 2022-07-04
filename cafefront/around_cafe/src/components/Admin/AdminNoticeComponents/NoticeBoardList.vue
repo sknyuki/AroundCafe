@@ -80,14 +80,11 @@
                             </validation-provider>
                           </td>
                         </tr>
-                        <v-btn @click="cancel" class="btn-indigo">
-                          돌아가기</v-btn
+                        <v-btn type="submit" class="submitbtn btn-indigo"
+                          >등록하기</v-btn
                         >
-                        <v-btn
-                          type="submit"
-                          class="btn-indigo"
-                          style="margin-top: 20px"
-                          >submit</v-btn
+                        <v-btn @click="cancel" class="cancelbtn btn-red btn-32">
+                          취소하기</v-btn
                         >
                       </table>
                     </v-form>
@@ -134,8 +131,6 @@
                     {{ item.title }}
                   </router-link>
                 </template>
-
-                >
               </v-data-table>
             </v-card>
           </div>
@@ -207,9 +202,14 @@ export default {
   },
   methods: {
     onSubmit() {
-      const { title, content, writer } = this
-      this.$emit("submit", { title, content, writer })
-      console.log(this.writer)
+      if (this.title == "" || this.content == "") {
+        alert("제목과 게시글을 작성하여 주세요")
+      } else {
+        const { title, content, writer } = this
+        this.$emit("submit", { title, content, writer })
+        console.log(this.writer)
+        console.log(this.title)
+      }
     },
     cancel() {
       this.dialog = false
@@ -221,16 +221,13 @@ export default {
 <style scoped>
 /* @import url("https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Poiret+One&family=Sunflower:wght@300&display=swap"); */
 
-.table {
-  cursor: pointer;
-  font-family: "Ubuntu", sans-serif;
+.submitbtn {
+  color: white;
+  margin-bottom: 20px;
 }
-
-.v-data-table::v-deep th {
-  font-size: 15px !important;
-  font-family: "Sunflower", sans-serif;
+.cancelbtn {
+  color: white;
 }
-
 .total {
   font-size: 13pt;
 }
