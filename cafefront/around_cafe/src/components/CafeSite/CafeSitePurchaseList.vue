@@ -203,7 +203,7 @@ export default {
 
     this.paymentInfo.memNo = this.userInfo.memNo
     this.paymentInfo.totalAmount = this.cafeInfo.totalPrice
-    this.paymentInfo.cafeNo = this.cafeInfo.cafe_no
+    this.paymentInfo.cafeNo = this.cafeInfo.cafeNo
     this.$emit("getPaymentInfo", this.paymentInfo)
   },
   watch: {
