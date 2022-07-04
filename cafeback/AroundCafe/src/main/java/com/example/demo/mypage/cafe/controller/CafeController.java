@@ -89,7 +89,7 @@ public class CafeController {
 
     @GetMapping("/main/list")
     public List<CafeStarAverResponse> list(){
-        log.info("요청이 들어왔습니다. ");
+        log.info("/main/list ");
         return service.list();
     }
 

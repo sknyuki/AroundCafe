@@ -8,8 +8,8 @@ import PolicyPage from "../views/Policy/PolicyPage.vue"
 import NotFoundPage from "@/views/NotFoundPage.vue"
 
 //관리자 시스템
-import NoticeReadPage from "@/views/ManagementSystemViews/noticeBoard/NoticeReadPage"
-import NoticeModifyPage from "@/views/ManagementSystemViews/noticeBoard/NoticeModifyPage"
+import NoticeReadPage from "@/views/Admin/AdminNotice/NoticeReadPage"
+import NoticeModifyPage from "@/views/Admin/AdminNotice/NoticeModifyPage"
 //CafeMyPage
 // import CafeModifyView from "../views/CafeMyPageViews/CafeModifyView.vue"
 import CafeMenuRegister from "../views/CafeMyPageViews/CafeMenuRegister.vue"
@@ -79,9 +79,50 @@ const routes = [
 
   // Admin 관리자페이지
   {
+    path: "/admin/pw",
+    name: "AdminPasswordPage",
+    component: () => import("@/views/Admin/AdminPasswordPage.vue"),
+  },
+  {
+    path: "/admin/AdminUserModifyPage",
+    name: "AdminUserModifyPage",
+    component: () => import("@/views/Admin/AdminUserModifyPage.vue"),
+  },
+  {
     path: "/admin/member",
     name: "AdminMemberListPage",
     component: () => import("@/views/Admin/AdminMemberListPage.vue"),
+  },
+  {
+    path: "/admin/cafe",
+    name: "AdminCafeListPage",
+    component: () => import("@/views/Admin/AdminCafeListPage.vue"),
+  },
+  {
+    path: "/admin/noticelist",
+    name: "NoticelistPage",
+    component: () => import("@/views/Admin/AdminNotice/NoticeListPage.vue"),
+  },
+
+  {
+    path: "/admin/noticeread/:boardNo",
+    name: "NoticeReadPage",
+    components: {
+      default: NoticeReadPage,
+    },
+    props: {
+      default: true,
+    },
+  },
+  {
+    path: "/admin/NoticeModifyPage/:boardNo",
+    name: "NoticeModifyPage",
+    components: {
+      default: NoticeModifyPage,
+    },
+    props: {
+      default: true,
+    },
   },
 
   // Cafe 카페페이지
@@ -134,46 +175,6 @@ const routes = [
     name: "CafePurchasePopUp",
     component: () => import("@/views/CafeSiteViews/CafePurchasePopUp"),
     props: true,
-  },
-
-  //관리자 시스템
-  {
-    path: "/ManagementPage",
-    name: "ManagementPage",
-    component: () => import("@/views/ManagementSystemViews/ManagementPage"),
-  },
-  {
-    path: "/NoticeRegisterPage",
-    name: "NoticeRegisterPage",
-    component: () =>
-      import("@/views/ManagementSystemViews/noticeBoard/NoticeRegisterPage"),
-  },
-  {
-    path: "/NoticeReadPage/:boardNo",
-    name: "NoticeReadPage",
-    components: {
-      default: NoticeReadPage,
-    },
-    props: {
-      default: true,
-    },
-  },
-  // {
-  //   path: "/NoticeReadPage/:boardNo",
-  //   name: "NoticeReadPage",
-  //   component: () =>
-  //     import("@/views/ManagementSystemViews/noticeBoard/NoticeReadPage"),
-  //   props: true,
-  // },
-  {
-    path: "/NoticeModifyPage/:boardNo",
-    name: "NoticeModifyPage",
-    components: {
-      default: NoticeModifyPage,
-    },
-    props: {
-      default: true,
-    },
   },
 
   //Policy 이용약관페이지

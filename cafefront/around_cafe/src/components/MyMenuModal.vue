@@ -132,12 +132,12 @@ export default {
         {
           id: 1,
           title: "내 정보",
-          link: "",
+          link: "/admin/adminUserModifyPage",
         },
         {
           id: 2,
           title: "회원 리스트",
-          link: "",
+          link: "/admin/member",
         },
         {
           id: 3,
@@ -147,12 +147,12 @@ export default {
         {
           id: 4,
           title: "공지사항",
-          link: "",
+          link: "/admin/noticelist",
         },
         {
           id: 5,
           title: "카페 리스트",
-          link: "",
+          link: "/admin/cafe",
         },
         {
           id: 6,

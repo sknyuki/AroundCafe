@@ -148,10 +148,10 @@ public class CafeServiceImpl implements CafeService {
             log.info("count: "+count);
 
             if(starScoreTemp==0){
-                int starAverage=0;
+                double starAverage=0;
                 cafeStarAverResponse.setStarAver(starAverage);
             }else {
-            Double starAverage = Double.valueOf(starScoreTemp / count);//평균값 계산
+            double starAverage = starScoreTemp / count;//평균값 계산
                 cafeStarAverResponse.setStarAver(starAverage);}
 
 
