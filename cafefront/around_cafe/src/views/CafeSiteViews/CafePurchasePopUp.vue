@@ -41,10 +41,8 @@ export default {
       opener.location.href = "http://localhost:8080/main"
       window.close()
     },
-  }
+  },
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

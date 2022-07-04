@@ -9,7 +9,6 @@ export default {
   name: "AccountSignUpPage",
   methods: {
     onSubmit(payload) {
-      const unInterceptedAxiosInstance = axios.create()
       const {
         email,
         password,
@@ -22,7 +21,7 @@ export default {
         phoneNum,
       } = payload
 
-      unInterceptedAxiosInstance
+      axios
         .post(`http://localhost:7777/auth/register`, {
           email,
           password,

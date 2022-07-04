@@ -37,6 +37,7 @@
                   :myLikes="myLikes"
                   :key="index"
                 />
+
                 <router-link
                   :to="{
                     name: 'CafeDetailPage',
@@ -44,6 +45,11 @@
                   }"
                   @focus.tab="swiperBtn = index"
                 >
+                  <!-- 좋아요 토글 
+            <button class="cafe-item-btn" type="button">
+              <i class="icHeart"></i>
+            </button>-->
+
                   <!-- 스와이퍼 -->
                   <swiper class="swiper" :options="swiperOption">
                     <swiper-slide
@@ -136,7 +142,7 @@ import CafeLike from "@/components/Cafe/CafeLike"
 import "swiper/dist/css/swiper.min.css"
 
 export default {
-  name: "CafeCard",
+  name: "CafeCardLogin",
 
   components: {
     swiper,
@@ -147,6 +153,10 @@ export default {
 
   props: {
     mainlist: {
+      type: Array,
+      required: true,
+    },
+    myLikes: {
       type: Array,
       required: true,
     },
@@ -176,9 +186,8 @@ export default {
           nextSlideMessage: "다음 슬라이드",
         },
       },
-      //membNo: JSON.parse(localStorage.getItem("user")).memNo,
+      membNo: JSON.parse(localStorage.getItem("user")).memNo,
       cafeNo: "",
-      isLogin: false,
     }
   },
   methods: {

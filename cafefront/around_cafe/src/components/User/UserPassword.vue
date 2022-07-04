@@ -23,6 +23,9 @@ import ChangePwForm from "@/components/ChangePwForm.vue"
 export default {
   name: "CafeUserPassword",
   components: { UserSidebar, ChangePwForm, ImgBox },
+  data() {
+    return {}
+  },
 }
 </script>
 

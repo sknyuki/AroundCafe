@@ -3,7 +3,7 @@
     <div class="my-menu-content">
       <ul class="my-menu-list">
         <!-- 로그인 안되어있을 때  -->
-        <template v-if="user.memNo == null">
+        <template v-if="user.role == null">
           <li class="my-menu-item" v-for="item in menuModal" :key="item.id">
             <router-link :to="item.link">{{ item.title }}</router-link>
           </li>
@@ -55,47 +55,25 @@
 import axios from "axios"
 import userService from "@/services/userService"
 import tokenService from "@/services/tokenService"
+import { mapState, mapActions } from "vuex"
 
 export default {
   name: "MyMenuModal",
-
-  methods: {
-    onLogout() {
-      const url = "http://localhost:7777/auth/logout"
-      const refreshToken = tokenService.getRefreshToken()
-      const config = {
-        headers: {
-          refresh_token: `${refreshToken}`,
-        },
-      }
-      axios
-        .delete(url, config)
-        .then(() => {
-          userService.deleteUserInfo()
-          tokenService.deleteTokens()
-          alert("로그아웃되었습니다.")
-          window.location.href = "/"
-        })
-
-        .catch((err) => {
-          alert(err)
-        })
-    },
-  },
-  props: {
-    menuModal: {
-      type: Array,
-      required: true,
-    },
-    user: {
-      type: Object,
-      required: true,
-    },
-  },
-
   data() {
     return {
       checkUser: null,
+      menuModal: [
+        {
+          id: 1,
+          title: "회원가입",
+          link: "/sign",
+        },
+        {
+          id: 2,
+          title: "로그인",
+          link: "/login",
+        },
+      ],
       myMenuUserLogin: [
         {
           id: 1,
@@ -183,6 +161,36 @@ export default {
         },
       ],
     }
+  },
+  computed: {
+    ...mapState(["user"]),
+  },
+  mounted() {
+    this.fetchUser()
+  },
+  methods: {
+    ...mapActions(["fetchUser"]),
+    onLogout() {
+      const url = "http://localhost:7777/auth/logout"
+      const refreshToken = tokenService.getRefreshToken()
+      const config = {
+        headers: {
+          refresh_token: `${refreshToken}`,
+        },
+      }
+      axios
+        .delete(url, config)
+        .then(() => {
+          userService.deleteUserInfo()
+          tokenService.deleteTokens()
+          alert("로그아웃되었습니다.")
+          window.location.href = "/"
+        })
+
+        .catch((err) => {
+          alert(err)
+        })
+    },
   },
 }
 </script>

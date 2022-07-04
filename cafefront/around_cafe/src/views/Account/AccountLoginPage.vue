@@ -12,9 +12,8 @@ export default {
   name: "AccountLoginPage",
   methods: {
     onSubmit(payload) {
-      const unInterceptedAxiosInstance = axios.create()
       const { email, password } = payload
-      unInterceptedAxiosInstance
+      axios
         .post(`http://localhost:7777/auth/login`, { email, password })
         .then((response) => {
           const userinfo = response.data

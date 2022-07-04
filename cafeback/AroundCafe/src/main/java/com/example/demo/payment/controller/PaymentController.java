@@ -45,6 +45,11 @@ public class PaymentController {
         return paymentService.getAllPaymentResponse(member);
     }
 
+    @GetMapping("/cafe/{cafeNo}")
+    public List<PaymentResponse> getPaymentListByCafeNo(@PathVariable Long cafeNo) {
+        return paymentService.getAllPaymentResponse(cafeNo);
+    }
+
     @DeleteMapping("/{paymentNo}")
     @ResponseStatus(HttpStatus.OK)
     public void deletePayment(@PathVariable Long paymentNo) {

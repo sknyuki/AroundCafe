@@ -53,10 +53,10 @@ export default {
     }
   },
 
-  mounted() {
-    this.fetchLikesList(this.cafeNo)
-    this.likeList()
-    setTimeout(this.matching, 0.5)
+  async mounted() {
+    await this.fetchLikesList(this.cafeNo)
+    await this.likeList()
+    await this.matching()
   },
 
   methods: {

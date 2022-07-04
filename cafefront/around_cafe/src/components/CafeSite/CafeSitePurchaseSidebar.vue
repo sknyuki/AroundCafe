@@ -24,8 +24,8 @@
             <span class="order-sidebar-footer color-text">
               {{
                 this.nullValueCheck(
-                    paymentInfo.totalAmount - paymentInfo.totalPointAmount,
-                    digit
+                  paymentInfo.totalAmount - paymentInfo.totalPointAmount,
+                  digit
                 )
               }}
             </span>
@@ -35,11 +35,11 @@
             <span class="order-sidebar-contents point">
               {{
                 this.nullValueCheck(
-                    parseInt(
-                        (paymentInfo.totalAmount - paymentInfo.totalPointAmount) *
-                        pointAdd
-                    ),
-                    digit
+                  parseInt(
+                    (paymentInfo.totalAmount - paymentInfo.totalPointAmount) *
+                      pointAdd
+                  ),
+                  digit
                 )
               }}
               P
@@ -50,13 +50,13 @@
       </div>
     </div>
     <v-btn
-        :disabled="isPointValidated === false"
-        class="order-sidebar button"
-        @click="onSubmit()"
-    >{{
+      :disabled="isPointValidated === false"
+      class="order-sidebar button"
+      @click="onSubmit()"
+      >{{
         this.nullValueCheck(
-            paymentInfo.totalAmount - paymentInfo.totalPointAmount,
-            3
+          paymentInfo.totalAmount - paymentInfo.totalPointAmount,
+          3
         )
       }}원 결제하기</v-btn
     >
@@ -65,7 +65,7 @@
 
 <script>
 import Number2String from "@/utils/number2String"
-import {pricePoint} from "@/utils/filters";
+import { pricePoint } from "@/utils/filters"
 
 export default {
   name: "CafeSitePurchaseSidebar",
@@ -93,7 +93,10 @@ export default {
       return pricePoint(newNumber)
     },
     onSubmit() {
-      if(this.paymentInfo.paymentMethod !== "" && this.paymentInfo.paymentMethod !== null){
+      if (
+        this.paymentInfo.paymentMethod !== "" &&
+        this.paymentInfo.paymentMethod !== null
+      ) {
         this.$emit("submit", this.paymentInfo)
       } else {
         alert("결제 방법을 선택하셔야 합니다.")

@@ -32,6 +32,10 @@ public class QnAComment {
     @Column(length = 128, nullable = true)
     private String img;
 
+    //기능 추가할지 보류(new표시)
+    @Column(columnDefinition = "boolean default false")
+    private Boolean isRead = false;
+
     @CreatedDate
     @Column(length = 128, nullable = true)
     private String regTime;

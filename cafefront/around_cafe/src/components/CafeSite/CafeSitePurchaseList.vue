@@ -13,7 +13,9 @@
       >
         <div class="order-purchase-list box">
           <div class="order-purchase-list header">
-            <div class="order-purchase-flexbox list-title">{{ cafeInfo.cafe_name }}</div>
+            <div class="order-purchase-flexbox list-title">
+              {{ cafeInfo.cafe_name }}
+            </div>
           </div>
           <div class="order-purchase-list content">
             <div class="order-purchase-flexbox content">
@@ -175,7 +177,7 @@ export default {
         totalAmount: 0,
         totalPointAmount: "",
         orderItems: [],
-        cafeNo: 1,
+        cafeNo: 0,
         memNo: "",
       },
       orderBtns: [
@@ -288,6 +290,7 @@ export default {
 
     this.paymentInfo.memNo = this.userInfo.memNo
     this.paymentInfo.totalAmount = this.cafeInfo.totalPrice
+    this.paymentInfo.cafeNo = this.cafeInfo.cafeNo
     this.$emit("getPaymentInfo", this.paymentInfo)
   },
   watch: {
