@@ -108,7 +108,9 @@
               </v-row>
 
               <v-row>
-                <v-btn @click="goList" class="listBtn" dark> 목록으로 </v-btn>
+                <v-btn @click="goList" class="btn-indigo btn-48">
+                  목록으로
+                </v-btn>
               </v-row>
             </v-card>
           </div>
@@ -146,7 +148,8 @@ export default {
   },
   methods: {
     goList() {
-      this.$router.push("/ManagementPage")
+      this.$router.push("/admin/noticelist")
+      this.$router.go()
     },
     onDelete() {
       const { boardNo } = this.noticeBoard
@@ -154,7 +157,7 @@ export default {
         .delete(`http://localhost:7777/noticeBoard/${boardNo}`)
         .then(() => {
           alert("Done! Files deleted successfully")
-          this.$router.push({ name: "ManagementPage" })
+          this.$router.push("/admin/noticelist")
         })
         .catch(() => {
           alert("삭제 실패")

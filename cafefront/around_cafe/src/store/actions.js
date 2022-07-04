@@ -22,6 +22,7 @@ import {
   FETCH_LIKES_LIST,
   FETCH_MY_LIKES_LIST,
   FETCH_MAIN_LIST,
+  FETCH_ADMIN_MEMBER_LIST,
 } from "./mutation-types"
 
 import axios from "axios"
@@ -170,8 +171,17 @@ export default {
   fetchMainList({ commit }) {
     return axios.get(`http://localhost:7777/cafe/main/list`).then((res) => {
       commit(FETCH_MAIN_LIST, res.data)
-      console.log("main list결과값 확인")
-      console.log(res.data)
+      // console.log("main list결과값 확인")
+      // console.log(res.data)
     })
+  },
+  fetchAdminMemberList({ commit }) {
+    return axios
+      .get(`http://localhost:7777/members/admin/memberlist`)
+      .then((res) => {
+        commit(FETCH_ADMIN_MEMBER_LIST, res.data)
+        // console.log("블랙리스트 값 출력")
+        // console.log(res.data)
+      })
   },
 }
