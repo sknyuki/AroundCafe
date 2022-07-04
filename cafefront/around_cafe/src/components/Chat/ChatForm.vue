@@ -7,7 +7,10 @@
             <div class="chat-left">
               <nav class="chat-sidebar">
                 <a href="">
-                  <div class="avatar-48">
+                  <div class="avatar-48" v-if="qnaLists[key] === undefined">
+                    <img src="@/assets/images/avatar.webp" alt="" />
+                  </div>
+                  <div class="avatar-48" v-else>
                     <img
                       v-if="qnaLists[0].writerImg == null"
                       src="@/assets/images/avatar.webp"
@@ -33,7 +36,26 @@
                 </div>
 
                 <!-- 채팅방룸 -->
-                <ul class="chat-room-msg">
+                <ul class="chat-room-msg" v-if="qnaLists === null">
+                  <li class="chat-room-list">
+                    <v-btn class="delete-button">
+                      <i class="icClose"></i>
+                    </v-btn>
+                    <a>
+                      <div class="chat-room-img"></div>
+                      <div class="chat-room-box">
+                        <div class="chat-room-wrapper">
+                          <strong class="chat-room-nick"> </strong>
+                          <span class="chat-room-cafe"></span>
+                        </div>
+                        <div>
+                          <span class="chat-room-contents"></span>
+                        </div>
+                      </div>
+                    </a>
+                  </li>
+                </ul>
+                <ul class="chat-room-msg" v-else>
                   <li
                     v-for="(item, index) in qnaLists"
                     :key="index"
