@@ -202,6 +202,10 @@
                 <h3 class="detail-int-header">위치보기</h3>
                 <MapKakaoFind :cafeBoard="cafeBoard" />
               </div>
+              <div class="detail-content">
+                <h3 class="detail-int-header">문의하기</h3>
+                <CafeDetailQnaForm :cafeNo="cafeNo" :cafeBoard="cafeBoard" />
+              </div>
             </div>
           </div>
         </div>
@@ -219,6 +223,7 @@ import CafeSiteMenuList from "../CafeSite/CafeSiteMenuList.vue"
 import MapKakaoFind from "@/components/Map/MapKakaoFind.vue"
 
 import { mapState, mapActions } from "vuex"
+import CafeDetailQnaForm from "@/components/CafeDetail/CafeDetailQnaForm.vue"
 
 export default {
   name: "CafeDetailForm",
@@ -229,6 +234,7 @@ export default {
     CafeSiteMenuList,
     MapKakaoFind,
     CafeReviewRegisterPage,
+    CafeDetailQnaForm,
   },
   props: {
     reviewList: {

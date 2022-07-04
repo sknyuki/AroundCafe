@@ -41,7 +41,12 @@ export default {
     this.fetchMyHelpsList(this.memNo)
   },
   methods: {
-    ...mapActions(["fetchUserReviewList", "fetchMyHelpsList"]),
+    ...mapActions([
+      "fetchUserReviewList",
+      "fetchMyHelpsList",
+      "fetchUserInfo",
+      "fetchMyLikesList",
+    ]),
   },
 }
 </script>

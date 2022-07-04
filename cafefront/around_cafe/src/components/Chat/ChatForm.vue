@@ -135,9 +135,19 @@
                     <!-- 상대방 -->
                     <div v-if="item.writer != membNo" class="chat-box opponent">
                       <div class="avatar-48">
-                        <img src="@/assets/images/avatar.webp" alt="" />
+                        <img
+                          v-if="qnaLists[0].received_img == null"
+                          src="@/assets/images/avatar.webp"
+                          alt=""
+                        />
+                        <img
+                          v-else
+                          v-bind:src="
+                            require(`@/assets/images/memberImg/${qnaLists[0].received_img}`)
+                          "
+                        />
                       </div>
-                      <div>
+                      <div v-if="item.content != null">
                         <p class="chat-box-contents opponent">
                           {{ item.content }}
                         </p>

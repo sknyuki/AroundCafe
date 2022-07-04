@@ -59,7 +59,6 @@ export default {
   async mounted() {
     //await this.fetchcafeBoardList()
     await this.fetchMyLikesList(this.membNo)
-
     // await Promise.all((resolve) => {
     //   resolve(this.fetchcafeBoardList(), this.fetchMyLikesList(this.membNo))
     // })

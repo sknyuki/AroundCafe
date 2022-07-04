@@ -31,14 +31,12 @@
               </template>
 
               <template v-else>
-                <!-- <div v-if="isLogin">
-                  <CafeLike
-                    class="cafe-item-btn"
-                    :cafeItem="cafeItem"
-                    :myLikes="myLikes"
-                    :key="index"
-                  />
-                </div> -->
+                <CafeLike
+                  class="cafe-item-btn"
+                  :cafeItem="cafeItem"
+                  :myLikes="myLikes"
+                  :key="index"
+                />
                 <router-link
                   :to="{
                     name: 'CafeDetailPage',
@@ -46,11 +44,6 @@
                   }"
                   @focus.tab="swiperBtn = index"
                 >
-                  <!-- 좋아요 토글 
-            <button class="cafe-item-btn" type="button">
-              <i class="icHeart"></i>
-            </button>-->
-
                   <!-- 스와이퍼 -->
                   <swiper class="swiper" :options="swiperOption">
                     <swiper-slide
@@ -139,7 +132,7 @@
 <script>
 import { swiper, swiperSlide } from "vue-awesome-swiper"
 import SkeletonBox from "@/components/SkeletonBox.vue"
-//import CafeLike from "@/components/Cafe/CafeLike"
+import CafeLike from "@/components/Cafe/CafeLike"
 import "swiper/dist/css/swiper.min.css"
 
 export default {
@@ -149,7 +142,7 @@ export default {
     swiper,
     swiperSlide,
     SkeletonBox,
-    //CafeLike,
+    CafeLike,
   },
 
   props: {

@@ -13,7 +13,7 @@
           <header>
             <h1>리뷰</h1>
           </header>
-          <CafeReviewForm :reviewList="reviewList" :myHelps="myHelps" />
+          <CafeReviewForm :reviewList="reviewList" />
         </div>
       </div>
     </div>
@@ -29,10 +29,6 @@ export default {
   components: { ImgBox, CafeSidebar, CafeReviewForm },
   props: {
     reviewList: {
-      type: Array,
-      required: true,
-    },
-    myHelps: {
       type: Array,
       required: true,
     },
