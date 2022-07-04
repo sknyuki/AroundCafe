@@ -29,7 +29,7 @@ public class Review {
     private Long reviewNo;
 
     @Column(length = 32, nullable = false)
-    private String star_score;
+    private Integer star_score;
 
     @Lob
     private String review_content;
@@ -69,7 +69,7 @@ public class Review {
     private Long cafeNum;   //카페 번호를 vue 에서 넘길때 받아오는 것
 
     @Builder
-    public Review(String star_score, String review_content,String fileName, Date regDate, String updDate, Long cafeNum, Member member) {
+    public Review(Integer star_score, String review_content,String fileName, Date regDate, String updDate, Long cafeNum, Member member) {
         this.star_score = star_score;
         this.review_content = review_content;
         this.fileName = fileName;
@@ -82,7 +82,7 @@ public class Review {
 
     }
 
-    public Review(String star_score, String review_content,String fileName, Long cafeNum) {
+    public Review(Integer star_score, String review_content,String fileName, Long cafeNum) {
         this.star_score = star_score;
         this.review_content = review_content;
         this.fileName = fileName;

@@ -9,7 +9,7 @@ import java.util.Date;
 @Data
 public class ReviewResponseDto {
     private Long reviewNo;
-    private String star_score;
+    private Integer star_score;
     private String review_content;
     private String fileName;
     private int likeCnt;
@@ -22,7 +22,7 @@ public class ReviewResponseDto {
 
 
     @Builder
-    public ReviewResponseDto(Long reviewNo,String star_score,String review_content,String fileName,
+    public ReviewResponseDto(Long reviewNo,Integer star_score,String review_content,String fileName,
                              int likeCnt, String updDate,String memNick,String memImg, Long cafeNo,
                              String cafeName, Boolean helps){
         this.reviewNo = reviewNo;
