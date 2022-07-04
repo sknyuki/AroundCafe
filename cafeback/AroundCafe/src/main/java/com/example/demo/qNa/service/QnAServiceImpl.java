@@ -73,12 +73,12 @@ public class QnAServiceImpl implements QnAService {
     @Override
     public void exceptImgRegister(QnADto info) {
         Member member = memberRepository.findById(Long.valueOf(info.getMemNo())).orElseGet(null);
-        Member revceivedNo = memberRepository.findById(info.getReceived_no()).orElseGet(null);
+        Member revceivedNo = memberRepository.findByIdFromCafeNo(info.getReceived_no()).orElseGet(null);
         QnA qnA = null;
 
         if(info.getReceived_no() != 0){
             qnA = QnA.builder()
-                    .received_no(info.getReceived_no())
+                    .received_no(revceivedNo.getMemNo())
                     .member(member)
                     .type(info.getType())
                     .build();
@@ -86,7 +86,7 @@ public class QnAServiceImpl implements QnAService {
             repository.save(qnA);
         }else {
             qnA = QnA.builder()
-                    .received_no(info.getReceived_no())
+                    .received_no(revceivedNo.getMemNo())
                     .member(member)
                     .type(info.getType())
                     .received_name("관리자")
