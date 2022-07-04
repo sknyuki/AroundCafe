@@ -138,7 +138,7 @@ public class CafeServiceImpl implements CafeService {
             int starScoreTemp = 0;
             int count = 0;
             for (Review review : reviewList) {
-                starScoreTemp += Integer.parseInt(review.getStar_score());//총합
+                starScoreTemp += review.getStar_score();//총합
                 count += 1;//인원수
 
             }
