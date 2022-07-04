@@ -1,6 +1,7 @@
 import {
   FETCH_CAFE_BOARD_LIST,
   FETCH_CAFE_BOARD,
+  FETCH_ORDER_CAFE_LIST,
   FETCH_MENU_LISTS,
   FETCH_CAFE_IMG_LISTS,
   FETCH_REVIEW_LIST,
@@ -49,6 +50,13 @@ export default {
       .get(`http://localhost:7777/cafe/mypage/read/${cafeNo}`)
       .then((res) => {
         commit(FETCH_CAFE_BOARD, res.data)
+      })
+  },
+  fetchOrderCafeList({ commit }, cafeNo) {
+    return axios
+      .get(`http://localhost:7777/payment/cafe/${cafeNo}`)
+      .then((res) => {
+        commit(FETCH_ORDER_CAFE_LIST, res.data)
       })
   },
 
