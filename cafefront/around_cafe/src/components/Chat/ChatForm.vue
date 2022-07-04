@@ -180,10 +180,18 @@
                           alt=""
                         />
                         <img
-                          v-else
+                          v-if="
+                            qnaList[index].writer != qnaList[index - 1].writer
+                          "
                           v-bind:src="
                             require(`@/assets/images/memberImg/${qnaLists[selectQna].received_img}`)
                           "
+                        />
+                        <img
+                          v-if="
+                            qnaList[index].writer == qnaList[index - 1].writer
+                          "
+                          v-bind:src="require(`@/assets/qna/whiteImg.jpg`)"
                         />
                       </div>
                       <div v-if="item.content != null">
