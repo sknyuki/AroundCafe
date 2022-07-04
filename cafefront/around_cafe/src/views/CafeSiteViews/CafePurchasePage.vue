@@ -3,18 +3,18 @@
     <div class="row">
       <div class="col-sm-12 col-md-12 col-lg-8">
         <cafe-site-purchase-list
-            :userInfo="userInfo"
-            :basketList="basketList"
-            :cafeInfo="cafeInfo"
-            @getPaymentInfo="getPaymentInfo"
-            @getIsPointValidated="getIsPointValidated"
+          :userInfo="userInfo"
+          :basketList="basketList"
+          :cafeInfo="cafeInfo"
+          @getPaymentInfo="getPaymentInfo"
+          @getIsPointValidated="getIsPointValidated"
         />
       </div>
       <div class="col-sm-0 col-md-0 col-lg-4" style="padding-left: 20px">
         <cafe-site-purchase-sidebar
-            :paymentInfo="paymentInfo"
-            :isPointValidated="isPointValidated"
-            @submit="onSubmit"
+          :paymentInfo="paymentInfo"
+          :isPointValidated="isPointValidated"
+          @submit="onSubmit"
         />
       </div>
     </div>
@@ -43,13 +43,16 @@ export default {
     }
   },
   props: {
-    basketList: { type: Array, required: true},
-    cafeInfo: { type: Object, required: true}
+    basketList: { type: Array, required: true },
+    cafeInfo: { type: Object, required: true },
   },
   methods: {
     ...mapActions(["fetchUserInfo"]),
     onSubmit(paymentInfo) {
-      if(paymentInfo.totalPointAmount == null || paymentInfo.totalPointAmount === "") {
+      if (
+        paymentInfo.totalPointAmount == null ||
+        paymentInfo.totalPointAmount === ""
+      ) {
         paymentInfo.totalPointAmount = 0
       }
       const config = {
@@ -58,21 +61,21 @@ export default {
         },
       }
       axios
-          .post(
-              `http://localhost:7777/payment`,
-              JSON.stringify(paymentInfo),
-              config
+        .post(
+          `http://localhost:7777/payment`,
+          JSON.stringify(paymentInfo),
+          config
+        )
+        .then((response) => {
+          window.open(
+            `http://localhost:5000/payment/ready/${this.paymentInfo.paymentMethod}/${response.data}`,
+            "_blank",
+            "width=440, height=680, menubar=no, toolbar=no, location=no, status=no, resizable=no, scrollbars=no"
           )
-          .then((response) => {
-            window.open(
-                `http://localhost:5000/payment/ready/${this.paymentInfo.paymentMethod}/${response.data}`,
-                "_blank",
-                "width=440, height=680, menubar=no, toolbar=no, location=no, status=no, resizable=no, scrollbars=no"
-            )
-          })
-          .catch((err) => {
-            alert(err)
-          })
+        })
+        .catch((err) => {
+          alert(err)
+        })
     },
     getPaymentInfo(paymentInfo) {
       this.paymentInfo = paymentInfo

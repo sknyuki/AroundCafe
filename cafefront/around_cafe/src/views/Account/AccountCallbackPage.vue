@@ -9,23 +9,33 @@ import userService from "@/services/userService"
 
 export default {
   name: "AccountCallbackPage",
-  async beforeCreate() {
+  async created() {
     const [socialType, code] = await Promise.all([
-      this.$route.query.socialType, this.$route.query.code
+      this.$route.query.socialType,
+      this.$route.query.code,
     ])
     if (code != null && socialType != null) {
+      await this.getUserInfo(socialType, code)
+    } else {
+      alert("로그인 실패")
+      opener.location.href = "http://localhost:8080/main"
+      window.self.close()
+    }
+  },
+  methods: {
+    async getUserInfo(socialType, code) {
       try {
         const response = await axios.post(
-            "http://localhost:5000/oauth/loginWithSNS",
-            JSON.stringify({
-              socialType: socialType,
-              code: code,
-            }),
-            {
-              headers: {
-                "Content-Type": "Application/json",
-              },
-            }
+          "http://localhost:5000/oauth/loginWithSNS",
+          JSON.stringify({
+            socialType: socialType,
+            code: code,
+          }),
+          {
+            headers: {
+              "Content-Type": "Application/json",
+            },
+          }
         )
         const userinfo = response.data
         tokenService.setTokens(userinfo)
@@ -40,10 +50,7 @@ export default {
           alert("로그인 실패")
         }
       }
-    } else {
-      opener.location.href = "http://localhost:8080/main"
-      window.self.close()
-    }
+    },
   },
 }
 </script>
