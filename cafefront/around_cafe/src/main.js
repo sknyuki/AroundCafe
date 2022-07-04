@@ -7,10 +7,11 @@ import vuetify from "./plugins/vuetify"
 import axios from "@/plugins/axiosInterceptors"
 import "@/utils/validation"
 
-import { phoneNumber, pricePoint } from "@/utils/filters"
+import { yyyyMMdd, HHmm, pricePoint } from "@/utils/filters"
 
-Vue.filter("phoneNumber", phoneNumber)
 Vue.filter("pricePoint", pricePoint)
+Vue.filter("yyyyMMdd", yyyyMMdd)
+Vue.filter("HHmm", HHmm)
 // Vue.filter("ratingPoint", ratingPoint)
 
 Vue.config.productionTip = false

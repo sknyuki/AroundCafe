@@ -322,6 +322,14 @@ const routes = [
       default: true,
     },
   },
+  {
+    path: "/cafe/order/list",
+    name: "OrderCafeList",
+    components: { default: () => import("@/views/Order/OrderCafeListPage") },
+    props: {
+      default: true,
+    },
+  },
 
   {
     path: "*",
