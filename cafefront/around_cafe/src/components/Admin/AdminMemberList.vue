@@ -25,22 +25,20 @@
                     생년월일
                   </th>
                   <th scope="col" align="center" style="width: 70px">연락처</th>
-                  <th scope="col" align="center" style="width: 40px">
-                    가입일자
-                  </th>
+                  <th scope="col" align="center" style="width: 40px">권한</th>
                   <th scope="col" align="center" style="width: 40px">
                     블랙여부
                   </th>
                 </tr>
               </thead>
               <tbody v-for="(member, index) in listData" :key="index">
-                <tr>
-                  <td align="center">{{ member.memberNo }}</td>
+                <tr v-if="member.name != ADMIN">
+                  <td align="center">{{ member.memNo }}</td>
                   <td align="center">{{ member.memId }}</td>
                   <td align="center">{{ member.memNick }}</td>
                   <td align="center">{{ member.memBirth }}</td>
-                  <td align="center">{{ member.memPhoneNum }}</td>
-                  <td align="center">{{ member.regDate }}</td>
+                  <td align="center">{{ member.phoneNum }}</td>
+                  <td align="center">{{ member.name }}</td>
                   <td align="center">
                     <div v-if="!member.isblack">
                       <v-btn class="btn-red" @click="ToBlackList(index)">
@@ -67,6 +65,7 @@
   </div>
 </template>
 <script>
+import { mapActions, mapState } from "vuex"
 import AdminSidebar from "@/components/Admin/AdminSidebar.vue"
 import ImgBox from "@/components/ImgBox.vue"
 import PaginationForm from "../PaginationForm.vue"
@@ -77,160 +76,6 @@ export default {
 
   data() {
     return {
-      memberList: [
-        {
-          memberNo: 1,
-          memId: "bean32226@naver.com",
-          memNick: "일이삼사오육칠팔구십일이삼사오",
-          memBirth: "94-03-26",
-          memPhoneNum: "010-0000-0000",
-          regDate: "22-12-02",
-        },
-        {
-          memberNo: 2,
-          memId: "bean322226@naver.com",
-          memNick: "일이삼사오육칠팔구십일이삼사오",
-          memBirth: "94-03-26",
-          memPhoneNum: "010-0000-0000",
-          regDate: "22-12-02",
-        },
-        {
-          memberNo: 3,
-          memId: "bean326@naver.com",
-          memNick: "일이삼사오육칠팔구십일이삼사오",
-          memBirth: "94-03-26",
-          memPhoneNum: "010-0000-0000",
-          regDate: "22-12-02",
-        },
-        {
-          memberNo: 4,
-          memId: "bean3263@naver.com",
-          memNick: "일이삼사오육칠팔구십일이삼사오",
-          memBirth: "94-03-26",
-          memPhoneNum: "010-0000-0000",
-          regDate: "22-12-02",
-        },
-        {
-          memberNo: 2,
-          memId: "bean322226@naver.com",
-          memNick: "일이삼사오육칠팔구십일이삼사오",
-          memBirth: "94-03-26",
-          memPhoneNum: "010-0000-0000",
-          regDate: "22-12-02",
-        },
-        {
-          memberNo: 3,
-          memId: "bean326@naver.com",
-          memNick: "일이삼사오육칠팔구십일이삼사오",
-          memBirth: "94-03-26",
-          memPhoneNum: "010-0000-0000",
-          regDate: "22-12-02",
-        },
-        {
-          memberNo: 4,
-          memId: "bean3263@naver.com",
-          memNick: "일이삼사오육칠팔구십일이삼사오",
-          memBirth: "94-03-26",
-          memPhoneNum: "010-0000-0000",
-          regDate: "22-12-02",
-        },
-        {
-          memberNo: 2,
-          memId: "bean322226@naver.com",
-          memNick: "일이삼사오육칠팔구십일이삼사오",
-          memBirth: "94-03-26",
-          memPhoneNum: "010-0000-0000",
-          regDate: "22-12-02",
-        },
-        {
-          memberNo: 3,
-          memId: "bean326@naver.com",
-          memNick: "일이삼사오육칠팔구십일이삼사오",
-          memBirth: "94-03-26",
-          memPhoneNum: "010-0000-0000",
-          regDate: "22-12-02",
-        },
-        {
-          memberNo: 4,
-          memId: "bean3263@naver.com",
-          memNick: "일이삼사오육칠팔구십일이삼사오",
-          memBirth: "94-03-26",
-          memPhoneNum: "010-0000-0000",
-          regDate: "22-12-02",
-        },
-        {
-          memberNo: 2,
-          memId: "bean322226@naver.com",
-          memNick: "일이삼사오육칠팔구십일이삼사오",
-          memBirth: "94-03-26",
-          memPhoneNum: "010-0000-0000",
-          regDate: "22-12-02",
-        },
-        {
-          memberNo: 3,
-          memId: "bean326@naver.com",
-          memNick: "일이삼사오육칠팔구십일이삼사오",
-          memBirth: "94-03-26",
-          memPhoneNum: "010-0000-0000",
-          regDate: "22-12-02",
-        },
-        {
-          memberNo: 4,
-          memId: "bean3263@naver.com",
-          memNick: "일이삼사오육칠팔구십일이삼사오",
-          memBirth: "94-03-26",
-          memPhoneNum: "010-0000-0000",
-          regDate: "22-12-02",
-        },
-        {
-          memberNo: 2,
-          memId: "bean322226@naver.com",
-          memNick: "일이삼사오육칠팔구십일이삼사오",
-          memBirth: "94-03-26",
-          memPhoneNum: "010-0000-0000",
-          regDate: "22-12-02",
-        },
-        {
-          memberNo: 3,
-          memId: "bean326@naver.com",
-          memNick: "일이삼사오육칠팔구십일이삼사오",
-          memBirth: "94-03-26",
-          memPhoneNum: "010-0000-0000",
-          regDate: "22-12-02",
-        },
-        {
-          memberNo: 4,
-          memId: "bean3263@naver.com",
-          memNick: "일이삼사오육칠팔구십일이삼사오",
-          memBirth: "94-03-26",
-          memPhoneNum: "010-0000-0000",
-          regDate: "22-12-02",
-        },
-        {
-          memberNo: 2,
-          memId: "bean322226@naver.com",
-          memNick: "일이삼사오육칠팔구십일이삼사오",
-          memBirth: "94-03-26",
-          memPhoneNum: "010-0000-0000",
-          regDate: "22-12-02",
-        },
-        {
-          memberNo: 3,
-          memId: "bean326@naver.com",
-          memNick: "일이삼사오육칠팔구십일이삼사오",
-          memBirth: "94-03-26",
-          memPhoneNum: "010-0000-0000",
-          regDate: "22-12-02",
-        },
-        {
-          memberNo: 4,
-          memId: "bean3263@naver.com",
-          memNick: "일이삼사오육칠팔구십일이삼사오",
-          memBirth: "94-03-26",
-          memPhoneNum: "010-0000-0000",
-          regDate: "22-12-02",
-        },
-      ],
       listData: [],
       page: 1,
       limit: 10,
@@ -239,21 +84,26 @@ export default {
       total: "",
     }
   },
-  mounted() {
+  computed: {
+    ...mapState(["adminlist"]),
+  },
+  async mounted() {
+    await this.fetchAdminMemberList()
     this.pagingMethod(this.page)
   },
   methods: {
+    ...mapActions(["fetchAdminMemberList"]),
     pagingMethod(page) {
-      this.listData = this.memberList.slice(
+      this.listData = this.adminlist.slice(
         (page - 1) * this.limit,
         page * this.limit
       )
       this.page = page
-      let total = this.memberList.length
+      let total = this.adminlist.length
       this.pageDataSetting(total, this.limit, this.block, page)
     },
     pageDataSetting(total, limit, block, page) {
-      total = this.memberList.length
+      total = this.adminlist.length
       const totalPage = Math.ceil(total / limit)
       let currentPage = page
       const first =
@@ -275,14 +125,26 @@ export default {
     ToBlackList(index) {
       var result = confirm("블랙리스틀로 등록하시겠습니까?")
       if (result) {
-        this.memberList[index].isblack = true
+        this.adminlist[index].isblack = true
       }
+      this.$router.go()
+
+      // axios
+      //   .post(
+      //     `http://localhost:7777/cafe/like/${this.review.reviewNo}/${this.membNo}`),
+      //     {},
+      //     {
+      //       headers: {
+      //         "Content-Type": "application/json",
+      //       },
+      //     }
     },
     TakeBack(index) {
       var result = confirm("블랙리스트를 해제 하겠습니까?")
       if (result) {
-        this.memberList[index].isblack = false
+        this.adminlist[index].isblack = false
       }
+      this.$router.go()
     },
   },
 }

@@ -32,4 +32,5 @@ export default {
 
   //mainlist
   mainlist: [],
+  dminlist: [],
 }
