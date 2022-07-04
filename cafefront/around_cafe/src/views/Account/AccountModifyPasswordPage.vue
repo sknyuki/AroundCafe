@@ -14,11 +14,9 @@ export default {
   },
   methods: {
     onSubmit(payload) {
-      const unInterceptedAxiosInstance = axios.create()
-
       const { memId, memPw } = payload
 
-      unInterceptedAxiosInstance
+      axios
         .put(`http://localhost:7777/auth/changePassword`, {
           memId,
           memPw,
