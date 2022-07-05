@@ -101,7 +101,7 @@
 <script>
 import StarRating from "vue-star-rating"
 // import axios from "axios"
-// import { mapState, mapActions } from "vuex"
+//import { mapState, mapActions } from "vuex"
 import CafeReviewModify from "@/components/CafeReview/CafeReviewModify"
 import CafeReviewLike from "@/components/CafeReview/CafeReviewLike"
 import CafeReviewDelete from "@/components/Cafe/CafeReviewDelete"
@@ -117,10 +117,6 @@ export default {
     PaginationForm,
   },
   props: {
-    userReviews: {
-      type: Array,
-      required: true,
-    },
     myHelps: {
       type: Array,
       required: true,
@@ -135,14 +131,27 @@ export default {
       pageNo: "",
       total: "",
       reviewDialog: false,
+      memNo: this.$store.state.user.memNo,
     }
+  },
+  async created() {
+    await this.fetchUserReviewList(this.memNo)
   },
   mounted() {
     setTimeout(() => {
       this.pagingMethod(this.page)
-    }, 50)
+    }, 70)
   },
   methods: {
+    fetchUserReviewList(memNo) {
+      axios
+        .get(`http://localhost:7777/cafe/review/user/list/${memNo}`)
+        .then((res) => {
+          for (let i = 0; i < res.data.length; i++) {
+            this.$store.state.userReviews.push(res.data[i])
+          }
+        })
+    },
     onModify(payload) {
       const { reviewNo, star_score, review_content, cafeNum, file } = payload
       let formData = new FormData()
@@ -199,16 +208,16 @@ export default {
         })
     },
     pagingMethod(page) {
-      this.listData = this.userReviews.slice(
+      this.listData = this.$store.state.userReviews.slice(
         (page - 1) * this.limit,
         page * this.limit
       )
       this.page = page
-      let total = this.userReviews.length
+      let total = this.$store.state.userReviews.length
       this.pageDataSetting(total, this.limit, this.block, page)
     },
     pageDataSetting(total, limit, block, page) {
-      total = this.userReviews.length
+      total = this.$store.state.userReviews.length
       const totalPage = Math.ceil(total / limit)
       let currentPage = page
       const first =
