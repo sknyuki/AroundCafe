@@ -30,7 +30,9 @@ export default {
   name: "OrderCafeList",
 
   data() {
-    return {}
+    return {
+      // orderCafeLists: [],
+    }
   },
   computed: {
     ...mapState(["orderCafeLists", "user"]),

@@ -91,6 +91,13 @@ public class PaymentServiceImpl implements PaymentService {
         return paymentDtoList;
     }
 
+    @Transactional
+    @Override
+    public void modifyPaymentStatus(Long paymentNo, PaymentStatus paymentStatus) {
+        paymentRepository.updatePaymentStatus(paymentNo,paymentStatus);
+    }
+
+
     @Override
     @Transactional
     public PaymentResponse getPaymentResponse(Long paymentNo) throws ResourceNotFoundException {

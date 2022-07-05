@@ -1,10 +1,10 @@
 package com.example.demo.payment.service;
 
 import com.example.demo.member.entity.Member;
-import com.example.demo.mypage.cafe.entity.Cafe;
 import com.example.demo.payment.dto.PaymentRequest;
 import com.example.demo.payment.dto.PaymentResponse;
 import com.example.demo.payment.entity.Payment;
+import com.example.demo.payment.entity.PaymentStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,4 +18,5 @@ public interface PaymentService {
     public PaymentResponse getPaymentResponse(Long paymentNo);
     public void paymentConfirm(Long paymentNo);
     public void deletePayment(Long paymentNo);
+    public void modifyPaymentStatus(Long paymentNo, PaymentStatus paymentStatus);
 }
