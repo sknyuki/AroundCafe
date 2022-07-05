@@ -2,6 +2,7 @@ package com.example.demo.payment.repository;
 
 import com.example.demo.member.entity.Member;
 import com.example.demo.payment.entity.Payment;
+import com.example.demo.payment.entity.PaymentStatus;
 import io.lettuce.core.dynamic.annotation.Param;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -33,4 +34,11 @@ public interface PaymentRepository extends JpaRepository<Payment,Long> {
     public void deleteNullDate();
     @Query("select p from Payment p where p.paymentDate is null")
     List<Payment> findByNullDate();
+
+    @Transactional
+    @Modifying
+    @Query("update Payment m set m.paymentStatus = :paymentStatus where m.paymentNo = :paymentNo")
+    public void updatePaymentStatus(Long paymentNo, PaymentStatus paymentStatus);
+
+
 }

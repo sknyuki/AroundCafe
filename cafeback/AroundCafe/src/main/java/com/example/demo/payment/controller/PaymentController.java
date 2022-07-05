@@ -44,6 +44,10 @@ public class PaymentController {
 
         return paymentService.getAllPaymentResponse(member);
     }
+    @PutMapping("/order/status/{paymentNo}")
+        public void modifyPaymentStatus(@PathVariable Long paymentNo, @RequestBody PaymentRequest paymentRequest){
+        paymentService.modifyPaymentStatus(paymentNo,paymentRequest.getPaymentStatus());
+    }
 
     @GetMapping("/cafe/{cafeNo}")
     public List<PaymentResponse> getPaymentListByCafeNo(@PathVariable Long cafeNo) {

@@ -3,6 +3,7 @@ export default {
   cafeBoard: {},
   menuLists: [],
   cafeImgLists: [],
+  orderCafeLists: [],
 
   userReviews: [],
   cafeReviews: [],
