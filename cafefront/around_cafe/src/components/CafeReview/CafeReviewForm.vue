@@ -130,7 +130,7 @@ export default {
   mounted() {
     setTimeout(() => {
       this.pagingMethod(this.page)
-    }, 50)
+    }, 10)
   },
   methods: {
     onModify(payload) {

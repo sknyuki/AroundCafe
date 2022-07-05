@@ -67,14 +67,14 @@
                     :key="index"
                     class="chat-room-list"
                     @mouseover="deleteBtn = index"
-                    @mouseleave="deleteBtn = ''"
+                    @mouseleave="deleteBtn = null"
                   >
                     <v-btn
                       class="delete-button"
                       x-small
                       fab
                       v-show="deleteBtn === index"
-                      @click="deletsList(item)"
+                      @click="deleteList(item)"
                     >
                       <i class="icClose"></i>
                     </v-btn>
@@ -175,12 +175,19 @@
                     <div v-if="item.writer != membNo" class="chat-box opponent">
                       <div class="avatar-48">
                         <img
+                          v-if="index == 0"
+                          v-bind:src="
+                            require(`@/assets/images/memberImg/${qnaLists[selectQna].received_img}`)
+                          "
+                        />
+                        <img
                           v-if="qnaLists[selectQna].received_img == null"
                           src="@/assets/images/avatar.webp"
                           alt=""
                         />
                         <img
                           v-if="
+                            index > 0 &&
                             qnaList[index].writer != qnaList[index - 1].writer
                           "
                           v-bind:src="
@@ -189,6 +196,7 @@
                         />
                         <img
                           v-if="
+                            index > 0 &&
                             qnaList[index].writer == qnaList[index - 1].writer
                           "
                           v-bind:src="require(`@/assets/qna/whiteImg.jpg`)"
@@ -289,7 +297,7 @@ export default {
   },
   data() {
     return {
-      deleteBtn: "",
+      deleteBtn: null,
       chatting: "",
       totalcharacter: 0,
       qnaList: [],
