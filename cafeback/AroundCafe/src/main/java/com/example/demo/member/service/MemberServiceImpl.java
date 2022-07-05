@@ -12,8 +12,10 @@ import com.example.demo.member.repository.MemberRoleRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -21,12 +23,15 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 @Slf4j
 @Service
+@Component
 @Transactional
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService {
@@ -155,7 +160,16 @@ public class MemberServiceImpl implements MemberService {
 //    public boolean balckToTrue (Long membNo){
 //        MemberRole memberRole=findByMemId()
 
+    @Scheduled(cron = "0 0 1 * * ?")
+    public void giveBirthdayPoint(){
+        LocalDate now = LocalDate.now();
+        String nowDay = String.valueOf(now).substring(4);
+       List<Member> members = memberRepository.findByMemBirthLike(nowDay);
+       if(members.size() > 0) {
+           for(int i = 0 ; i < members.size(); i++) {
+               members.get(i).setMemPoint(members.get(i).getMemPoint() + 500);
+           }
+       }
 
-
-
+    }
 }

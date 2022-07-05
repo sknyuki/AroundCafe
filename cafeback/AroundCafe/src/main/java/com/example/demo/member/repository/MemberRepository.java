@@ -7,6 +7,9 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
+import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -27,4 +30,6 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
     @Query("select m from Member m join fetch m.cafe c where c.cafeNo = :received_no")
     Optional<Member> findByIdFromCafeNo(@Param("received_no") Long received_no);
+    @Query("select m from Member m where m.memBirth like %:nowDay% ")
+    List<Member> findByMemBirthLike(@Param("nowDay") String nowDay);
 }
