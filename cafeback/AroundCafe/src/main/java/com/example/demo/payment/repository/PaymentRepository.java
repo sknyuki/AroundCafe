@@ -27,6 +27,10 @@ public interface PaymentRepository extends JpaRepository<Payment,Long> {
 
     @Transactional
     public void deleteByPaymentNo(@Param("paymentNo")Long paymentNo);
-
-
+    @Modifying
+    @Transactional
+    @Query("delete from Payment p where p.paymentDate is null")
+    public void deleteNullDate();
+    @Query("select p from Payment p where p.paymentDate is null")
+    List<Payment> findByNullDate();
 }

@@ -25,7 +25,7 @@ public class Payment extends BaseDateTime {
     private Date paymentDate;
     private PaymentStatus paymentStatus;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "payment", orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "payment", orphanRemoval = true, fetch = FetchType.EAGER)
     private Set<OrderItem> orderItem = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.LAZY)

@@ -16,13 +16,17 @@ import com.example.demo.payment.repository.OrderItemRepository;
 import com.example.demo.payment.repository.PaymentRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.nio.file.Path;
 import java.util.*;
 
 @Service
+@Component
 @RequiredArgsConstructor
 @Slf4j
 public class PaymentServiceImpl implements PaymentService {
@@ -129,4 +133,16 @@ public class PaymentServiceImpl implements PaymentService {
 
         memberRepository.updateMemberPoint(memNo, (point + addedPoint));
     }
+
+    @Scheduled(cron = "0 0 2 * 1 ?")
+    public void deleteNullDate(){
+        List <Payment> paymentList = paymentRepository.findByNullDate();
+        if(paymentList.size() > 0) {
+            for(int i =0; i < paymentList.size() ; i++)
+            orderItemRepository.deleteByPayment(paymentList.get(i));
+        }
+        paymentRepository.deleteNullDate();
+        log.info("test, delete ok");
+    }
+
 }
