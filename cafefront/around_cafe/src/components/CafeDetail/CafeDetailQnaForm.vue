@@ -1,30 +1,53 @@
 <template>
-  <div>
-    <h2>{{ cafeBoard.cafe_name }}님에게 문의하기</h2>
-    <span>보통 하루 이내에 응답</span><br />
-    <span>(여기 밑줄)</span><br />
-    <span>어떤 것을 문의하고 싶으신가요?</span><br />
-    <select v-model="findQna">
-      <option disabled value="">문의사항 클릭</option>
-      <option
-        v-for="(item, index) in selectQna"
-        :key="index"
-        :value="item.name"
-      >
-        {{ item.name }}
-      </option></select
-    ><br />
-    <span>(여기 밑줄)</span>
-    <h3>카페에게 메시지를 보내 문의하세요.</h3>
-    <br />
-    <textarea
-      v-model="content"
-      maxlength="70"
-      cols="70"
-      rows="32"
-      placeholder="문의사항을 입력해주세요."
-    ></textarea>
-    <v-btn @click="registerQna">문의하기</v-btn>
+  <div class="qna">
+    <section class="qna-section">
+      <div class="qna-section-wrap">
+        <div class="qna-info">
+          <h3>{{ cafeBoard.cafe_name }}님에게 문의하기</h3>
+          <span>보통 하루 이내에 응답</span>
+        </div>
+        <div class="avatar-48">
+          <img src="@/assets/images/avatar.webp" alt="" />
+        </div>
+      </div>
+    </section>
+    <section class="qna-section">
+      <h3>무엇을 문의하고 싶으신가요?</h3>
+      <div class="qna-section-radio">
+        <label v-for="(item, index) in selectQna" :key="index">
+          <input
+            type="radio"
+            :value="item.name"
+            v-model="findQna"
+            :name="index"
+          />{{ item.name }}
+        </label>
+      </div>
+
+      <!-- <select v-model="findQna">
+        <option disabled value="">문의사항 클릭</option>
+        <option
+          v-for="(item, index) in selectQna"
+          :key="index"
+          :value="item.name"
+        >
+          {{ item.name }}
+        </option>
+      </select> -->
+    </section>
+    <section class="qna-section">
+      <h3>카페에게 메시지를 보내 문의하세요.</h3>
+      <textarea
+        v-model="content"
+        maxlength="100"
+        cols="120"
+        rows="32"
+        placeholder="문의사항을 입력해주세요."
+      ></textarea>
+    </section>
+    <v-btn class="btn-indigo btn-40" @click="registerQna"
+      >메시지 전송하기</v-btn
+    >
   </div>
 </template>
 <script>
@@ -88,4 +111,6 @@ export default {
   },
 }
 </script>
-<style></style>
+<style lang="scss" scoped>
+@import "~@/assets/scss/components/detail/detail-qna";
+</style>
