@@ -486,19 +486,13 @@ export default {
       }
       this.emailVerifyDisabled = true
       alert("인증 메일이 발송되었습니다.")
-      const unInterceptedAxiosInstance = axios.create()
-      const code = await unInterceptedAxiosInstance.post(
-        url,
-        JSON.stringify(data),
-        config
-      )
+      const code = await axios.post(url, JSON.stringify(data), config)
       // 유저가 확인할 수 없는 장소가 어디일까요?
       // 확인요망 -- 애매하면 그냥 redis 서버에 저장
       this.emailCodeFromServer = code.data["code"]
       this.emailVerifyUse = true
     },
     existByNickname(username) {
-      const unInterceptedAxiosInstance = axios.create()
       const url = "http://localhost:7777/auth/isExists"
       const data = {
         memNick: username,
@@ -508,22 +502,19 @@ export default {
           "Content-Type": "Application/json",
         },
       }
-      unInterceptedAxiosInstance
-        .post(url, JSON.stringify(data), config)
-        .then((res) => {
-          if (res.data === false) {
-            alert("사용 가능한 닉네임입니다.")
-            this.usernameDupChecked = true
-            this.usernameDisabled = true
-          } else {
-            alert("이미 사용하고 있는 닉네임입니다. 다른 닉네임을 사용해주세요")
-            this.usernameDupChecked = false
-            this.usernameDisabled = false
-          }
-        })
+      axios.post(url, JSON.stringify(data), config).then((res) => {
+        if (res.data === false) {
+          alert("사용 가능한 닉네임입니다.")
+          this.usernameDupChecked = true
+          this.usernameDisabled = true
+        } else {
+          alert("이미 사용하고 있는 닉네임입니다. 다른 닉네임을 사용해주세요")
+          this.usernameDupChecked = false
+          this.usernameDisabled = false
+        }
+      })
     },
     existByEmail(email) {
-      const unInterceptedAxiosInstance = axios.create()
       const url = "http://localhost:7777/auth/isExists"
       const data = {
         memId: email,
@@ -533,17 +524,15 @@ export default {
           "Content-Type": "Application/json",
         },
       }
-      unInterceptedAxiosInstance
-        .post(url, JSON.stringify(data), config)
-        .then((res) => {
-          if (res.data === false) {
-            this.emailDupChecked = true
-            this.sendVerifyEmail(email)
-          } else {
-            alert("이미 사용하고 있는 이메일입니다. 다른 이메일을 사용해주세요")
-            this.emailDupChecked = false
-          }
-        })
+      axios.post(url, JSON.stringify(data), config).then((res) => {
+        if (res.data === false) {
+          this.emailDupChecked = true
+          this.sendVerifyEmail(email)
+        } else {
+          alert("이미 사용하고 있는 이메일입니다. 다른 이메일을 사용해주세요")
+          this.emailDupChecked = false
+        }
+      })
     },
     onSubmit() {
       const data = {

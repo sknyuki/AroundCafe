@@ -196,6 +196,16 @@ const routes = [
     component: () => import("@/views/User/UserOrderHistoryPage"),
   },
   {
+    path: "/user/history/detail/:paymentNo",
+    name: "UserOrderHistoryDetailPage",
+    components: {
+      default: () => import("@/views/User/UserOrderHistoryDetailPage"),
+    },
+    props: {
+      default: true,
+    },
+  },
+  {
     path: "/user/pw",
     name: "UserPasswordPage",
     component: () => import("@/views/User/UserPasswordPage"),
