@@ -103,10 +103,6 @@ export default {
     PaginationForm,
   },
   props: {
-    reviewList: {
-      type: Array,
-      required: true,
-    },
     cafeNo: {
       type: String,
       required: true,
@@ -127,10 +123,17 @@ export default {
       total: "",
     }
   },
-  mounted() {
-    setTimeout(() => {
-      this.pagingMethod(this.page)
-    }, 10)
+  created() {
+    let memNo = this.$store.state.user.memNo
+    if (memNo == null) {
+      memNo = 0
+    }
+    axios
+      .get(`http://localhost:7777/cafe/review/list/${this.cafeNo}/${memNo}`)
+      .then((res) => {
+        this.reviewList = res.data
+        this.pagingMethod(this.page)
+      })
   },
   methods: {
     onModify(payload) {
