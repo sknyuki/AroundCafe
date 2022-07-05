@@ -182,10 +182,7 @@
                           </div>
                         </div>
 
-                        <CafeReviewForm
-                          :reviewList="reviewList"
-                          :cafeNo="cafeNo"
-                        />
+                        <CafeReviewForm :cafeNo="cafeNo" />
                       </section>
                     </div>
                     <div class="detail-content">

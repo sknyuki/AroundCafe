@@ -134,24 +134,19 @@ export default {
       memNo: this.$store.state.user.memNo,
     }
   },
-  async created() {
-    await this.fetchUserReviewList(this.memNo)
-  },
-  mounted() {
-    setTimeout(() => {
-      this.pagingMethod(this.page)
-    }, 70)
+  created() {
+    axios
+      .get(
+        `http://localhost:7777/cafe/review/user/list/${this.$store.state.user.memNo}`
+      )
+      .then((res) => {
+        for (let i = 0; i < res.data.length; i++) {
+          this.$store.state.userReviews.push(res.data[i])
+        }
+        this.pagingMethod(this.page)
+      })
   },
   methods: {
-    fetchUserReviewList(memNo) {
-      axios
-        .get(`http://localhost:7777/cafe/review/user/list/${memNo}`)
-        .then((res) => {
-          for (let i = 0; i < res.data.length; i++) {
-            this.$store.state.userReviews.push(res.data[i])
-          }
-        })
-    },
     onModify(payload) {
       const { reviewNo, star_score, review_content, cafeNum, file } = payload
       let formData = new FormData()

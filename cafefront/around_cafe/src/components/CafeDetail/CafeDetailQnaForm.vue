@@ -7,7 +7,11 @@
           <span>보통 하루 이내에 응답</span>
         </div>
         <div class="avatar-48">
-          <img src="@/assets/images/avatar.webp" alt="" />
+          <img v-if="!userInfo" src="@/assets/images/avatar.webp" alt="" />
+          <img
+            v-else
+            v-bind:src="require(`@/assets/images/memberImg/${userInfo.memImg}`)"
+          />
         </div>
       </div>
     </section>
@@ -23,17 +27,6 @@
           />{{ item.name }}
         </label>
       </div>
-
-      <!-- <select v-model="findQna">
-        <option disabled value="">문의사항 클릭</option>
-        <option
-          v-for="(item, index) in selectQna"
-          :key="index"
-          :value="item.name"
-        >
-          {{ item.name }}
-        </option>
-      </select> -->
     </section>
     <section class="qna-section">
       <h3>카페에게 메시지를 보내 문의하세요.</h3>
@@ -51,6 +44,8 @@
   </div>
 </template>
 <script>
+import { mapState, mapActions } from "vuex"
+
 import axios from "axios"
 
 export default {
@@ -77,7 +72,14 @@ export default {
       findQna: "",
     }
   },
+  computed: {
+    ...mapState(["userInfo"]),
+  },
+  mounted() {
+    this.fetchUserInfo()
+  },
   methods: {
+    ...mapActions(["fetchUserInfo"]),
     registerQna() {
       let formData = new FormData()
 
