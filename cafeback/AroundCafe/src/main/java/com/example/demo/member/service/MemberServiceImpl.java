@@ -160,8 +160,7 @@ public class MemberServiceImpl implements MemberService {
 //    public boolean balckToTrue (Long membNo){
 //        MemberRole memberRole=findByMemId()
 
-    //@Scheduled(cron = "0 0 1 * * ?")
-    @Scheduled(cron = "4 * * * * ?")
+    @Scheduled(cron = "0 0 1 * * ?")
     public void giveBirthdayPoint(){
         LocalDate now = LocalDate.now();
         String nowDay = String.valueOf(now).substring(4);
