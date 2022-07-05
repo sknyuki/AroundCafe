@@ -13,7 +13,7 @@
           <header>
             <h1>리뷰</h1>
           </header>
-          <UserReviewList :userReviews="userReviews" :myHelps="myHelps" />
+          <UserReviewList :myHelps="myHelps" />
         </div>
       </div>
     </div>
@@ -34,19 +34,13 @@ export default {
     }
   },
   computed: {
-    ...mapState(["userReviews", "myHelps"]),
+    ...mapState(["myHelps"]),
   },
   mounted() {
-    this.fetchUserReviewList(this.memNo)
     this.fetchMyHelpsList(this.memNo)
   },
   methods: {
-    ...mapActions([
-      "fetchUserReviewList",
-      "fetchMyHelpsList",
-      "fetchUserInfo",
-      "fetchMyLikesList",
-    ]),
+    ...mapActions(["fetchMyHelpsList"]),
   },
 }
 </script>

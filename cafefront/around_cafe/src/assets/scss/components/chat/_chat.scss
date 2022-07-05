@@ -68,7 +68,7 @@
     &-contents {
       @include truncate;
       display: block;
-      width: 200px;
+      width: 160px;
     }
     &-text {
       display: flex;
@@ -111,10 +111,6 @@
         z-index: 100;
         right: 40px;
         top: 25%;
-        opacity: 0;
-      }
-      .hover {
-        opacity: 1;
       }
     }
 
