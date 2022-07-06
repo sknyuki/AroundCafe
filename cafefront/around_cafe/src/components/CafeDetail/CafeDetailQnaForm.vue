@@ -8,14 +8,16 @@
         </div>
         <div class="avatar-48">
           <img
-            v-if="!userInfo"
+            v-if="
+              !userInfo || (Array.isArray(userInfo) && userInfo.length === 0)
+            "
             src="@/assets/images/avatar.webp"
-            alt="기본이미지"
+            alt=""
           />
-          <img
+          <!-- <img
             v-else
-            :src="require(`@/assets/images/memberImg/${userInfo.memImg}`)"
-          />
+            v-bind:src="require(`@/assets/images/memberImg/${userInfo.memImg}`)"
+          /> -->
         </div>
       </div>
     </section>

@@ -1,14 +1,11 @@
 package com.example.demo.payment.service;
 
 import com.example.demo.member.entity.Member;
-import com.example.demo.payment.dto.PaymentRequest;
-import com.example.demo.payment.dto.PaymentResponse;
-import com.example.demo.payment.entity.Payment;
+import com.example.demo.payment.dto.*;
 import com.example.demo.payment.entity.PaymentStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Set;
 
 @Service
 public interface PaymentService {
@@ -19,4 +16,10 @@ public interface PaymentService {
     public void paymentConfirm(Long paymentNo);
     public void deletePayment(Long paymentNo);
     public void modifyPaymentStatus(Long paymentNo, PaymentStatus paymentStatus);
+
+    public List<PaymentSalesResponse> getCafeSalesList(Long cafeNo);
+
+    public List<PaymentSalesDetailResponse> getPaymentSalesDetailList(Long cafeNo, String date);
+
+    public List<PaymentSalesMenuResponse1> getPaymentSalesMenuList(Long cafeNo);
 }

@@ -23,10 +23,14 @@
                       alt=""
                     />
                     <img
-                      v-else
+                      v-if="qnaLists[0].writerImg != null && findKakao < 5"
                       v-bind:src="
                         require(`@/assets/images/memberImg/${qnaLists[0].writerImg}`)
                       "
+                    />
+                    <img
+                      v-if="qnaLists[0].writerImg != null && findKakao > 5"
+                      :src="qnaLists[0].writerImg"
                     />
                   </div>
                 </a>
@@ -320,7 +324,7 @@ export default {
       num: "",
       nickname: JSON.parse(localStorage.getItem("user")).nickname,
       selectQna: "",
-      minusIndex: "",
+      findKakao: "",
     }
   },
   watch: {
@@ -412,13 +416,13 @@ export default {
     sendQnaNo(item, index) {
       this.checkQnaNo = item.qna_no
       this.selectQna = index
-      this.minusIndex = index - 1
       axios
         .get(`http://localhost:7777/qna/memberRead/${this.checkQnaNo}`)
         .then((res) => {
           console.log(res.data)
           this.qnaList = res.data
           this.cafeName = item.received_name
+          this.findKakao = this.qnaLists[0].writerImg.indexOf("k.kakaocdn.net")
         })
         .catch(() => {
           alert("문의사항 등록에 실패하였습니다.")

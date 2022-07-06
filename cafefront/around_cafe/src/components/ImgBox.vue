@@ -21,10 +21,15 @@
                   alt=""
                 />
                 <img
-                  v-else
+                  v-if="findKakao < 5 && userInfo.memImg != null"
                   v-bind:src="
                     require(`@/assets/images/memberImg/${userInfo.memImg}`)
                   "
+                  alt=""
+                />
+                <img
+                  v-if="findKakao > 5 && userInfo.memImg != null"
+                  :src="userInfo.memImg"
                   alt=""
                 />
               </div>
@@ -87,6 +92,7 @@ export default {
       memNo: this.$store.state.user.memNo,
       cafeNo: this.$store.state.user.cafeNo,
       reviewList: [],
+      findKakao: "",
     }
   },
   computed: {
@@ -121,11 +127,11 @@ export default {
       if (memNo == null) {
         this.memNo = 0
       }
-
       axios
         .get(`http://localhost:7777/cafe/review/list/${cafeNo}/${memNo}`)
         .then((res) => {
           this.reviewList = res.data
+          this.findKakao = this.userInfo.memImg.indexOf("k.kakaocdn.net")
         })
     },
   },
