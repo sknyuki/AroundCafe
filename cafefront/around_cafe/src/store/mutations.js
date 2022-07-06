@@ -24,8 +24,8 @@ import {
   FETCH_MY_LIKES_LIST,
   FETCH_LIKES_ID_LISTS,
   FETCH_MAIN_LIST,
-  FETCH_ADMIN_MEMBER_LIST,
-  FETCH_USER_SPEND_LIST,
+  FETCH_ADMIN_MEMBER_LIST, FETCH_PAYMENT_DETAIL,
+
 } from "./mutation-types"
 
 export default {
@@ -35,6 +35,10 @@ export default {
 
   [FETCH_USER_INFO](state, userInfo) {
     state.userInfo = userInfo
+  },
+
+  [FETCH_PAYMENT_DETAIL](state, paymentDetail) {
+    state.paymentDetail = paymentDetail
   },
 
   [FETCH_CAFE_BOARD_LIST](state, cafeBoards) {
