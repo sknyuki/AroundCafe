@@ -2,8 +2,7 @@ package com.example.demo.payment.controller;
 
 import com.example.demo.member.entity.Member;
 import com.example.demo.member.repository.MemberRepository;
-import com.example.demo.payment.dto.PaymentRequest;
-import com.example.demo.payment.dto.PaymentResponse;
+import com.example.demo.payment.dto.*;
 import com.example.demo.payment.service.PaymentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +12,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -64,5 +65,22 @@ public class PaymentController {
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void confirmPayment(@PathVariable Long paymentNo) {
         paymentService.paymentConfirm(paymentNo);
+    }
+
+    @GetMapping("/sales/{cafeNo}")
+    public List<PaymentSalesResponse> getPaymentSalesList(@PathVariable Long cafeNo){
+        return paymentService.getCafeSalesList(cafeNo);
+    }
+
+    @GetMapping("/sales/{cafeNo}/{date}")
+    public List<PaymentSalesDetailResponse> getPaymentSalesDetailList(@PathVariable Long cafeNo,
+                                                                    @PathVariable String date){
+        return paymentService.getPaymentSalesDetailList(cafeNo, date);
+    }
+
+    @GetMapping("/sales/menu/{cafeNo}")
+    public List<PaymentSalesMenuResponse1> getPaymentSalesMenuList(@PathVariable Long cafeNo){
+
+        return paymentService.getPaymentSalesMenuList(cafeNo);
     }
 }

@@ -3,10 +3,7 @@ package com.example.demo.payment.service;
 import com.example.demo.common.exception.ResourceNotFoundException;
 import com.example.demo.member.entity.Member;
 import com.example.demo.member.repository.MemberRepository;
-import com.example.demo.payment.dto.OrderItemRequest;
-import com.example.demo.payment.dto.OrderItemResponse;
-import com.example.demo.payment.dto.PaymentRequest;
-import com.example.demo.payment.dto.PaymentResponse;
+import com.example.demo.payment.dto.*;
 import com.example.demo.payment.entity.OrderItem;
 import com.example.demo.payment.entity.Payment;
 import com.example.demo.payment.entity.PaymentStatus;
@@ -22,7 +19,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.nio.file.Path;
+import java.time.LocalDate;
 import java.util.*;
 
 @Service
@@ -152,4 +149,64 @@ public class PaymentServiceImpl implements PaymentService {
         log.info("test, delete ok");
     }
 
+    @Override
+    public List<PaymentSalesResponse> getCafeSalesList(Long cafeNo) {
+        List<String> date = paymentRepository.findByDay(cafeNo);
+
+        List<PaymentSalesResponse> paymentList = new ArrayList<>();
+        if(date.size() == 0) {
+            return null;
+        }else {
+            for(int i = 0 ; i< date.size(); i++){
+                LocalDate date1 = LocalDate.parse(date.get(i));
+                log.info("date =" +date1);
+                Integer count = paymentRepository.findByCount(cafeNo,date1);
+                Integer sum = paymentRepository.findBySum(cafeNo,date1);
+
+                PaymentSalesResponse salesResponse = PaymentSalesResponse.builder()
+                        .date(date1)
+                        .total_amount(sum)
+                        .total_quantity(count)
+                        .build();
+
+                paymentList.add(salesResponse);
+            }
+        }
+        return paymentList;
+    }
+
+    @Override
+    public List<PaymentSalesDetailResponse> getPaymentSalesDetailList(Long cafeNo, String date) {
+        Date date1 = java.sql.Date.valueOf(date);
+        List<Payment> paymentList = paymentRepository.findByCafeNoAndPaymentDateLike(cafeNo,date1);
+        List<PaymentSalesDetailResponse> salesDetail = new ArrayList<>();
+
+        if(paymentList.size() > 0 ) {
+            for(int i=0; i < paymentList.size(); i ++ ) {
+                Member member = memberRepository.findById(paymentList.get(i).getMember().getMemNo()).orElse(null);
+                for(OrderItem orderItem : paymentList.get(i).getOrderItem()){
+                    PaymentSalesDetailResponse response = PaymentSalesDetailResponse.builder()
+                            .paymentNo(paymentList.get(i).getPaymentNo())
+                            .paymentDate(paymentList.get(i).getPaymentDate())
+                            .itemName(orderItem.getItemName())
+                            .quantity(orderItem.getQuantity())
+                            .amount(orderItem.getAmount())
+                            .memNick(member.getMemNick())
+                            .memImg(member.getMemImg())
+                            .build();
+
+                    salesDetail.add(response);
+                }
+            }
+            return salesDetail;
+        }else return null;
+    }
+
+    @Override
+    public List<PaymentSalesMenuResponse1> getPaymentSalesMenuList(Long cafeNo) {
+        List<PaymentSalesMenuResponse1> paymentList = paymentRepository.findByMenuList(cafeNo);
+        if(paymentList.size() > 0) {
+            return paymentList;
+        }else return null;
+    }
 }
