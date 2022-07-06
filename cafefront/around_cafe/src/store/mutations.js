@@ -25,6 +25,7 @@ import {
   FETCH_LIKES_ID_LISTS,
   FETCH_MAIN_LIST,
   FETCH_ADMIN_MEMBER_LIST,
+  FETCH_USER_SPEND_LIST,
 } from "./mutation-types"
 
 export default {

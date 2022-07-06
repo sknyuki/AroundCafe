@@ -87,8 +87,10 @@ export default {
   computed: {
     ...mapState(["adminlist"]),
   },
-  async mounted() {
-    await this.fetchAdminMemberList()
+  mounted() {
+    this.fetchAdminMemberList()
+  },
+  beforeUpdate() {
     this.pagingMethod(this.page)
   },
   methods: {

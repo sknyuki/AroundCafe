@@ -63,7 +63,7 @@ export default {
           id: 2,
           icon: "mdi-chart-areaspline",
           title: "회원 이용 현황",
-          link: "/",
+          link: "/admin/AdminUsageMemberListPage",
         },
         {
           id: 3,

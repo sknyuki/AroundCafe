@@ -142,7 +142,7 @@ export default {
         {
           id: 3,
           title: "회원 이용현황",
-          link: "",
+          link: "/admin/AdminUsageMemberListPage",
         },
         {
           id: 4,
