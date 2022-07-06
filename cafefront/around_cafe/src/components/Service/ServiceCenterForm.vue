@@ -10,15 +10,21 @@
                   <h2 class="service-header">무엇을 도와드릴까요?</h2>
                   <ul>
                     <li class="service-list">
-                      <a><span>Q</span>주문 취소는 어떻게 하나요?</a>
-                    </li>
-                    <li class="service-list">
-                      <a><span>Q</span>매장의 자세한 정보를 알고 싶어요.</a>
+                      <a
+                        ><span aria-label="문의 내용">Q</span>주문 취소는 어떻게
+                        하나요?</a
+                      >
                     </li>
                     <li class="service-list">
                       <a
-                        ><span>Q</span>카카오 계정으로 로그인하면 이미
-                        가입되었다고 합니다.</a
+                        ><span aria-label="문의 내용">Q</span>매장의 자세한
+                        정보를 알고 싶어요.</a
+                      >
+                    </li>
+                    <li class="service-list">
+                      <a
+                        ><span aria-label="문의 내용">Q</span>카카오 계정으로
+                        로그인하면 이미 가입되었다고 합니다.</a
                       >
                     </li>
                   </ul>
@@ -26,15 +32,17 @@
                 <div class="service-content tel">
                   <h2>고객센터 <span class="time"> 09:00 ~ 18:00</span></h2>
                   <p class="telephone lg-only">
-                    <v-icon>mdi-phone-outline</v-icon>
+                    <v-icon aria-hidden="true">mdi-phone-outline</v-icon>
                     <strong>1611-0828</strong>
                   </p>
                   <div class="btn-group">
-                    <v-btn class="btn-indigo btn-40">1:1 카톡 상담하기</v-btn>
-                    <v-btn class="btn-outlined btn-40" href="">
+                    <v-btn class="btn-indigo btn-40" type="button"
+                      >1:1 카톡 상담하기</v-btn
+                    >
+                    <v-btn class="btn-outlined btn-40" type="button">
                       이메일 문의하기
                     </v-btn>
-                    <v-btn class="btn-outlined btn-40" href="">
+                    <v-btn class="btn-outlined btn-40" type="button">
                       전화 문의하기
                     </v-btn>
                   </div>
@@ -71,12 +79,13 @@
                         class="service-content-button"
                         type="button"
                       >
-                        <span class="icon">Q</span
+                        <span class="icon" aria-label="문의 내용">Q</span
                         ><span>{{ serviceItem.questions }}</span
                         ><span
                           ><i
                             :class="{ 'is-active': serviceItem.isActive }"
                             class="icChevron"
+                            aria-hidden="true"
                           ></i
                         ></span>
                       </button>
