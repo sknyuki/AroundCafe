@@ -24,7 +24,7 @@
                   placeholder="새 비밀번호"
                   required
                 />
-                <div class="errmsg" aria-live="polite">
+                <div class="errmsg" role="alert" aria-live="polite">
                   {{ errors[0] }}
                 </div>
               </ValidationProvider>
@@ -44,18 +44,13 @@
                   placeholder="새 비밀번호 확인"
                   required
                 />
-                <div class="errmsg" aria-live="polite">
+                <div class="errmsg" role="alert" aria-live="polite">
                   {{ errors[0] }}
                 </div>
               </ValidationProvider>
             </div>
           </div>
-          <v-btn
-            :disabled="invalid"
-            class="sign-button-vuti"
-            type="submit"
-            aria-label="비밀번호 변경하기"
-          >
+          <v-btn :disabled="invalid" class="sign-button-vuti" type="submit">
             비밀번호 변경하기
           </v-btn>
         </form>

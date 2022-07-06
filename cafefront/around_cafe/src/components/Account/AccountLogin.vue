@@ -8,12 +8,7 @@
 
     <section class="login-section">
       <div>
-        <form
-          class="login-form"
-          @submit.prevent="onSubmit"
-          action="/"
-          method="POST"
-        >
+        <form class="login-form" @submit.prevent="onSubmit" method="POST">
           <div class="login-form-member">
             <div class="login-form-id">
               <div class="account-input">
@@ -40,9 +35,7 @@
           </div>
 
           <div class="login-button">
-            <v-btn class="login-button-vuti" type="submit" aria-label="로그인">
-              로그인
-            </v-btn>
+            <v-btn class="login-button-vuti" type="submit"> 로그인 </v-btn>
           </div>
 
           <div class="login-util">
@@ -66,21 +59,29 @@
             <div class="login-social">SNS계정으로 간편 로그인/회원가입</div>
             <div class="login-social-group">
               <v-btn
+                type="button"
                 v-on:click="redirect2AuthServer('kakao')"
                 medium
                 fab
                 color="yellow"
+                aria-label="카카오 로그인 버튼"
               >
-                <i class="icKaKaoTalk"></i>
+                <i class="icKaKaoTalk" aria-hidden="true"></i>
               </v-btn>
-              <v-btn v-on:click="redirect2AuthServer('naver')" medium fab>
-                <i class="icNaver"></i>
+              <v-btn
+                type="button"
+                v-on:click="redirect2AuthServer('naver')"
+                medium
+                fab
+                aria-label="네이버 로그인 버튼"
+              >
+                <i class="icNaver" aria-hidden="true"></i>
               </v-btn>
-              <v-btn medium fab>
-                <i class="icFacebook"></i>
+              <v-btn type="button" medium fab aria-label="페이스북 로그인 버튼">
+                <i class="icFacebook" aria-hidden="true"></i>
               </v-btn>
-              <v-btn medium fab>
-                <v-icon>mdi-apple</v-icon>
+              <v-btn type="button" medium fab aria-label="애플 로그인 버튼">
+                <v-icon aria-hidden="true">mdi-apple</v-icon>
               </v-btn>
             </div>
           </section>

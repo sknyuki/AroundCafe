@@ -1,7 +1,7 @@
 .chat-box {
   position: relative;
 
-  &.list {
+  &-overflow {
     overflow: hidden auto;
     padding: 0px 20px;
   }
@@ -42,8 +42,6 @@
     @include text-style(12, $tertiary);
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
     padding: 0px 4px;
-    -webkit-box-pack: end;
   }
 }

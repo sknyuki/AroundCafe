@@ -2,7 +2,7 @@
   <div class="modify-info">
     <header class="modify-info-header">
       <h2>내 정보수정</h2>
-      <button type="submit" aria-label="탈퇴하기">탈퇴하기</button>
+      <button type="submit">탈퇴하기</button>
     </header>
 
     <form>
@@ -109,9 +109,10 @@
             class="btn-red"
             v-if="image != ''"
             small
+            type="button"
             aria-label="첨부 파일 삭제하기"
           >
-            <v-icon>mdi-delete </v-icon>삭제
+            <v-icon aria-hidden="true">mdi-delete </v-icon>삭제
           </v-btn>
           <input
             class="visually-hidden"
@@ -123,7 +124,9 @@
           />
         </div>
       </div>
-      <v-btn class="btn-indigo btn-48" @click="onSumbit">회원 정보 수정</v-btn>
+      <v-btn class="btn-indigo btn-48" @click="onSumbit" type="submit"
+        >회원 정보 수정</v-btn
+      >
     </form>
     <!-- <div v-if="userInfo.socialType == 'LOCAL'">
         등록된 이미지

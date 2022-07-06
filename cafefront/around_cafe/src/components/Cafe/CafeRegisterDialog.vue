@@ -4,21 +4,21 @@
       <h1>메뉴 관리</h1>
     </header>
     <div class="menu-register-group">
-      <v-btn class="btn-indigo btn-40" @click="onMenuRegister" type="submit"
+      <v-btn @click="onMenuRegister" class="btn-indigo btn-40" type="submit"
         >메뉴 등록</v-btn
       >
     </div>
     <form class="menu-register-form">
-      <v-dialog class="menu-register-dialog" v-model="menuDialog">
+      <v-dialog v-model="menuDialog" class="menu-register-dialog">
         <v-card class="menu-register-card">
           <div class="menu-register-file">
             <div class="men-register-file header">사진 첨부</div>
 
             <div class="review-card-btn">
-              <div class="select-picture" v-if="image">
+              <div v-if="image" class="select-picture">
                 <img
-                  class="select-picture-contents"
                   :src="image"
+                  class="select-picture-contents"
                   alt="첨부한 사진"
                 />
                 <button
@@ -31,17 +31,18 @@
                 </button>
               </div>
               <input
+                v-if="uploadReady"
+                @change="commentFileUpload()"
                 class="visually-hidden"
                 id="files"
                 type="file"
                 ref="files"
                 multiple
-                v-if="uploadReady"
-                v-on:change="commentFileUpload()"
               />
               <v-btn
-                class="btn-indigo btn-32"
                 @click="onUpload"
+                class="btn-indigo btn-32"
+                type="button"
                 aria-label="사진 첨부하기"
               >
                 사진 첨부하기
@@ -87,7 +88,7 @@
             ></textarea>
           </div>
           <div class="menu-register-btn">
-            <v-btn class="btn-indigo btn-32" @click="onSubmitMenu"
+            <v-btn @click="onSubmitMenu" class="btn-indigo btn-32" type="submit"
               >등록하기</v-btn
             >
             <v-btn

@@ -9,7 +9,7 @@
           <template v-if="item.id == 6">
             <router-link class="mysidebar-link" :to="item.link" target="_blank">
               <div class="mysidebar-test">
-                <v-icon>{{ item.icon }}</v-icon>
+                <v-icon aria-hidden="true">{{ item.icon }}</v-icon>
                 <p>{{ item.title }}</p>
               </div>
             </router-link>
@@ -17,7 +17,7 @@
           <template v-else>
             <router-link class="mysidebar-link" :to="item.link">
               <div class="mysidebar-test">
-                <v-icon>{{ item.icon }}</v-icon>
+                <v-icon aria-hidden="true">{{ item.icon }}</v-icon>
                 <p>{{ item.title }}</p>
               </div>
             </router-link>
@@ -33,7 +33,7 @@
         <li class="mysidebar-list" v-for="item in sidebarTwo" :key="item.id">
           <router-link class="mysidebar-link" :to="item.link">
             <div class="mysidebar-test">
-              <v-icon>{{ item.icon }}</v-icon>
+              <v-icon aria-hidden="true">{{ item.icon }}</v-icon>
               <p>{{ item.title }}</p>
             </div>
           </router-link>

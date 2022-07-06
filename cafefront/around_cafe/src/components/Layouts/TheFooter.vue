@@ -26,7 +26,7 @@
                   color="indigo"
                   aria-label="애플스토어 이동"
                 >
-                  <v-icon>mdi-apple</v-icon>
+                  <v-icon aria-hidden="true">mdi-apple</v-icon>
                 </v-btn>
               </a>
               <a href="">
@@ -37,7 +37,7 @@
                   color="indigo"
                   aria-label="구글플레이 이동"
                 >
-                  <v-icon>mdi-google-play</v-icon>
+                  <v-icon aria-hidden="true">mdi-google-play</v-icon>
                 </v-btn>
               </a>
               <a href="">
@@ -48,17 +48,17 @@
                   color="indigo"
                   aria-label="페이스북 이동"
                 >
-                  <v-icon>mdi-facebook</v-icon>
+                  <v-icon aria-hidden="true">mdi-facebook</v-icon>
                 </v-btn>
               </a>
               <a href="">
                 <v-btn fab dark x-small color="indigo" aria-label="유튜브 이동">
-                  <v-icon>mdi-youtube</v-icon>
+                  <v-icon aria-hidden="true">mdi-youtube</v-icon>
                 </v-btn>
               </a>
               <a href="">
                 <v-btn fab dark x-small color="indigo" aria-label="트위터 이동">
-                  <v-icon>mdi-twitter</v-icon>
+                  <v-icon aria-hidden="true">mdi-twitter</v-icon>
                 </v-btn>
               </a>
             </div>

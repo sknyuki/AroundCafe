@@ -12,21 +12,25 @@
             required
           />
           <v-btn
+            @click="existByEmail(email)"
             :disabled="email.length < 1 || isEmailExists"
             class="password-btns"
-            @click="existByEmail(email)"
+            type="button"
             >확인</v-btn
           >
         </div>
         <v-btn
+          @click="sendVerifyEmail(email)"
           :disabled="!isEmailExists"
           class="password-btn"
-          @click="sendVerifyEmail(email)"
+          type="submit"
           >이메일로 인증코드 받기</v-btn
         >
         <div class="password-support">
           회원가입 시 입력한 정보가 기억나지 않는다면?
-          <a href="tel:1611-0828">고객센터 문의하기(1611-0828)</a>
+          <a href="tel:1611-0828" aria-label="고객센터 전화하기"
+            >고객센터 문의하기(1611-0828)</a
+          >
         </div>
       </div>
     </div>
@@ -45,6 +49,7 @@
           <v-btn
             :disabled="emailCode.length < 1 || isEmailVerified || time === 0"
             class="password-btns"
+            type="button"
             @click="checkEmailCode()"
             >확인</v-btn
           >
@@ -66,6 +71,7 @@
         </div>
         <v-btn
           class="password-btn"
+          type="button"
           :disabled="!isEmailExists || !isEmailVerified"
           @click="transfer2ModifyPasswordPage(email)"
         >

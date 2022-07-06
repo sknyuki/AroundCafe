@@ -8,7 +8,7 @@
         v-if="pageSetting.first !== null"
         @click="pageSetting.first !== null ? sendPage(pageSetting.first) : ''"
       >
-        <i class="icChevron" aria-hidden></i>
+        <i class="icChevron" aria-hidden="true"></i>
       </v-btn>
 
       <ol class="page-list">
@@ -30,7 +30,7 @@
         v-if="pageSetting.end !== null"
         @click="pageSetting.end !== null ? sendPage(pageSetting.end) : ''"
       >
-        <i class="icChevron" aria-hidden></i>
+        <i class="icChevron" aria-hidden="true"></i>
       </v-btn>
     </div>
   </div>

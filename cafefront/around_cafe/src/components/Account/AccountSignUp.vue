@@ -42,7 +42,7 @@
                     placeholder="상호명(법인명)"
                     :disabled="usernameDisabled"
                   />
-                  <div class="errmsg" aria-live="polite">
+                  <div class="errmsg" role="alert" aria-live="polite">
                     {{ errors[0] }}
                   </div>
                   <div v-show="!usernameDisabled" class="sign-email btn">
@@ -61,7 +61,7 @@
               </div>
             </div>
             <div class="sign-form crn" v-if="clickUse === false">
-              <label class="sign-form-label" for="">사업자등록번호</label>
+              <label class="sign-form-label">사업자등록번호</label>
               <div class="account-input">
                 <ValidationProvider
                   class="sign-validation"
@@ -77,14 +77,14 @@
                     maxlength="12"
                     required
                   />
-                  <div class="errmsg" aria-live="polite">
+                  <div class="errmsg" role="alert" aria-live="polite">
                     {{ errors[0] }}
                   </div>
                 </ValidationProvider>
               </div>
             </div>
             <div class="sign-form id">
-              <label class="sign-form-label" for="">이메일</label>
+              <label class="sign-form-label">이메일</label>
               <div class="account-input">
                 <ValidationProvider
                   class="sign-validation"
@@ -99,7 +99,7 @@
                     required
                     :disabled="emailDupChecked"
                   />
-                  <div class="errmsg" aria-live="polite">
+                  <div class="errmsg" role="alert" aria-live="polite">
                     {{ errors[0] }}
                   </div>
                   <div class="sign-email btn">
@@ -144,7 +144,7 @@
                     확인
                   </v-btn>
                 </div>
-                <div class="errmsg" aria-live="polite">
+                <div class="errmsg" role="alert" aria-live="polite">
                   {{ errors[0] }}
                 </div>
               </ValidationProvider>
@@ -166,7 +166,7 @@
               </div>
             </div>
             <div class="sign-form pw">
-              <label class="sign-form-label" for="">비밀번호</label>
+              <label class="sign-form-label">비밀번호</label>
               <div class="sign-form-recommend">
                 영문, 숫자를 포함한 8자 이상의 비밀번호를 입력해주세요.
               </div>
@@ -186,14 +186,14 @@
                     placeholder="비밀번호"
                     required
                   />
-                  <div class="errmsg" aria-live="polite">
+                  <div class="errmsg" role="alert" aria-live="polite">
                     {{ errors[0] }}
                   </div>
                 </ValidationProvider>
               </div>
             </div>
             <div class="sign-form pwc">
-              <label class="sign-form-label" for="">비밀번호 확인</label>
+              <label class="sign-form-label">비밀번호 확인</label>
               <div class="account-input">
                 <ValidationProvider
                   class="sign-validation"
@@ -209,7 +209,7 @@
                     placeholder="비밀번호 확인"
                     required
                   />
-                  <div class="errmsg" aria-live="polite">
+                  <div class="errmsg" role="alert" aria-live="polite">
                     {{ errors[0] }}
                   </div>
                 </ValidationProvider>
@@ -236,7 +236,7 @@
                     maxlength="15"
                     :disabled="usernameDisabled"
                   />
-                  <div class="errmsg" aria-live="polite">
+                  <div class="errmsg" role="alert" aria-live="polite">
                     {{ errors[0] }}
                   </div>
                   <div v-show="!usernameDisabled" class="sign-email btn">
@@ -252,7 +252,7 @@
               </div>
             </div>
             <div class="sign-form bth">
-              <label class="sign-form-label" for="">생년월일</label>
+              <label class="sign-form-label">생년월일</label>
               <div class="sign-form-recommend">
                 생년월일 8자리 입력 ex) 1994-03-26
               </div>
@@ -270,7 +270,7 @@
                     placeholder="YYYY-MM-DD"
                     required
                   />
-                  <div class="errmsg" aria-live="polite">
+                  <div class="errmsg" role="alert" aria-live="polite">
                     {{ errors[0] }}
                   </div>
                 </ValidationProvider>
@@ -292,7 +292,7 @@
                     placeholder="휴대폰 번호"
                     required
                   />
-                  <div class="errmsg" aria-live="polite">
+                  <div class="errmsg" role="alert" aria-live="polite">
                     {{ errors[0] }}
                   </div>
                 </ValidationProvider>

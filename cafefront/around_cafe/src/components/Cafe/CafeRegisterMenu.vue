@@ -13,20 +13,18 @@
           <div class="input-group">
             <i class="icSearch" aria-hidden="true"></i>
             <input
+              @change="isSearchempty(modi_name)"
+              @keydown.enter.prevent="findList"
+              v-model="modi_name"
               class="form-input input-40"
               style="width: 350px"
               type="text"
               placeholder="메뉴 검색"
-              v-model="modi_name"
-              @keydown.enter.prevent="findList"
-              @change="isSearchempty(modi_name)"
             />
             <button @click="resetList" type="button" aria-label="검색초기화">
               X
             </button>
-            <v-btn @click="findList" type="button" aria-label="검색하기"
-              >검색</v-btn
-            >
+            <v-btn @click="findList" type="button">검색</v-btn>
           </div>
           <br />
           <div v-if="menuLists.length == 0"><p>메뉴를 등록해주세요!</p></div>

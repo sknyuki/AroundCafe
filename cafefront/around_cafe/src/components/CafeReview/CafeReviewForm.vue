@@ -25,7 +25,7 @@
               </a>
 
               <div class="inf">
-                <a class="username" href="">
+                <a class="username">
                   <strong> {{ review.memNick }}</strong>
                 </a>
 
@@ -61,14 +61,6 @@
 
             <CafeReviewLike v-if="review" :review="review" :index="index" />
             <CafeReviewDelete v-if="role == 'USER'" :review="review" />
-            <!--
-            <button
-              class="delete-button"
-              aria-label="해당 리뷰 삭제하기"
-              type="button"
-            >
-              <i @click="deleteReview()" class="icClose"></i>
-            </button>-->
 
             <CafeReviewModify
               v-if="role == 'USER'"
