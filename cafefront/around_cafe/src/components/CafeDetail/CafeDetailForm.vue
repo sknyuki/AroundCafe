@@ -41,13 +41,15 @@
                     <div class="detail-content">
                       <div class="detail-info">
                         <div>
-                          <v-icon>mdi-phone</v-icon>
+                          <v-icon aria-hidden="true">mdi-phone</v-icon>
                         </div>
                         <div>{{ cafeBoard.cafe_call }}</div>
                       </div>
                       <div class="detail-info">
                         <div>
-                          <v-icon>mdi-map-marker-outline</v-icon>
+                          <v-icon aria-hidden="true"
+                            >mdi-map-marker-outline</v-icon
+                          >
                         </div>
                         <div>
                           <div>
@@ -58,7 +60,7 @@
                       <div class="detail-info">
                         <div>
                           <span>
-                            <v-icon>mdi-av-timer</v-icon>
+                            <v-icon aria-hidden="true">mdi-av-timer</v-icon>
                           </span>
                         </div>
                         <div>{{ cafeBoard.cafe_time }}</div>
@@ -70,10 +72,10 @@
                         <span>{{ cafeBoard.cafe_content }} </span>
                       </div>
                       <div class="detail-int-btn">
-                        <button>
+                        <button type="button" aria-label="더 보기 버튼">
                           <span>
                             <span class="view">더 보기</span>
-                            <i class="icChevron"></i>
+                            <i class="icChevron" aria-hidden="true"></i>
                           </span>
                         </button>
                       </div>
@@ -90,12 +92,10 @@
                       <section class="detail-section">
                         <header class="detail-section-header">
                           <h1 class="review-title">리뷰</h1>
-                          <strong class="badge" aria-label="400개">{{
-                            reviewList.length
-                          }}</strong>
+                          <strong class="badge">{{ reviewList.length }}</strong>
                           <CafeReviewRegisterPage
-                            class="text-btn"
                             :cafeNo="cafeNo"
+                            class="text-btn"
                           />
                         </header>
 
@@ -123,7 +123,11 @@
                                 <dt>5점</dt>
                                 <dd>
                                   <div class="bar-graph" aria-hidden>
-                                    <div class="active-bar" :style="bar5"></div>
+                                    <div
+                                      class="active-bar"
+                                      :style="bar5"
+                                      :aria-label="this.StarPoint5"
+                                    ></div>
                                   </div>
                                   <strong class="count">{{
                                     this.StarPoint5
@@ -137,9 +141,11 @@
                                   <div class="bar-graph" aria-hidden>
                                     <div class="active-bar" :style="bar4"></div>
                                   </div>
-                                  <strong class="count">{{
-                                    this.StarPoint4
-                                  }}</strong>
+                                  <strong
+                                    class="count"
+                                    :aria-label="this.StarPoint4"
+                                    >{{ this.StarPoint4 }}</strong
+                                  >
                                 </dd>
                               </div>
 
@@ -149,9 +155,11 @@
                                   <div class="bar-graph" aria-hidden>
                                     <div class="active-bar" :style="bar3"></div>
                                   </div>
-                                  <strong class="count">{{
-                                    this.StarPoint3
-                                  }}</strong>
+                                  <strong
+                                    class="count"
+                                    :aria-label="this.StarPoint3"
+                                    >{{ this.StarPoint3 }}</strong
+                                  >
                                 </dd>
                               </div>
 
@@ -161,9 +169,11 @@
                                   <div class="bar-graph" aria-hidden>
                                     <div class="active-bar" :style="bar2"></div>
                                   </div>
-                                  <strong class="count" aria-label="0명">{{
-                                    this.StarPoint2
-                                  }}</strong>
+                                  <strong
+                                    class="count"
+                                    :aria-label="this.StarPoint2"
+                                    >{{ this.StarPoint2 }}</strong
+                                  >
                                 </dd>
                               </div>
 
@@ -173,9 +183,11 @@
                                   <div class="bar-graph" aria-hidden>
                                     <div class="active-bar" :style="bar1"></div>
                                   </div>
-                                  <strong class="count" aria-label="0명">{{
-                                    this.StarPoint2
-                                  }}</strong>
+                                  <strong
+                                    class="count"
+                                    :aria-label="this.StarPoint1"
+                                    >{{ this.StarPoint1 }}</strong
+                                  >
                                 </dd>
                               </div>
                             </dl>
@@ -216,14 +228,13 @@
 
 <script>
 import CafeReviewRegisterPage from "@/views/Cafe/CafeReviewRegisterPage.vue"
-import StarRating from "vue-star-rating"
 import CafeReviewForm from "@/components/CafeReview/CafeReviewForm.vue"
 import CafeDetailSidebar from "@/components/CafeDetail/CafeDetailSidebar.vue"
-import CafeSiteMenuList from "../CafeSite/CafeSiteMenuList.vue"
+import CafeSiteMenuList from "@/components/CafeSite/CafeSiteMenuList.vue"
 import MapKakaoFind from "@/components/Map/MapKakaoFind.vue"
-
-import { mapState, mapActions } from "vuex"
 import CafeDetailQnaForm from "@/components/CafeDetail/CafeDetailQnaForm.vue"
+import StarRating from "vue-star-rating"
+import { mapState, mapActions } from "vuex"
 
 export default {
   name: "CafeDetailForm",
@@ -250,6 +261,27 @@ export default {
       required: true,
     },
   },
+  data() {
+    return {
+      reviewNo: "",
+      basketList: [],
+      page: "",
+      starSum: 0,
+      starAver: 0,
+      ReviewsQuantity: 0,
+      StarPoint1: 0,
+      StarPoint2: 0,
+      StarPoint3: 0,
+      StarPoint4: 0,
+      StarPoint5: 0,
+      StarPoint1Persent: 0,
+      StarPoint2Persent: 0,
+      StarPoint3Persent: 0,
+      StarPoint4Persent: 0,
+      StarPoint5Persent: 0,
+    }
+  },
+
   computed: {
     ...mapState(["menuLists"]),
     bar1() {
@@ -272,27 +304,6 @@ export default {
     this.fetchMenuLists(this.cafeNo)
     setTimeout(this.calculateStarAver, 300)
     setTimeout(this.calculatePersentage, 500)
-  },
-
-  data() {
-    return {
-      reviewNo: "",
-      basketList: [],
-      page: "",
-      starSum: 0,
-      starAver: 0,
-      ReviewsQuantity: 0,
-      StarPoint1: 0,
-      StarPoint2: 0,
-      StarPoint3: 0,
-      StarPoint4: 0,
-      StarPoint5: 0,
-      StarPoint1Persent: 0,
-      StarPoint2Persent: 0,
-      StarPoint3Persent: 0,
-      StarPoint4Persent: 0,
-      StarPoint5Persent: 0,
-    }
   },
 
   methods: {
@@ -336,10 +347,6 @@ export default {
       this.StarPoint3Persent = (this.StarPoint3 / this.ReviewsQuantity) * 100
       this.StarPoint4Persent = (this.StarPoint4 / this.ReviewsQuantity) * 100
       this.StarPoint5Persent = (this.StarPoint5 / this.ReviewsQuantity) * 100
-      // console.log("값계산")
-      // console.log(this.StarPoint3Persent)
-      // console.log(this.StarPoint4Persent)
-      // console.log(this.StarPoint5Persent)
     },
   },
 }
@@ -350,32 +357,4 @@ export default {
 @import "~@/assets/scss/components/detail/detail-content";
 @import "~@/assets/scss/components/review/review-scoreboard";
 @import "~@/assets/scss/components/review/score-stats";
-.image-grid {
-  --gap: 8px;
-  --num-cols: 4;
-  --row-height: 200px;
-  display: grid;
-  padding: var(--gap);
-  grid-template-columns: repeat(var(--num-cols), 1fr);
-  grid-auto-rows: var(--row-height);
-  gap: var(--gap);
-
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 12px !important;
-  }
-}
-.row {
-  grid-column: span 2 !important;
-  grid-row: span 2 !important;
-}
-/* Anything udner 1024px */
-@media screen and (max-width: 1024p) {
-  .image-grid {
-    --num-cols: 2;
-    --row-height: 120px;
-  }
-}
 </style>
