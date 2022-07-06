@@ -7,11 +7,17 @@
           <span>보통 하루 이내에 응답</span>
         </div>
         <div class="avatar-48">
-          <img v-if="!userInfo" src="@/assets/images/avatar.webp" alt="" />
           <img
+            v-if="
+              !userInfo || (Array.isArray(userInfo) && userInfo.length === 0)
+            "
+            src="@/assets/images/avatar.webp"
+            alt=""
+          />
+          <!-- <img
             v-else
             v-bind:src="require(`@/assets/images/memberImg/${userInfo.memImg}`)"
-          />
+          /> -->
         </div>
       </div>
     </section>
