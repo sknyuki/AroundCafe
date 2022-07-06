@@ -25,7 +25,7 @@ import {
   FETCH_MAIN_LIST,
   FETCH_ADMIN_MEMBER_LIST,
   FETCH_PAYMENT_DETAIL,
-
+  FETCH_USER_SPEND_LIST,
 } from "./mutation-types"
 
 import axios from "axios"
@@ -42,9 +42,11 @@ export default {
   },
 
   fetchPaymentDetail({ commit }, paymentNo) {
-    return axios.get(`http://localhost:7777/payment/${paymentNo}`).then((res) => {
-      commit(FETCH_PAYMENT_DETAIL, res.data)
-    })
+    return axios
+      .get(`http://localhost:7777/payment/${paymentNo}`)
+      .then((res) => {
+        commit(FETCH_PAYMENT_DETAIL, res.data)
+      })
   },
 
   fetchcafeBoardList({ commit }) {
