@@ -1,6 +1,6 @@
 <template>
   <div>
-    <CafeReviewList :reviewList="reviewList" />
+    <CafeReviewList :cafeNo="cafeNo" />
   </div>
 </template>
 <script>

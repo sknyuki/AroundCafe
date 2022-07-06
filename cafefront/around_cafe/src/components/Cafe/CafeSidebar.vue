@@ -71,7 +71,7 @@ export default {
           id: 4,
           icon: "mdi-cash",
           title: "매출",
-          link: "/",
+          link: "/cafe/sales",
         },
         {
           id: 5,

@@ -13,7 +13,7 @@
           <header>
             <h1>리뷰</h1>
           </header>
-          <CafeReviewForm :reviewList="reviewList" />
+          <CafeReviewForm :cafeNo="cafeNo" />
         </div>
       </div>
     </div>
@@ -28,16 +28,14 @@ export default {
   name: "CafeReviewList",
   components: { ImgBox, CafeSidebar, CafeReviewForm },
   props: {
-    reviewList: {
-      type: Array,
+    cafeNo: {
+      type: String,
       required: true,
     },
   },
 
   data() {
-    return {
-      reviewNo: "",
-    }
+    return {}
   },
 }
 </script>
