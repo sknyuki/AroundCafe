@@ -51,7 +51,9 @@
             >마이페이지</router-link
           >
         </li>
-        <li><button>로그아웃</button></li>
+        <li>
+          <button type="button">로그아웃</button>
+        </li>
       </ul>
     </div>
   </div>
