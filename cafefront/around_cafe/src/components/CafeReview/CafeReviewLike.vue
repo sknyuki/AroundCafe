@@ -1,8 +1,13 @@
 <template>
   <div>
     <div class="cafe-review-footer" v-if="review.helps == true">
-      <v-btn @click="onLikes()" aria-label="좋아요 버튼" class="btn-indigo">
-        <i class="icCheck"></i> 도움됨
+      <v-btn
+        @click="onLikes()"
+        aria-label="좋아요 버튼"
+        class="btn-indigo"
+        type="button"
+      >
+        <i class="icCheck" aria-hidden="true"></i> 도움됨
       </v-btn>
       <p>
         <strong>
@@ -13,7 +18,12 @@
     </div>
 
     <div class="cafe-review-footer" v-else>
-      <v-btn @click="onLikes()" aria-label="좋아요 버튼" class="btn-outlined">
+      <v-btn
+        @click="onLikes()"
+        aria-label="좋아요 버튼"
+        class="btn-outlined"
+        type="button"
+      >
         도움이 돼요
       </v-btn>
 

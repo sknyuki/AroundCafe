@@ -4,7 +4,7 @@
       <div class="review-card-title">
         리뷰 쓰기
         <button @click="close" type="button" aria-label="삭제하기">
-          <i class="icClose"></i>
+          <i class="icClose" aria-hidden="true"></i>
         </button>
       </div>
       <div class="review-card-point">
@@ -16,7 +16,7 @@
         <div class="review-card-content header">별점 평가</div>
         <div class="review-card-star wrap">
           <div class="review-card-star-label">만족도</div>
-          <star-rating
+          <StarRating
             v-model="star_score"
             :show-rating="false"
             :rounded-corners="true"
@@ -26,7 +26,7 @@
               23, 2, 14, 17, 0, 19, 10, 34, 7, 50, 23, 43, 38, 50, 36, 34, 46,
               19, 31, 17,
             ]"
-          ></star-rating>
+          ></StarRating>
         </div>
       </div>
     </div>
@@ -48,20 +48,15 @@
           </button>
         </div>
         <input
+          v-if="uploadReady"
+          @change="reviewFileUpload()"
           class="visually-hidden"
           id="files"
           type="file"
           ref="files"
           multiple
-          v-if="uploadReady"
-          v-on:change="reviewFileUpload()"
         />
-        <v-btn
-          class="btn-outlined btn-40"
-          type="button"
-          @click="onUpload()"
-          aria-label="사진 첨부하기"
-        >
+        <v-btn @click="onUpload()" class="btn-outlined btn-40" type="button">
           사진 첨부하기
         </v-btn>
       </div>
@@ -82,7 +77,9 @@
         ></textarea>
       </div>
       <div class="review-card-btn">
-        <v-btn class="btn-indigo btn-40" @click="onSubmit">완료</v-btn>
+        <v-btn class="btn-indigo btn-40" @click="onSubmit" type="submit"
+          >완료</v-btn
+        >
       </div>
     </div>
   </v-card>
