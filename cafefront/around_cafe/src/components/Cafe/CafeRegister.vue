@@ -12,7 +12,7 @@
           <header>
             <h1>카페 관리</h1>
           </header>
-          <form class="cafe-register-form" action="" @submit.prevent="onSubmit">
+          <form class="cafe-register-form" @submit.prevent="onSubmit">
             <div class="cafe-register-name">
               <label for="">카페 이름</label>
               <div class="account-input">
@@ -40,7 +40,7 @@
               </div>
             </div>
             <div class="cafe-register-phone">
-              <label for="">연락처</label>
+              <label>연락처</label>
               <div class="account-input">
                 <span>
                   <input
@@ -53,7 +53,7 @@
               </div>
             </div>
             <div class="cafe-register-adr">
-              <label for="">주소</label>
+              <label>주소</label>
               <div class="account-input">
                 <span>
                   <CafeAddress />
@@ -71,35 +71,6 @@
                     class="form-input input-40"
                     v-model="address"
                   />
-                  <!-- <td width="0">
-                    <v-select
-                      v-model="cafeAdr1"
-                      :items="states1"
-                      label="시"
-                      dense
-                      solo
-                      style="width: 120px; font-size: 15px"
-                    ></v-select>
-                  </td>
-
-                  <td width="0">
-                    <v-select
-                      v-model="cafeAdr2"
-                      :items="states2"
-                      label="구"
-                      dense
-                      solo
-                      style="width: 120px; font-size: 15px"
-                    ></v-select>
-                  </td>
-                  <td width="0">
-                    <input
-                      v-model="cafeAdr3"
-                      class="form-input"
-                      type="text"
-                      placeholder="상세주소"
-                    />
-                  </td> -->
                 </span>
               </div>
             </div>
@@ -159,11 +130,11 @@
                 </button>
                 <input
                   @change="imageUpload"
-                  multiple
-                  id="file"
-                  type="file"
-                  ref="files"
                   class="visually-hidden"
+                  ref="files"
+                  type="file"
+                  id="file"
+                  multiple
                 />
               </div>
 
@@ -178,24 +149,24 @@
                       @click="fileDeleteButton"
                       :name="file.number"
                       class="delete-button"
-                      aria-label="첨부 파일 삭제하기"
                       type="button"
+                      aria-label="첨부 파일 삭제하기"
                     >
-                      <i class="icClose"></i>
+                      <i class="icClose" aria-hidden="true"></i>
                     </button>
-                    <img class="select-picture-contents" :src="file.preview" />
+                    <img :src="file.preview" class="select-picture-contents" />
                   </div>
                   <div class="cafe-register-contents">
                     <div>
-                      <v-btn class="btn-outlined btn-40" @click="onUpload"
+                      <v-btn @click="onUpload" class="btn-outlined btn-40"
                         >사진 추가하기</v-btn
                       >
                       <input
+                        @change="imageAddUpload"
                         class="visually-hidden"
+                        ref="files"
                         type="file"
                         id="file"
-                        ref="files"
-                        @change="imageAddUpload"
                         multiple
                       />
                     </div>
@@ -216,7 +187,6 @@ import CafeSidebar from "@/components/Cafe/CafeSidebar.vue"
 import CafeAddress from "@/components/Cafe/CafeAddress.vue"
 import ImgBox from "@/components/ImgBox.vue"
 import { EventBus } from "@/utils/eventBus"
-//import { mapState, mapActions } from "vuex"
 
 export default {
   components: { ImgBox, CafeSidebar, CafeAddress },
@@ -240,50 +210,16 @@ export default {
       post: "",
       address: "",
 
-      states1: ["서울시"],
-      states2: [
-        "강남구",
-        "강동구",
-        "강북구",
-        "강서구",
-        "관악구",
-        "광진구",
-        "구로구",
-        "금천구",
-        "노원구",
-        "도봉구",
-        "동대문구",
-        "동작구",
-        "마포구",
-        "서대문구",
-        "서초구",
-        "성동구",
-        "성북구",
-        "송파구",
-        "양천구",
-        "영등포구",
-        "용산구",
-        "은평구",
-        "종로구",
-        "중구",
-        "중랑구",
-      ],
       totalcharacter: 0,
       cafeName: "",
       cafeBusNo: "",
       cafeTime: "",
       cafeContent: "",
       cafeCall: "",
-
-      //cafeAdr3: "",
     }
   },
   mounted() {
     setTimeout(this.change, 50)
-    // EventBus.$on("findPostalcode", ({ post, cafeAdr3 }) => {
-    //   this.post = post
-    //   this.cafeAdr3 = cafeAdr3
-    // })
     EventBus.$on("findPostalcode", ({ post, address }) => {
       this.post = post
       this.address = address

@@ -7,7 +7,7 @@
         @click="likeOn()"
         aria-label="카페가 좋아요됨"
       >
-        <i class="icHeartFilled"></i>
+        <i class="icHeartFilled" aria-hidden="true"></i>
       </button>
     </div>
 
@@ -16,9 +16,9 @@
         class="cafe-like-btn"
         type="button"
         @click="likeOn()"
-        aria-label="카페가 좋아요"
+        aria-label="카페가 좋아요 버튼"
       >
-        <i class="icHeart"></i>
+        <i class="icHeart" aria-hidden="true"></i>
       </button>
     </div>
   </div>

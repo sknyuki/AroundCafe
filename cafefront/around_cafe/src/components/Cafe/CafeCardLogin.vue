@@ -91,7 +91,7 @@
                       type="button"
                       v-show="swiperBtn === index"
                     >
-                      <i class="icChevron" aria-hidden></i>
+                      <i class="icChevron" aria-hidde="true"></i>
                     </v-btn>
                     <v-btn
                       fab
@@ -102,7 +102,7 @@
                       type="button"
                       v-show="swiperBtn === index"
                     >
-                      <i class="icChevron" aria-hidden></i>
+                      <i class="icChevron" aria-hidden="true"></i>
                     </v-btn>
                     <div class="swiper-pagination" slot="pagination"></div>
                   </swiper>
@@ -120,7 +120,7 @@
                   <dl class="cafe-list-rating">
                     <div class="rating">
                       <dt>
-                        <i class="icStar"></i>
+                        <i class="icStar" aria-hidden="true"></i>
                         <span class="visually-hidden">평점</span>
                       </dt>
                       <dd>{{ cafeItem.starAver | ratingPoint }}</dd>
@@ -189,24 +189,6 @@ export default {
       membNo: JSON.parse(localStorage.getItem("user")).memNo,
       cafeNo: "",
     }
-  },
-  methods: {
-    // onLogin() {
-    //   if (this.JSON.parse(localStorage.getItem("user")).memNo != "") {
-    //     this.isLogin = true
-    //   } else {
-    //     this.isLogin = false
-    //   }
-    // },
-    // methods: {
-    //   show: function () {
-    //     this.isLoading = !this.isLoading
-    //     setTimeout(() => this.show(), 3500)
-    //   },
-    // },
-    // mounted() {
-    //   setTimeout(() => this.show(), 2000)
-    // },
   },
 }
 </script>

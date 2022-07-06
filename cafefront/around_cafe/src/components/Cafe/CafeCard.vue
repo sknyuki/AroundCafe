@@ -31,18 +31,21 @@
               </template>
 
               <template v-else>
-                <CafeLike
-                  class="cafe-item-btn"
-                  :cafeItem="cafeItem"
-                  :myLikes="myLikes"
-                  :key="index"
-                />
+                <div v-if="onLogin">
+                  <CafeLike
+                    class="cafe-item-btn"
+                    :cafeItem="cafeItem"
+                    :myLikes="myLikes"
+                    :key="index"
+                  />
+                </div>
                 <router-link
                   :to="{
                     name: 'CafeDetailPage',
                     params: { cafeNo: cafeItem.cafeNo.toString() },
                   }"
                   @focus.tab="swiperBtn = index"
+                  :aria-label="cafeItem.cafe_name"
                 >
                   <!-- 스와이퍼 -->
                   <swiper class="swiper" :options="swiperOption">
@@ -56,7 +59,7 @@
                           v-bind:src="
                             require(`@/assets/cafe/cafeMypage/beforeReady.jpg`)
                           "
-                          alt="카페이미지"
+                          alt="등록하지 않은 카페 이미지"
                         />
                       </picture>
                     </swiper-slide>
@@ -72,7 +75,7 @@
                           v-bind:src="
                             require(`@/assets/cafe/cafeMypage/${img.cafe_img}`)
                           "
-                          alt="카페이미지"
+                          :alt="cafeItem.alt"
                         />
                       </picture>
                     </swiper-slide>
@@ -81,22 +84,22 @@
                       x-small
                       class="swiper-button-prev is-prev"
                       slot="button-prev"
-                      aria-label="이전 이미지"
+                      aria-label="이전 이미지 버튼"
                       type="button"
                       v-show="swiperBtn === index"
                     >
-                      <i class="icChevron" aria-hidden></i>
+                      <i class="icChevron" aria-hidden="true"></i>
                     </v-btn>
                     <v-btn
                       fab
                       x-small
                       class="swiper-button-next is-next"
                       slot="button-next"
-                      aria-label="다음 이미지"
+                      aria-label="다음 이미지 버튼"
                       type="button"
                       v-show="swiperBtn === index"
                     >
-                      <i class="icChevron" aria-hidden></i>
+                      <i class="icChevron" aria-hidden="true"></i>
                     </v-btn>
                     <div class="swiper-pagination" slot="pagination"></div>
                   </swiper>
@@ -114,7 +117,7 @@
                   <dl class="cafe-list-rating">
                     <div class="rating">
                       <dt>
-                        <i class="icStar"></i>
+                        <i class="icStar" aria-hidden="true"></i>
                         <span class="visually-hidden">평점</span>
                       </dt>
                       <dd>{{ cafeItem.starAver | ratingPoint }}</dd>
@@ -150,6 +153,10 @@ export default {
       type: Array,
       required: true,
     },
+    myLikes: {
+      type: Array,
+      required: true,
+    },
   },
   data() {
     return {
@@ -172,23 +179,23 @@ export default {
           prevEl: ".swiper-button-prev",
         },
         a11y: {
-          prevSlideMessage: "이전 슬라이드",
-          nextSlideMessage: "다음 슬라이드",
+          prevSlideMessage: "이전 이미지 버튼",
+          nextSlideMessage: "다음 이미지 버튼",
         },
       },
-      //membNo: JSON.parse(localStorage.getItem("user")).memNo,
+      membNo: JSON.parse(localStorage.getItem("user")).memNo,
       cafeNo: "",
-      isLogin: false,
     }
   },
   methods: {
-    // onLogin() {
-    //   if (this.JSON.parse(localStorage.getItem("user")).memNo != "") {
-    //     this.isLogin = true
-    //   } else {
-    //     this.isLogin = false
-    //   }
-    // },
+    onLogin() {
+      if (this.membNo != "") {
+        this.onLogin = true
+      } else {
+        this.onLogin = false
+      }
+    },
+
     // methods: {
     //   show: function () {
     //     this.isLoading = !this.isLoading
