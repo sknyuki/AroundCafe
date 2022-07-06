@@ -4,6 +4,15 @@ import com.example.demo.common.exception.ResourceNotFoundException;
 import com.example.demo.member.entity.Member;
 import com.example.demo.member.repository.MemberRepository;
 import com.example.demo.payment.dto.*;
+import com.example.demo.mypage.cafe.entity.Cafe;
+import com.example.demo.mypage.cafe.entity.CafeMenu;
+import com.example.demo.mypage.cafe.repository.cafe.CafeRepository;
+import com.example.demo.mypage.cafe.repository.menu.MenuRepository;
+import com.example.demo.payment.dto.OrderItemRequest;
+import com.example.demo.payment.dto.OrderItemResponse;
+import com.example.demo.payment.dto.PaymentRequest;
+import com.example.demo.payment.dto.PaymentResponse;
+
 import com.example.demo.payment.entity.OrderItem;
 import com.example.demo.payment.entity.Payment;
 import com.example.demo.payment.entity.PaymentStatus;
@@ -19,6 +28,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+
 import java.time.LocalDate;
 import java.util.*;
 
@@ -31,6 +41,8 @@ public class PaymentServiceImpl implements PaymentService {
     private final MemberRepository memberRepository;
     private final PaymentRepository paymentRepository;
     private final OrderItemRepository orderItemRepository;
+    private final MenuRepository menuRepository;
+    private final CafeRepository cafeRepository;
     @Override
     @Transactional
     public Long savePayment(PaymentRequest paymentRequest) {
@@ -105,12 +117,17 @@ public class PaymentServiceImpl implements PaymentService {
 
     public PaymentResponse payment2PaymentResponse(Payment payment) {
         PaymentResponse paymentResponse = PaymentResponseMapStruct.instance.toDto(payment);
+        Cafe cafe = cafeRepository.findByCafeNo(payment.getCafeNo()).orElseThrow(()
+                -> new ResourceNotFoundException("cafe", "cafeNo", payment.getCafeNo()));
 
         paymentResponse.setMemNo(payment.getMember().getMemNo());
+        paymentResponse.setCafeName(cafe.getCafe_name());
 
         List<OrderItemResponse> orderItemList = new ArrayList<>();
         for(OrderItem orderItem : payment.getOrderItem()) {
             OrderItemResponse orderItemResponse = OrderItemResponseMapStruct.instance.toDto(orderItem);
+            CafeMenu cafeMenu = menuRepository.findById(orderItem.getCafeMenuNo()).orElseGet(null);
+            orderItemResponse.setImageUrl(cafeMenu.getMenu_img());
             orderItemList.add(orderItemResponse);
         }
         paymentResponse.setOrderItems(orderItemList);
@@ -143,11 +160,12 @@ public class PaymentServiceImpl implements PaymentService {
         List <Payment> paymentList = paymentRepository.findByNullDate();
         if(paymentList.size() > 0) {
             for(int i =0; i < paymentList.size() ; i++)
-            orderItemRepository.deleteByPayment(paymentList.get(i));
+                orderItemRepository.deleteByPayment(paymentList.get(i));
         }
         paymentRepository.deleteNullDate();
         log.info("test, delete ok");
     }
+
 
     @Override
     public List<PaymentSalesResponse> getCafeSalesList(Long cafeNo) {
@@ -209,4 +227,5 @@ public class PaymentServiceImpl implements PaymentService {
             return paymentList;
         }else return null;
     }
+}
 }

@@ -2,12 +2,12 @@
   <div class="menu-register-content">
     <div>
       <button
-        class="modify-button"
-        aria-label="해당 메뉴 수정하기"
         @click="modify"
+        class="modify-button"
         type="button"
+        aria-label="해당 메뉴 수정하기"
       >
-        <i class="icBell"></i>
+        <i class="icBell" aria-hidden="true"></i>
       </button>
     </div>
     <form class="menu-register-form">
@@ -33,19 +33,15 @@
                 </button>
               </div>
               <input
+                v-if="uploadReady"
+                @change="commentFileUpload()"
                 class="visually-hidden"
                 id="files"
                 type="file"
                 ref="files"
                 multiple
-                v-if="uploadReady"
-                v-on:change="commentFileUpload()"
               />
-              <v-btn
-                class="btn-indigo btn-32"
-                @click="onUpload"
-                aria-label="사진 첨부하기"
-              >
+              <v-btn @click="onUpload" class="btn-indigo btn-32">
                 사진 첨부하기
               </v-btn>
             </div>
@@ -89,18 +85,13 @@
             ></textarea>
           </div>
           <div class="menu-register-btn">
-            <v-btn
-              type="button"
-              aria-label="수정하기"
-              class="btn-indigo btn-32"
-              @click="onModifyMenu"
+            <v-btn @click="onModifyMenu" class="btn-indigo btn-32" type="button"
               >수정하기</v-btn
             >
             <v-btn
               @click="menuDialog = false"
               class="btn-red btn-32"
               type="button"
-              aria-label="다이얼로그 취소하기"
               >취소하기</v-btn
             >
           </div>

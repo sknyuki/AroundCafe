@@ -10,12 +10,9 @@
           <template>
             <img
               v-if="basket.menu_img != null"
-              v-bind:src="require(`@/assets/cafe/cafeMenu/${basket.menu_img}`)"
+              :src="require(`@/assets/cafe/cafeMenu/${basket.menu_img}`)"
             />
-            <img
-              v-else
-              v-bind:src="require(`@/assets/cafe/cafeMenu/imgNull.png`)"
-            />
+            <img v-else :src="require(`@/assets/cafe/cafeMenu/imgNull.png`)" />
           </template>
         </div>
         <div class="detail-sidebar-menu">
@@ -36,7 +33,7 @@
           <button @click="increaseQuantity(basket)">+</button>
         </dt>
         <dd>
-          <span>{{ basket.per_menu_total_price }}</span
+          <span>{{ basket.per_menu_total_price | pricePoint }}</span
           >원
         </dd>
       </div>
@@ -45,11 +42,15 @@
     <div class="detail-sidebar-price total">
       <dt>총 상품금액</dt>
       <dd>
-        <span>{{ totalPrice }}</span
+        <span>{{ totalPrice | pricePoint }}</span
         >원
       </dd>
     </div>
-    <v-btn @click="selectedMenuSubmit()" class="btn-indigo btn-48">
+    <v-btn
+      @click="selectedMenuSubmit()"
+      class="btn-indigo btn-48"
+      type="submit"
+    >
       주문하기
     </v-btn>
   </aside>
@@ -74,6 +75,7 @@ export default {
   data() {
     return {
       totalPrice: 0,
+      copyBasketList: [],
     }
   },
   beforeUpdate() {
@@ -96,22 +98,6 @@ export default {
         basket.per_menu_total_price =
           basket.menu_price * basket.per_menu_quantity
       }
-      //잔이슈부분
-      //       for (let i = 0; i < this.basketList.length; i++) {
-      //     if (this.basketList[i] == 0) {
-      //       this.basketList.splice(i, 1)
-      //       i--
-      //     } else {
-      //       basket.per_menu_quantity -= 1
-      //       basket.per_menu_total_price =
-      //         basket.menu_price * basket.per_menu_quantity
-      //     }
-      //     this.totalPrice = 0
-      //     for (let i = 0; i < this.basketList.length; i++) {
-      //       this.totalPrice += this.basketList[i].per_menu_total_price
-      //     }
-      //   }
-      // },
     },
     selectedMenuSubmit() {
       console.log(this.basket)
@@ -129,8 +115,6 @@ export default {
             basketList: this.basketList,
           },
         })
-        // console.log("넘어가는 파일:")
-        // console.log(this.cafeInfo, this.basketList)
       }
     },
   },

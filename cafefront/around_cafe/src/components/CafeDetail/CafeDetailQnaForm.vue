@@ -26,10 +26,10 @@
       <div class="qna-section-radio">
         <label v-for="(item, index) in selectQna" :key="index">
           <input
-            type="radio"
-            :value="item.name"
             v-model="findQna"
+            :value="item.name"
             :name="index"
+            type="radio"
           />{{ item.name }}
         </label>
       </div>
@@ -44,14 +44,13 @@
         placeholder="문의사항을 입력해주세요."
       ></textarea>
     </section>
-    <v-btn class="btn-indigo btn-40" @click="registerQna"
+    <v-btn class="btn-indigo btn-40" @click="registerQna" type="submit"
       >메시지 전송하기</v-btn
     >
   </div>
 </template>
 <script>
 import { mapState, mapActions } from "vuex"
-
 import axios from "axios"
 
 export default {

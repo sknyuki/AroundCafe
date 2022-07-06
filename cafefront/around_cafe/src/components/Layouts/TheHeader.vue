@@ -19,7 +19,7 @@
                   type="button"
                   aria-label="메뉴 열기 버튼"
                 >
-                  <i class="icMenu"></i>
+                  <i class="icMenu" aria-hidden="true"></i>
                 </v-btn>
               </div>
 
@@ -54,7 +54,7 @@
                       class="gnb-icon-button"
                       aria-label="좋아요 페이지로 이동"
                     >
-                      <i class="icHeart"></i>
+                      <i class="icHeart" aria-hidden="true"></i>
                       <strong class="badge">{{ myLikes.length }}</strong>
                     </v-btn>
                   </router-link>
@@ -64,7 +64,7 @@
                     <div class="gnb-login-content">
                       <button class="gnb-login-btn" @click="toggleMyMenu">
                         <div>
-                          <i class="icMenu"></i>
+                          <i class="icMenu" aria-hidden="true"></i>
                         </div>
 
                         <div class="avatar-32">

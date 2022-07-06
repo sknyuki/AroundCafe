@@ -42,7 +42,7 @@
                     placeholder="상호명(법인명)"
                     :disabled="usernameDisabled"
                   />
-                  <div class="errmsg" aria-live="polite">
+                  <div class="errmsg" role="alert" aria-live="polite">
                     {{ errors[0] }}
                   </div>
                   <div v-show="!usernameDisabled" class="sign-email btn">
@@ -61,7 +61,7 @@
               </div>
             </div>
             <div class="sign-form crn" v-if="clickUse === false">
-              <label class="sign-form-label" for="">사업자등록번호</label>
+              <label class="sign-form-label">사업자등록번호</label>
               <div class="account-input">
                 <ValidationProvider
                   class="sign-validation"
@@ -77,14 +77,14 @@
                     maxlength="12"
                     required
                   />
-                  <div class="errmsg" aria-live="polite">
+                  <div class="errmsg" role="alert" aria-live="polite">
                     {{ errors[0] }}
                   </div>
                 </ValidationProvider>
               </div>
             </div>
             <div class="sign-form id">
-              <label class="sign-form-label" for="">이메일</label>
+              <label class="sign-form-label">이메일</label>
               <div class="account-input">
                 <ValidationProvider
                   class="sign-validation"
@@ -99,7 +99,7 @@
                     required
                     :disabled="emailDupChecked"
                   />
-                  <div class="errmsg" aria-live="polite">
+                  <div class="errmsg" role="alert" aria-live="polite">
                     {{ errors[0] }}
                   </div>
                   <div class="sign-email btn">
@@ -144,7 +144,7 @@
                     확인
                   </v-btn>
                 </div>
-                <div class="errmsg" aria-live="polite">
+                <div class="errmsg" role="alert" aria-live="polite">
                   {{ errors[0] }}
                 </div>
               </ValidationProvider>
@@ -166,7 +166,7 @@
               </div>
             </div>
             <div class="sign-form pw">
-              <label class="sign-form-label" for="">비밀번호</label>
+              <label class="sign-form-label">비밀번호</label>
               <div class="sign-form-recommend">
                 영문, 숫자를 포함한 8자 이상의 비밀번호를 입력해주세요.
               </div>
@@ -186,14 +186,14 @@
                     placeholder="비밀번호"
                     required
                   />
-                  <div class="errmsg" aria-live="polite">
+                  <div class="errmsg" role="alert" aria-live="polite">
                     {{ errors[0] }}
                   </div>
                 </ValidationProvider>
               </div>
             </div>
             <div class="sign-form pwc">
-              <label class="sign-form-label" for="">비밀번호 확인</label>
+              <label class="sign-form-label">비밀번호 확인</label>
               <div class="account-input">
                 <ValidationProvider
                   class="sign-validation"
@@ -209,7 +209,7 @@
                     placeholder="비밀번호 확인"
                     required
                   />
-                  <div class="errmsg" aria-live="polite">
+                  <div class="errmsg" role="alert" aria-live="polite">
                     {{ errors[0] }}
                   </div>
                 </ValidationProvider>
@@ -236,7 +236,7 @@
                     maxlength="15"
                     :disabled="usernameDisabled"
                   />
-                  <div class="errmsg" aria-live="polite">
+                  <div class="errmsg" role="alert" aria-live="polite">
                     {{ errors[0] }}
                   </div>
                   <div v-show="!usernameDisabled" class="sign-email btn">
@@ -252,7 +252,7 @@
               </div>
             </div>
             <div class="sign-form bth">
-              <label class="sign-form-label" for="">생년월일</label>
+              <label class="sign-form-label">생년월일</label>
               <div class="sign-form-recommend">
                 생년월일 8자리 입력 ex) 1994-03-26
               </div>
@@ -270,7 +270,7 @@
                     placeholder="YYYY-MM-DD"
                     required
                   />
-                  <div class="errmsg" aria-live="polite">
+                  <div class="errmsg" role="alert" aria-live="polite">
                     {{ errors[0] }}
                   </div>
                 </ValidationProvider>
@@ -292,7 +292,7 @@
                     placeholder="휴대폰 번호"
                     required
                   />
-                  <div class="errmsg" aria-live="polite">
+                  <div class="errmsg" role="alert" aria-live="polite">
                     {{ errors[0] }}
                   </div>
                 </ValidationProvider>
@@ -486,19 +486,13 @@ export default {
       }
       this.emailVerifyDisabled = true
       alert("인증 메일이 발송되었습니다.")
-      const unInterceptedAxiosInstance = axios.create()
-      const code = await unInterceptedAxiosInstance.post(
-        url,
-        JSON.stringify(data),
-        config
-      )
+      const code = await axios.post(url, JSON.stringify(data), config)
       // 유저가 확인할 수 없는 장소가 어디일까요?
       // 확인요망 -- 애매하면 그냥 redis 서버에 저장
       this.emailCodeFromServer = code.data["code"]
       this.emailVerifyUse = true
     },
     existByNickname(username) {
-      const unInterceptedAxiosInstance = axios.create()
       const url = "http://localhost:7777/auth/isExists"
       const data = {
         memNick: username,
@@ -508,22 +502,19 @@ export default {
           "Content-Type": "Application/json",
         },
       }
-      unInterceptedAxiosInstance
-        .post(url, JSON.stringify(data), config)
-        .then((res) => {
-          if (res.data === false) {
-            alert("사용 가능한 닉네임입니다.")
-            this.usernameDupChecked = true
-            this.usernameDisabled = true
-          } else {
-            alert("이미 사용하고 있는 닉네임입니다. 다른 닉네임을 사용해주세요")
-            this.usernameDupChecked = false
-            this.usernameDisabled = false
-          }
-        })
+      axios.post(url, JSON.stringify(data), config).then((res) => {
+        if (res.data === false) {
+          alert("사용 가능한 닉네임입니다.")
+          this.usernameDupChecked = true
+          this.usernameDisabled = true
+        } else {
+          alert("이미 사용하고 있는 닉네임입니다. 다른 닉네임을 사용해주세요")
+          this.usernameDupChecked = false
+          this.usernameDisabled = false
+        }
+      })
     },
     existByEmail(email) {
-      const unInterceptedAxiosInstance = axios.create()
       const url = "http://localhost:7777/auth/isExists"
       const data = {
         memId: email,
@@ -533,17 +524,15 @@ export default {
           "Content-Type": "Application/json",
         },
       }
-      unInterceptedAxiosInstance
-        .post(url, JSON.stringify(data), config)
-        .then((res) => {
-          if (res.data === false) {
-            this.emailDupChecked = true
-            this.sendVerifyEmail(email)
-          } else {
-            alert("이미 사용하고 있는 이메일입니다. 다른 이메일을 사용해주세요")
-            this.emailDupChecked = false
-          }
-        })
+      axios.post(url, JSON.stringify(data), config).then((res) => {
+        if (res.data === false) {
+          this.emailDupChecked = true
+          this.sendVerifyEmail(email)
+        } else {
+          alert("이미 사용하고 있는 이메일입니다. 다른 이메일을 사용해주세요")
+          this.emailDupChecked = false
+        }
+      })
     },
     onSubmit() {
       const data = {

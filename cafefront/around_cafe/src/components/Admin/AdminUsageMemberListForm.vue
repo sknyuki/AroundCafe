@@ -11,8 +11,9 @@
         <div class="col-sm-4 col-md-9 col-lg-9">
           <div class="member-list">
             <header class="member-list-header">
-              <h2>회원관리</h2>
+              <h2>회원 이용 현황</h2>
             </header>
+
             <table class="member-list-table">
               <thead>
                 <tr>
@@ -26,31 +27,28 @@
                   </th>
                   <th scope="col" align="center" style="width: 70px">연락처</th>
                   <th scope="col" align="center" style="width: 40px">권한</th>
-                  <th scope="col" align="center" style="width: 40px">
-                    블랙여부
-                  </th>
                 </tr>
               </thead>
               <tbody v-for="(member, index) in listData" :key="index">
                 <tr v-if="member.name != ADMIN">
                   <td align="center">{{ member.memNo }}</td>
                   <td align="center">{{ member.memId }}</td>
-                  <td align="center">{{ member.memNick }}</td>
+                  <td align="center">
+                    <router-link
+                      :to="{
+                        name: 'AdminUsageMemberPage',
+                        params: {
+                          memNo: member.memNo,
+                          memNick: member.memNick,
+                        },
+                      }"
+                    >
+                      {{ member.memNick }}
+                    </router-link>
+                  </td>
                   <td align="center">{{ member.memBirth }}</td>
                   <td align="center">{{ member.phoneNum }}</td>
                   <td align="center">{{ member.name }}</td>
-                  <td align="center">
-                    <div v-if="!member.isblack">
-                      <v-btn class="btn-red" @click="ToBlackList(index)">
-                        <v-icon>mdi-account-remove </v-icon>BlackList
-                      </v-btn>
-                    </div>
-                    <div v-else>
-                      <v-btn class="btn-outlined" @click="TakeBack(index)">
-                        <v-icon>mdi-account-convert </v-icon> take back
-                      </v-btn>
-                    </div>
-                  </td>
                 </tr>
               </tbody>
             </table>
@@ -71,7 +69,7 @@ import ImgBox from "@/components/ImgBox.vue"
 import PaginationForm from "../PaginationForm.vue"
 
 export default {
-  name: "AdminMemberList",
+  name: "AdminUsageMemberListForm",
   components: { ImgBox, AdminSidebar, PaginationForm },
 
   data() {
@@ -87,10 +85,8 @@ export default {
   computed: {
     ...mapState(["adminlist"]),
   },
-  mounted() {
-    this.fetchAdminMemberList()
-  },
-  beforeUpdate() {
+  async mounted() {
+    await this.fetchAdminMemberList()
     this.pagingMethod(this.page)
   },
   methods: {
@@ -123,30 +119,6 @@ export default {
         list.push(index)
       }
       return { first, end, list, currentPage }
-    },
-    ToBlackList(index) {
-      var result = confirm("블랙리스틀로 등록하시겠습니까?")
-      if (result) {
-        this.adminlist[index].isblack = true
-      }
-      this.$router.go()
-
-      // axios
-      //   .post(
-      //     `http://localhost:7777/cafe/like/${this.review.reviewNo}/${this.membNo}`),
-      //     {},
-      //     {
-      //       headers: {
-      //         "Content-Type": "application/json",
-      //       },
-      //     }
-    },
-    TakeBack(index) {
-      var result = confirm("블랙리스트를 해제 하겠습니까?")
-      if (result) {
-        this.adminlist[index].isblack = false
-      }
-      this.$router.go()
     },
   },
 }

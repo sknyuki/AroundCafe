@@ -6,7 +6,7 @@
           <div class="chat-content">
             <div class="chat-left">
               <nav class="chat-sidebar">
-                <a href="">
+                <a>
                   <div
                     class="avatar-48"
                     v-if="
@@ -49,7 +49,7 @@
                 <ul class="chat-room-msg" v-if="qnaLists === null">
                   <li class="chat-room-list">
                     <v-btn class="delete-button">
-                      <i class="icClose"></i>
+                      <i class="icClose" aria-hidden="true"></i>
                     </v-btn>
                     <a>
                       <div class="chat-room-img"></div>
@@ -159,94 +159,103 @@
                     </div>
                   </div>
 
-                  <div
-                    v-for="(item, index) in qnaList"
-                    :key="index"
-                    class="chat-box list"
-                  >
-                    <div v-if="index == 0">
-                      {{ qnaList[index].regYear }}
-                    </div>
+                  <div class="chat-box-overflow">
                     <div
-                      v-if="
-                        index > 0 &&
-                        qnaList[index].regYear != qnaList[index - 1].regYear
-                      "
+                      v-for="(item, index) in qnaList"
+                      :key="index"
+                      class="chat-box list"
                     >
-                      {{ qnaList[index].regYear }}
-                    </div>
-                    <!-- 상대방 -->
-                    <div v-if="item.writer != membNo" class="chat-box opponent">
-                      <div class="avatar-48">
-                        <img
-                          v-if="index == 0"
-                          v-bind:src="
-                            require(`@/assets/images/memberImg/${qnaLists[selectQna].received_img}`)
-                          "
-                        />
-                        <img
-                          v-if="qnaLists[selectQna].received_img == null"
-                          src="@/assets/images/avatar.webp"
-                          alt=""
-                        />
-                        <img
-                          v-if="
-                            index > 0 &&
-                            qnaList[index].writer != qnaList[index - 1].writer
-                          "
-                          v-bind:src="
-                            require(`@/assets/images/memberImg/${qnaLists[selectQna].received_img}`)
-                          "
-                        />
-                        <img
-                          v-if="
-                            index > 0 &&
-                            qnaList[index].writer == qnaList[index - 1].writer
-                          "
-                          v-bind:src="require(`@/assets/qna/whiteImg.jpg`)"
-                        />
+                      <div v-if="index == 0">
+                        {{ qnaList[index].regYear }}
                       </div>
-                      <div v-if="item.content != null">
-                        <p class="chat-box-contents opponent">
-                          {{ item.content }}
-                        </p>
-                      </div>
-                      <div v-if="item.img != null">
-                        <img
-                          v-bind:src="require(`@/assets/qna/${item.img}`)"
-                          style="width: 200px; display: block"
-                        />
-                      </div>
-                      <div class="chat-box-times">
-                        <div class="chat-box-time">{{ item.regTime }}</div>
-                      </div>
-                    </div>
-
-                    <!-- 나 -->
-                    <div
-                      v-if="item.writer == membNo"
-                      @mousedown.right="rightMouse(item)"
-                      @contextmenu.prevent
-                      class="chat-box me"
-                    >
-                      <div class="chat-box-times">
-                        <div class="chat-box-time">{{ item.regTime }}</div>
-                      </div>
-                      <div v-if="item.content != null">
-                        <p class="chat-box-contents me">{{ item.content }}</p>
-                      </div>
-                      <div v-if="item.img != null">
-                        <img
-                          v-bind:src="require(`@/assets/qna/${item.img}`)"
-                          style="width: 200px; display: block"
-                        />
-                      </div>
-                      <v-btn
-                        v-if="item.qna_comment_no == num"
-                        v-show="testBtn"
-                        @click="deleteComment(item)"
-                        >delete</v-btn
+                      <div
+                        v-if="
+                          index > 0 &&
+                          qnaList[index].regYear != qnaList[index - 1].regYear
+                        "
                       >
+                        {{ qnaList[index].regYear }}
+                      </div>
+                      <!-- 상대방 -->
+                      <div
+                        v-if="item.writer != membNo"
+                        class="chat-box opponent"
+                      >
+                        <div class="avatar-48">
+                          <img
+                            v-if="index == 0"
+                            v-bind:src="
+                              require(`@/assets/images/memberImg/${qnaLists[selectQna].received_img}`)
+                            "
+                          />
+                          <img
+                            v-if="qnaLists[selectQna].received_img == null"
+                            src="@/assets/images/avatar.webp"
+                            alt=""
+                          />
+                          <img
+                            v-if="
+                              index > 0 &&
+                              qnaList[index].writer != qnaList[index - 1].writer
+                            "
+                            v-bind:src="
+                              require(`@/assets/images/memberImg/${qnaLists[selectQna].received_img}`)
+                            "
+                          />
+                          <img
+                            v-if="
+                              index > 0 &&
+                              qnaList[index].writer == qnaList[index - 1].writer
+                            "
+                            v-bind:src="require(`@/assets/qna/whiteImg.jpg`)"
+                          />
+                        </div>
+                        <div v-if="item.content != null">
+                          <p class="chat-box-contents opponent">
+                            {{ item.content }}
+                          </p>
+                        </div>
+                        <div v-if="item.img != null">
+                          <img
+                            v-bind:src="require(`@/assets/qna/${item.img}`)"
+                            style="width: 200px; display: block"
+                          />
+                        </div>
+                        <div class="chat-box-times">
+                          <div class="chat-box-time">{{ item.regTime }}</div>
+                        </div>
+                      </div>
+
+                      <!-- 나 -->
+                      <div class="test">
+                        <div
+                          v-if="item.writer == membNo"
+                          @mousedown.right="rightMouse(item)"
+                          @contextmenu.prevent
+                          class="chat-box me"
+                        >
+                          <div class="chat-box-times">
+                            <div class="chat-box-time">{{ item.regTime }}</div>
+                          </div>
+                          <div v-if="item.content != null">
+                            <p class="chat-box-contents me">
+                              {{ item.content }}
+                            </p>
+                          </div>
+                          <div v-if="item.img != null">
+                            <img
+                              v-bind:src="require(`@/assets/qna/${item.img}`)"
+                              style="width: 200px; display: block"
+                            />
+                          </div>
+                          <v-btn
+                            v-if="item.qna_comment_no == num"
+                            v-show="testBtn"
+                            @click="deleteComment(item)"
+                            >delete</v-btn
+                          >
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -274,7 +283,10 @@
                     <div>
                       <span>{{ totalcharacter }} / 1000</span>
 
-                      <v-btn @click="submitMsg" class="btn-indigo btn-40"
+                      <v-btn
+                        @click="submitMsg"
+                        class="btn-indigo btn-40"
+                        type="submit"
                         >전송
                       </v-btn>
                     </div>
@@ -322,12 +334,7 @@ export default {
       }
     },
   },
-  // computed: {
-  //   chatting() {
-  //     return this.chatting.split("\n").join("<br>")
-  //     //return this.content.replace(/(?:\r\n|\r|\n)/g, '<br>'); 정규식
-  //   },
-  // },
+
   methods: {
     charCount() {
       this.totalcharacter = this.chatting.length
@@ -336,12 +343,10 @@ export default {
       let qnaNo = this.checkQnaNo
       let vue = this
       let elem = document.createElement("input")
-      // 이미지 파일 업로드 / 동시에 여러 파일 업로드
       elem.id = "image"
       elem.type = "file"
       elem.accept = "image/*"
       elem.multiple = true
-      // 클릭
       elem.click()
       elem.onchange = function () {
         let formData = new FormData()

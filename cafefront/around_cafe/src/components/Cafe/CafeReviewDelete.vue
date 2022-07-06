@@ -1,11 +1,11 @@
 <template>
   <button
-    class="delete-button"
-    aria-label="해당 리뷰 삭제하기"
-    type="button"
     v-if="this.memNic == this.review.memNick || this.checkRole == 'CAFE'"
+    class="delete-button"
+    type="button"
+    aria-label="해당 리뷰 삭제하기"
   >
-    <i @click="onDelete()" class="icClose"></i>
+    <i @click="onDelete()" class="icClose" aria-hidden="true"></i>
   </button>
 </template>
 

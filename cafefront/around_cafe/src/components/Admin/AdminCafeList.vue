@@ -73,7 +73,7 @@ import ImgBox from "@/components/ImgBox.vue"
 import PaginationForm from "../PaginationForm.vue"
 
 export default {
-  name: "AdminMemberList",
+  name: "AdminCafeList",
   components: { ImgBox, AdminSidebar, PaginationForm },
 
   data() {
@@ -91,6 +91,8 @@ export default {
   },
   async mounted() {
     await this.fetchMainList()
+  },
+  beforeUpdate() {
     this.pagingMethod(this.page)
   },
   methods: {

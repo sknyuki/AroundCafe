@@ -100,7 +100,9 @@
         </div>
 
         <div class="review-card-btn">
-          <v-btn class="btn-indigo btn-40" @click="onModify">수정</v-btn>
+          <v-btn class="btn-indigo btn-40" @click="onModify" type="submit"
+            >수정</v-btn
+          >
         </div>
       </div>
     </v-card>

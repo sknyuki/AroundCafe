@@ -62,7 +62,7 @@
               aria-label="해당 메뉴 삭제하기"
               type="button"
             >
-              <i class="icClose"></i>
+              <i class="icClose" aria-hidden="true"></i>
             </button>
           </div>
         </li>
@@ -131,10 +131,10 @@
             <button
               @click="onDeleteMenu(item)"
               class="delete-button"
-              aria-label="해당 메뉴 삭제하기"
               type="button"
+              aria-label="해당 메뉴 삭제하기"
             >
-              <i class="icClose"></i>
+              <i class="icClose" aria-hidden="true"></i>
             </button>
           </div>
         </li>

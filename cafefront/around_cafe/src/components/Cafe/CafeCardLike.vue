@@ -28,13 +28,15 @@
         </template>
 
         <template v-else>
-          <a href="" @focus.tab="swiperBtn = index">
+          <router-link
+            :to="{
+              name: 'CafeDetailPage',
+              params: { cafeNo: cafeItem.cafeNo.toString() },
+            }"
+            @focus.tab="swiperBtn = index"
+            :aria-label="cafeItem.cafe_name"
+          >
             <CafeLike :cafeItem="cafeItem" :myLikes="myLikes" :key="index" />
-
-            <!-- 좋아요 토글 
-            <button class="cafe-item-btn" type="button">
-              <i class="icHeart"></i>
-            </button>-->
 
             <!-- 스와이퍼 -->
             <swiper class="swiper" :options="swiperOption">
@@ -62,7 +64,7 @@
                 type="button"
                 v-show="swiperBtn === index"
               >
-                <i class="icChevron" aria-hidden></i>
+                <i class="icChevron" aria-hidden="true"></i>
               </v-btn>
               <v-btn
                 fab
@@ -73,7 +75,7 @@
                 type="button"
                 v-show="swiperBtn === index"
               >
-                <i class="icChevron" aria-hidden></i>
+                <i class="icChevron" aria-hidden="true"></i>
               </v-btn>
               <div class="swiper-pagination" slot="pagination"></div>
             </swiper>
@@ -91,13 +93,13 @@
             <dl class="cafe-list-rating">
               <div class="rating">
                 <dt>
-                  <i class="icStar"></i>
+                  <i class="icStar" aria-hidden="true"></i>
                   <span class="visually-hidden">평점</span>
                 </dt>
                 <dd>{{ cafeItem.star }}</dd>
               </div>
             </dl>
-          </a>
+          </router-link>
         </template>
       </li>
     </ul>
