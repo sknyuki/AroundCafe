@@ -28,10 +28,10 @@
               </div>
               <div>
                 <div style="margin-bottom: 3px" v-html="item.menu_name" />
-                <span v-html="numberToString(item.per_menu_total_price, 3)" />
+                <span>{{ item.per_menu_total_price | pricePoint }}</span>
                 <span style="margin-right: 5px" />|
                 <!--              SVG 이미지파일 삽입-->
-                <span v-html="item.per_menu_quantity" />
+                <span>{{ item.per_menu_quantity | pricePoint }}</span>
               </div>
             </div>
           </div>
@@ -59,12 +59,13 @@
           >
           <div class="order-purchase-point text-box">
             <span class="order-purchase-point text">사용 가능 포인트</span>
-            <span class="order-purchase-point color-text">{{
-              userInfo.memPoint
-            }}</span>
+            <span class="order-purchase-point color-text">
+              {{ userInfo.memPoint | pricePoint }}</span
+            >
             <span class="order-purchase-point color-text">P</span>
             <span class="order-purchase-point text"
-              >(포인트는 {{ minimumPoint }}P 이상부터 사용 가능합니다)</span
+              >(포인트는 {{ minimumPoint | pricePoint }}P 이상부터 사용
+              가능합니다)</span
             >
           </div>
         </div>
@@ -102,7 +103,7 @@
 </template>
 
 <script>
-import Number2String from "@/utils/number2String"
+import { pricePoint } from "@/utils/filters"
 
 export default {
   name: "CafeSitePurchaseList",
@@ -232,15 +233,12 @@ export default {
     setPaymentMethod(orderBtn) {
       this.paymentInfo.paymentMethod = orderBtn.type
       for (let i = 0; i < this.orderBtns.length; i++) {
-        if (this.orderBtns[i].isActive == true) {
+        if (this.orderBtns[i].isActive === true) {
           this.orderBtns[i].isActive = false
           break
         }
       }
       orderBtn.isActive = true
-    },
-    numberToString(number, digit) {
-      return Number2String.do(number, digit)
     },
     checkPointValidate() {
       if (
@@ -248,9 +246,8 @@ export default {
         this.paymentInfo.totalPointAmount > 0 &&
         this.paymentInfo.totalPointAmount !== null
       ) {
-        this.pointValidatedMessage = `${this.numberToString(
-          this.minimumPoint,
-          3
+        this.pointValidatedMessage = `${pricePoint(
+          this.minimumPoint
         )}P 이상의 포인트를 사용하셔야 합니다.`
         this.isPointValidated = false
       } else if (

@@ -7,13 +7,13 @@
       <div class="order-sidebar-contents content">
         <div class="order-sidebar-flexbox left">총 상품 금액</div>
         <div class="order-sidebar-flexbox right">
-          {{ this.nullValueCheck(paymentInfo.totalAmount, digit) }} 원
+          {{ this.nullValueCheck(paymentInfo.totalAmount) }} 원
         </div>
       </div>
       <div class="order-sidebar-contents content">
         <div class="order-sidebar-flexbox left">포인트 사용</div>
         <div class="order-sidebar-flexbox right">
-          {{ this.nullValueCheck(paymentInfo.totalPointAmount, digit) }} 원
+          {{ this.nullValueCheck(paymentInfo.totalPointAmount) }} 원
         </div>
       </div>
       <v-divider />
@@ -24,8 +24,7 @@
             <span class="order-sidebar-footer color-text">
               {{
                 this.nullValueCheck(
-                  paymentInfo.totalAmount - paymentInfo.totalPointAmount,
-                  digit
+                  paymentInfo.totalAmount - paymentInfo.totalPointAmount
                 )
               }}
             </span>
@@ -38,8 +37,7 @@
                   parseInt(
                     (paymentInfo.totalAmount - paymentInfo.totalPointAmount) *
                       pointAdd
-                  ),
-                  digit
+                  )
                 )
               }}
               P
@@ -55,8 +53,7 @@
       @click="onSubmit()"
       >{{
         this.nullValueCheck(
-          paymentInfo.totalAmount - paymentInfo.totalPointAmount,
-          3
+          paymentInfo.totalAmount - paymentInfo.totalPointAmount
         )
       }}원 결제하기</v-btn
     >
@@ -64,7 +61,6 @@
 </template>
 
 <script>
-import Number2String from "@/utils/number2String"
 import { pricePoint } from "@/utils/filters"
 
 export default {
@@ -80,9 +76,6 @@ export default {
     }
   },
   methods: {
-    numberToString(number, digit) {
-      return Number2String.do(number, digit)
-    },
     nullValueCheck(number) {
       let newNumber
       if (number === "" || number === null || number < 0) {
