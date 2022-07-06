@@ -29,7 +29,6 @@
                   <SkeletonBox class="skeleton-star" />
                 </div>
               </template>
-
               <template v-else>
                 <div v-if="onLogin">
                   <CafeLike
@@ -137,6 +136,7 @@ import { swiper, swiperSlide } from "vue-awesome-swiper"
 import SkeletonBox from "@/components/SkeletonBox.vue"
 import CafeLike from "@/components/Cafe/CafeLike"
 import "swiper/dist/css/swiper.min.css"
+import { mapState, mapActions } from "vuex"
 
 export default {
   name: "CafeCard",
@@ -148,19 +148,10 @@ export default {
     CafeLike,
   },
 
-  props: {
-    mainlist: {
-      type: Array,
-      required: true,
-    },
-    myLikes: {
-      type: Array,
-      required: true,
-    },
-  },
   data() {
     return {
       isLoading: false,
+
       // onHoverIndex: null,
       swiperBtn: null,
       // Swiper 데이터
@@ -187,7 +178,22 @@ export default {
       cafeNo: "",
     }
   },
+  computed: {
+    ...mapState(["mainlist"]),
+  },
+  async mounted() {
+    this.isLoading = true
+
+    await this.fetchMainList()
+    this.isLoading = false
+
+    this.onLogin()
+    //
+  },
+
   methods: {
+    ...mapActions(["fetchMainList"]),
+
     onLogin() {
       if (this.membNo != "") {
         this.onLogin = true
