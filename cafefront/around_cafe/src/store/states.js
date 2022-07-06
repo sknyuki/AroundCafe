@@ -34,4 +34,7 @@ export default {
   //mainlist
   mainlist: [],
   dminlist: [],
+
+  //유저 이용 현황
+  userSpendList: [],
 }

@@ -115,4 +115,7 @@ export default {
   [FETCH_ADMIN_MEMBER_LIST](state, adminlist) {
     state.adminlist = adminlist
   },
+  [FETCH_USER_SPEND_LIST](state, userSpendList) {
+    state.userSpendList = userSpendList
+  },
 }
