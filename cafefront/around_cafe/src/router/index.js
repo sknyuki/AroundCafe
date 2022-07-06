@@ -89,6 +89,21 @@ const routes = [
     component: () => import("@/views/Admin/AdminUserModifyPage.vue"),
   },
   {
+    path: "/admin/AdminUsageMemberListPage",
+    name: "AdminUsageMemberListPage",
+    component: () => import("@/views/Admin/AdminUsageMemberListPage.vue"),
+  },
+  {
+    path: "/admin/",
+    name: "AdminUsageMemberPage",
+    components: {
+      default: () => import("@/views/Admin/AdminUsageMemberPage.vue"),
+    },
+    props: {
+      default: true,
+    },
+  },
+  {
     path: "/admin/member",
     name: "AdminMemberListPage",
     component: () => import("@/views/Admin/AdminMemberListPage.vue"),

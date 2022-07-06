@@ -36,7 +36,7 @@
           <button @click="increaseQuantity(basket)">+</button>
         </dt>
         <dd>
-          <span>{{ basket.per_menu_total_price }}</span
+          <span>{{ basket.per_menu_total_price | pricePoint }}</span
           >원
         </dd>
       </div>
@@ -45,7 +45,7 @@
     <div class="detail-sidebar-price total">
       <dt>총 상품금액</dt>
       <dd>
-        <span>{{ totalPrice }}</span
+        <span>{{ totalPrice | pricePoint }}</span
         >원
       </dd>
     </div>
@@ -74,9 +74,11 @@ export default {
   data() {
     return {
       totalPrice: 0,
+      copyBasketList: [],
     }
   },
   beforeUpdate() {
+    // this.copyBasketList=this.basketList
     this.totalPrice = 0
     for (let i = 0; i < this.basketList.length; i++) {
       this.totalPrice += this.basketList[i].per_menu_total_price

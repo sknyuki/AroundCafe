@@ -135,8 +135,8 @@ public class CafeServiceImpl implements CafeService {
             List<Review> reviewList = reviewRepository.findAllReviewByCafeNo(cafe.getCafeNo());
 
 
-            int starScoreTemp = 0;
-            int count = 0;
+            double starScoreTemp = 0;
+            double count = 0;
             for (Review review : reviewList) {
                 starScoreTemp += review.getStar_score();//총합
                 count += 1;//인원수
@@ -150,9 +150,12 @@ public class CafeServiceImpl implements CafeService {
             if(starScoreTemp==0){
                 double starAverage=0;
                 cafeStarAverResponse.setStarAver(starAverage);
+
             }else {
             double starAverage = starScoreTemp / count;//평균값 계산
-                cafeStarAverResponse.setStarAver(starAverage);}
+                log.info("starAverage: "+starAverage);
+
+                cafeStarAverResponse.setStarAver(Math.floor(starAverage * 10)/10);}
 
 
             cafeStarAverResponses.add(cafeStarAverResponse);
