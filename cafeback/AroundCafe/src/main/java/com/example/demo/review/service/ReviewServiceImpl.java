@@ -63,6 +63,10 @@ public class ReviewServiceImpl implements ReviewService{
             review.setFileName(fileName);
         }
 
+        if(review.getStar_score() == null) {
+            review.setStar_score(0);
+        }
+
         review.setMemberInfo(member);
 
         repository.save(review);
