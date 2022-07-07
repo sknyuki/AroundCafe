@@ -36,7 +36,6 @@
                   v-if="onLogin"
                   class="cafe-item-btn"
                   :cafeItem="cafeItem"
-                  :myLikes="myLikes"
                   :key="index"
                 />
                 <router-link
@@ -172,12 +171,11 @@ export default {
           nextSlideMessage: "다음 이미지 버튼",
         },
       },
-      membNo: JSON.parse(localStorage.getItem("user")).memNo,
       cafeNo: "",
     }
   },
   computed: {
-    ...mapState(["mainlist"]),
+    ...mapState(["mainlist", "user"]),
   },
 
   async mounted() {
@@ -185,13 +183,14 @@ export default {
     await this.fetchMainList()
     setTimeout(() => {
       this.isLoading = false
-    }, 1)
+    }, 2500)
+    this.fetchMyLikesList(this.user.memNo)
 
     this.onLogin()
   },
 
   methods: {
-    ...mapActions(["fetchMainList"]),
+    ...mapActions(["fetchMainList", "fetchMyLikesList", "fetchUser"]),
 
     onLogin() {
       if (this.membNo != "") {
