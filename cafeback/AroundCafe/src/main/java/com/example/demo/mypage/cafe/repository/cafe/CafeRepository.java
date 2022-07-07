@@ -24,6 +24,10 @@ public interface CafeRepository extends JpaRepository<Cafe, Long> {
     Optional<Cafe> findByCafeNo(@Param("membNo") Long membNo);
 
     @Transactional
+    @Query(value = "select * from cafe where cafe_no = :cafeNo",nativeQuery = true)
+    Optional<Cafe> findByCafeNo2(@Param("cafeNo") Long cafeNo);
+
+    @Transactional
     Optional<Cafe> findByMemberInfo(Member member);
 
 

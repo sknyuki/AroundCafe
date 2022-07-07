@@ -117,7 +117,7 @@ public class PaymentServiceImpl implements PaymentService {
 
     public PaymentResponse payment2PaymentResponse(Payment payment) {
         PaymentResponse paymentResponse = PaymentResponseMapStruct.instance.toDto(payment);
-        Cafe cafe = cafeRepository.findByCafeNo(payment.getCafeNo()).orElseThrow(()
+        Cafe cafe = cafeRepository.findByCafeNo2(payment.getCafeNo()).orElseThrow(()
                 -> new ResourceNotFoundException("cafe", "cafeNo", payment.getCafeNo()));
 
         paymentResponse.setMemNo(payment.getMember().getMemNo());
@@ -228,4 +228,4 @@ public class PaymentServiceImpl implements PaymentService {
         }else return null;
     }
 }
-}
+
