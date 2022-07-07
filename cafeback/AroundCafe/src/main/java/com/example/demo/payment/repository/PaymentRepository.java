@@ -41,7 +41,7 @@ public interface PaymentRepository extends JpaRepository<Payment,Long> {
     @Modifying
     @Query("update Payment m set m.paymentStatus = :paymentStatus where m.paymentNo = :paymentNo")
     public void updatePaymentStatus(Long paymentNo, PaymentStatus paymentStatus);
-    @Query("select distinct DATE_FORMAT(p.paymentDate,'%Y-%m-%d')as paymentDate from Payment p where p.cafeNo = :cafeNo ")
+    @Query("select distinct DATE_FORMAT(p.paymentDate,'%Y-%m-%d')as paymentDate from Payment p where p.cafeNo = :cafeNo order by p.paymentDate desc")
     public List<String> findByDay(Long cafeNo);
 
     @Query(value = "select count(*) from payment where cafe_no = :cafeNo and payment_date like %:date1%",nativeQuery = true)
@@ -54,7 +54,7 @@ public interface PaymentRepository extends JpaRepository<Payment,Long> {
     public List<Payment> findByCafeNoAndPaymentDateLike(Long cafeNo, Date date);
 
     @Query(value = "select o.itemName as itemName, sum(o.amount) as sum, count(o.orderItemNo) as count from OrderItem o where o.payment in " +
-            "(select p.paymentNo from Payment p where cafeNo=:cafeNo) group by o.itemName")
+            "(select p.paymentNo from Payment p where cafeNo=:cafeNo) group by o.itemName order by sum(o.amount) desc")
     public List<PaymentSalesMenuResponse1> findByMenuList(Long cafeNo);
 
     @Query("select m from Payment m join fetch m.member c where c.memNo= :memNo and m.paymentDate >=:date1 and m.paymentDate<=:date2")
