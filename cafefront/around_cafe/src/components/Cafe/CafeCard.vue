@@ -30,78 +30,76 @@
                 </div>
               </template>
 
+              <!-- 로그인 했을때 CafeCard -->
               <template v-else>
-                <div v-if="onLogin">
-                  <CafeLike
-                    class="cafe-item-btn"
-                    :cafeItem="cafeItem"
-                    :myLikes="myLikes"
-                    :key="index"
-                  />
-                </div>
+                <CafeLike
+                  v-if="onLogin"
+                  class="cafe-item-btn"
+                  :cafeItem="cafeItem"
+                  :myLikes="myLikes"
+                  :key="index"
+                />
                 <router-link
                   :to="{
                     name: 'CafeDetailPage',
                     params: { cafeNo: cafeItem.cafeNo.toString() },
                   }"
                   @focus.tab="swiperBtn = index"
-                  :aria-label="cafeItem.cafe_name"
                 >
                   <!-- 스와이퍼 -->
                   <swiper class="swiper" :options="swiperOption">
-                    <swiper-slide
-                      v-if="cafeItem.cafeImgs.length == 0"
-                      class="cafe-gallery-image"
-                    >
-                      <picture>
-                        <img
-                          loading="lazy"
-                          v-bind:src="
-                            require(`@/assets/cafe/cafeMypage/beforeReady.jpg`)
-                          "
-                          alt="등록하지 않은 카페 이미지"
-                        />
-                      </picture>
-                    </swiper-slide>
-                    <swiper-slide
-                      v-else
-                      v-for="img in cafeItem.cafeImgs"
-                      :key="img.cafeImgNo"
-                      class="cafe-gallery-image"
-                    >
-                      <picture>
-                        <img
-                          loading="lazy"
-                          v-bind:src="
-                            require(`@/assets/cafe/cafeMypage/${img.cafe_img}`)
-                          "
-                          :alt="cafeItem.alt"
-                        />
-                      </picture>
-                    </swiper-slide>
-                    <v-btn
-                      fab
-                      x-small
-                      class="swiper-button-prev is-prev"
-                      slot="button-prev"
-                      aria-label="이전 이미지 버튼"
-                      type="button"
-                      v-show="swiperBtn === index"
-                    >
-                      <i class="icChevron" aria-hidden="true"></i>
-                    </v-btn>
-                    <v-btn
-                      fab
-                      x-small
-                      class="swiper-button-next is-next"
-                      slot="button-next"
-                      aria-label="다음 이미지 버튼"
-                      type="button"
-                      v-show="swiperBtn === index"
-                    >
-                      <i class="icChevron" aria-hidden="true"></i>
-                    </v-btn>
-                    <div class="swiper-pagination" slot="pagination"></div>
+                    <template v-if="cafeItem.cafeImgs.length == 0">
+                      <swiper-slide class="cafe-gallery-image">
+                        <picture>
+                          <img
+                            loading="lazy"
+                            :src="
+                              require(`@/assets/cafe/cafeMypage/beforeReady.jpg`)
+                            "
+                            alt="등록하지 않은 카페 이미지"
+                          />
+                        </picture>
+                      </swiper-slide>
+                    </template>
+                    <template v-else>
+                      <swiper-slide
+                        v-for="img in cafeItem.cafeImgs"
+                        :key="img.cafeImgNo"
+                        class="cafe-gallery-image"
+                      >
+                        <picture>
+                          <img
+                            loading="lazy"
+                            v-bind:src="
+                              require(`@/assets/cafe/cafeMypage/${img.cafe_img}`)
+                            "
+                          />
+                        </picture>
+                      </swiper-slide>
+                      <v-btn
+                        v-show="swiperBtn === index"
+                        slot="button-prev"
+                        class="swiper-button-prev is-prev"
+                        type="button"
+                        fab
+                        x-small
+                        aria-label="이전 이미지 버튼"
+                      >
+                        <i class="icChevron" aria-hidden="true"></i>
+                      </v-btn>
+                      <v-btn
+                        v-show="swiperBtn === index"
+                        slot="button-next"
+                        class="swiper-button-next is-next"
+                        type="button"
+                        fab
+                        x-small
+                        aria-label="다음 이미지 버튼"
+                      >
+                        <i class="icChevron" aria-hidden="true"></i>
+                      </v-btn>
+                      <div class="swiper-pagination" slot="pagination"></div>
+                    </template>
                   </swiper>
 
                   <h1 class="cafe-list-title">{{ cafeItem.cafe_name }}</h1>
@@ -137,6 +135,7 @@ import { swiper, swiperSlide } from "vue-awesome-swiper"
 import SkeletonBox from "@/components/SkeletonBox.vue"
 import CafeLike from "@/components/Cafe/CafeLike"
 import "swiper/dist/css/swiper.min.css"
+import { mapState, mapActions } from "vuex"
 
 export default {
   name: "CafeCard",
@@ -148,16 +147,6 @@ export default {
     CafeLike,
   },
 
-  props: {
-    mainlist: {
-      type: Array,
-      required: true,
-    },
-    myLikes: {
-      type: Array,
-      required: true,
-    },
-  },
   data() {
     return {
       isLoading: false,
@@ -187,7 +176,23 @@ export default {
       cafeNo: "",
     }
   },
+  computed: {
+    ...mapState(["mainlist"]),
+  },
+
+  async mounted() {
+    this.isLoading = true
+    await this.fetchMainList()
+    setTimeout(() => {
+      this.isLoading = false
+    }, 2500)
+
+    this.onLogin()
+  },
+
   methods: {
+    ...mapActions(["fetchMainList"]),
+
     onLogin() {
       if (this.membNo != "") {
         this.onLogin = true
@@ -195,16 +200,6 @@ export default {
         this.onLogin = false
       }
     },
-
-    // methods: {
-    //   show: function () {
-    //     this.isLoading = !this.isLoading
-    //     setTimeout(() => this.show(), 3500)
-    //   },
-    // },
-    // mounted() {
-    //   setTimeout(() => this.show(), 2000)
-    // },
   },
 }
 </script>
