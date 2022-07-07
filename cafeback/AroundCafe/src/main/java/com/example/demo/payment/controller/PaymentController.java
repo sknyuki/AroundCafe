@@ -6,14 +6,11 @@ import com.example.demo.payment.dto.*;
 import com.example.demo.payment.service.PaymentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -83,4 +80,12 @@ public class PaymentController {
 
         return paymentService.getPaymentSalesMenuList(cafeNo);
     }
+ @PostMapping("/list/list")
+    public List<PaymentResponse> getPaymentByDate(@Valid @RequestBody AdminUsageRequest request){
+        Long date1=Long.valueOf(request.getDate1());
+        Long date2=Long.valueOf(request.getDate2());
+
+        return paymentService.getPaymentByDate(request.getMemNo(), date1,date2);
+
+ }
 }

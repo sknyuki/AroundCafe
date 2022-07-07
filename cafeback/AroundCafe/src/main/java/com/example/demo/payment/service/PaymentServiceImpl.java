@@ -227,5 +227,22 @@ public class PaymentServiceImpl implements PaymentService {
             return paymentList;
         }else return null;
     }
+
+    @Override
+    public List<PaymentResponse> getPaymentByDate(Long memNo, Long date1, Long date2){
+    Date newDate1=new Date(date1);
+    Date newDate2=new Date(date2);
+    List<PaymentResponse> paymentUsageResponseList =new ArrayList();
+
+    List<Payment> paymentList=paymentRepository.findAllByMember(memNo,newDate1,newDate2);
+    for(Payment payment :paymentList){
+        PaymentResponse paymentUsageResponse=this.payment2PaymentResponse(payment);
+        paymentUsageResponseList.add(paymentUsageResponse);
+
+    }
+    return paymentUsageResponseList;
+
+
+    }
 }
 

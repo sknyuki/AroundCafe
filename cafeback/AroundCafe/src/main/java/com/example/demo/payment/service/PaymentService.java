@@ -22,4 +22,6 @@ public interface PaymentService {
     public List<PaymentSalesDetailResponse> getPaymentSalesDetailList(Long cafeNo, String date);
 
     public List<PaymentSalesMenuResponse1> getPaymentSalesMenuList(Long cafeNo);
+
+    public List<PaymentResponse> getPaymentByDate(Long memNo, Long date1, Long date2);
 }
