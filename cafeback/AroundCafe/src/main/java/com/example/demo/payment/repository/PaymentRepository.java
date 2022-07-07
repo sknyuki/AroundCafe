@@ -56,4 +56,7 @@ public interface PaymentRepository extends JpaRepository<Payment,Long> {
     @Query(value = "select o.itemName as itemName, sum(o.amount) as sum, count(o.orderItemNo) as count from OrderItem o where o.payment in " +
             "(select p.paymentNo from Payment p where cafeNo=:cafeNo) group by o.itemName")
     public List<PaymentSalesMenuResponse1> findByMenuList(Long cafeNo);
+
+    @Query("select m from Payment m join fetch m.member c where c.memNo= :memNo and m.paymentDate >=:date1 and m.paymentDate<=:date2")
+            public List<Payment> findAllByMember(@Param("memNo") Long memNo, @Param("date1") Date date1, @Param("date2") Date date2);
 }
