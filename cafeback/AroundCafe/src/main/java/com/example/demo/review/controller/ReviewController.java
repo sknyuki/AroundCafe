@@ -4,6 +4,7 @@ import com.example.demo.mypage.cafe.entity.Cafe;
 import com.example.demo.mypage.cafe.repository.cafe.CafeRepository;
 import com.example.demo.review.dto.ReviewResponseDto;
 import com.example.demo.review.entity.Review;
+import com.example.demo.review.service.ReviewLikeService;
 import com.example.demo.review.service.ReviewService;
 import com.example.demo.review.service.ReviewServiceImpl;
 import lombok.extern.slf4j.Slf4j;
@@ -22,7 +23,7 @@ import java.util.List;
 public class ReviewController {
 
     @Autowired
-    ReviewServiceImpl service;
+    private ReviewService service;
 
 
     //리뷰 등록
@@ -51,16 +52,6 @@ public class ReviewController {
         log.info("cafe no : " + memNo);
         return service.userList (memNo);
     }
-//
-//    //카페에서 리뷰 리스트 조회
-//    @GetMapping("/lists/{membNo}")
-//    public List<Review> cafeReviewList (@PathVariable("membNo") Integer membNo) {
-//        log.info("cafe ReviewList()");
-//        log.info("member no : " + membNo);
-//
-//        return service.CafeList(Long.valueOf(membNo));
-//
-//    }
 
     //리뷰 읽기
     @GetMapping("/{reviewNo}")
