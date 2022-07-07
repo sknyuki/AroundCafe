@@ -1,8 +1,8 @@
 <template>
   <aside class="detail-sidebar-sticky">
     <dl
-      v-for="basket in basketList"
-      :key="basket.menu_no"
+      v-for="(basket, index) in basketList"
+      :key="index"
       class="detail-sidebar"
     >
       <div class="detail-sidebar-info">
@@ -36,6 +36,16 @@
           <span>{{ basket.per_menu_total_price | pricePoint }}</span
           >원
         </dd>
+      </div>
+      <div>
+        <button
+          class="delete-button"
+          @click="deleteMenu(index)"
+          type="button"
+          aria-label="메뉴삭제"
+        >
+          <i class="icClose"></i>
+        </button>
       </div>
     </dl>
 
@@ -99,8 +109,19 @@ export default {
           basket.menu_price * basket.per_menu_quantity
       }
     },
+    deleteMenu(index) {
+      this.$emit("input", { index: index })
+    },
     selectedMenuSubmit() {
       console.log(this.basket)
+      let count = 0
+      for (let i = 0; i < this.basketList.length; i++) {
+        if (this.basketList[i].per_menu_quantity == 0) continue
+        else {
+          this.copyBasketList[count] = this.basketList[i]
+          count++
+        }
+      }
 
       var result = confirm("결제 페이지로 이동하시겠습니까?")
       if (result) {
@@ -112,7 +133,7 @@ export default {
               cafeNo: this.cafeNo,
               cafe_name: this.cafeBoard.cafe_name,
             },
-            basketList: this.basketList,
+            basketList: this.copyBasketList,
           },
         })
       }

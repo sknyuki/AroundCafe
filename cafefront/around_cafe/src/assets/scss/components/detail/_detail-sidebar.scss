@@ -1,4 +1,5 @@
 .detail-sidebar {
+  position: relative;
   &-info {
     @include flexbox(start);
     margin-bottom: 8px;
@@ -59,5 +60,10 @@
       @include text-style(18);
       font-weight: 700;
     }
+  }
+  .delete-button {
+    position: absolute;
+    top: 5px;
+    right: 10px;
   }
 }
