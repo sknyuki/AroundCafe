@@ -185,7 +185,7 @@ export default {
     await this.fetchMainList()
     setTimeout(() => {
       this.isLoading = false
-    }, 2500)
+    }, 1)
 
     this.onLogin()
   },

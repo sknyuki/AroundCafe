@@ -4,8 +4,14 @@
       v-slot:activator="{ on, attrs }"
       v-if="this.$route.name != 'CafeDetailPage'"
     >
-      <button type="button" aria-label="수정하기" v-on="on" v-bind="attrs">
-        <v-icon>mdi-pencil</v-icon>
+      <button
+        class="modify-button"
+        type="button"
+        aria-label="수정하기"
+        v-on="on"
+        v-bind="attrs"
+      >
+        <v-icon aria-hidden="true">mdi-pencil</v-icon>
       </button>
     </template>
 
@@ -188,4 +194,17 @@ export default {
 
 <style lang="scss" scoped>
 @import "~@/assets/scss/components/cafe/cafe-review-dialog";
+.modify-button {
+  @include inline-flexbox;
+  position: absolute;
+  top: 4px;
+  right: 18px;
+  width: 44px;
+  height: 44px;
+  color: $secondary;
+  &:hover,
+  &:active {
+    opacity: 0.4;
+  }
+}
 </style>
