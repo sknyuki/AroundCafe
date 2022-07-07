@@ -350,7 +350,24 @@ const routes = [
       default: true,
     },
   },
-
+  {
+    path: "/cafe/sales",
+    name: "OrderCafeSalesPage",
+    components: { default: () => import("@/views/Order/OrderCafeSalesPage") },
+    props: {
+      default: true,
+    },
+  },
+  {
+    path: "/cafe/sales/detail",
+    name: "OrderCafeSalesDetailPage",
+    components: {
+      default: () => import("@/views/Order/OrderCafeSalesDetailPage"),
+    },
+    props: {
+      default: true,
+    },
+  },
   {
     path: "*",
     redirect: "/404",

@@ -120,7 +120,7 @@ export default {
         {
           id: 5,
           title: "매출",
-          link: "",
+          link: "/cafe/sales",
         },
         {
           id: 6,
