@@ -41,11 +41,3 @@ export default {
   },
 }
 </script>
-<style lang="scss" scoped>
-.cafe-review {
-  &-pag {
-    @include flexbox(end);
-    margin-bottom: 16px;
-  }
-}
-</style>
