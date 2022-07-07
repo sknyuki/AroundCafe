@@ -22,11 +22,12 @@ public interface PaymentRepository extends JpaRepository<Payment,Long> {
     @Query("select m from Payment m where m.member = :member")
     public List<Payment> findAllByMember(@Param("member") Member member);
 
-    @Query("select m from Payment m where m.cafeNo = :cafeNo")
-    public List<Payment> findAllByCafeNo(@Param("cafeNo") Long cafeNo);
-
     @Query("select m from Payment m where m.paymentNo = :paymentNo")
     public Optional<Payment> findByPaymentNo(@Param("paymentNo") Long paymentNo);
+
+    @Query("select m from Payment m where m.cafeNo = :cafeNo order by m.paymentDate desc")
+    public List<Payment> findAllByCafeNo(@Param("cafeNo") Long cafeNo);
+
 
     @Transactional
     public void deleteByPaymentNo(@Param("paymentNo")Long paymentNo);

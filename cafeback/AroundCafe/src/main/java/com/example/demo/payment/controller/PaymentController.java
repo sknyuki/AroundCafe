@@ -43,7 +43,7 @@ public class PaymentController {
         return paymentService.getAllPaymentResponse(member);
     }
     @PutMapping("/order/status/{paymentNo}")
-        public void modifyPaymentStatus(@PathVariable Long paymentNo, @RequestBody PaymentRequest paymentRequest){
+    public void modifyPaymentStatus(@PathVariable Long paymentNo, @Valid @RequestBody PaymentRequest paymentRequest){
         paymentService.modifyPaymentStatus(paymentNo,paymentRequest.getPaymentStatus());
     }
 
