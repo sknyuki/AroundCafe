@@ -1,4 +1,5 @@
 .cafe-list {
+  margin-top: 16px;
   &-title {
     @include text-style(16, $dark);
     font-weight: 700;

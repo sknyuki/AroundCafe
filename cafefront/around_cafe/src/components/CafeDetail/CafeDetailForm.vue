@@ -355,6 +355,7 @@ export default {
 <style lang="scss" scoped>
 @import "~@/assets/scss/components/detail/detail";
 @import "~@/assets/scss/components/detail/detail-content";
+@import "~@/assets/scss/components/detail/detail-grid";
 @import "~@/assets/scss/components/review/review-scoreboard";
 @import "~@/assets/scss/components/review/score-stats";
 </style>
