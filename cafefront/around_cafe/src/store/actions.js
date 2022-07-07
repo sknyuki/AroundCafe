@@ -23,7 +23,6 @@ import {
   FETCH_LIKES_LIST,
   FETCH_MY_LIKES_LIST,
   FETCH_MAIN_LIST,
-  FETCH_ADMIN_MEMBER_LIST,
   FETCH_PAYMENT_DETAIL,
   FETCH_USER_SPEND_LIST,
 } from "./mutation-types"
@@ -194,22 +193,14 @@ export default {
       // console.log(res.data)
     })
   },
-  fetchAdminMemberList({ commit }) {
-    return axios
-      .get(`http://localhost:7777/members/admin/memberlist`)
-      .then((res) => {
-        commit(FETCH_ADMIN_MEMBER_LIST, res.data)
-        // console.log("블랙리스트 값 출력")
-        // console.log(res.data)
-      })
-  },
+
   fetchUserSpendList({ commit }, memNo) {
     return axios
       .get(`http://localhost:7777/payment/list/${memNo}`)
       .then((res) => {
         commit(FETCH_USER_SPEND_LIST, res.data)
-        console.log("멤버 소비 리스트 출력")
-        console.log(res.data)
+        // console.log("멤버 소비 리스트 출력")
+        // console.log(res.data)
       })
   },
 }

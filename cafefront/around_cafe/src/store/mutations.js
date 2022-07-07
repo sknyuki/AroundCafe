@@ -24,7 +24,6 @@ import {
   FETCH_MY_LIKES_LIST,
   FETCH_LIKES_ID_LISTS,
   FETCH_MAIN_LIST,
-  FETCH_ADMIN_MEMBER_LIST,
   FETCH_PAYMENT_DETAIL,
   FETCH_USER_SPEND_LIST,
 } from "./mutation-types"
@@ -117,9 +116,6 @@ export default {
 
   [FETCH_MAIN_LIST](state, mainlist) {
     state.mainlist = mainlist
-  },
-  [FETCH_ADMIN_MEMBER_LIST](state, adminlist) {
-    state.adminlist = adminlist
   },
   [FETCH_USER_SPEND_LIST](state, userSpendList) {
     state.userSpendList = userSpendList

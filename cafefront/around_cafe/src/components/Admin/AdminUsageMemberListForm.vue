@@ -63,7 +63,7 @@
   </div>
 </template>
 <script>
-import { mapActions, mapState } from "vuex"
+import axios from "axios"
 import AdminSidebar from "@/components/Admin/AdminSidebar.vue"
 import ImgBox from "@/components/ImgBox.vue"
 import PaginationForm from "../PaginationForm.vue"
@@ -74,6 +74,7 @@ export default {
 
   data() {
     return {
+      adminlist: [],
       listData: [],
       page: 1,
       limit: 10,
@@ -82,15 +83,14 @@ export default {
       total: "",
     }
   },
-  computed: {
-    ...mapState(["adminlist"]),
+  created() {
+    axios.get(`http://localhost:7777/members/admin/memberlist`).then((res) => {
+      this.adminlist = res.data
+      this.pagingMethod(this.page)
+    })
   },
-  async mounted() {
-    await this.fetchAdminMemberList()
-    this.pagingMethod(this.page)
-  },
+
   methods: {
-    ...mapActions(["fetchAdminMemberList"]),
     pagingMethod(page) {
       this.listData = this.adminlist.slice(
         (page - 1) * this.limit,

@@ -14,7 +14,10 @@
               <h2>회원 이용 현황</h2>
             </header>
             <div>
-              {{ this.memNick }} 님의 이용 현황입니다.
+              <div class="space-between" title="flex-direction:column">
+                <h5>{{ this.memNick }} 님의 이용 현황입니다.</h5>
+                <p>보유포인트:{{ userInfo.memPoint }}</p>
+              </div>
               <table class="member-list-table">
                 <thead>
                   <tr>
@@ -38,7 +41,7 @@
                   <tr>
                     <td align="center">{{ index + 1 }}</td>
                     <td align="center">{{ usage.paymentDate | yyyyMMdd }}</td>
-                    <td align="center">{{ usage.cafeNo }}</td>
+                    <td align="center">{{ usage.cafeName }}</td>
                     <td align="center">{{ usage.itemInitName }}</td>
                     <td align="center">{{ usage.paymentMethod }}</td>
                     <td align="center">
@@ -47,7 +50,7 @@
                   </tr>
                 </tbody>
               </table>
-              (총 이용 금액: )
+              (총 이용 금액: {{ this.totalPurchaseAmount | pricePoint }}원)
             </div>
           </div>
           <PaginationForm
@@ -77,18 +80,27 @@ export default {
       block: 5,
       pageNo: "",
       total: "",
+      totalPurchaseAmount: 0,
     }
   },
   props: { memNo: { type: Number }, memNick: { type: String } },
   computed: {
-    ...mapState(["userSpendList"]),
+    ...mapState(["userSpendList", "userInfo"]),
   },
+  beforeUpdate() {
+    this.totalPurchaseAmount = 0
+    for (let i = 0; i < this.userSpendList.length; i++) {
+      this.totalPurchaseAmount += this.userSpendList[i].totalAmount
+    }
+  },
+
   async mounted() {
     await this.fetchUserSpendList(this.memNo)
+    await this.fetchUserInfo(this.memNo)
     this.pagingMethod(this.page)
   },
   methods: {
-    ...mapActions(["fetchUserSpendList"]),
+    ...mapActions(["fetchUserSpendList", "fetchUserInfo"]),
     pagingMethod(page) {
       this.listData = this.userSpendList.slice(
         (page - 1) * this.limit,
@@ -144,4 +156,8 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import "~@/assets/scss/components/admin/admin-member-list";
+
+.space-between {
+  @include flexbox(between);
+}
 </style>
