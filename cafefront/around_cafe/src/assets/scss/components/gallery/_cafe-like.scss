@@ -1,17 +1,9 @@
 .cafe-like {
   &-btn {
     border-radius: 50%;
-
-    i {
-      font-size: 24px;
-    }
-    .icHeartFilled {
-      color: $red;
-    }
-  }
-  .icHeart {
-    :hover {
-      opacity: 1;
+    svg {
+      stroke-width: 2;
+      fill: $dark;
     }
   }
 }
