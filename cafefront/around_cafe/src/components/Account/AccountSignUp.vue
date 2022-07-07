@@ -135,15 +135,17 @@
                     placeholder="인증코드 6자리 입력"
                     required
                   />
+                  <span>{{ timeString }}</span>
                   <v-btn
                     :disabled="emailCode.length === 0 || errors.length !== 0"
-                    style="float: right"
                     class="sign-code-btn"
+                    type="button"
                     @click="checkEmailCode()"
                   >
                     확인
                   </v-btn>
                 </div>
+                <div v-if="time <= 0">인증코드가 만료되었습니다.</div>
                 <div class="errmsg" role="alert" aria-live="polite">
                   {{ errors[0] }}
                 </div>
@@ -381,6 +383,7 @@
 </template>
 <script>
 import axios from "axios"
+import TimerBeforeHour from "@/utils/timer"
 
 export default {
   name: "AccountSignUp",
@@ -410,9 +413,28 @@ export default {
         checkbox3: false,
       },
       isBoxAllChecked: false,
+      time: 0,
     }
   },
+  computed: {
+    timeString: {
+      get() {
+        if (this.time > 0) {
+          return TimerBeforeHour.timeToString(this.time)
+        } else {
+          clearInterval(this.timerId)
+          return "00:00"
+        }
+      },
+    },
+  },
   methods: {
+    timerStart() {
+      this.timerId = setInterval(() => {
+        this.time--
+        //this.timeString = TimerBeforeHour.timeToString(time)
+      }, 1000)
+    },
     checkSingleBox(box) {
       if (box === "1") {
         this.checkedBox.checkbox1 = !this.checkedBox.checkbox1
@@ -477,6 +499,7 @@ export default {
       }
     },
     async sendVerifyEmail(email) {
+      clearInterval(this.timerId)
       const url = "http://localhost:5000/mail/verifyEmail"
       const data = { email: email }
       const config = {
@@ -484,13 +507,15 @@ export default {
           "Content-Type": "Application/json",
         },
       }
-      this.emailVerifyDisabled = true
+      this.time = 180
       alert("인증 메일이 발송되었습니다.")
+      this.timerStart()
+      this.emailVerifyDisabled = true
+      this.emailVerifyUse = true
       const code = await axios.post(url, JSON.stringify(data), config)
       // 유저가 확인할 수 없는 장소가 어디일까요?
       // 확인요망 -- 애매하면 그냥 redis 서버에 저장
       this.emailCodeFromServer = code.data["code"]
-      this.emailVerifyUse = true
     },
     existByNickname(username) {
       const url = "http://localhost:7777/auth/isExists"

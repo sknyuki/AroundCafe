@@ -127,11 +127,14 @@ export default {
         "일"
       )
     },
-    showPaymentData() {
-      this.$router.push("/main")
-    },
     routeToMain() {
       this.$router.push("/main")
+    },
+    showPaymentData() {
+      this.$router.push({
+        name:"UserOrderHistoryDetailPage" ,
+        params: {paymentNo: this.paymentInfo.paymentNo}
+      })
     },
   },
 }

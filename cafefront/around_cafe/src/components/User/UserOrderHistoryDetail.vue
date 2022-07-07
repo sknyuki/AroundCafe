@@ -9,9 +9,6 @@
           <UserSidebar />
         </div>
         <div class="col-sm-8 col-md-9 col-lg-9">
-          <header>
-            <h1>주문 상세</h1>
-          </header>
           <OrderHistoryDetail :paymentDetail="paymentDetail" :totalCashUsed="totalCashUsed" />
         </div>
       </div>
