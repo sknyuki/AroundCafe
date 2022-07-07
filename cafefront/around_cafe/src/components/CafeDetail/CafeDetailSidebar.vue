@@ -38,8 +38,13 @@
         </dd>
       </div>
       <div>
-        <button @click="deleteMenu(index)" type="button" aria-label="메뉴삭제">
-          X
+        <button
+          class="delete-button"
+          @click="deleteMenu(index)"
+          type="button"
+          aria-label="메뉴삭제"
+        >
+          <i class="icClose"></i>
         </button>
       </div>
     </dl>
