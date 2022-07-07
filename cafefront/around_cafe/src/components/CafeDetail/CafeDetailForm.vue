@@ -199,6 +199,7 @@
                     :cafeBoard="cafeBoard"
                     :basketList="basketList"
                     :cafeNo="cafeNo"
+                    @input="deleteMenu"
                   />
                 </div>
               </div>
@@ -340,6 +341,9 @@ export default {
       // console.log(this.StarPoint3Persent)
       // console.log(this.StarPoint4Persent)
       // console.log(this.StarPoint5Persent)
+    },
+    deleteMenu(payload) {
+      this.basketList.splice(payload.index, 1)
     },
   },
 }
