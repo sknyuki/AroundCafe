@@ -169,11 +169,6 @@ const routes = [
 
   //CafeSite
   {
-    path: "/cafe/CafeSite",
-    name: "CafeSiteList",
-    component: () => import("@/views/CafeSiteViews/CafeSiteList"),
-  },
-  {
     path: "/cafe/purchase",
     name: "CafePurchasePage",
     component: () => import("@/views/CafeSiteViews/CafePurchasePage"),
