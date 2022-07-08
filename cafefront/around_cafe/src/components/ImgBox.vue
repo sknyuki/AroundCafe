@@ -15,23 +15,28 @@
           <label for="avatarUpload" class="me-4">
             <div class="avatar-upload">
               <div class="avatar-48">
-                <img
-                  v-if="userInfo.memImg == null"
-                  src="@/assets/images/avatar.webp"
-                  alt=""
-                />
-                <img
-                  v-if="findKakao < 5 && userInfo.memImg != null"
-                  v-bind:src="
-                    require(`@/assets/images/memberImg/${userInfo.memImg}`)
+                <template v-if="userInfo.memImg == null">
+                  <img src="@/assets/images/avatar.webp" alt="" />
+                </template>
+                <template
+                  v-if="
+                    userInfo.socialType != 'LOCAL' && userInfo.memImg != null
                   "
-                  alt=""
-                />
-                <img
-                  v-if="findKakao > 5 && userInfo.memImg != null"
-                  :src="userInfo.memImg"
-                  alt=""
-                />
+                >
+                  <img :src="userInfo.memImg" alt="" />
+                </template>
+                <template
+                  v-if="
+                    userInfo.socialType == 'LOCAL' && userInfo.memImg != null
+                  "
+                >
+                  <img
+                    v-bind:src="
+                      require(`@/assets/images/memberImg/${userInfo.memImg}`)
+                    "
+                    alt=""
+                  />
+                </template>
               </div>
             </div>
           </label>
@@ -44,7 +49,7 @@
           </div>
         </div>
 
-        <div class="d-none d-md-flex" v-if="cafeNo == null">
+        <div class="d-none d-md-flex" v-if="cafeBoard.address == null">
           <div class="text-center">
             <span class="number">{{ userReviews.length }}</span>
             <span class="text">Reviews</span>
@@ -63,7 +68,7 @@
 
         <div class="d-none d-md-flex" v-else>
           <div class="text-center">
-            <span class="number">{{ this.reviewList.length }}</span>
+            <span class="number">{{ reviewList.length }}</span>
             <span class="text">Reviews</span>
           </div>
 
@@ -92,7 +97,6 @@ export default {
       memNo: this.$store.state.user.memNo,
       cafeNo: this.$store.state.user.cafeNo,
       reviewList: [],
-      findKakao: "",
     }
   },
   computed: {
@@ -131,7 +135,6 @@ export default {
         .get(`http://localhost:7777/cafe/review/list/${cafeNo}/${memNo}`)
         .then((res) => {
           this.reviewList = res.data
-          this.findKakao = this.userInfo.memImg.indexOf("k.kakaocdn.net")
         })
     },
   },

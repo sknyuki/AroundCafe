@@ -58,7 +58,9 @@ export default {
         })
     },
     onReviewDialog() {
-      this.reviewDialog = true
+      if (this.membNo == null) {
+        alert("로그인을 해주세요!")
+      } else this.reviewDialog = true
     },
     close() {
       this.reviewDialog = false

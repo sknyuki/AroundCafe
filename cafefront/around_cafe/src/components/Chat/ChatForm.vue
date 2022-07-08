@@ -23,13 +23,19 @@
                       alt=""
                     />
                     <img
-                      v-if="qnaLists[0].writerImg != null && findKakao < 5"
+                      v-if="
+                        qnaLists[0].writerImg != null &&
+                        userInfo.socialType == 'LOCAL'
+                      "
                       v-bind:src="
                         require(`@/assets/images/memberImg/${qnaLists[0].writerImg}`)
                       "
                     />
                     <img
-                      v-if="qnaLists[0].writerImg != null && findKakao > 5"
+                      v-if="
+                        qnaLists[0].writerImg != null &&
+                        userInfo.socialType != 'LOCAL'
+                      "
                       :src="qnaLists[0].writerImg"
                     />
                   </div>
@@ -303,6 +309,8 @@
 
 <script>
 import axios from "axios"
+import { mapState, mapActions } from "vuex"
+
 export default {
   name: "ChatForm",
   props: {
@@ -334,8 +342,14 @@ export default {
       }
     },
   },
-
+  computed: {
+    ...mapState(["userInfo"]),
+  },
+  mounted() {
+    this.fetchUserInfo()
+  },
   methods: {
+    ...mapActions(["fetchUserInfo"]),
     charCount() {
       this.totalcharacter = this.chatting.length
     },
