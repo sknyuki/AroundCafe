@@ -5,8 +5,8 @@
         <header class="member-list-header">
           <h2></h2>
         </header>
-
-        <table class="member-list-table">
+        <template><span>매출액이 없습니다.</span></template>
+        <table class="member-list-table" v-if="listData == null">
           <thead>
             <tr>
               <th scope="col" align="center" style="width: 40px">No</th>

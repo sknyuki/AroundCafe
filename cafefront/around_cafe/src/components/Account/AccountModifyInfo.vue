@@ -88,18 +88,21 @@
         <div class="modify-info-title">프로필 이미지</div>
         <div class="modify-info-group">
           <button @click="onUpload" type="button" aria-label="사진 첨부하기">
-            <template v-if="image.length > 0">
+            <template v-if="image != ''">
               <img v-if="image != ''" :src="image" />
             </template>
             <template v-else>
               <img
-                v-if="image == '' && memImg == ''"
+                v-if="memImg == null"
                 :src="require(`@/assets/images/avatar.webp`)"
                 alt="기본 이미지"
               />
-              <img v-if="findKakao > 5 && memImg != ''" :src="memImg" />
               <img
-                v-if="findKakao < 0"
+                v-if="userInfo.socialType != 'LOCAL' && memImg != null"
+                :src="memImg"
+              />
+              <img
+                v-if="userInfo.socialType == 'LOCAL' && memImg != null"
                 v-bind:src="require(`@/assets/images/memberImg/${memImg}`)"
               />
             </template>
@@ -167,7 +170,6 @@ export default {
       phoneNum: "",
       memBirth: "",
       memImg: "",
-      findKakao: "",
     }
   },
   computed: {
@@ -184,7 +186,6 @@ export default {
       this.phoneNum = this.userInfo.phoneNum
       this.memBirth = this.userInfo.memBirth
       this.memImg = this.userInfo.memImg
-      this.findKakao = this.memImg.indexOf("k.kakaocdn.net")
     },
     ...mapActions(["fetchUserInfo"]),
     onUpload() {
@@ -198,7 +199,7 @@ export default {
 
     imageDelete() {
       this.image = ""
-      this.memImg = ""
+      this.memImg = null
 
       this.clearImage()
     },
