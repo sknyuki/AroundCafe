@@ -4,6 +4,12 @@
   &-overflow {
     overflow: hidden auto;
     padding: 0px 20px;
+    height: 100%;
+  }
+  &-date {
+    @include flexbox;
+    @include text-style(14);
+    margin: 16px 0;
   }
   &.opponent {
     display: flex;
