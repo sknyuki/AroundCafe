@@ -95,7 +95,11 @@
                         </div>
                       </button>
                     </div>
-                    <MyMenuModal :class="{ active: isActive }" />
+                    <MyMenuModal
+                      :class="{ active: isActive }"
+                      :isActive="isActive"
+                      @sumbit="closeDialog()"
+                    />
                   </div>
                 </div>
               </div>
@@ -115,7 +119,7 @@ import TheNavBar from "@/components/Layouts/TheNavBar.vue"
 import TheNavBarList from "@/components/Layouts/TheNavBarList.vue"
 import MyMenuModal from "@/components/MyMenuModal.vue"
 import { mapState, mapActions } from "vuex"
-
+//v-show="showSearchResult"
 export default {
   components: { TheNavBarList, TheNavBar, MyMenuModal },
   name: "TheHeader",
@@ -124,8 +128,18 @@ export default {
     return {
       drawer: false,
       isActive: false,
+      showSearchResult: false,
     }
   },
+  // watch: {
+  //   showSearchResult() {
+  //     if (this.isActive == false) {
+  //       window.removeEventListener("click", this.onClick)
+  //     } else {
+  //       window.addEventListener("click", this.onClick1)
+  //     }
+  //   },
+  // },
   computed: {
     ...mapState(["user", "userInfo", "myLikes"]),
   },
@@ -137,6 +151,17 @@ export default {
     ...mapActions(["fetchUser", "fetchUserInfo", "fetchMyLikesList"]),
     toggleMyMenu() {
       this.isActive = !this.isActive
+      //this.showSearchResult = !this.showSearchResult
+    },
+    closeDialog(payload) {
+      console.log(payload)
+      this.isActive = false
+    },
+    onClick() {
+      this.isActive = false
+    },
+    onClick1() {
+      this.isActive = true
     },
   },
 }
