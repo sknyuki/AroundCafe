@@ -350,9 +350,6 @@ export default {
     deleteMenu(payload) {
       this.basketList.splice(payload.index, 1)
     },
-    deleteMenu(payload) {
-      this.basketList.splice(payload.index, 1)
-    },
   },
 }
 </script>

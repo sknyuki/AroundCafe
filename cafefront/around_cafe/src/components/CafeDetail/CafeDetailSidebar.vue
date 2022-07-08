@@ -20,8 +20,7 @@
 
           <div class="detail-sidebar-price">
             <dd>
-              <span>{{ basket.menu_price }}</span
-              >원
+              <span>{{ basket.menu_price | pricePoint }} 원</span>
             </dd>
           </div>
         </div>
@@ -33,14 +32,13 @@
           <button @click="increaseQuantity(basket)">+</button>
         </dt>
         <dd>
-          <span>{{ basket.per_menu_total_price | pricePoint }}</span
-          >원
+          <span>{{ basket.per_menu_total_price | pricePoint }}원</span>
         </dd>
       </div>
       <div>
         <button
           class="delete-button"
-          @click="deleteMenu(index)"
+          @click="deleteMenu(basket, index)"
           type="button"
           aria-label="메뉴삭제"
         >
@@ -52,8 +50,7 @@
     <div class="detail-sidebar-price total">
       <dt>총 상품금액</dt>
       <dd>
-        <span>{{ totalPrice | pricePoint }}</span
-        >원
+        <span>{{ totalPrice | pricePoint }}원</span>
       </dd>
     </div>
     <v-btn
@@ -109,7 +106,9 @@ export default {
           basket.menu_price * basket.per_menu_quantity
       }
     },
-    deleteMenu(index) {
+    deleteMenu(basket, index) {
+      basket.per_menu_quantity = 1
+      basket.per_menu_total_price = basket.menu_price * 1
       this.$emit("input", { index: index })
     },
     selectedMenuSubmit() {
