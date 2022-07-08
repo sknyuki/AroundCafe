@@ -51,8 +51,8 @@
                       <swiper-slide class="cafe-gallery-image">
                         <picture>
                           <img
-                            loading="lazy"
-                            :src="
+                            v-lazyload
+                            :data-url="
                               require(`@/assets/cafe/cafeMypage/beforeReady.jpg`)
                             "
                             alt="등록하지 않은 카페 이미지"
@@ -67,9 +67,10 @@
                         class="cafe-gallery-image"
                       >
                         <picture>
+                          <source />
                           <img
-                            loading="lazy"
-                            v-bind:src="
+                            v-lazyload
+                            :data-url="
                               require(`@/assets/cafe/cafeMypage/${img.cafe_img}`)
                             "
                           />
