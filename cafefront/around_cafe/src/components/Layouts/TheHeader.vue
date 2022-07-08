@@ -72,12 +72,18 @@
                             <img src="@/assets/images/avatar.webp" alt="" />
                           </template>
                           <template
-                            v-if="findKakao > 5 && userInfo.memImg != null"
+                            v-if="
+                              userInfo.socialType != 'LOCAL' &&
+                              userInfo.memImg != null
+                            "
                           >
                             <img :src="userInfo.memImg" alt="" />
                           </template>
                           <template
-                            v-if="findKakao < 5 && userInfo.memImg != null"
+                            v-if="
+                              userInfo.socialType == 'LOCAL' &&
+                              userInfo.memImg != null
+                            "
                           >
                             <img
                               v-bind:src="
@@ -118,8 +124,6 @@ export default {
     return {
       drawer: false,
       isActive: false,
-      memImg: "",
-      findKakao: "",
     }
   },
   computed: {
@@ -127,17 +131,12 @@ export default {
   },
   async mounted() {
     await this.fetchUserInfo()
-    this.change()
     this.fetchMyLikesList(this.user.memNo)
   },
   methods: {
     ...mapActions(["fetchUser", "fetchUserInfo", "fetchMyLikesList"]),
     toggleMyMenu() {
       this.isActive = !this.isActive
-    },
-    change() {
-      this.memImg = this.userInfo.memImg
-      this.findKakao = this.memImg.indexOf("k.kakaocdn.net")
     },
   },
 }
