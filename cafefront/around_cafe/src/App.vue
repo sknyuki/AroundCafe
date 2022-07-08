@@ -30,7 +30,9 @@ export default {
         (visibleHeader = to.path === "/sign") ||
         (visibleHeader = to.path === "/chat") ||
         (visibleHeader = to.path === "/login/callback") ||
-        (visibleHeader = to.path === "/cafe/PurchasePopUp")
+        (visibleHeader = to.path === "/cafe/PurchasePopUp") ||
+        (visibleHeader = to.path === "/map/main") ||
+        (visibleHeader = to.path === "/cafe/purchase/popup")
       ) {
         this.visibleHeader = false
       } else {
@@ -45,7 +47,8 @@ export default {
         (visibleFooter = to.path === "/chat") ||
         (visibleFooter = to.path === "/login/callback") ||
         (visibleFooter = to.path === "/cafe/PurchasePopUp") ||
-        (visibleFooter = to.path === "/map/main")
+        (visibleFooter = to.path === "/map/main") ||
+        (visibleFooter = to.path === "/cafe/purchase/popup")
       ) {
         this.visibleFooter = false
       } else {
