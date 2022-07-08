@@ -18,7 +18,12 @@
                   alt=""
                 />
                 <img
-                  v-else
+                  v-if="review.socialType != 'LOCAL' && review.memImg != null"
+                  :src="review.memImg"
+                  alt=""
+                />
+                <img
+                  v-if="review.socialType == 'LOCAL' && review.memImg != null"
                   :src="require(`@/assets/images/memberImg/${review.memImg}`)"
                   alt=""
                 />
@@ -165,12 +170,12 @@ export default {
       this.reviewDialog = false
     },
 
-    created() {
-      this.fetchReview(this.reviewNo).catch(() => {
-        alert("게시물 DB조회 실패!")
-      })
-      this.$root.$refs.CafeReviewLike = this
-    },
+    // created() {
+    //   this.fetchReview(this.reviewNo).catch(() => {
+    //     alert("게시물 DB조회 실패!")
+    //   })
+    //   this.$root.$refs.CafeReviewLike = this
+    // },
     deleteReview() {
       axios
         .delete(`http://localhost:7777/cafe/review/${this.review.reviewNo}`)

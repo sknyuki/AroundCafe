@@ -19,12 +19,13 @@ public class ReviewResponseDto {
     private Long cafeNo;
     private String cafeName;
     private Boolean helps;
+    private String socialType;
 
 
     @Builder
     public ReviewResponseDto(Long reviewNo,Integer star_score,String review_content,String fileName,
                              int likeCnt, String updDate,String memNick,String memImg, Long cafeNo,
-                             String cafeName, Boolean helps){
+                             String cafeName, Boolean helps, String socialType){
         this.reviewNo = reviewNo;
         this.star_score = star_score;
         this.review_content = review_content;
@@ -36,5 +37,6 @@ public class ReviewResponseDto {
         this.cafeNo = cafeNo;
         this.cafeName = cafeName;
         this.helps = helps;
+        this.socialType = socialType;
     }
 }

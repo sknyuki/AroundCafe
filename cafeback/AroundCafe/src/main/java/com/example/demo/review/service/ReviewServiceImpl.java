@@ -107,6 +107,7 @@ public class ReviewServiceImpl implements ReviewService{
                         .memImg(reviews.get(i).getMemberInfo().getMemImg())
                         .fileName(reviews.get(i).getFileName())
                         .helps(checkHelps)
+                        .socialType(reviews.get(i).getMemberInfo().getSocialType().getName())
                         .build();
 
                 response.add(reviewResponseDto);
