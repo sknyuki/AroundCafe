@@ -1,25 +1,27 @@
 <template>
   <div class="popup">
     <div>
-      <v-icon> mdi-check-circle</v-icon>
-      <div v-if="this.paymentResult === `success`">
-        <h1>결제에 성공했습니다</h1>
-      </div>
-      <div class="popup-btn">
-        <v-btn @click="router2CompletePage" text-aline:center>확인</v-btn>
+      <div v-if="this.paymentResult === `fail`">
+        <v-icon> mdi-close-box</v-icon>
+        <h1>결제에 실패하셨습니다</h1>
+        <h1>다시 결제 하시겠습니까?</h1>
+        <div class="popup-btn">
+          <v-btn @click="cancelConfirm()">확인</v-btn>
+        </div>
+        <v-btn @click="returnCafe()">카페로 돌아가기</v-btn>
       </div>
     </div>
-
-    <div v-if="this.paymentResult === `fail`">
-      <h1>결제에 실패하셨습니다.</h1>
-      <h1>다시 결제 하시겠습니까?</h1>
-      <v-btn>확인</v-btn>
-      <v-btn @click="router2Main">메인 화면으로 돌아가기</v-btn>
-    </div>
-    <div v-if="this.paymentResult === `cancel`">
-      <h1>결제를 취소하셨습니다.</h1>
-      <v-btn>확인</v-btn>
-      <v-btn>메인 화면으로 돌아가기</v-btn>
+    <div>
+      <div v-if="this.paymentResult === `cancel`">
+        <v-icon> mdi-close-box</v-icon>
+        <h1>결제를 취소하셨습니다.</h1>
+        <div class="popup-btn">
+          <v-btn @click="cancelConfirm()">확인</v-btn>
+        </div>
+        <div class="popup-btn">
+          <v-btn @click="returnCafe()">카페로 돌아가기</v-btn>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -29,7 +31,12 @@ export default {
   name: "CafePurchasePopUp",
   created() {
     this.paymentNo = this.$route.query.paymentNo
-    this.paymentResult = this.$route.query.paymentResult
+    const result = this.$route.query.paymentResult
+    this.paymentResult = result
+
+    if (result === "success") {
+      this.router2CompletePage()
+    }
   },
   data() {
     return {
@@ -46,6 +53,13 @@ export default {
       opener.location.href = "http://localhost:8080/main"
       window.close()
     },
+    returnCafe() {
+      opener.history.back()
+      window.close()
+    },
+    cancelConfirm() {
+      window.close()
+    },
   },
 }
 </script>
@@ -58,7 +72,7 @@ export default {
   }
   &-btn {
     @include flexbox;
-    margin-top: 50px;
+    margin-top: 40px;
     .v-btn {
       background-color: $indigo !important;
       color: $white;
