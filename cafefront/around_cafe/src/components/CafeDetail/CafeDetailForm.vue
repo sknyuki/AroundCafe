@@ -125,9 +125,11 @@
                                   <div class="bar-graph" aria-hidden>
                                     <div class="active-bar" :style="bar5"></div>
                                   </div>
-                                  <strong class="count">{{
-                                    this.StarPoint5
-                                  }}</strong>
+                                  <strong
+                                    class="count"
+                                    :aria-label="this.StartPoint5"
+                                    >{{ this.StarPoint5 }}</strong
+                                  >
                                 </dd>
                               </div>
 
@@ -137,9 +139,11 @@
                                   <div class="bar-graph" aria-hidden>
                                     <div class="active-bar" :style="bar4"></div>
                                   </div>
-                                  <strong class="count">{{
-                                    this.StarPoint4
-                                  }}</strong>
+                                  <strong
+                                    class="count"
+                                    :aria-label="this.StartPoint4"
+                                    >{{ this.StarPoint4 }}</strong
+                                  >
                                 </dd>
                               </div>
 
@@ -149,9 +153,11 @@
                                   <div class="bar-graph" aria-hidden>
                                     <div class="active-bar" :style="bar3"></div>
                                   </div>
-                                  <strong class="count">{{
-                                    this.StarPoint3
-                                  }}</strong>
+                                  <strong
+                                    class="count"
+                                    :aria-label="this.StartPoint3"
+                                    >{{ this.StarPoint3 }}</strong
+                                  >
                                 </dd>
                               </div>
 
@@ -161,9 +167,11 @@
                                   <div class="bar-graph" aria-hidden>
                                     <div class="active-bar" :style="bar2"></div>
                                   </div>
-                                  <strong class="count" aria-label="0명">{{
-                                    this.StarPoint2
-                                  }}</strong>
+                                  <strong
+                                    class="count"
+                                    :aria-label="this.StartPoint2"
+                                    >{{ this.StarPoint2 }}</strong
+                                  >
                                 </dd>
                               </div>
 
@@ -173,9 +181,11 @@
                                   <div class="bar-graph" aria-hidden>
                                     <div class="active-bar" :style="bar1"></div>
                                   </div>
-                                  <strong class="count" aria-label="0명">{{
-                                    this.StarPoint2
-                                  }}</strong>
+                                  <strong
+                                    class="count"
+                                    :aria-label="this.StartPoint1"
+                                    >{{ this.StarPoint1 }}</strong
+                                  >
                                 </dd>
                               </div>
                             </dl>
@@ -251,6 +261,28 @@ export default {
       required: true,
     },
   },
+
+  data() {
+    return {
+      reviewNo: "",
+      basketList: [],
+      page: "",
+      starSum: 0,
+      starAver: 0,
+      ReviewsQuantity: 0,
+      StarPoint1: 0,
+      StarPoint2: 0,
+      StarPoint3: 0,
+      StarPoint4: 0,
+      StarPoint5: 0,
+      StarPoint1Persent: 0,
+      StarPoint2Persent: 0,
+      StarPoint3Persent: 0,
+      StarPoint4Persent: 0,
+      StarPoint5Persent: 0,
+    }
+  },
+
   computed: {
     ...mapState(["menuLists"]),
     bar1() {
@@ -275,27 +307,6 @@ export default {
     setTimeout(this.calculatePersentage, 500)
   },
 
-  data() {
-    return {
-      reviewNo: "",
-      basketList: [],
-      page: "",
-      starSum: 0,
-      starAver: 0,
-      ReviewsQuantity: 0,
-      StarPoint1: 0,
-      StarPoint2: 0,
-      StarPoint3: 0,
-      StarPoint4: 0,
-      StarPoint5: 0,
-      StarPoint1Persent: 0,
-      StarPoint2Persent: 0,
-      StarPoint3Persent: 0,
-      StarPoint4Persent: 0,
-      StarPoint5Persent: 0,
-    }
-  },
-
   methods: {
     ...mapActions(["fetchMenuLists"]),
     submitCheckBasketList(CheckBasketList) {
@@ -306,8 +317,6 @@ export default {
       this.ReviewsQuantity = this.reviewList.length
       for (let i = 0; i < this.ReviewsQuantity; i++) {
         this.starSum += parseInt(this.reviewList[i].star_score)
-        // console.log("별점일람")
-        // console.log(this.reviews[i].star_score)
       }
       if (this.starSum == 0) {
         this.starAver = 0
@@ -337,10 +346,9 @@ export default {
       this.StarPoint3Persent = (this.StarPoint3 / this.ReviewsQuantity) * 100
       this.StarPoint4Persent = (this.StarPoint4 / this.ReviewsQuantity) * 100
       this.StarPoint5Persent = (this.StarPoint5 / this.ReviewsQuantity) * 100
-      // console.log("값계산")
-      // console.log(this.StarPoint3Persent)
-      // console.log(this.StarPoint4Persent)
-      // console.log(this.StarPoint5Persent)
+    },
+    deleteMenu(payload) {
+      this.basketList.splice(payload.index, 1)
     },
     deleteMenu(payload) {
       this.basketList.splice(payload.index, 1)
@@ -352,34 +360,7 @@ export default {
 <style lang="scss" scoped>
 @import "~@/assets/scss/components/detail/detail";
 @import "~@/assets/scss/components/detail/detail-content";
+@import "~@/assets/scss/components/detail/detail-grid";
 @import "~@/assets/scss/components/review/review-scoreboard";
 @import "~@/assets/scss/components/review/score-stats";
-.image-grid {
-  --gap: 8px;
-  --num-cols: 4;
-  --row-height: 200px;
-  display: grid;
-  padding: var(--gap);
-  grid-template-columns: repeat(var(--num-cols), 1fr);
-  grid-auto-rows: var(--row-height);
-  gap: var(--gap);
-
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 12px !important;
-  }
-}
-.row {
-  grid-column: span 2 !important;
-  grid-row: span 2 !important;
-}
-/* Anything udner 1024px */
-@media screen and (max-width: 1024p) {
-  .image-grid {
-    --num-cols: 2;
-    --row-height: 120px;
-  }
-}
 </style>

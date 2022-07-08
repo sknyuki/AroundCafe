@@ -67,10 +67,6 @@ import { mapState, mapActions } from "vuex"
 export default {
   name: "CafeLike",
 
-  computed: {
-    ...mapState(["likes", "myLikes"]),
-  },
-
   props: {
     index: {
       type: Number,
@@ -89,7 +85,9 @@ export default {
       onLogin: false,
     }
   },
-
+  computed: {
+    ...mapState(["likes", "myLikes"]),
+  },
   async mounted() {
     await this.fetchLikesList(this.cafeNo)
     await this.likeList()
