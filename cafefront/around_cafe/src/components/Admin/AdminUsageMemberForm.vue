@@ -13,6 +13,10 @@
             <header class="member-list-header">
               <h2>회원 이용 현황</h2>
             </header>
+            <br />
+            <div>
+              <AdminUsageGraphForm :memNo="memNo" :memNick="memNick" />
+            </div>
             <div>
               <div class="space-between" title="flex-direction:column">
                 <h5>{{ this.memNick }} 님의 이용 현황입니다.</h5>
@@ -66,11 +70,12 @@
 <script>
 import { mapActions, mapState } from "vuex"
 import AdminSidebar from "@/components/Admin/AdminSidebar.vue"
+import AdminUsageGraphForm from "./AdminUsageGraphForm.vue"
 import ImgBox from "@/components/ImgBox.vue"
 import PaginationForm from "../PaginationForm.vue"
 export default {
   name: "AdminUsageMemberForm",
-  components: { ImgBox, AdminSidebar, PaginationForm },
+  components: { ImgBox, AdminSidebar, PaginationForm, AdminUsageGraphForm },
 
   data() {
     return {
