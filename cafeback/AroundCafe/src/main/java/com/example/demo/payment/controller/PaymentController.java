@@ -84,11 +84,11 @@ public class PaymentController {
     public List<PaymentResponse> getPaymentByDate(@Valid @RequestBody AdminUsageRequest request){
 
 
-        Long date1=(request.getDate1()).getTime();
-        Long date2=(request.getDate2()).getTime();
+//        Long date1=(request.getDate1()).getTime();
+//        Long date2=(request.getDate2()).getTime();
 
 
-        return paymentService.getPaymentByDate(request.getMemNo(), date1,date2);
+        return paymentService.getPaymentByDate(request.getMemNo(),request.getDate1(), request.getDate2());
 
  }
 }
