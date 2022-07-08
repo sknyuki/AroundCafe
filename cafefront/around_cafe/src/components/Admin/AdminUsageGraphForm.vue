@@ -61,11 +61,29 @@
     </v-row>
     <br />
     <v-divider></v-divider>
+    <div>
+      <!--차트가 그려질 부분-->
+      <canvas id="myChart"></canvas>
+    </div>
     <br />
   </div>
 </template>
 
 <script>
+import {
+  Chart,
+  BarElement,
+  BarController,
+  LinearScale,
+  CategoryScale,
+} from "chart.js"
+Chart.register(
+  BarElement,
+  BarController,
+  BarController,
+  LinearScale,
+  CategoryScale
+)
 import axios from "axios"
 export default {
   name: "AdminUsageGraphForm",
@@ -78,15 +96,65 @@ export default {
       menu: false,
       date1: null,
       date2: null,
+      myChart: null,
+      dayRange1: "",
+      dayRange2: "",
+      dayRange3: "",
+      dayRange4: "",
+      dayRange5: "",
+      dayRange6: "",
+      dayRange7: "",
+      dayRange8: "",
+      dayRange9: "",
+      dayRange10: "",
+      dayRange11: "",
+      dayRange12: "",
+      value1: 0,
+      value2: 0,
+      value3: 0,
+      value4: 0,
+      value5: 0,
+      value6: 0,
+      value7: 0,
+      value8: 0,
+      value9: 0,
+      value10: 0,
+      value11: 0,
+      value12: 0,
     }
   },
   methods: {
+    yyyyMMdd(value) {
+      if (value == "") return ""
+
+      var js_date = new Date(value)
+
+      var year = js_date.getFullYear()
+      var month = js_date.getMonth() + 1
+      var day = js_date.getDate()
+
+      if (month < 10) {
+        month = "0" + month
+      }
+
+      if (day < 10) {
+        day = "0" + day
+      }
+
+      return year + "-" + month + "-" + day
+    },
     getGraph(dateRange) {
       console.log(dateRange)
       var date = new Date()
       if (dateRange == "이번달이력") {
         this.date2 = new Date(date.getFullYear(), date.getMonth() + 1, 0)
         this.date1 = new Date(date.getFullYear(), date.getMonth(), 1)
+        this.dayRange1 = new Date(date.getFullYear(), date.getMonth(), 10)
+
+        this.dayRange2 = new Date(date.getFullYear(), date.getMonth(), 20)
+
+        this.dayRange3 = this.date2
+        // this.fillData1()
       } else if (dateRange == "세달간이력") {
         this.date2 = new Date(date.getFullYear(), date.getMonth() + 1, 0)
         this.date1 = new Date(date.getFullYear(), date.getMonth() - 3, 1)
@@ -96,12 +164,15 @@ export default {
       }
       // this.date1 = this.dates[0] + "T00:00:00.000+00:00"
       // this.date2 = this.dates[1] + "T00:00:00.000+00:00"
+      // console.log(this.date1)
+      // console.log(this.date2)
       this.date1 = this.date1 * 1
       this.date2 = this.date2 * 1
+
       const { memNo, date1, date2 } = this
-      console.log(memNo)
-      console.log(date1)
-      console.log(date2)
+      // console.log(memNo)
+      // console.log(date1)
+      // console.log(date2)
       axios
         .post(`http://localhost:7777/payment/list/list`, {
           memNo,
@@ -110,10 +181,223 @@ export default {
         })
         .then((res) => {
           this.usageGraphList = res.data
-          console.log(this.usageGraphList)
+          // console.log(this.usageGraphList)
+          ;(this.value1 = 0),
+            (this.value2 = 0),
+            (this.value3 = 0),
+            (this.value4 = 0),
+            (this.value5 = 0),
+            (this.value6 = 0),
+            (this.value7 = 0),
+            (this.value8 = 0),
+            (this.value9 = 0),
+            (this.value10 = 0),
+            (this.value11 = 0),
+            (this.value12 = 0),
+            this.setValue()
+
+          this.fillData1()
         })
+
       this.menu = false
+    },
+    setValue() {
+      if (this.dateRange == "이번달이력") {
+        console.log(typeof new Date(this.usageGraphList[0].paymentDate))
+        for (let i = 0; i < this.usageGraphList.length; i++) {
+          var datePayment = new Date(this.usageGraphList[i].paymentDate)
+
+          if (datePayment < this.dayRange1) {
+            this.value1 += this.usageGraphList[i].totalAmount
+          } else if (
+            this.dayRange1 < datePayment &&
+            datePayment < this.dayRange2
+          ) {
+            this.value2 += this.usageGraphList[i].totalAmount
+          } else {
+            this.value3 += this.usageGraphList[i].totalAmount
+          }
+
+          console.log("value합")
+          console.log(this.value1)
+          console.log(this.value2)
+          console.log(this.value3)
+        }
+      }
+    },
+    fillData1() {
+      const ctx = document.getElementById("myChart").getContext("2d")
+      this.myChart = new Chart(ctx, {
+        type: "bar",
+        data: {
+          labels: [
+            "~" + this.yyyyMMdd(this.dayRange1),
+            this.yyyyMMdd(this.dayRange1) + "~" + this.yyyyMMdd(this.dayRange2),
+            this.yyyyMMdd(this.dayRange2) + "~" + this.yyyyMMdd(this.dayRange3),
+          ],
+          datasets: [
+            {
+              label: "# of Votes",
+              data: [this.value1, this.value2, this.value3],
+              backgroundColor: [
+                "rgba(255,99,132,0.2)",
+                "rgba(54,162,235,0.2)",
+                "rgba(255,206,86,0.2)",
+              ],
+              borderColor: [
+                "rgba(255,99,132,1)",
+                "rgba(54,162,235,1)",
+                "rgba(255,206,86,1)",
+              ],
+              borderWidth: 1,
+            },
+          ],
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true,
+            },
+          },
+        },
+      })
+    },
+    fillData2() {
+      const ctx = document.getElementById("myChart").getContext("2d")
+      this.myChart = new Chart(ctx, {
+        type: "bar",
+        data: {
+          labels: [
+            this.dayRange1,
+            this.dayRange2,
+            this.dayRange3,
+            this.dayRange4,
+            this.dayRange5,
+            this.dayRange6,
+          ],
+          datasets: [
+            {
+              label: "# of Votes",
+              data: [
+                this.value1,
+                this.value2,
+                this.value3,
+                this.value4,
+                this.value5,
+                this.value6,
+              ],
+              backgroundColor: [
+                "rgba(255,99,132,0.2)",
+                "rgba(54,162,235,0.2)",
+                "rgba(255,206,86,0.2)",
+                "rgba(75,192,192,0.2)",
+                "rgba(153,102,255,0.2)",
+                "rgba(255,159,64,0.2)",
+              ],
+              borderColor: [
+                "rgba(255,99,132,1)",
+                "rgba(54,162,235,1)",
+                "rgba(255,206,86,1)",
+                "rgba(75,192,192,1)",
+                "rgba(153,102,255,1)",
+                "rgba(255,159,64,1)",
+              ],
+              borderWidth: 1,
+            },
+          ],
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true,
+            },
+          },
+        },
+      })
+    },
+    fillData3() {
+      const ctx = document.getElementById("myChart").getContext("2d")
+      this.myChart = new Chart(ctx, {
+        type: "bar",
+        data: {
+          labels: [
+            this.dayRange1,
+            this.dayRange2,
+            this.dayRange3,
+            this.dayRange4,
+            this.dayRange5,
+            this.dayRange6,
+            this.dayRange7,
+            this.dayRange8,
+            this.dayRange9,
+            this.dayRange10,
+            this.dayRange11,
+            this.dayRange12,
+          ],
+          datasets: [
+            {
+              label: "# of Votes",
+              data: [
+                this.value1,
+                this.value2,
+                this.value3,
+                this.value4,
+                this.value5,
+                this.value6,
+                this.value7,
+                this.value8,
+                this.value9,
+                this.value10,
+                this.value11,
+                this.value12,
+              ],
+              backgroundColor: [
+                "rgba(255,99,132,0.2)",
+                "rgba(54,162,235,0.2)",
+                "rgba(255,206,86,0.2)",
+                "rgba(75,192,192,0.2)",
+                "rgba(153,102,255,0.2)",
+                "rgba(255,159,64,0.2)",
+                "rgba(255,99,132,0.2)",
+                "rgba(54,162,235,0.2)",
+                "rgba(255,206,86,0.2)",
+                "rgba(75,192,192,0.2)",
+                "rgba(153,102,255,0.2)",
+                "rgba(255,159,64,0.2)",
+              ],
+              borderColor: [
+                "rgba(255,99,132,1)",
+                "rgba(54,162,235,1)",
+                "rgba(255,206,86,1)",
+                "rgba(75,192,192,1)",
+                "rgba(153,102,255,1)",
+                "rgba(255,159,64,1)",
+                "rgba(255,99,132,1)",
+                "rgba(54,162,235,1)",
+                "rgba(255,206,86,1)",
+                "rgba(75,192,192,1)",
+                "rgba(153,102,255,1)",
+                "rgba(255,159,64,1)",
+              ],
+              borderWidth: 1,
+            },
+          ],
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true,
+            },
+          },
+        },
+      })
     },
   },
 }
 </script>
+<style scoped>
+.myChart {
+  width: 400px !important;
+  height: 400px !important;
+}
+</style>
