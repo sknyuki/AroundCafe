@@ -6,6 +6,7 @@ import vuetify from "./plugins/vuetify"
 //import axios from "axios"
 import axios from "@/plugins/axiosInterceptors"
 import "@/utils/validation"
+import VueChatScroll from "vue-chat-scroll"
 
 import { yyyyMMdd, HHmm, pricePoint } from "@/utils/filters"
 
@@ -47,6 +48,8 @@ const lazyLoad = {
 }
 
 Vue.directive("lazyload", lazyLoad)
+
+Vue.use(VueChatScroll)
 
 new Vue({
   router,
