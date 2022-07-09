@@ -80,6 +80,17 @@ public class PaymentController {
 
         return paymentService.getPaymentSalesMenuList(cafeNo);
     }
+
+    @GetMapping("/sales/cafe")
+    public List<PaymentSalesResponse> getPaymentCafeSalesListByAdmin(){
+        return paymentService.getPaymentCafeSalesList();
+    }
+
+    @GetMapping("/sales/cafe/detail/{cafeNo}")
+    public List<PaymentSalesDetailResponse> getPaymentCafeSalesDetailListByAdmin(@PathVariable Long cafeNo){
+        return paymentService.getPaymentCafeSalesDetailListByAdmin(cafeNo);
+    }
+
  @PostMapping("/list/list")
     public List<PaymentResponse> getPaymentByDate(@Valid @RequestBody AdminUsageRequest request){
 
