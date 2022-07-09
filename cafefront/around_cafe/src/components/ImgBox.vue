@@ -42,7 +42,7 @@
           </label>
           <div class="img-box-info">
             <span class="name">{{ userInfo.memNick }}</span>
-            <div class="location" v-if="cafeBoard.address != null">
+            <div class="location" v-if="userInfo.roleType == 'CAFE'">
               <v-icon aria-hidden="true">mdi-map-marker</v-icon>
               <span>{{ cafeBoard.address }}</span>
             </div>

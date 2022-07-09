@@ -187,6 +187,7 @@ import CafeSidebar from "@/components/Cafe/CafeSidebar.vue"
 import CafeAddress from "@/components/Cafe/CafeAddress.vue"
 import ImgBox from "@/components/ImgBox.vue"
 import { EventBus } from "@/utils/eventBus"
+import axios from "axios"
 
 export default {
   components: { ImgBox, CafeSidebar, CafeAddress },
@@ -217,6 +218,21 @@ export default {
       cafeContent: "",
       cafeCall: "",
     }
+  },
+  created() {
+    axios
+      .get(
+        `http://localhost:7777/cafe/mypage/read/${this.$store.state.user.cafeNo}`
+      )
+      .then((res) => {
+        this.cafeName = res.data.cafe_name
+        this.cafeBusNo = res.data.cafe_bis_no
+        this.cafeTime = res.data.cafe_time
+        this.cafeContent = res.data.cafe_content
+        this.cafeCall = res.data.cafe_call
+        this.post = res.data.post
+        this.address = res.data.address
+      })
   },
   mounted() {
     setTimeout(this.change, 50)

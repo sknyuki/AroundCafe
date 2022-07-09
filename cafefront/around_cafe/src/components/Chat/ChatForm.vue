@@ -281,7 +281,7 @@
                             x-small
                             fab
                             v-show="testBtn"
-                            @click="deleteComment(item)"
+                            @click.prevent="deleteComment(item)"
                             ><i class="icClose"></i
                           ></v-btn>
                         </div>
@@ -399,14 +399,12 @@ export default {
           )
           .then((response) => {
             vue.response = response.data
-            alert("사진 전송 성공")
             let checkQnaNo = qnaNo
             axios
               .get(`http://localhost:7777/qna/memberRead/${checkQnaNo}`)
               .then((res) => {
                 this.qnaList = res.data
                 console.log(res.data)
-                alert("리스트 겟 성공")
               })
               .catch(() => {
                 alert("멤버 리드 읽기 실패")

@@ -45,8 +45,7 @@ public interface PaymentRepository extends JpaRepository<Payment,Long> {
     @Query("select distinct DATE_FORMAT(p.paymentDate,'%Y-%m-%d')as paymentDate from Payment p where p.cafeNo = :cafeNo order by p.paymentDate desc")
     public List<String> findByDay(Long cafeNo);
 
-    @Query(value = "select count(*) from payment where cafe_no = :cafeNo and payment_date like %:date1%",nativeQuery = true)
-    public Integer findByCount(Long cafeNo, LocalDate date1);
+
 
     @Query(value = "select sum(total_amount) from payment where cafe_no = :cafeNo and payment_date like %:date1%",nativeQuery = true)
     public Integer findBySum(Long cafeNo, LocalDate date1);
@@ -57,6 +56,9 @@ public interface PaymentRepository extends JpaRepository<Payment,Long> {
     @Query(value = "select o.itemName as itemName, sum(o.amount) as sum, count(o.orderItemNo) as count from OrderItem o where o.payment in " +
             "(select p.paymentNo from Payment p where cafeNo=:cafeNo) group by o.itemName order by sum(o.amount) desc")
     public List<PaymentSalesMenuResponse1> findByMenuList(Long cafeNo);
+
+    @Query(value = "select p.cafeNo as itemName, sum(p.totalAmount) as sum, count(p.paymentNo) as count from Payment p group by p.cafeNo order by sum(p.totalAmount) desc")
+    public List<PaymentSalesMenuResponse1> findByEachCafeSalesList();
 
     @Query("select m from Payment m join fetch m.member c where c.memNo= :memNo and m.paymentDate >=:date1 and m.paymentDate<=:date2")
             public List<Payment> findAllByMember(@Param("memNo") Long memNo, @Param("date1") Date date1, @Param("date2") Date date2);

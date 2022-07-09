@@ -5,8 +5,14 @@
         <header class="member-list-header">
           <h2></h2>
         </header>
-        <template><span>매출액이 없습니다.</span></template>
-        <table class="member-list-table" v-if="listData == null">
+        <template
+          v-if="
+            !salesMenuList ||
+            (Array.isArray(salesMenuList) && salesMenuList.length === 0)
+          "
+          ><span>매출액이 없습니다.</span></template
+        >
+        <table class="member-list-table" v-else>
           <thead>
             <tr>
               <th scope="col" align="center" style="width: 40px">No</th>

@@ -6,7 +6,7 @@ import com.example.demo.member.dto.MemberDto;
 import com.example.demo.member.entity.Member;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
-@Mapper
+@Mapper(componentModel = "spring")
 public interface MemberBlackResponseStruct extends EntityMapStruct<MemberBlackResponse, Member> {
     MemberBlackResponseStruct instance = Mappers.getMapper(MemberBlackResponseStruct.class);
 }
