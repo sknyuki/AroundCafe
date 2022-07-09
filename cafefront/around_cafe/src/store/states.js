@@ -32,7 +32,7 @@ export default {
   likesIdLists: [],
 
   trans: [],
-
+  mapCon: [],
   //mainlist
   mainlist: [],
 
