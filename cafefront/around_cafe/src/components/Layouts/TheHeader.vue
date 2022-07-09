@@ -62,7 +62,12 @@
                   <!-- 로그인을 하지 않은 경우 -->
                   <div class="gnb-login sm-hidden">
                     <div class="gnb-login-content">
-                      <button class="gnb-login-btn" @click="toggleMyMenu">
+                      <button
+                        class="gnb-login-btn"
+                        @click="toggleMyMenu"
+                        type="button"
+                        aria-label="로그인 메뉴"
+                      >
                         <div>
                           <i class="icMenu" aria-hidden="true"></i>
                         </div>

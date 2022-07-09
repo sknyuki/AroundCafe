@@ -36,14 +36,13 @@
                   v-if="onLogin"
                   class="cafe-item-btn"
                   :cafeItem="cafeItem"
-                  :key="index"
                 />
                 <router-link
                   :to="{
                     name: 'CafeDetailPage',
                     params: { cafeNo: cafeItem.cafeNo.toString() },
                   }"
-                  @focus.tab="swiperBtn = index"
+                  @focus.native="swiperBtn = index"
                 >
                   <!-- 스와이퍼 -->
                   <swiper class="swiper" :options="swiperOption">
@@ -67,12 +66,13 @@
                         class="cafe-gallery-image"
                       >
                         <picture>
-                          <source />
+                          <source type="image/webp" />
                           <img
                             v-lazyload
                             :data-url="
                               require(`@/assets/cafe/cafeMypage/${img.cafe_img}`)
                             "
+                            :alt="`image${img.cafeImgNo}`"
                           />
                         </picture>
                       </swiper-slide>

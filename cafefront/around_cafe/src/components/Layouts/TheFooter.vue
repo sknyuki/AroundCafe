@@ -5,13 +5,19 @@
         <v-col>
           <div class="global-footer-top">
             <address class="global-footer-layout">
-              <h3 class="global-footer-title">
+              <router-link
+                :to="{ name: 'ServiceCenterPage' }"
+                class="global-footer-title"
+                target="_blank"
+              >
                 고객센터
                 <v-icon>mdi-chevron-right</v-icon>
-              </h3>
-              <a class="global-footer-contact" href="tel:1611-0828"
-                >1611-0828</a
-              >
+              </router-link>
+              <div>
+                <a class="global-footer-contact" href="tel:1611-0828"
+                  >1611-0828</a
+                >
+              </div>
               <p class="global-footer-time">
                 평일 09:00 ~ 18:00 (주말 &amp; 공휴일 제외)
               </p>
