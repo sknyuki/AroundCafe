@@ -18,7 +18,16 @@
                   alt=""
                 />
                 <img
-                  v-else
+                  v-if="
+                    userInfo.socialType != 'LOCAL' && userInfo.memImg != null
+                  "
+                  :src="userInfo.memImg"
+                  alt=""
+                />
+                <img
+                  v-if="
+                    userInfo.socialType == 'LOCAL' && userInfo.memImg != null
+                  "
                   :src="require(`@/assets/images/memberImg/${review.memImg}`)"
                   alt=""
                 />
@@ -107,6 +116,8 @@ import CafeReviewLike from "@/components/CafeReview/CafeReviewLike"
 import CafeReviewDelete from "@/components/Cafe/CafeReviewDelete"
 import PaginationForm from "@/components/PaginationForm.vue"
 import axios from "axios"
+import { mapActions, mapState } from "vuex"
+
 export default {
   name: "UserReviewList",
   components: {
@@ -146,7 +157,15 @@ export default {
         this.pagingMethod(this.page)
       })
   },
+  computed: {
+    ...mapState(["userInfo"]),
+  },
+  mounted() {
+    this.fetchUserInfo()
+  },
+
   methods: {
+    ...mapActions(["fetchUserInfo"]),
     onModify(payload) {
       const { reviewNo, star_score, review_content, cafeNum, file } = payload
       let formData = new FormData()

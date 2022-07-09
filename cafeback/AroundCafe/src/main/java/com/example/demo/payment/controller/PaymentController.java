@@ -82,10 +82,13 @@ public class PaymentController {
     }
  @PostMapping("/list/list")
     public List<PaymentResponse> getPaymentByDate(@Valid @RequestBody AdminUsageRequest request){
-        Long date1=Long.valueOf(request.getDate1());
-        Long date2=Long.valueOf(request.getDate2());
 
-        return paymentService.getPaymentByDate(request.getMemNo(), date1,date2);
+
+//        Long date1=(request.getDate1()).getTime();
+//        Long date2=(request.getDate2()).getTime();
+
+
+        return paymentService.getPaymentByDate(request.getMemNo(),request.getDate1(), request.getDate2());
 
  }
 }

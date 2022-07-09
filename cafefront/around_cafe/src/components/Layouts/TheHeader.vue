@@ -72,12 +72,18 @@
                             <img src="@/assets/images/avatar.webp" alt="" />
                           </template>
                           <template
-                            v-if="findKakao > 5 && userInfo.memImg != null"
+                            v-if="
+                              userInfo.socialType != 'LOCAL' &&
+                              userInfo.memImg != null
+                            "
                           >
                             <img :src="userInfo.memImg" alt="" />
                           </template>
                           <template
-                            v-if="findKakao < 5 && userInfo.memImg != null"
+                            v-if="
+                              userInfo.socialType == 'LOCAL' &&
+                              userInfo.memImg != null
+                            "
                           >
                             <img
                               v-bind:src="
@@ -89,7 +95,11 @@
                         </div>
                       </button>
                     </div>
-                    <MyMenuModal :class="{ active: isActive }" />
+                    <MyMenuModal
+                      :class="{ active: isActive }"
+                      :isActive="isActive"
+                      @sumbit="closeDialog()"
+                    />
                   </div>
                 </div>
               </div>
@@ -109,7 +119,7 @@ import TheNavBar from "@/components/Layouts/TheNavBar.vue"
 import TheNavBarList from "@/components/Layouts/TheNavBarList.vue"
 import MyMenuModal from "@/components/MyMenuModal.vue"
 import { mapState, mapActions } from "vuex"
-
+//v-show="showSearchResult"
 export default {
   components: { TheNavBarList, TheNavBar, MyMenuModal },
   name: "TheHeader",
@@ -118,26 +128,40 @@ export default {
     return {
       drawer: false,
       isActive: false,
-      memImg: "",
-      findKakao: "",
+      showSearchResult: false,
     }
   },
+  // watch: {
+  //   showSearchResult() {
+  //     if (this.isActive == false) {
+  //       window.removeEventListener("click", this.onClick)
+  //     } else {
+  //       window.addEventListener("click", this.onClick1)
+  //     }
+  //   },
+  // },
   computed: {
     ...mapState(["user", "userInfo", "myLikes"]),
   },
   async mounted() {
     await this.fetchUserInfo()
-    this.change()
     this.fetchMyLikesList(this.user.memNo)
   },
   methods: {
     ...mapActions(["fetchUser", "fetchUserInfo", "fetchMyLikesList"]),
     toggleMyMenu() {
       this.isActive = !this.isActive
+      //this.showSearchResult = !this.showSearchResult
     },
-    change() {
-      this.memImg = this.userInfo.memImg
-      this.findKakao = this.memImg.indexOf("k.kakaocdn.net")
+    closeDialog(payload) {
+      console.log(payload)
+      this.isActive = false
+    },
+    onClick() {
+      this.isActive = false
+    },
+    onClick1() {
+      this.isActive = true
     },
   },
 }

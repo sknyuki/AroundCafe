@@ -122,7 +122,6 @@ public class CafeServiceImpl implements CafeService {
 
         return cafe;
     }
-
     // 태호씨에게 질문
     @Transactional
     @Override
@@ -134,30 +133,37 @@ public class CafeServiceImpl implements CafeService {
             CafeStarAverResponse cafeStarAverResponse = CafeResponseMapSturct.instance.toDto(cafe);
             List<Review> reviewList = reviewRepository.findAllReviewByCafeNo(cafe.getCafeNo());
 
-
-            double starScoreTemp = 0;
-            double count = 0;
-            for (Review review : reviewList) {
-                starScoreTemp += review.getStar_score();//총합
-                count += 1;//인원수
-
-            }
-            log.info("reviewRepository:"+reviewRepository.findAllReviewByCafeNo(cafe.getCafeNo()));
-            log.info("reviewList.length: "+reviewList.size());
-            log.info("total star: "+starScoreTemp);
-            log.info("count: "+count);
-
-            if(starScoreTemp==0){
+            if(reviewList==null){
                 double starAverage=0;
                 cafeStarAverResponse.setStarAver(starAverage);
 
             }else {
-            double starAverage = starScoreTemp / count;//평균값 계산
-                log.info("starAverage: "+starAverage);
 
-                cafeStarAverResponse.setStarAver(Math.floor(starAverage * 10)/10);}
+                double starScoreTemp = 0;
+                double count = 0;
 
+                for (Review review : reviewList) {
+                    starScoreTemp += review.getStar_score();//총합
+                    count += 1;//인원수
 
+                }
+                log.info("reviewRepository:" + reviewRepository.findAllReviewByCafeNo(cafe.getCafeNo()));
+                log.info("reviewList.length: " + reviewList.size());
+                log.info("total star: " + starScoreTemp);
+                log.info("count: " + count);
+
+                if (starScoreTemp == 0) {
+                    double starAverage = 0;
+                    cafeStarAverResponse.setStarAver(starAverage);
+
+                } else {
+                    double starAverage = starScoreTemp / count;//평균값 계산
+                    log.info("starAverage: " + starAverage);
+
+                    cafeStarAverResponse.setStarAver(Math.floor(starAverage * 10) / 10);
+                }
+
+            }
             cafeStarAverResponses.add(cafeStarAverResponse);
         }
         return cafeStarAverResponses;

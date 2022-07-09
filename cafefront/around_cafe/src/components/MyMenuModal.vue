@@ -5,7 +5,9 @@
         <!-- 로그인 안되어있을 때  -->
         <template v-if="user.role == null">
           <li class="my-menu-item" v-for="item in menuModal" :key="item.id">
-            <router-link :to="item.link">{{ item.title }}</router-link>
+            <router-link :to="item.link" @click.native="closeDialog">{{
+              item.title
+            }}</router-link>
           </li>
         </template>
 
@@ -16,7 +18,9 @@
             v-for="item in myMenuUserLogin"
             :key="item.id"
           >
-            <router-link :to="item.link">{{ item.title }}</router-link>
+            <router-link :to="item.link" @click.native="closeDialog">{{
+              item.title
+            }}</router-link>
           </li>
         </template>
 
@@ -28,7 +32,9 @@
             v-for="item in myMenuCafeLogin"
             :key="item.id"
           >
-            <router-link :to="item.link">{{ item.title }}</router-link>
+            <router-link :to="item.link" @click.native="closeDialog">{{
+              item.title
+            }}</router-link>
           </li>
         </template>
 
@@ -39,7 +45,9 @@
             v-for="item in myMenuAdminLogin"
             :key="item.id"
           >
-            <router-link :to="item.link">{{ item.title }}</router-link>
+            <router-link :to="item.link" @click.native="closeDialog">{{
+              item.title
+            }}</router-link>
           </li>
         </template>
         <li class="my-menu-item" v-if="user.memNo != null">
@@ -59,6 +67,12 @@ import { mapState, mapActions } from "vuex"
 
 export default {
   name: "MyMenuModal",
+  props: {
+    isActive: {
+      type: Boolean,
+      require: true,
+    },
+  },
   data() {
     return {
       checkUser: null,
@@ -190,6 +204,9 @@ export default {
         .catch((err) => {
           alert(err)
         })
+    },
+    closeDialog() {
+      this.$emit("sumbit", { isActive: this.isActive })
     },
   },
 }

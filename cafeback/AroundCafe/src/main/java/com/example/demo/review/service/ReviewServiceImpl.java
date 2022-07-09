@@ -63,6 +63,10 @@ public class ReviewServiceImpl implements ReviewService{
             review.setFileName(fileName);
         }
 
+        if(review.getStar_score() == null) {
+            review.setStar_score(0);
+        }
+
         review.setMemberInfo(member);
 
         repository.save(review);
@@ -103,6 +107,7 @@ public class ReviewServiceImpl implements ReviewService{
                         .memImg(reviews.get(i).getMemberInfo().getMemImg())
                         .fileName(reviews.get(i).getFileName())
                         .helps(checkHelps)
+                        .socialType(reviews.get(i).getMemberInfo().getSocialType().getName())
                         .build();
 
                 response.add(reviewResponseDto);

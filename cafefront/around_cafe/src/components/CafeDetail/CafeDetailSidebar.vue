@@ -1,8 +1,8 @@
 <template>
   <aside class="detail-sidebar-sticky">
     <dl
-      v-for="basket in basketList"
-      :key="basket.menu_no"
+      v-for="(basket, index) in basketList"
+      :key="index"
       class="detail-sidebar"
     >
       <div class="detail-sidebar-info">
@@ -20,8 +20,7 @@
 
           <div class="detail-sidebar-price">
             <dd>
-              <span>{{ basket.menu_price }}</span
-              >원
+              <span>{{ basket.menu_price | pricePoint }} 원</span>
             </dd>
           </div>
         </div>
@@ -33,17 +32,25 @@
           <button @click="increaseQuantity(basket)">+</button>
         </dt>
         <dd>
-          <span>{{ basket.per_menu_total_price | pricePoint }}</span
-          >원
+          <span>{{ basket.per_menu_total_price | pricePoint }}원</span>
         </dd>
+      </div>
+      <div>
+        <button
+          class="delete-button"
+          @click="deleteMenu(basket, index)"
+          type="button"
+          aria-label="메뉴삭제"
+        >
+          <i class="icClose"></i>
+        </button>
       </div>
     </dl>
 
     <div class="detail-sidebar-price total">
       <dt>총 상품금액</dt>
       <dd>
-        <span>{{ totalPrice | pricePoint }}</span
-        >원
+        <span>{{ totalPrice | pricePoint }}원</span>
       </dd>
     </div>
     <v-btn
@@ -99,8 +106,21 @@ export default {
           basket.menu_price * basket.per_menu_quantity
       }
     },
+    deleteMenu(basket, index) {
+      basket.per_menu_quantity = 1
+      basket.per_menu_total_price = basket.menu_price * 1
+      this.$emit("input", { index: index })
+    },
     selectedMenuSubmit() {
       console.log(this.basket)
+      let count = 0
+      for (let i = 0; i < this.basketList.length; i++) {
+        if (this.basketList[i].per_menu_quantity == 0) continue
+        else {
+          this.copyBasketList[count] = this.basketList[i]
+          count++
+        }
+      }
 
       var result = confirm("결제 페이지로 이동하시겠습니까?")
       if (result) {
@@ -112,7 +132,7 @@ export default {
               cafeNo: this.cafeNo,
               cafe_name: this.cafeBoard.cafe_name,
             },
-            basketList: this.basketList,
+            basketList: this.copyBasketList,
           },
         })
       }

@@ -24,11 +24,24 @@
                 @change="findStatus"
               ></v-select>
             </li>
+            <li class="order-history-filter item">
+              <v-select
+                class="selectDate"
+                v-model="findList2"
+                :items="selectPeriod"
+                label="기간"
+                style="width: 200px"
+                @change="findPeriod"
+              ></v-select>
+            </li>
           </ul>
         </div>
       </div>
       <div v-if="this.selectPart == 'select'">
         <OrderSelect :orderStatuslists="orderStatuslists" />
+      </div>
+      <div v-if="this.selectPart == 'select'">
+        <OrderPeriod :orderPeriodlists="orderPeriodlists" />
       </div>
       <div v-else>
         <section v-for="order in orderCafeLists" :key="order.payment_no">
@@ -100,11 +113,13 @@
 <script>
 import OrderCafeBtn from "@/components/Order/OrderCafeBtn.vue"
 import OrderSelect from "@/components/Order/OrderSelect.vue"
+import OrderPeriod from "@/components/Order/OrderPeriod.vue"
 
 export default {
   name: "OrderCafeHistory",
   components: {
     OrderCafeBtn,
+    OrderPeriod,
     OrderSelect,
   },
 
@@ -122,9 +137,10 @@ export default {
   data() {
     return {
       paymentStatus: [],
+
       paymentNo: "",
       findList: null,
-      //selectPeriodItem: ["1달", "3달", "6달", "1년", "2년", "3년"],
+      findList2: null,
       selectStatus: [
         "전체보기",
         "PAYMENT_CONFIRMED",
@@ -133,9 +149,12 @@ export default {
         "PAYMENT_CANCELED",
         "PAYMENT_READY",
       ],
+      selectPeriod: ["전체보기", "1달", "3달", "6달", "1년", "2년"],
       newStatusArr: [],
+      newPeriodArr: [],
       selectPart: ["all", "select"],
       orderStatuslists: [],
+      orderPeriodlists: [],
     }
   },
 
@@ -163,29 +182,21 @@ export default {
         }
       }
     },
-
-    setMonth() {
-      var year = new Date().getFullYear()
-
-      var month = new Date().getMonth()
-      month += 1
-
-      if (month < 10) {
-        month = "0" + month
+    findPeriod() {
+      this.orderPeriodlists = []
+      this.newPeriodArr = new Array()
+      if (this.findList2 == "전체보기") {
+        return (this.selectPart = "all")
+      } else {
+        for (let i = 0; i < this.orderCafeLists.length; i++) {
+          if (this.orderCafeLists[i].paymentDate == this.findList2) {
+            this.orderPeriodlists.push(this.orderCafeLists[i])
+          } else {
+            continue
+          }
+          this.selectPart = "select"
+        }
       }
-
-      this.startDate = year + "-" + month + "-01"
-
-      var today = new Date().toISOString().substr(0, 10).replace("T", " ")
-      this.endDate = today
-    },
-    setYear() {
-      var year = new Date().getFullYear()
-
-      this.startDate = year + "-01-01"
-
-      var today = new Date().toISOString().substr(0, 10).replace("T", " ")
-      this.endDate = today
     },
   },
 }

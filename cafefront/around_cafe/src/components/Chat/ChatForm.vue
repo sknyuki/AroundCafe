@@ -14,23 +14,49 @@
                       (Array.isArray(qnaLists) && qnaLists.length === 0)
                     "
                   >
-                    <img src="@/assets/images/avatar.webp" alt="" />
-                  </div>
-                  <div class="avatar-48" v-else>
                     <img
-                      v-if="qnaLists[0].writerImg === null"
+                      v-if="userInfo.memImg == null"
                       src="@/assets/images/avatar.webp"
                       alt=""
                     />
                     <img
-                      v-if="qnaLists[0].writerImg != null && findKakao < 5"
+                      v-if="
+                        userInfo.memImg != null &&
+                        userInfo.socialType == 'LOCAL'
+                      "
                       v-bind:src="
-                        require(`@/assets/images/memberImg/${qnaLists[0].writerImg}`)
+                        require(`@/assets/images/memberImg/${userInfo.memImg}`)
                       "
                     />
                     <img
-                      v-if="qnaLists[0].writerImg != null && findKakao > 5"
-                      :src="qnaLists[0].writerImg"
+                      v-if="
+                        userInfo.memImg != null &&
+                        userInfo.socialType != 'LOCAL'
+                      "
+                      :src="userInfo.memImg"
+                    />
+                  </div>
+                  <div class="avatar-48" v-else>
+                    <img
+                      v-if="userInfo.memImg == null"
+                      src="@/assets/images/avatar.webp"
+                      alt=""
+                    />
+                    <img
+                      v-if="
+                        userInfo.memImg != null &&
+                        userInfo.socialType == 'LOCAL'
+                      "
+                      v-bind:src="
+                        require(`@/assets/images/memberImg/${userInfo.memImg}`)
+                      "
+                    />
+                    <img
+                      v-if="
+                        userInfo.memImg != null &&
+                        userInfo.socialType != 'LOCAL'
+                      "
+                      :src="userInfo.memImg"
                     />
                   </div>
                 </a>
@@ -159,16 +185,17 @@
                     </div>
                   </div>
 
-                  <div class="chat-box-overflow">
+                  <div class="chat-box-overflow" v-chat-scroll>
                     <div
                       v-for="(item, index) in qnaList"
                       :key="index"
                       class="chat-box list"
                     >
-                      <div v-if="index == 0">
+                      <div class="chat-box-date" v-if="index == 0">
                         {{ qnaList[index].regYear }}
                       </div>
                       <div
+                        class="chat-box-date"
                         v-if="
                           index > 0 &&
                           qnaList[index].regYear != qnaList[index - 1].regYear
@@ -250,10 +277,13 @@
                           </div>
                           <v-btn
                             v-if="item.qna_comment_no == num"
+                            class="delete-button"
+                            x-small
+                            fab
                             v-show="testBtn"
                             @click="deleteComment(item)"
-                            >delete</v-btn
-                          >
+                            ><i class="icClose"></i
+                          ></v-btn>
                         </div>
                       </div>
                     </div>
@@ -303,6 +333,7 @@
 
 <script>
 import axios from "axios"
+import { mapState, mapActions } from "vuex"
 export default {
   name: "ChatForm",
   props: {
@@ -334,8 +365,14 @@ export default {
       }
     },
   },
-
+  computed: {
+    ...mapState(["userInfo"]),
+  },
+  mounted() {
+    this.fetchUserInfo()
+  },
   methods: {
+    ...mapActions(["fetchUserInfo"]),
     charCount() {
       this.totalcharacter = this.chatting.length
     },
