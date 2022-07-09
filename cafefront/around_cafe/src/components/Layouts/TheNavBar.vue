@@ -5,11 +5,9 @@
         <div class="col-sm-12">
           <h1 class="visually-hidden">서브 메뉴리스트</h1>
           <ul class="lnb-list">
-            <li class="lnb-item is-active"><a href="">카페</a></li>
-            <li class="lnb-item"><a href="">커피</a></li>
-            <li class="lnb-item"><a href="">베스트</a></li>
-            <li class="lnb-item"><a href="">뉴스</a></li>
-            <li class="lnb-item"><a href="">고객센터</a></li>
+            <li v-for="item in lnbList" :key="item.id" class="lnb-item">
+              <router-link :to="item.link">{{ item.title }}</router-link>
+            </li>
           </ul>
         </div>
       </div>
@@ -23,6 +21,33 @@ export default {
     return {
       showNavbar: true,
       lastScrollPostion: 0,
+      lnbList: [
+        {
+          id: 1,
+          title: "카페",
+          link: "/main",
+        },
+        {
+          id: 2,
+          title: "커피",
+          link: "/main",
+        },
+        {
+          id: 3,
+          title: "베스트",
+          link: "/main",
+        },
+        {
+          id: 4,
+          title: "뉴스",
+          link: "/main",
+        },
+        {
+          id: 5,
+          title: "고객센터",
+          link: "/service",
+        },
+      ],
     }
   },
   mounted() {
