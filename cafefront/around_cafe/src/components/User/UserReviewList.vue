@@ -81,14 +81,6 @@
             />
 
             <CafeReviewDelete :review="review" />
-            <!--
-            <button
-              class="delete-button"
-              aria-label="해당 리뷰 삭제하기"
-              type="button"
-            >
-              <i @click="deleteReview()" class="icClose"></i>
-            </button>-->
 
             <CafeReviewModify
               v-if="review"
@@ -143,6 +135,7 @@ export default {
       total: "",
       reviewDialog: false,
       memNo: this.$store.state.user.memNo,
+      reviewList: [],
     }
   },
   created() {
@@ -152,7 +145,7 @@ export default {
       )
       .then((res) => {
         for (let i = 0; i < res.data.length; i++) {
-          this.$store.state.userReviews.push(res.data[i])
+          this.reviewList.push(res.data[i])
         }
         this.pagingMethod(this.page)
       })
@@ -222,16 +215,16 @@ export default {
         })
     },
     pagingMethod(page) {
-      this.listData = this.$store.state.userReviews.slice(
+      this.listData = this.reviewList.slice(
         (page - 1) * this.limit,
         page * this.limit
       )
       this.page = page
-      let total = this.$store.state.userReviews.length
+      let total = this.reviewList.length
       this.pageDataSetting(total, this.limit, this.block, page)
     },
     pageDataSetting(total, limit, block, page) {
-      total = this.$store.state.userReviews.length
+      total = this.reviewList.length
       const totalPage = Math.ceil(total / limit)
       let currentPage = page
       const first =
