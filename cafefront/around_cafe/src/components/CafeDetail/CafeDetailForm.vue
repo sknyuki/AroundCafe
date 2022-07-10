@@ -18,22 +18,12 @@
                 <template v-if="index < 5">
                   <img
                     :src="require(`@/assets/cafe/cafeMypage/${img.cafe_img}`)"
-                    alt=""
+                    :alt="`Image${img.cafeImgNo}`"
                   />
                 </template>
               </picture>
             </div>
 
-            <div class="detail-image">
-              <div class="detail-image-one">
-                <button>
-                  <picture>
-                    <source />
-                    <img src="" alt="" />
-                  </picture>
-                </button>
-              </div>
-            </div>
             <div class="contaianer">
               <div class="row">
                 <div class="col-sm-12 col-md-12 col-lg-8">
@@ -41,13 +31,15 @@
                     <div class="detail-content">
                       <div class="detail-info">
                         <div>
-                          <v-icon>mdi-phone</v-icon>
+                          <v-icon aria-hidden="true">mdi-phone</v-icon>
                         </div>
                         <div>{{ cafeBoard.cafe_call }}</div>
                       </div>
                       <div class="detail-info">
                         <div>
-                          <v-icon>mdi-map-marker-outline</v-icon>
+                          <v-icon aria-hidden="true"
+                            >mdi-map-marker-outline</v-icon
+                          >
                         </div>
                         <div>
                           <div>
@@ -58,7 +50,7 @@
                       <div class="detail-info">
                         <div>
                           <span>
-                            <v-icon>mdi-av-timer</v-icon>
+                            <v-icon aria-hidden="true">mdi-av-timer</v-icon>
                           </span>
                         </div>
                         <div>{{ cafeBoard.cafe_time }}</div>
@@ -90,9 +82,11 @@
                       <section class="detail-section">
                         <header class="detail-section-header">
                           <h1 class="review-title">리뷰</h1>
-                          <strong class="badge" aria-label="400개">{{
-                            reviewList.length
-                          }}</strong>
+                          <strong
+                            class="badge"
+                            :aria-label="reviewList.length"
+                            >{{ reviewList.length }}</strong
+                          >
                           <CafeReviewRegisterPage
                             class="text-btn"
                             :cafeNo="cafeNo"
@@ -119,10 +113,10 @@
                           </div>
                           <div class="score-detail">
                             <dl class="score-stats-list">
-                              <div class="score-stats-item is-active">
+                              <div class="score-stats-item">
                                 <dt>5점</dt>
                                 <dd>
-                                  <div class="bar-graph" aria-hidden>
+                                  <div class="bar-graph" aria-hidden="true">
                                     <div class="active-bar" :style="bar5"></div>
                                   </div>
                                   <strong
@@ -136,7 +130,7 @@
                               <div class="score-stats-item">
                                 <dt>4점</dt>
                                 <dd>
-                                  <div class="bar-graph" aria-hidden>
+                                  <div class="bar-graph" aria-hidden="true">
                                     <div class="active-bar" :style="bar4"></div>
                                   </div>
                                   <strong
@@ -150,7 +144,7 @@
                               <div class="score-stats-item">
                                 <dt>3점</dt>
                                 <dd>
-                                  <div class="bar-graph" aria-hidden>
+                                  <div class="bar-graph" aria-hidden="true">
                                     <div class="active-bar" :style="bar3"></div>
                                   </div>
                                   <strong
@@ -164,7 +158,7 @@
                               <div class="score-stats-item">
                                 <dt>2점</dt>
                                 <dd>
-                                  <div class="bar-graph" aria-hidden>
+                                  <div class="bar-graph" aria-hidden="true">
                                     <div class="active-bar" :style="bar2"></div>
                                   </div>
                                   <strong
@@ -178,7 +172,7 @@
                               <div class="score-stats-item">
                                 <dt>1점</dt>
                                 <dd>
-                                  <div class="bar-graph" aria-hidden>
+                                  <div class="bar-graph" aria-hidden="true">
                                     <div class="active-bar" :style="bar1"></div>
                                   </div>
                                   <strong
@@ -226,15 +220,14 @@
 </template>
 
 <script>
-import CafeReviewRegisterPage from "@/views/Cafe/CafeReviewRegisterPage.vue"
-import StarRating from "vue-star-rating"
-import CafeReviewForm from "@/components/CafeReview/CafeReviewForm.vue"
+import CafeDetailQnaForm from "@/components/CafeDetail/CafeDetailQnaForm.vue"
 import CafeDetailSidebar from "@/components/CafeDetail/CafeDetailSidebar.vue"
+import CafeReviewRegisterPage from "@/views/Cafe/CafeReviewRegisterPage.vue"
+import CafeReviewForm from "@/components/CafeReview/CafeReviewForm.vue"
 import CafeSiteMenuList from "../CafeSite/CafeSiteMenuList.vue"
 import MapKakaoFind from "@/components/Map/MapKakaoFind.vue"
-
+import StarRating from "vue-star-rating"
 import { mapState, mapActions } from "vuex"
-import CafeDetailQnaForm from "@/components/CafeDetail/CafeDetailQnaForm.vue"
 
 export default {
   name: "CafeDetailForm",
