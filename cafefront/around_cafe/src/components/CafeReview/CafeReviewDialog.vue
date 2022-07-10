@@ -8,7 +8,7 @@
         </button>
       </div>
       <div class="review-card-point">
-        포토리뷰&nbsp;
+        첫 리뷰 시 포토리뷰&nbsp;
         <span> 150P </span>,&nbsp;일반리뷰&nbsp;
         <span>0P</span>
       </div>
