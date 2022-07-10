@@ -114,6 +114,31 @@ const routes = [
     component: () => import("@/views/Admin/AdminCafeListPage.vue"),
   },
   {
+    path: "/admin/cafe/sales",
+    name: "AdminCafeSalesPage",
+    component: () => import("@/views/Admin/AdminCafeSalesPage.vue"),
+  },
+  {
+    path: "/admin/cafe/sales/detail",
+    name: "AdminCafeSalesDetailPage",
+    components: {
+      default: () => import("@/views/Admin/AdminCafeSalesDetailPage.vue"),
+    },
+    props: {
+      default: true,
+    },
+  },
+  {
+    path: "/admin/cafe/sales/menu",
+    name: "AdminCafeSalesMenuPage",
+    components: {
+      default: () => import("@/views/Admin/AdminCafeSalesMenuPage.vue"),
+    },
+    props: {
+      default: true,
+    },
+  },
+  {
     path: "/admin/noticelist",
     name: "NoticelistPage",
     component: () => import("@/views/Admin/AdminNotice/NoticeListPage.vue"),

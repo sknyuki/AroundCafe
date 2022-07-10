@@ -61,6 +61,8 @@ public class ReviewServiceImpl implements ReviewService{
             saveFile.close();
 
             review.setFileName(fileName);
+
+            member.setMemPoint(member.getMemPoint() + 150);
         }
 
         if(review.getStar_score() == null) {

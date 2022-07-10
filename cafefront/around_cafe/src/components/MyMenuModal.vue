@@ -171,7 +171,7 @@ export default {
         {
           id: 6,
           title: "카페 매출",
-          link: "",
+          link: "/admin/cafe/sales",
         },
       ],
     }

@@ -5,14 +5,14 @@
         <div class="order-history-filter list">
           <ul class="order-history-filter left">
             <li class="order-history-filter item">
-              <button type="button" aria-label="기간">
+              <!-- <button type="button" aria-label="기간">
                 기간
                 <i class="icCaret"></i>
               </button>
               <button type="button" aria-label="주문상태">
                 주문상태
                 <i class="icCaret"></i>
-              </button>
+              </button> -->
             </li>
             <li class="order-history-filter item">
               <v-select
@@ -41,7 +41,7 @@
         <OrderSelect :orderStatuslists="orderStatuslists" />
       </div>
       <div v-if="this.selectPart == 'select'">
-        <OrderPeriod :orderPeriodlists="orderPeriodlists" />
+        <OrderPeriod :orderPeriodlists="orderPeriodlists" @click="getPeriod" />
       </div>
       <div v-else>
         <section v-for="order in orderCafeLists" :key="order.payment_no">
@@ -155,18 +155,13 @@ export default {
       selectPart: ["all", "select"],
       orderStatuslists: [],
       orderPeriodlists: [],
+      dateStart: "",
     }
   },
 
   methods: {
-    // searchStart() {
-    //   var today = new Date().toISOString().substr(0, 10).replace("T", " ")
-    //   this.startDate = today
-    //   this.endDate = today
-    //   if ((this.paymentNo.paymentDate = today)) {
-    //   }
-    // },
     findStatus() {
+      this.orderPeriodlists = []
       this.orderStatuslists = []
       this.newStatusArr = new Array()
       if (this.findList == "전체보기") {
@@ -183,13 +178,32 @@ export default {
       }
     },
     findPeriod() {
+      this.orderStatuslists = []
       this.orderPeriodlists = []
       this.newPeriodArr = new Array()
+
+      switch (this.findList2) {
+        case "전체보기":
+          return (this.selectPart = "all")
+        case "1달":
+          this.getPeriod(1)
+
+          break
+        case "3달":
+          this.getPeriod(3)
+
+          break
+        case "6달":
+          this.getPeriod(6)
+
+          break
+      }
+
       if (this.findList2 == "전체보기") {
         return (this.selectPart = "all")
       } else {
         for (let i = 0; i < this.orderCafeLists.length; i++) {
-          if (this.orderCafeLists[i].paymentDate == this.findList2) {
+          if (new Date(this.orderCafeLists[i].paymentDate) >= this.dateStart) {
             this.orderPeriodlists.push(this.orderCafeLists[i])
           } else {
             continue
@@ -197,6 +211,21 @@ export default {
           this.selectPart = "select"
         }
       }
+    },
+    getPeriod(changeMonth) {
+      let today = new Date()
+      this.dateStart = new Date(
+        new Date().setFullYear(
+          today.getFullYear(),
+          today.getMonth() - changeMonth,
+          today.getDate() + 1
+        )
+      )
+      // this.orderCafeLists.forEach((item) => {
+      //   if (this.dateStart <= item.paymentDate) {
+      //     orderPeriodlists.push(item)
+      //   }
+      // })
     },
   },
 }

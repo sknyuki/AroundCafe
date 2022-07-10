@@ -42,14 +42,14 @@
           </label>
           <div class="img-box-info">
             <span class="name">{{ userInfo.memNick }}</span>
-            <div class="location" v-if="cafeBoard.address != null">
+            <div class="location" v-if="userInfo.roleType == 'CAFE'">
               <v-icon aria-hidden="true">mdi-map-marker</v-icon>
               <span>{{ cafeBoard.address }}</span>
             </div>
           </div>
         </div>
 
-        <div class="d-none d-md-flex" v-if="cafeBoard.address == null">
+        <div class="d-none d-md-flex" v-if="userInfo.roleType == 'USER'">
           <div class="text-center">
             <span class="number">{{ userReviews.length }}</span>
             <span class="text">Reviews</span>
@@ -66,7 +66,7 @@
           </div>
         </div>
 
-        <div class="d-none d-md-flex" v-else>
+        <div class="d-none d-md-flex" v-if="userInfo.roleType == 'CAFE'">
           <div class="text-center">
             <span class="number">{{ reviewList.length }}</span>
             <span class="text">Reviews</span>
@@ -82,6 +82,7 @@
             <span class="text">Menus</span>
           </div>
         </div>
+        <div class="d-none d-md-flex" v-if="userInfo.roleType == 'ADMIN'"></div>
       </div>
     </v-img>
   </div>

@@ -83,7 +83,7 @@ export default {
           id: 2,
           icon: "mdi-chart-bar",
           title: "카페 매출",
-          link: "/",
+          link: "/admin/cafe/sales",
         },
       ],
       sidebarTh: [

@@ -2,46 +2,55 @@
   <div class="map_wrap">
     <!-- <MapInit :options="options" ref="map" id="map"/>  -->
     <div id="map"></div>
-    <v-container id="side">
+    <v-container id="map_side">
       <form @submit.prevent="searchPlace()">
-        <h1 class="text-center">Search</h1>
-        <v-row class="searchIn">
-          <v-col cols="9" class="ml-4">
-            <v-text-field
-              class="searchInPut"
-              type="text"
-              outlined
-              color="#e3c832"
-              placeholder="area"
-              id="keyword"
-            />
+        <h1 class="map_text-center">Search</h1>
+        <v-row class="map_searchIn">
+          <v-col cols="10" class="ml-6">
+                              <div class="input-group">
+                    <i class="icSearch" aria-hidden="true"></i>
+                    <input
+                      class="form-input input-40"
+                      type="text"
+                      placeholder="지역 검색"
+                      id="keyword"
+                    />
+                  </div>
           </v-col>
-          <v-col cols="1">
-            <button type="submit" class="ml-2">
-              <v-icon color="#c9c8c5" class="mt-5 ml-3">mdi-magnify</v-icon>
-            </button>
-          </v-col>
+
         </v-row>
 
-        <v-row class="searchResult">
+        <v-row class="map_searchResult">
           <v-col cols="11">
-            <div class="llabel">Total &nbsp;{{ results.length }}</div>
+            <div class="map_llabel">Total &nbsp;{{ results.length }}</div>
           </v-col>
         </v-row>
 
         <v-row>
-          <v-col cols="11" class="label">
-            <div class="place" v-for="rs in results" :key="rs.cafe_no">
+          <v-col cols="11" class="map_label">
+            <div class="map_place" v-for="rs in results" :key="rs.cafe_no">
               <!-- <div display: flex justify-content: space-between> -->
               <!-- <span> -->
 
               <div @click="showInfo(rs)">{{ rs.cafe_name }}</div>
 
-              <div class="cafeInfo">{{ rs.address }}</div>
+              <div class="map_cafeInfo">{{ rs.address }}</div>
               <img
-                class="cafeInfoImg"
+                class="map_cafeInfoImg"
                 :src="
                   require(`@/assets/cafe/cafeMypage/${rs.cafeImgs[0].cafe_img}`)
+                "
+              />
+              <img
+                class="map_cafeInfoImg"
+                :src="
+                  require(`@/assets/cafe/cafeMypage/${rs.cafeImgs[1].cafe_img}`)
+                "
+              />
+              <img
+                class="map_cafeInfoImg"
+                :src="
+                  require(`@/assets/cafe/cafeMypage/${rs.cafeImgs[2].cafe_img}`)
                 "
               />
 
@@ -62,16 +71,12 @@
 //import MapInit from "@/components/Map/MapInit.vue"
 import { mapState, mapActions } from "vuex"
 //import axios from "axios"
-
 //var kakao = window.kakao
-
 export default {
   // components: {
   //     MapInit
   //   },
-
   name: "MapMain",
-
   data: () => ({
     //cafeBoards:cafeBoards,
     keyword: null,
@@ -86,9 +91,14 @@ export default {
       },
       level: 6,
     },
+    infowindows: [],
+    customOverlay: null,
+    bounds: null,
+    positions: [],
+    area: {},
   }),
   computed: {
-    ...mapState(["cafeBoards", "trans"]),
+    ...mapState(["cafeBoards", "trans", "mapCon"]),
   },
   mounted() {
     this.fetchcafeBoardList()
@@ -102,27 +112,41 @@ export default {
         "//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=ec61fc18851964c845de3db938cfd080&libraries=services&autoload=false"
       document.head.appendChild(script)
     }
-
     this.$store.state.trans = this.coords
     console.log(this.$store.state.trans)
   },
-
   methods: {
     ...mapActions(["fetchcafeBoardList"]),
-
     initMap() {
-      var container = document.getElementById("map")
-      var options = {
+      const container = document.getElementById("map")
+      const options = {
         center: new kakao.maps.LatLng(37.56832, 126.97976),
-        level: 8,
+        level: 6,
       }
 
-      var map = new kakao.maps.Map(container, options)
-      console.log(map)
-    },
+      let map = new kakao.maps.Map(container, options)
+      this.map = map
+      let mapTypeControl = new kakao.maps.MapTypeControl()
+      this.map.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT)
+      let zoomControl = new kakao.maps.ZoomControl()
+      this.map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT)
 
+      kakao.maps.event.addListener(this.map, "dragend", () => {
+        let bounds = this.map.getBounds()
+
+        this.swLatlng = bounds.getSouthWest()
+
+        this.neLatlng = bounds.getNorthEast()
+      })
+      let mapCon = map
+      this.$store.state.mapCon = mapCon
+    },
     searchPlace() {
+      mapTmp = ""
+      this.marker = ""
+
       this.results = []
+      let trans = []
 
       var keyword = document.getElementById("keyword").value
 
@@ -131,36 +155,7 @@ export default {
         return false
       }
 
-      var container = document.getElementById("map")
-
-      if (keyword === "강남구") {
-        var options = {
-          center: new kakao.maps.LatLng(37.5008, 127.022),
-          level: 7,
-        }
-      } else if (keyword === "동작구") {
-        options = {
-          center: new kakao.maps.LatLng(37.5124298, 126.9397997),
-          level: 5,
-        }
-      } else if (keyword === "용산구") {
-        options = {
-          center: new kakao.maps.LatLng(37.532454, 126.9902471),
-          level: 5,
-        }
-      } else if (keyword === "관악구") {
-        options = {
-          center: new kakao.maps.LatLng(37.4781098, 126.9514931),
-          level: 3,
-        }
-      } else if (keyword === "중구") {
-        options = {
-          center: new kakao.maps.LatLng(37.5637584, 126.9975517),
-          level: 5,
-        }
-      }
-
-      var map = new kakao.maps.Map(container, options)
+      let mapTmp = this.$store.state.mapCon
 
       var imageSrc = require(`@/assets/images/Logo.png`),
         imageOption = { offset: new kakao.maps.Point(29, 29) },
@@ -177,20 +172,26 @@ export default {
       this.cafeBoards.forEach((item) => {
         if (item.address.includes(keyword)) {
           this.geocoder.addressSearch(item.address, function (result, status) {
-            console.log(kakao.maps.services.Status.OK)
-
             if (status === kakao.maps.services.Status.OK) {
               var coords = new kakao.maps.LatLng(result[0].y, result[0].x)
 
-              //this.$store.state.trans = coords
+              trans.push(coords)
 
               var marker = new kakao.maps.Marker({
-                map,
+                map: mapTmp,
                 position: coords,
                 image: markerImage,
                 clickable: true,
               })
-              marker.setMap(map)
+
+              var bounds = new kakao.maps.LatLngBounds()
+              for (var i = 0; i < trans.length; i++) {
+                new kakao.maps.Marker(trans[i])
+                bounds.extend(new kakao.maps.LatLng(trans[i].Ma, trans[i].La))
+              }
+              mapTmp.setBounds(bounds)
+
+              marker.setMap(mapTmp)
             }
           })
           this.results.push(item)
@@ -200,27 +201,22 @@ export default {
       })
     },
     showInfo(rs) {
-      var content =
-        `<div class="overlaybox">` +
-        `<div style="padding:5px;">${rs.cafe_name}</div>` +
-        `<div class="boxtitle">hello</div>` +
-        ' <img src="' +
-        require(`@/assets/cafe/cafeMypage/${rs.cafeImgs[0].cafe_img}`) +
-        '" width="270" height="160">' +
-        `</div>` +
-        +`</div>`
+      this.marker = null
+      this.map = null
 
-      var options = {
-        center: new kakao.maps.LatLng(`${rs.cafe_lon}`, `${rs.cafe_lat}`), // 지도의 중심좌표
-        level: 8,
+      const container = document.getElementById("map")
+      const options = {
+        center: new kakao.maps.LatLng(33.450701, 126.570667),
+        level: 2,
       }
 
-      var container = document.getElementById("map")
+      const map = new kakao.maps.Map(container, options)
 
-      var imageSrc =
-          "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png",
-        imageSize = new kakao.maps.Size(27, 34),
-        imageOption = { offset: new kakao.maps.Point(29, 29) }
+      this.geocoder = new kakao.maps.services.Geocoder()
+
+      var imageSrc = require(`@/assets/images/Logo.png`),
+        imageOption = { offset: new kakao.maps.Point(29, 29) },
+        imageSize = new kakao.maps.Size(70, 70)
 
       var markerImage = new kakao.maps.MarkerImage(
         imageSrc,
@@ -228,66 +224,71 @@ export default {
         imageOption
       )
 
-      this.geocoder = new kakao.maps.services.Geocoder()
       this.geocoder.addressSearch(rs.address, function (result, status) {
+        console.log(kakao.maps.services.Status.OK)
         if (status === kakao.maps.services.Status.OK) {
-          var coords = new kakao.maps.LatLng(result[0].y, result[0].x)
-          var infowindow = new kakao.maps.InfoWindow({
-            content: content,
-            position: coords,
-            yAnchor: 1,
-            //removable : iwRemoveable
-          })
+          const coords = new kakao.maps.LatLng(result[0].y, result[0].x)
+          console.log(coords)
 
-          var marker = new kakao.maps.Marker({
-            map: map,
+          const marker = new kakao.maps.Marker({
+            map,
             position: coords,
             image: markerImage,
-            clickable: true,
           })
+
           marker.setMap(map)
 
-          infowindow.setContent(content)
-          infowindow.open(map, marker)
+          const iwContent =
+            '<div class="map_customoverlay">' +
+            `<a class="map_gogo" ` +
+            `href="http://localhost:8080/detail/${rs.cafeNo}"` +
+            `target="_self">` +
+            // '<div class="map_info_close" onclick="closeOverlay()" title="닫기">' +
+            // "</div>" +
+            `<span class="map_title"> ${rs.cafe_name} </span>` +
+            "  </a>" +
+            "</div>"
+
+          var customOverlay = new kakao.maps.CustomOverlay({
+            map,
+            content: iwContent,
+            yAnchor: 0.4,
+            xAnchor: 0.47,
+            position: coords,
+          })
+
+          customOverlay.setMap(map)
+
+          map.setCenter(coords)
         }
       })
-
-      var map = new kakao.maps.Map(container, options)
-
-      // var infowindow = new kakao.maps.InfoWindow({
-      //     content : content,
-      //     position:position,
-      //     yAnchor: 1 ,
-      //     //removable : iwRemoveable
-      //   })
-
-      // infowindow.setContent(content);
-      // infowindow.open( map,marker);
     },
   },
 }
 </script>
 
-<style scoped>
-@import url("https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Poiret+One&family=Sunflower:wght@300&family=Ubuntu:wght@300&display=swap");
+<style lang="scss">
+.input-group {
+  margin: 16px 0 !important;
+}
+
 #map {
   width: 100%;
   height: 100%;
   position: relative;
   overflow: hidden;
 }
-
 .map_wrap,
 .map_wrap * {
   margin: 0;
   padding: 0;
-  font-family: "CookieRun-Regular", cursive;
+
   font-size: 20px;
 }
 .map_wrap a,
 .map_wrap a:hover,
 .map_wrap a:active {
-  color: #000;
+  color: rgba(0, 0, 0, 0.973);
   text-decoration: none;
 }
 .map_wrap {
@@ -295,7 +296,7 @@ export default {
   width: 100%;
   height: 100%;
 }
-#side {
+#map_side {
   position: absolute;
   top: 0;
   left: 0;
@@ -309,18 +310,17 @@ export default {
   font-size: 12px;
   border-radius: 10px;
 }
-.itest {
+.map_itest {
   width: 2px;
   height: 2px;
 }
-
 #side hr {
   display: block;
   height: 1px;
 }
-.text-center {
+.map_text-center {
   padding-top: 20px;
-  font-family: "Poiret One", cursive;
+  
   font-size: 46px;
   color: white;
   text-align: center;
@@ -330,20 +330,18 @@ export default {
   overflow: hidden !important;
   width: 500px !important;
 }
-
-.searchIn {
+.map_searchIn {
   background: #3f51b5;
   padding-top: 20px;
 }
-.searchInPut {
+.map_searchInPut {
   background: #3f51b5;
 }
 .v-text-field__details {
   color: #3f51b5 !important;
 }
-
 .v-input
-  searchInPut
+  map_searchInPut
   theme--light
   v-text-field
   v-text-field--is-booted
@@ -352,16 +350,16 @@ export default {
   v-text-field--placeholder {
   color: #3f51b5 !important;
 }
-.searchResult {
+.map_searchResult {
   background: #e7e7e7;
 }
-.llabel {
-  font-family: "Poiret One", cursive;
+.map_llabel {
+  
   font-size: 20px;
   font-weight: 500;
   float: right;
 }
-.place {
+.map_place {
   margin-top: 15px;
   padding-bottom: 10px;
   position: relative;
@@ -370,30 +368,63 @@ export default {
   cursor: pointer;
   min-height: 30px;
 }
-.label {
+.map_label {
   margin-left: 8px;
 }
-.cafeInfo {
+.map_cafeInfo {
   font-size: 15px;
   font-weight: 500;
-  font-family: "IM_Hyemin-Bold", cursive;
+  
 }
-@font-face {
-  font-family: "IM_Hyemin-Bold";
-  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2106@1.1/IM_Hyemin-Bold.woff2")
-    format("woff");
-  font-weight: normal;
-  font-style: normal;
+
+
+.map_cafeInfoImg {
+  width: 100px;
+  height: 100px;
 }
-@font-face {
-  font-family: "CookieRun-Regular";
-  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/CookieRun-Regular.woff")
-    format("woff");
-  font-weight: normal;
-  font-style: normal;
+.map_customoverlay {
+  position: relative;
+  bottom: 85px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  border-bottom: 2px solid #ddd;
+  float: left;
 }
-.cafeInfoImg {
-  width: 200px;
-  height: 200px;
+.map_customoverlay:nth-of-type(n) {
+  border: 0;
+  box-shadow: 0px 1px 2px #888;
+}
+.map_customoverlay a {
+  display: block;
+  text-decoration: none;
+  color: #000;
+  text-align: center;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: bold;
+  overflow: hidden;
+  background: #3f51b5;
+  background: #3f51b5
+    url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png)
+    no-repeat right 14px center;
+}
+.map_customoverlay .map_title {
+  display: block;
+  text-align: center;
+  background: #fff;
+  margin-right: 35px;
+  padding: 10px 15px;
+  font-size: 14px;
+  font-weight: bold;
+}
+.map_customoverlay:after {
+  content: "";
+  position: absolute;
+  margin-left: -12px;
+  left: 50%;
+  bottom: -12px;
+  width: 22px;
+  height: 12px;
+  background: url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png");
 }
 </style>

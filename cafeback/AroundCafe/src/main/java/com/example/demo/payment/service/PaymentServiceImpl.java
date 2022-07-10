@@ -178,7 +178,7 @@ public class PaymentServiceImpl implements PaymentService {
             for(int i = 0 ; i< date.size(); i++){
                 LocalDate date1 = LocalDate.parse(date.get(i));
                 log.info("date =" +date1);
-                Integer count = paymentRepository.findByCount(cafeNo,date1);
+                Integer count = orderItemRepository.findByCount(cafeNo,date1);
                 Integer sum = paymentRepository.findBySum(cafeNo,date1);
 
                 PaymentSalesResponse salesResponse = PaymentSalesResponse.builder()
@@ -191,6 +191,32 @@ public class PaymentServiceImpl implements PaymentService {
             }
         }
         return paymentList;
+    }
+
+    @Override
+    public List<PaymentSalesResponse> getPaymentCafeSalesList() {
+        List<PaymentSalesMenuResponse1> paymentList = paymentRepository.findByEachCafeSalesList();
+        List<PaymentSalesResponse> responses = new ArrayList<>();
+
+        if(paymentList.size() > 0 ) {
+            for(PaymentSalesMenuResponse1 salesList : paymentList){
+                Long findCafe = Long.valueOf(salesList.getItemName());
+                Cafe cafe = cafeRepository.findById(findCafe).orElse(null);
+                Integer ItemCount = orderItemRepository.findByCountFromCafeNo(findCafe);
+                log.info("cafe : " + cafe.getCafe_name());
+
+                PaymentSalesResponse paymentSalesResponse = PaymentSalesResponse.builder()
+                        .cafe_no(cafe.getCafeNo())
+                        .cafe_name(cafe.getCafe_name())
+                        .total_quantity(ItemCount)
+                        .total_amount(salesList.getSum())
+                        .build();
+
+                responses.add(paymentSalesResponse);
+            }
+            return responses;
+        }else return null;
+
     }
 
     @Override
@@ -220,6 +246,34 @@ public class PaymentServiceImpl implements PaymentService {
         }else return null;
     }
 
+    @Transactional
+    @Override
+    public List<PaymentSalesDetailResponse> getPaymentCafeSalesDetailListByAdmin(Long cafeNo) {
+        List<OrderItem> orderItemList = orderItemRepository.findByAllFromCafeNo(cafeNo);
+        List<PaymentSalesDetailResponse> salesDetail = new ArrayList<>();
+
+        if(orderItemList.size() > 0 ) {
+            for(OrderItem orderItem : orderItemList) {
+                Payment payment = orderItem.getPayment();
+                Member member = payment.getMember();
+
+                PaymentSalesDetailResponse response = PaymentSalesDetailResponse.builder()
+                        .paymentNo(payment.getPaymentNo())
+                        .paymentDate(payment.getPaymentDate())
+                        .itemName(orderItem.getItemName())
+                        .quantity(orderItem.getQuantity())
+                        .amount(orderItem.getAmount())
+                        .memNick(member.getMemNick())
+                        .memImg(member.getMemImg())
+                        .build();
+
+                salesDetail.add(response);
+
+            }
+            return salesDetail;
+        }else return null;
+    }
+
     @Override
     public List<PaymentSalesMenuResponse1> getPaymentSalesMenuList(Long cafeNo) {
         List<PaymentSalesMenuResponse1> paymentList = paymentRepository.findByMenuList(cafeNo);
@@ -244,5 +298,7 @@ public class PaymentServiceImpl implements PaymentService {
 
 
     }
+
+
 }
 
