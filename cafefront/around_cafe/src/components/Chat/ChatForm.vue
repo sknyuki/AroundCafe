@@ -281,7 +281,7 @@
                             x-small
                             fab
                             v-show="testBtn"
-                            @click.prevent="deleteComment(item)"
+                            @click.prevent="deleteComment(item, index)"
                             ><i class="icClose"></i
                           ></v-btn>
                         </div>
@@ -314,7 +314,7 @@
                       <span>{{ totalcharacter }} / 1000</span>
 
                       <v-btn
-                        @click="submitMsg"
+                        @click.prevent="submitMsg"
                         class="btn-indigo btn-40"
                         type="submit"
                         >전송
@@ -355,7 +355,6 @@ export default {
       num: "",
       nickname: JSON.parse(localStorage.getItem("user")).nickname,
       selectQna: "",
-      findKakao: "",
     }
   },
   watch: {
@@ -400,15 +399,17 @@ export default {
           .then((response) => {
             vue.response = response.data
             let checkQnaNo = qnaNo
-            axios
-              .get(`http://localhost:7777/qna/memberRead/${checkQnaNo}`)
-              .then((res) => {
-                this.qnaList = res.data
-                console.log(res.data)
-              })
-              .catch(() => {
-                alert("멤버 리드 읽기 실패")
-              })
+            setTimeout(() => {
+              axios
+                .get(`http://localhost:7777/qna/memberRead/${checkQnaNo}`)
+                .then((res) => {
+                  this.qnaList = res.data
+                  alert("이미지 등록!")
+                })
+                .catch(() => {
+                  alert("멤버 리드 읽기 실패")
+                })
+            }, 50)
           })
           .catch((error) => {
             vue.response = error.message
@@ -457,7 +458,6 @@ export default {
           console.log(res.data)
           this.qnaList = res.data
           this.cafeName = item.received_name
-          this.findKakao = this.qnaLists[0].writerImg.indexOf("k.kakaocdn.net")
         })
         .catch(() => {
           alert("문의사항 등록에 실패하였습니다.")
@@ -485,23 +485,14 @@ export default {
     onClick() {
       this.testBtn = false
     },
-    deleteComment(item) {
+    deleteComment(item, index) {
       let qnaCommentNo = item.qna_comment_no
-      let checkQnaNo = qnaCommentNo
 
       axios
         .delete(`http://localhost:7777/qnaComment/delete/${qnaCommentNo}`)
         .then((res) => {
           console.log(res.data)
-          axios
-            .get(`http://localhost:7777/qna/memberRead/${checkQnaNo}`)
-            .then((res) => {
-              this.qnaList = res.data
-              console.log(res.data)
-            })
-            .catch(() => {
-              alert("멤버 리드 읽기 실패")
-            })
+          this.qnaList.splice(index, 1)
         })
         .catch(() => {
           alert("리스트 삭제 실패")
