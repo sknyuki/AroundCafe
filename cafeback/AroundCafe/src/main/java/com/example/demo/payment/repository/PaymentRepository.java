@@ -48,7 +48,7 @@ public interface PaymentRepository extends JpaRepository<Payment,Long> {
 
 
     @Query(value = "select sum(total_amount) from payment where cafe_no = :cafeNo and payment_date like %:date1%",nativeQuery = true)
-    public Integer findBySum(Long cafeNo, LocalDate date1);
+    public Integer findBySum(Long cafeNo, String date1);
 
     @Query(value = "select * from payment where cafe_no = :cafeNo and payment_date like %:date%",nativeQuery = true)
     public List<Payment> findByCafeNoAndPaymentDateLike(Long cafeNo, Date date);

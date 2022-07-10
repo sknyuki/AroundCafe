@@ -8,14 +8,14 @@ import java.util.Date;
 
 @Getter
 public class PaymentSalesResponse {
-    private LocalDate date;
+    private String date;
     private Integer total_quantity;
     private Integer total_amount;
     private String cafe_name;
     private Long cafe_no;
 
     @Builder
-    public PaymentSalesResponse(LocalDate date, int total_quantity, int total_amount,
+    public PaymentSalesResponse(String date, int total_quantity, int total_amount,
                                 String cafe_name, Long cafe_no){
         this.date = date;
         this.total_amount = total_amount;

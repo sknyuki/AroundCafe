@@ -150,6 +150,7 @@ public class QnAServiceImpl implements QnAService {
                     .received_no(orderMem.getMemNo())
                     .received_name(orderMem.getMemNick())
                     .received_img(orderMem.getMemImg())
+                    .received_socialType(orderMem.getSocialType().getName())
                     .writer(Long.valueOf(membNo))
                     .writer_name(member.getMemNick())
                     .writerImg(member.getMemImg())
