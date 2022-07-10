@@ -11,7 +11,7 @@
                 target="_blank"
               >
                 고객센터
-                <v-icon>mdi-chevron-right</v-icon>
+                <v-icon aria-hidden="true">mdi-chevron-right</v-icon>
               </router-link>
               <div>
                 <a class="global-footer-contact" href="tel:1611-0828"
@@ -24,111 +24,24 @@
             </address>
 
             <div class="global-footer-outbound">
-              <a href="">
-                <v-btn
-                  fab
-                  dark
-                  x-small
-                  color="indigo"
-                  aria-label="애플스토어 이동"
-                >
-                  <v-icon aria-hidden="true">mdi-apple</v-icon>
-                </v-btn>
-              </a>
-              <a href="">
-                <v-btn
-                  fab
-                  dark
-                  x-small
-                  color="indigo"
-                  aria-label="구글플레이 이동"
-                >
-                  <v-icon aria-hidden="true">mdi-google-play</v-icon>
-                </v-btn>
-              </a>
-              <a href="">
-                <v-btn
-                  fab
-                  dark
-                  x-small
-                  color="indigo"
-                  aria-label="페이스북 이동"
-                >
-                  <v-icon aria-hidden="true">mdi-facebook</v-icon>
-                </v-btn>
-              </a>
-              <a href="">
-                <v-btn fab dark x-small color="indigo" aria-label="유튜브 이동">
-                  <v-icon aria-hidden="true">mdi-youtube</v-icon>
-                </v-btn>
-              </a>
-              <a href="">
-                <v-btn fab dark x-small color="indigo" aria-label="트위터 이동">
-                  <v-icon aria-hidden="true">mdi-twitter</v-icon>
-                </v-btn>
-              </a>
+              <v-btn
+                v-for="item in socialBtn"
+                :key="item.id"
+                fab
+                dark
+                x-small
+                color="indigo"
+                :aria-label="item.aria"
+              >
+                <v-icon aria-hidden="true">{{ item.icon }}</v-icon>
+              </v-btn>
             </div>
           </div>
           <ul class="global-footer-list">
-            <li>
-              <a class="global-footer-item" href="#" target="_blank"
-                >브랜드 스토리</a
-              >
-            </li>
-            <li>
-              <a class="global-footer-item" href="#" target="_blank"
-                >회사소개</a
-              >
-            </li>
-            <li>
-              <a class="global-footer-item" href="#" target="_blank"
-                >채용정보</a
-              >
-            </li>
-            <li>
-              <a class="global-footer-item" href="#" target="_blank"
-                >이용약관</a
-              >
-            </li>
-            <li>
-              <a class="global-footer-item" href="#" target="_blank"
-                >개인정보처리방침</a
-              >
-            </li>
-            <li>
-              <a class="global-footer-item" href="#" target="_blank"
-                >공지사항</a
-              >
-            </li>
-            <li>
-              <a class="global-footer-item" href="#" target="_blank"
-                >고객센터</a
-              >
-            </li>
-            <li>
-              <a class="global-footer-item" href="#" target="_blank"
-                >고객의 소리</a
-              >
-            </li>
-            <li>
-              <a class="global-footer-item" href="#" target="_blank"
-                >전문가 등록</a
-              >
-            </li>
-            <li>
-              <a class="global-footer-item" href="#" target="_blank"
-                >사업자 구매회원</a
-              >
-            </li>
-            <li>
-              <a class="global-footer-item" href="#" target="_blank"
-                >제휴/광고 문의</a
-              >
-            </li>
-            <li>
-              <a class="global-footer-item" href="#" target="_blank"
-                >입점신청 문의</a
-              >
+            <li v-for="item in footerList" :key="item.id">
+              <a class="global-footer-item" href="#" target="_blank">{{
+                item.title
+              }}</a>
             </li>
           </ul>
 
@@ -181,6 +94,83 @@
 <script>
 export default {
   name: "TheFooter",
+  data() {
+    return {
+      socialBtn: [
+        {
+          id: 1,
+          icon: "mdi-apple",
+          aria: "애플스토어 이동",
+        },
+        {
+          id: 2,
+          icon: "mdi-google-play",
+          aria: "구글플레이 이동",
+        },
+        {
+          id: 3,
+          icon: "mdi-facebook",
+          aria: "페이스북 이동",
+        },
+        {
+          id: 4,
+          icon: "mdi-youtube",
+          aria: "유튜브 이동",
+        },
+        {
+          id: 5,
+          icon: "mdi-twitter",
+          aria: "트위터 이동",
+        },
+      ],
+      footerList: [
+        {
+          id: 1,
+          title: "회사소개",
+        },
+        {
+          id: 2,
+          title: "채용정보",
+        },
+        {
+          id: 3,
+          title: "이용약관",
+        },
+        {
+          id: 4,
+          title: "개인정보처리방침",
+        },
+        {
+          id: 5,
+          title: "공지사항",
+        },
+        {
+          id: 6,
+          title: "고객센터",
+        },
+        {
+          id: 7,
+          title: "고객의 소리",
+        },
+        {
+          id: 8,
+          title: "전문가 등록",
+        },
+        {
+          id: 9,
+          title: "사업자 구매회원",
+        },
+        {
+          id: 10,
+          title: "제휴/광고 문의",
+        },
+        {
+          id: 11,
+          title: "입점신청 문의",
+        },
+      ],
+    }
+  },
 }
 </script>
 <style lang="scss" scoped>

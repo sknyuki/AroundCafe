@@ -23,7 +23,7 @@
 
   &-outbound {
     margin: -3px -7px 26px;
-    a {
+    button {
       margin-right: 8px;
     }
   }
@@ -73,14 +73,6 @@
     line-height: 16px;
     letter-spacing: -0.01em;
     color: $dark;
-  }
-
-  a,
-  button {
-    &:focus {
-      outline: 4px solid $indigo;
-      border-radius: 4px;
-    }
   }
 
   @include responsive(D) {
