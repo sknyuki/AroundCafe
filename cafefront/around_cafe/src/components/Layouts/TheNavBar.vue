@@ -44,6 +44,11 @@ export default {
         },
         {
           id: 5,
+          title: "지도",
+          link: "/map/main",
+        },
+        {
+          id: 6,
           title: "고객센터",
           link: "/service",
         },
