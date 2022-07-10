@@ -116,10 +116,20 @@
                           alt=""
                         />
                         <img
-                          v-else
+                          v-if="
+                            item.received_img != null &&
+                            item.received_socialType == 'LOCAL'
+                          "
                           v-bind:src="
                             require(`@/assets/images/memberImg/${item.received_img}`)
                           "
+                        />
+                        <img
+                          v-if="
+                            item.received_img != null &&
+                            item.received_socialType != 'LOCAL'
+                          "
+                          :src="item.received_img"
                         />
                       </div>
                       <div class="chat-room-box">
@@ -174,10 +184,20 @@
                         alt=""
                       />
                       <img
-                        v-else
+                        v-if="
+                          qnaLists[selectQna].received_img != null &&
+                          qnaLists[selectQna].received_socialType == 'LOCAL'
+                        "
                         v-bind:src="
                           require(`@/assets/images/memberImg/${qnaLists[selectQna].received_img}`)
                         "
+                      />
+                      <img
+                        v-if="
+                          qnaLists[selectQna].received_img != null &&
+                          qnaLists[selectQna].received_socialType != 'LOCAL'
+                        "
+                        v-bind:src="qnaLists[selectQna].received_img"
                       />
                     </div>
                     <div class="chat-normal-name">
@@ -210,10 +230,20 @@
                       >
                         <div class="avatar-48">
                           <img
-                            v-if="index == 0"
+                            v-if="
+                              index == 0 &&
+                              qnaLists[selectQna].received_socialType == 'LOCAL'
+                            "
                             v-bind:src="
                               require(`@/assets/images/memberImg/${qnaLists[selectQna].received_img}`)
                             "
+                          />
+                          <img
+                            v-if="
+                              index == 0 &&
+                              qnaLists[selectQna].received_socialType != 'LOCAL'
+                            "
+                            v-bind:src="qnaLists[selectQna].received_img"
                           />
                           <img
                             v-if="qnaLists[selectQna].received_img == null"
@@ -223,11 +253,22 @@
                           <img
                             v-if="
                               index > 0 &&
-                              qnaList[index].writer != qnaList[index - 1].writer
+                              qnaList[index].writer !=
+                                qnaList[index - 1].writer &&
+                              qnaLists[selectQna].received_socialType == 'LOCAL'
                             "
                             v-bind:src="
                               require(`@/assets/images/memberImg/${qnaLists[selectQna].received_img}`)
                             "
+                          />
+                          <img
+                            v-if="
+                              index > 0 &&
+                              qnaList[index].writer !=
+                                qnaList[index - 1].writer &&
+                              qnaLists[selectQna].received_socialType != 'LOCAL'
+                            "
+                            v-bind:src="qnaLists[selectQna].received_img"
                           />
                           <img
                             v-if="
