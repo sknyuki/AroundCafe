@@ -55,10 +55,7 @@ export default {
             image: markerImage,
           })
 
-          const infowindow = new kakao.maps.InfoWindow({})
-          infowindow.open(map, marker)
-
-          map.setCenter(coords)
+          map.setCenter(coords, marker)
         }
       })
     },
@@ -89,4 +86,9 @@ export default {
 }
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+.overLay {
+  width: 160px;
+  height: 150px;
+}
+</style>

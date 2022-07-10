@@ -7,17 +7,17 @@
         <h1 class="map_text-center">Search</h1>
         <v-row class="map_searchIn">
           <v-col cols="10" class="ml-6">
-                              <div class="input-group">
-                    <i class="icSearch" aria-hidden="true"></i>
-                    <input
-                      class="form-input input-40"
-                      type="text"
-                      placeholder="지역 검색"
-                      id="keyword"
-                    />
-                  </div>
+            <div class="input-group">
+              <i class="icSearch" aria-hidden="true"></i>
+              <input
+                class="form-input input-40"
+                type="text"
+                placeholder="지역 검색"
+                id="keyword"
+              />
+            </div>
           </v-col>
-
+          <v-btn @click="getCurrentBtn()">현재 위치</v-btn>
         </v-row>
 
         <v-row class="map_searchResult">
@@ -263,6 +263,32 @@ export default {
         }
       })
     },
+
+    locationLoadSuccess(pos) {
+      var currentPos = new kakao.maps.LatLng(
+        pos.coords.latitude,
+        pos.coords.longitude
+      )
+
+      this.mapCon.panTo(currentPos)
+
+      var marker = new kakao.maps.Marker({
+        position: currentPos,
+      })
+
+      marker.setMap(null)
+      marker.setMap(this.mapCon)
+    },
+    locationLoadError(pos) {
+      console.log(pos)
+      alert("위치 정보를 가져오는데 실패했습니다.")
+    },
+    getCurrentBtn() {
+      navigator.geolocation.getCurrentPosition(
+        this.locationLoadSuccess,
+        this.locationLoadError
+      )
+    },
   },
 }
 </script>
@@ -320,7 +346,7 @@ export default {
 }
 .map_text-center {
   padding-top: 20px;
-  
+
   font-size: 46px;
   color: white;
   text-align: center;
@@ -354,7 +380,6 @@ export default {
   background: #e7e7e7;
 }
 .map_llabel {
-  
   font-size: 20px;
   font-weight: 500;
   float: right;
@@ -374,9 +399,7 @@ export default {
 .map_cafeInfo {
   font-size: 15px;
   font-weight: 500;
-  
 }
-
 
 .map_cafeInfoImg {
   width: 100px;
