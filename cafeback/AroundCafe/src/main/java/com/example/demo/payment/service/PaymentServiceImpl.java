@@ -254,8 +254,8 @@ public class PaymentServiceImpl implements PaymentService {
 
         if(orderItemList.size() > 0 ) {
             for(OrderItem orderItem : orderItemList) {
-                Member member = memberRepository.findByIdFromCafeNo(cafeNo).orElse(null);
                 Payment payment = orderItem.getPayment();
+                Member member = payment.getMember();
 
                 PaymentSalesDetailResponse response = PaymentSalesDetailResponse.builder()
                         .paymentNo(payment.getPaymentNo())
