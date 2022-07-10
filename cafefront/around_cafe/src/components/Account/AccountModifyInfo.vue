@@ -2,7 +2,7 @@
   <div class="modify-info">
     <header class="modify-info-header">
       <h2>내 정보수정</h2>
-      <button type="submit">탈퇴하기</button>
+      <button type="submit" @click="deleteUser">탈퇴하기</button>
     </header>
 
     <form>
@@ -156,7 +156,10 @@
   </div>
 </template>
 <script>
+import axios from "axios"
 import { mapState, mapActions } from "vuex"
+import userService from "@/services/userService"
+import tokenService from "@/services/tokenService"
 
 export default {
   name: "AccountModifyinfo",
@@ -221,6 +224,22 @@ export default {
           files,
         })
       }
+    },
+    deleteUser() {
+      let memNo = this.userInfo.memNo
+
+      axios
+        .delete(`http://localhost:7777/members/${memNo}`)
+        .then(() => {
+          userService.deleteUserInfo()
+          tokenService.deleteTokens()
+          this.$store.state.userInfo = null
+          alert("탈퇴가 완료되었습니다!")
+          window.location.href = "/"
+        })
+        .catch(() => {
+          alert("삭제실패!")
+        })
     },
   },
 }
