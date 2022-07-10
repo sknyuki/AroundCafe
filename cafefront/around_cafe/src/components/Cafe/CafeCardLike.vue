@@ -36,7 +36,11 @@
             @focus.tab="swiperBtn = index"
             :aria-label="cafeItem.cafe_name"
           >
-            <CafeLike :cafeItem="cafeItem" :myLikes="myLikes" :key="index" />
+            <CafeLike
+              :cafeItem="cafeItem"
+              :myLikes="myLikes"
+              class="cafe-item-btn"
+            />
 
             <!-- 스와이퍼 -->
             <swiper class="swiper" :options="swiperOption">
