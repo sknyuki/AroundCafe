@@ -1,12 +1,12 @@
 <template>
-  <AdminUsageMemberForm :memNo="memNo" :memNick="memNick" />
+  <AdminUsageGraphForm :memNo="memNo" :memNick="memNick" />
 </template>
 <script>
-import AdminUsageMemberForm from "@/components/Admin/AdminUsageMemberForm.vue"
+import AdminUsageGraphForm from "@/components/Admin/AdminUsageGraphForm.vue"
 
 // import { mapActions, mapState } from "vuex"
 export default {
-  components: { AdminUsageMemberForm },
+  components: { AdminUsageGraphForm },
   name: "AdminUsageMemberPage",
   props: {
     memNo: { type: Number },

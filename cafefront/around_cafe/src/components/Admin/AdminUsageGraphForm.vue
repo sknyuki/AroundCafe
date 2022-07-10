@@ -1,75 +1,63 @@
 <template>
   <div class="container">
-    <!--  <h3>날짜 지정</h3>
+    <div class="row">
+      <div class="col-sm-12">
+        <ImgBox />
+      </div>
+      <div class="col-sm-4 col-md-3 col-lg-3">
+        <AdminSidebar />
+      </div>
+      <div class="col-sm-4 col-md-9 col-lg-9">
+        <div class="member-list">
+          <header class="member-list-header">
+            <h2>회원 이용 현황</h2>
+          </header>
+          <br />
+          <v-row align="center">
+            <v-col cols="12" sm="6">
+              <v-subheader v-text="'범위를 선택해주세요'"></v-subheader>
+            </v-col>
 
-    <v-menu
-      v-model="menu"
-      ref="menu"
-      :close-on-content-click="false"
-      :return-value.sync="dates"
-      transition="scale-transition"
-      offset-y
-      min-width="auto"
-    >
-
-       달력 date 설정타입
-        <template v-slot:activator="{ on }">
-        <v-text-field
-          style="width: 250px"
-          color="secondary"
-          label="범위 설정"
-          v-model="dates"
-          v-on="on"
-          append-icon="mdi-calendar"
-        ></v-text-field>
-      </template>
-      <v-date-picker
-        color="secondary"
-        v-model="dates"
-        range
-        no-title
-        scrollable
-      >
-        <v-btn text color="secondary" @click="menu = false"> Cancel </v-btn>
-        <v-spacer></v-spacer>
-        <v-btn text color="secondary" @click="getGraph(dates)"> OK </v-btn>
-      </v-date-picker> 
-    </v-menu>-->
-    <v-row align="center">
-      <v-col cols="12" sm="6">
-        <v-subheader v-text="'범위를 선택해주세요'"></v-subheader>
-      </v-col>
-
-      <v-col cols="12" sm="6">
-        <v-select
-          v-model="dateRange"
-          :items="states"
-          label="Select"
-          chips
-          hint="범위를 선택해주세요"
-        ></v-select>
-      </v-col>
-    </v-row>
-    <v-row align="center" justify="center">
-      <v-btn
-        width="200"
-        class="btn-indigo btn-32"
-        style="color: white"
-        @click="getGraph(dateRange)"
-        >검색</v-btn
-      >
-    </v-row>
-    <br />
-    <v-divider></v-divider>
-    <div>
-      <!--차트가 그려질 부분-->
-      <canvas id="myChart"></canvas>
+            <v-col cols="12" sm="6">
+              <v-select
+                v-model="dateRange"
+                :items="states"
+                label="Select"
+                chips
+                hint="범위를 선택해주세요"
+              ></v-select>
+            </v-col>
+          </v-row>
+          <v-row align="center" justify="center">
+            <v-btn
+              width="200"
+              class="btn-indigo btn-32"
+              style="color: white"
+              @click="getGraph(dateRange)"
+              >검색</v-btn
+            >
+          </v-row>
+          <br />
+          <v-divider></v-divider>
+          <div>
+            <!--차트가 그려질 부분-->
+            <canvas id="myChart"></canvas>
+          </div>
+          <br />
+          <AdminUsageMemberForm
+            :usageGraphList="usageGraphList"
+            :memNick="memNick"
+          />
+        </div>
+      </div>
     </div>
-    <br />
   </div>
 </template>
 
 <script>
+import AdminSidebar from "@/components/Admin/AdminSidebar.vue"
+import ImgBox from "@/components/ImgBox.vue"
+import AdminUsageMemberForm from "@/components/Admin/AdminUsageMemberForm.vue"
 import {
   Chart,
   BarElement,
@@ -87,6 +75,7 @@ Chart.register(
 import axios from "axios"
 export default {
   name: "AdminUsageGraphForm",
+  components: { ImgBox, AdminSidebar, AdminUsageMemberForm },
   props: { memNo: { type: Number }, memNick: { type: String } },
   data() {
     return {
@@ -144,7 +133,6 @@ export default {
       return year + "-" + month + "-" + day
     },
     getGraph(dateRange) {
-      console.log(dateRange)
       var date = new Date()
       if (dateRange == "이번달이력") {
         this.date2 = new Date(date.getFullYear(), date.getMonth() + 1, 0)
@@ -290,6 +278,9 @@ export default {
       }
     },
     fillData1() {
+      if (this.myChart !== null) {
+        this.myChart.destroy()
+      }
       const ctx = document.getElementById("myChart").getContext("2d")
       this.myChart = new Chart(ctx, {
         type: "bar",
@@ -327,6 +318,9 @@ export default {
       })
     },
     fillData2() {
+      if (this.myChart !== null) {
+        this.myChart.destroy()
+      }
       const ctx = document.getElementById("myChart").getContext("2d")
       this.myChart = new Chart(ctx, {
         type: "bar",
@@ -409,6 +403,19 @@ export default {
         },
       })
     },
+    // resetCanvas() {
+    //   $("#results-graph").remove() // this is my <canvas> element
+    //   $("#graph-container").append('<canvas id="results-graph"><canvas>')
+    //   canvas = document.querySelector("#results-graph")
+    //   ctx = canvas.getContext("2d")
+    //   ctx.canvas.width = $("#graph").width() // resize to parent width
+    //   ctx.canvas.height = $("#graph").height() // resize to parent height
+    //   var x = canvas.width / 2
+    //   var y = canvas.height / 2
+    //   ctx.font = "10pt Verdana"
+    //   ctx.textAlign = "center"
+    //   ctx.fillText("This text is centered on the canvas", x, y)
+    // },
   },
 }
 </script>
