@@ -76,7 +76,7 @@ public class PaymentController {
     }
 
     @GetMapping("/sales/menu/{cafeNo}")
-    public List<PaymentSalesMenuResponse1> getPaymentSalesMenuList(@PathVariable Long cafeNo){
+    public List<PaymentSalesMenuResponse> getPaymentSalesMenuList(@PathVariable Long cafeNo){
 
         return paymentService.getPaymentSalesMenuList(cafeNo);
     }

@@ -197,11 +197,11 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public List<PaymentSalesResponse> getPaymentCafeSalesList() {
-        List<PaymentSalesMenuResponse1> paymentList = paymentRepository.findByEachCafeSalesList();
+        List<PaymentSalesMenuResponse> paymentList = paymentRepository.findByEachCafeSalesList();
         List<PaymentSalesResponse> responses = new ArrayList<>();
 
         if(paymentList.size() > 0 ) {
-            for(PaymentSalesMenuResponse1 salesList : paymentList){
+            for(PaymentSalesMenuResponse salesList : paymentList){
                 Long findCafe = Long.valueOf(salesList.getItemName());
                 Cafe cafe = cafeRepository.findById(findCafe).orElse(null);
                 Integer ItemCount = orderItemRepository.findByCountFromCafeNo(findCafe);
@@ -284,8 +284,8 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public List<PaymentSalesMenuResponse1> getPaymentSalesMenuList(Long cafeNo) {
-        List<PaymentSalesMenuResponse1> paymentList = paymentRepository.findByMenuList(cafeNo);
+    public List<PaymentSalesMenuResponse> getPaymentSalesMenuList(Long cafeNo) {
+        List<PaymentSalesMenuResponse> paymentList = paymentRepository.findByMenuList(cafeNo);
         if(paymentList.size() > 0) {
             return paymentList;
         }else return null;
