@@ -112,7 +112,8 @@ public class QnAServiceImpl implements QnAService {
 
     @Override
     public List<QnA> QnAList(Integer membNo) {
-        return repository.findByMemberInfo(Long.valueOf(membNo));
+        Member member = memberRepository.findById(Long.valueOf(membNo)).orElseGet(null);
+        return repository.findByMemberInfo(member);
     }
 
     @Override
@@ -126,14 +127,13 @@ public class QnAServiceImpl implements QnAService {
         if(role.equals("CAFE")){
             qnAS = repository.findByReceived_no(Long.valueOf(membNo));
         }else if (role.equals("USER")){
-            qnAS = repository.findByMemberInfo(Long.valueOf(membNo));
+            qnAS = repository.findByMemberInfo(member);
         }
 
         if(qnAS.size() == 0){
             return null;
         }else
-        for(int i = 0 ; i<qnAS.size(); i++ ) { //qna에 대한 리스트에서 for문을 돌면서 내용을 찾음
-            QnA findQna = qnAS.get(i);
+        for(QnA findQna : qnAS) { //qna에 대한 리스트에서 for문을 돌면서 내용을 찾음
             Member orderMem = null;
             if(role.equals("CAFE")){
                 orderMem = memberRepository.findById(findQna.getMemberInfo().getMemNo()).orElseGet(null);
@@ -141,7 +141,7 @@ public class QnAServiceImpl implements QnAService {
                 orderMem  = memberRepository.findById(findQna.getReceived_no()).orElseGet(null);
             }
 
-            List<QnAComment> qnAComments = commentRepository.findByImg(Math.toIntExact(findQna.getQna_no()));
+            List<QnAComment> qnAComments = commentRepository.findByRecentComment(Math.toIntExact(findQna.getQna_no()));
             QnAComment comment = qnAComments.get(0); //0번째가 desc라서 제일 최신것임.
 
             QnAResponse response = QnAResponse.builder()
