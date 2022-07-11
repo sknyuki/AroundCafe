@@ -56,10 +56,11 @@
 <script>
 import axios from "axios"
 import PaginationForm from "../PaginationForm.vue"
-
+import ImgBox from "@/components/ImgBox.vue"
+import AdminSidebar from "./AdminSidebar.vue"
 export default {
   name: "AdminCafeSalesMenuList",
-  components: { PaginationForm },
+  components: { PaginationForm, ImgBox, AdminSidebar },
   props: {
     cafeNo: {
       type: Number,

@@ -24,8 +24,8 @@ public interface ReviewRepository extends JpaRepository<Review,Long> {
     List<Review> findAllReviewByCafe(Long cafeNum);
 
     @Transactional
-    @Query(value ="select * from review where cafe_num = :CafeNo", nativeQuery = true)
-    List<Review> findAllReviewByCafeNo(Long CafeNo);
+    @Query("select r from Review r where r.cafeNum = :CafeNo")
+    List<Review> findAllReviewByCafeNo(@Param("CafeNo") Long CafeNo);
 
     @Transactional
     @Query(value ="select * from review where review_no = :reviewNo", nativeQuery = true)

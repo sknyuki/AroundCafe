@@ -20,7 +20,7 @@ public interface OrderItemRepository extends JpaRepository<OrderItem, Long> {
 
     @Query(value = "select count(*) from order_item where payment in" +
             " (select payment_no from payment where cafe_no =:cafeNo and payment_date like %:date1%) group by payment;",nativeQuery = true)
-    Integer findByCount(Long cafeNo, LocalDate date1);
+    Integer findByCount(Long cafeNo, String date1);
 
     @Transactional
     @Query("select o from OrderItem o join fetch o.payment p where p.cafeNo =:cafeNo order by p.paymentDate desc")

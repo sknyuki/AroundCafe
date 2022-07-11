@@ -31,7 +31,6 @@ export default {
         (visibleHeader = to.path === "/chat") ||
         (visibleHeader = to.path === "/login/callback") ||
         (visibleHeader = to.path === "/cafe/PurchasePopUp") ||
-        (visibleHeader = to.path === "/map/main") ||
         (visibleHeader = to.path === "/cafe/purchase/popup")
       ) {
         this.visibleHeader = false

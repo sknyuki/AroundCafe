@@ -6,7 +6,7 @@
           <ImgBox />
         </div>
         <div class="col-sm-4 col-md-3 col-lg-3">
-          <UserSidebar />
+          <CafeSidebar />
         </div>
         <div class="col-sm-8 col-md-9 col-lg-9">
           <header>
@@ -21,12 +21,12 @@
 
 <script>
 import ImgBox from "@/components/ImgBox.vue"
-import UserSidebar from "@/components/User/UserSidebar.vue"
 import OrderCafeHistory from "@/components/Order/OrderCafeHistory.vue"
 import { mapState, mapActions } from "vuex"
+import CafeSidebar from "../Cafe/CafeSidebar.vue"
 
 export default {
-  components: { ImgBox, UserSidebar, OrderCafeHistory },
+  components: { ImgBox, OrderCafeHistory, CafeSidebar },
   name: "OrderCafeList",
 
   data() {

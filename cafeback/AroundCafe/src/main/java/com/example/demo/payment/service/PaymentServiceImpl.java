@@ -176,7 +176,10 @@ public class PaymentServiceImpl implements PaymentService {
             return null;
         }else {
             for(int i = 0 ; i< date.size(); i++){
-                LocalDate date1 = LocalDate.parse(date.get(i));
+                if(date.get(i) == null){
+                    continue;
+                }
+                String date1 = date.get(i);
                 log.info("date =" +date1);
                 Integer count = orderItemRepository.findByCount(cafeNo,date1);
                 Integer sum = paymentRepository.findBySum(cafeNo,date1);

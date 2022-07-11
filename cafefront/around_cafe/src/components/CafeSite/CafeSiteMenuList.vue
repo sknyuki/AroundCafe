@@ -27,7 +27,7 @@
                 />
               </template>
 
-              <div v-if="item.signature == true" class="test">
+              <div v-if="item.signature == true" class="menu-mark">
                 <span>Signature</span>
               </div>
             </div>
