@@ -8,26 +8,7 @@
         @mouseover="swiperBtn = index"
         @mouseleave="swiperBtn = null"
       >
-        <!-- 스켈레톤 UI -->
-        <template v-if="isLoading">
-          <div>
-            <SkeletonBox class="skeleton-box" />
-          </div>
-          <div>
-            <SkeletonBox class="skeleton-title" />
-          </div>
-          <div>
-            <SkeletonBox class="skeleton-location" />
-          </div>
-          <div>
-            <SkeletonBox class="skeleton-time" />
-          </div>
-          <div>
-            <SkeletonBox class="skeleton-star" />
-          </div>
-        </template>
-
-        <template v-else>
+        <template>
           <router-link
             :to="{
               name: 'CafeDetailPage',
@@ -111,7 +92,6 @@
 </template>
 <script>
 import { swiper, swiperSlide } from "vue-awesome-swiper"
-import SkeletonBox from "@/components/SkeletonBox.vue"
 import CafeLike from "@/components/Cafe/CafeLike"
 import "swiper/dist/css/swiper.min.css"
 
@@ -121,7 +101,6 @@ export default {
   components: {
     swiper,
     swiperSlide,
-    SkeletonBox,
     CafeLike,
   },
 
@@ -137,7 +116,6 @@ export default {
   },
   data() {
     return {
-      isLoading: false,
       // onHoverIndex: null,
       swiperBtn: null,
       // Swiper 데이터

@@ -11,11 +11,8 @@ import NotFoundPage from "@/views/NotFoundPage.vue"
 import NoticeReadPage from "@/views/Admin/AdminNotice/NoticeReadPage"
 import NoticeModifyPage from "@/views/Admin/AdminNotice/NoticeModifyPage"
 //CafeMyPage
-// import CafeModifyView from "../views/CafeMyPageViews/CafeModifyView.vue"
-import CafeMenuRegister from "../views/CafeMyPageViews/CafeMenuRegister.vue"
 import TestTest from "../views/CafeMyPageViews/TestTest.vue"
 import CafeReviewRegisterPage from "../views/Cafe/CafeReviewRegisterPage.vue"
-import CafeQnAPage from "../views/CafeMyPageViews/CafeQnAPage"
 
 Vue.use(VueRouter)
 
@@ -299,33 +296,7 @@ const routes = [
   },
 
   //인지연이 만든 페이지 ~ test
-  {
-    path: "/cafeMenuRegister",
-    name: "CafeMenuRegister",
-    component: CafeMenuRegister,
-  },
-  {
-    path: "/CafeModifyView",
-    name: "CafeModifyView",
-    component: () => import("@/views/CafeMyPageViews/CafeModifyView"),
-  },
 
-  {
-    path: "/cafeQnAPage",
-    name: "CafeQnAPage",
-    components: {
-      default: CafeQnAPage,
-    },
-    props: {
-      default: true,
-    },
-  },
-
-  {
-    path: "/cafeListPage",
-    name: "CafeListPage_manager",
-    component: () => import("@/views/CafeMyPageViews/CafeListPage_manager"),
-  },
   {
     path: "/test",
     name: "TestTest",

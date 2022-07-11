@@ -27,7 +27,7 @@
                 />
               </template>
 
-              <div v-if="item.signature == true" class="test">
+              <div v-if="item.signature == true" class="menu-mark">
                 <span>Signature</span>
               </div>
             </div>
@@ -98,7 +98,7 @@
                   />
                 </template>
 
-                <div v-if="item.signature == true" class="test">
+                <div v-if="item.signature == true" class="menu-mark">
                   <span>Signature</span>
                 </div>
               </div>
@@ -318,19 +318,4 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import "~@/assets/scss/components/cafe/cafe-menu-list";
-.test {
-  @include text-style(14, $white);
-  position: absolute;
-  z-index: 3;
-  top: 0%;
-  left: 52%;
-  width: 48%;
-  height: 14%;
-  background-color: $red;
-
-  span {
-    margin-left: 6px;
-    padding: 1px;
-  }
-}
 </style>

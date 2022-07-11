@@ -37,7 +37,7 @@
                   </p>
                   <div class="btn-group">
                     <v-btn class="btn-indigo btn-40" type="button"
-                      >1:1 카톡 상담하기</v-btn
+                      >1:1 상담하기</v-btn
                     >
                     <v-btn class="btn-outlined btn-40" type="button">
                       이메일 문의하기

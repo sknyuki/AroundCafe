@@ -29,7 +29,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 
-import java.time.LocalDate;
 import java.util.*;
 
 @Service
@@ -176,7 +175,10 @@ public class PaymentServiceImpl implements PaymentService {
             return null;
         }else {
             for(int i = 0 ; i< date.size(); i++){
-                LocalDate date1 = LocalDate.parse(date.get(i));
+                if(date.get(i) == null){
+                    continue;
+                }
+                String date1 = date.get(i);
                 log.info("date =" +date1);
                 Integer count = orderItemRepository.findByCount(cafeNo,date1);
                 Integer sum = paymentRepository.findBySum(cafeNo,date1);
@@ -195,11 +197,11 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public List<PaymentSalesResponse> getPaymentCafeSalesList() {
-        List<PaymentSalesMenuResponse1> paymentList = paymentRepository.findByEachCafeSalesList();
+        List<PaymentSalesMenuResponse> paymentList = paymentRepository.findByEachCafeSalesList();
         List<PaymentSalesResponse> responses = new ArrayList<>();
 
         if(paymentList.size() > 0 ) {
-            for(PaymentSalesMenuResponse1 salesList : paymentList){
+            for(PaymentSalesMenuResponse salesList : paymentList){
                 Long findCafe = Long.valueOf(salesList.getItemName());
                 Cafe cafe = cafeRepository.findById(findCafe).orElse(null);
                 Integer ItemCount = orderItemRepository.findByCountFromCafeNo(findCafe);
@@ -275,8 +277,15 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public List<PaymentSalesMenuResponse1> getPaymentSalesMenuList(Long cafeNo) {
-        List<PaymentSalesMenuResponse1> paymentList = paymentRepository.findByMenuList(cafeNo);
+    public void setMemberNull(Long memNo) {
+        Member member = memberRepository.findByMemNo(memNo)
+                        .orElseThrow(() -> new UsernameNotFoundException("No User"));
+        paymentRepository.setMemberNull(member);
+    }
+
+    @Override
+    public List<PaymentSalesMenuResponse> getPaymentSalesMenuList(Long cafeNo) {
+        List<PaymentSalesMenuResponse> paymentList = paymentRepository.findByMenuList(cafeNo);
         if(paymentList.size() > 0) {
             return paymentList;
         }else return null;

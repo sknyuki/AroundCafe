@@ -1,5 +1,6 @@
 <template>
   <form class="cafe-review">
+    <LoadingSpinner :loading="loading" />
     <div
       v-for="(review, index) in listData"
       :key="index"
@@ -109,10 +110,12 @@ import CafeReviewDelete from "@/components/Cafe/CafeReviewDelete"
 import PaginationForm from "@/components/PaginationForm.vue"
 import axios from "axios"
 import { mapActions, mapState } from "vuex"
+import LoadingSpinner from "@/components/LoadingSpinner.vue"
 
 export default {
   name: "UserReviewList",
   components: {
+    LoadingSpinner,
     StarRating,
     CafeReviewModify,
     CafeReviewLike,
@@ -127,6 +130,7 @@ export default {
   },
   data() {
     return {
+      loading: false,
       listData: [],
       page: 1,
       limit: 3,
@@ -138,8 +142,9 @@ export default {
       reviewList: [],
     }
   },
-  created() {
-    axios
+  async created() {
+    this.loading = true
+    await axios
       .get(
         `http://localhost:7777/cafe/review/user/list/${this.$store.state.user.memNo}`
       )
@@ -148,6 +153,10 @@ export default {
           this.reviewList.push(res.data[i])
         }
         this.pagingMethod(this.page)
+        this.loading = false
+        // setTimeout(() => {
+
+        // }, 250)
       })
   },
   computed: {

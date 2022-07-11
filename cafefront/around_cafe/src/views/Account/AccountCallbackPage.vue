@@ -9,7 +9,7 @@ import userService from "@/services/userService"
 
 export default {
   name: "AccountCallbackPage",
-  async created() {
+  async beforeCreate() {
     const [socialType, code] = await Promise.all([
       this.$route.query.socialType,
       this.$route.query.code,

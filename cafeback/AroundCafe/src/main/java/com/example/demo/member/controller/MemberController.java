@@ -7,25 +7,19 @@ import com.example.demo.member.entity.Member;
 import com.example.demo.member.map.MemberMapStruct;
 import com.example.demo.member.map.MemberResponseMapStruct;
 import com.example.demo.member.service.MemberService;
-import com.example.demo.mypage.cafe.entity.CafeMenu;
+import com.example.demo.payment.service.PaymentService;
 import com.example.demo.security.annotation.CurrentMember;
 import com.example.demo.security.dto.MemberPrincipal;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
-import java.util.UUID;
 
 @Slf4j
 @RestController
@@ -34,6 +28,7 @@ import java.util.UUID;
 public class MemberController {
 
     private final MemberService memberService;
+    private final PaymentService paymentService;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -63,6 +58,7 @@ public class MemberController {
     @DeleteMapping("/{memNo}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteMember(@PathVariable("memNo") Long memNo) {
+        paymentService.setMemberNull(memNo);
         memberService.deleteByMemNo(memNo);
     }
 

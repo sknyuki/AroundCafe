@@ -184,7 +184,7 @@ export default {
     await this.fetchMainList()
     setTimeout(() => {
       this.isLoading = false
-    }, 2500)
+    }, 1500)
     this.fetchMyLikesList(this.user.memNo)
 
     this.onLogin()

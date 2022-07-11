@@ -75,7 +75,7 @@ public class Member extends BaseDateTime {
     @OneToMany(mappedBy = "member", fetch = FetchType.EAGER,orphanRemoval = true)
     private Set<CafeLike> cafeLike = new HashSet<>();
 
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "member", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     private Set<Payment> payment = new HashSet<>();
 
     @Builder

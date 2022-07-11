@@ -13,11 +13,16 @@
             <h1>좋아요</h1>
           </header>
           <div>
-            <CafeCardLike
-              v-if="checkLike"
-              :cafeMatchBoards="cafeMatchBoards"
-              :myLikes="myLikes"
-            />
+            <template v-if="loading">
+              <LoadingSpinner :loading="loading" />
+            </template>
+            <template v-else>
+              <CafeCardLike
+                v-if="checkLike"
+                :cafeMatchBoards="cafeMatchBoards"
+                :myLikes="myLikes"
+              />
+            </template>
           </div>
           <div class="cafe-review-pag">
             <PaginationForm />
@@ -34,6 +39,8 @@ import UserSidebar from "@/components/User/UserSidebar.vue"
 import CafeCardLike from "@/components/Cafe/CafeCardLike.vue"
 import PaginationForm from "@/components/PaginationForm.vue"
 import { mapState, mapActions } from "vuex"
+import LoadingSpinner from "../LoadingSpinner.vue"
+
 export default {
   name: "UserLike",
   props: {
@@ -43,10 +50,17 @@ export default {
     },
   },
 
-  components: { UserSidebar, ImgBox, PaginationForm, CafeCardLike },
+  components: {
+    UserSidebar,
+    ImgBox,
+    PaginationForm,
+    CafeCardLike,
+    LoadingSpinner,
+  },
 
   data() {
     return {
+      loading: false,
       membNo: JSON.parse(localStorage.getItem("user")).memNo,
       cafeMatchBoards: [],
     }
@@ -58,7 +72,11 @@ export default {
 
   async mounted() {
     //await this.fetchcafeBoardList()
+    this.loading = true
     await this.fetchMyLikesList(this.membNo)
+    setTimeout(() => {
+      this.loading = false
+    }, 1500)
     // await Promise.all((resolve) => {
     //   resolve(this.fetchcafeBoardList(), this.fetchMyLikesList(this.membNo))
     // })

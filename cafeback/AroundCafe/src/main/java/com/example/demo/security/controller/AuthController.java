@@ -47,7 +47,8 @@ public class AuthController {
 
     //Token 발급이 되지 않은 경우
     @PostMapping("/login")
-    public ResponseEntity<?> localLogin(@Valid @RequestBody LoginRequest loginRequest) {
+    @ResponseStatus(HttpStatus.OK)
+    public JwtDto localLogin(@Valid @RequestBody LoginRequest loginRequest) {
         // loginRequest를 받아 authenticationManager를 통하여 authentication 인스턴스 생성
         // UsernamePasswordAuthenticationToken은 principal과 credential을 받아와 저장, authenctication false 저장
         Authentication authentication = authenticationManager.authenticate(
@@ -57,10 +58,8 @@ public class AuthController {
         // Role, memNo을 불러오기 위하여 Member Instance 생성 (member Id가 없을시 RuntimeException 반환)
         Member member = memberRepository.findByMemId(loginRequest.getEmail())
                 .orElseThrow(() -> new UsernameNotFoundException("Member Not Found with member Id : " + loginRequest.getEmail()));
-        // accessToken, refreshToken 발급
-        JwtDto jwtDto = authService.createToken(member);
-        // jwtDto를 반환
-        return ResponseEntity.ok(jwtDto);
+        // accessToken, refreshToken 발급 후 jwtDto 반환
+        return authService.createToken(member);
     }
 
 
