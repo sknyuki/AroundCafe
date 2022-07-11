@@ -147,25 +147,36 @@ export default {
         this.dayRange2 = new Date(date.getFullYear(), date.getMonth(), 1)
         this.dayRange3 = this.date2
       } else {
-        this.date2 = new Date(date.getFullYear(), date.getMonth() + 1, 0)
-        this.date1 = new Date(date.getFullYear(), date.getMonth() - 11, 1)
-        this.dayRange1 = new Date(date.getFullYear(), date.getMonth() - 10, 1)
-        this.dayRange2 = new Date(date.getFullYear(), date.getMonth() - 9, 1)
-        this.dayRange3 = new Date(date.getFullYear(), date.getMonth() - 8, 1)
-        this.dayRange4 = new Date(date.getFullYear(), date.getMonth() - 7, 1)
-        this.dayRange5 = new Date(date.getFullYear(), date.getMonth() - 6, 1)
-        this.dayRange6 = new Date(date.getFullYear(), date.getMonth() - 5, 1)
-        this.dayRange7 = new Date(date.getFullYear(), date.getMonth() - 4, 1)
-        this.dayRange8 = new Date(date.getFullYear(), date.getMonth() - 3, 1)
-        this.dayRange9 = new Date(date.getFullYear(), date.getMonth() - 2, 1)
-        this.dayRange10 = new Date(date.getFullYear(), date.getMonth() - 1, 1)
-        this.dayRange11 = new Date(date.getFullYear(), date.getMonth(), 1)
-        this.dayRange12 = this.date2
+        this.date2 = new Date(date.getFullYear(), 11, 31)
+        this.date1 = new Date(date.getFullYear(), 0, 1)
+        this.dayRange1 = new Date(date.getFullYear(), 0, 1)
+        this.dayRange2 = new Date(date.getFullYear(), 1, 1)
+        this.dayRange3 = new Date(date.getFullYear(), 2, 1)
+        this.dayRange4 = new Date(date.getFullYear(), 3, 1)
+        this.dayRange5 = new Date(date.getFullYear(), 4, 1)
+        this.dayRange6 = new Date(date.getFullYear(), 5, 1)
+        this.dayRange7 = new Date(date.getFullYear(), 6, 1)
+        this.dayRange8 = new Date(date.getFullYear(), 7, 1)
+        this.dayRange9 = new Date(date.getFullYear(), 8, 1)
+        this.dayRange10 = new Date(date.getFullYear(), 9, 1)
+        this.dayRange11 = new Date(date.getFullYear(), 10, 1)
+        this.dayRange12 = new Date(date.getFullYear(), 11, 1)
+
+        // this.dayRange4 = new Date(date.getFullYear(), date.getMonth() - 7, 1)
+        // this.dayRange5 = new Date(date.getFullYear(), date.getMonth() - 6, 1)
+        // this.dayRange6 = new Date(date.getFullYear(), date.getMonth() - 5, 1)
+        // this.dayRange7 = new Date(date.getFullYear(), date.getMonth() - 4, 1)
+        // this.dayRange8 = new Date(date.getFullYear(), date.getMonth() - 3, 1)
+        // this.dayRange9 = new Date(date.getFullYear(), date.getMonth() - 2, 1)
+        // this.dayRange10 = new Date(date.getFullYear(), date.getMonth() - 1, 1)
+        // this.dayRange11 = new Date(date.getFullYear(), date.getMonth(), 1)
+        // this.dayRange12 = this.date2
       }
       // this.date1 = this.dates[0] + "T00:00:00.000+00:00"
       // this.date2 = this.dates[1] + "T00:00:00.000+00:00"
-      // console.log(this.date1)
-      // console.log(this.date2)
+      console.log(this.date1)
+      console.log(this.date2)
+      console.log("--")
       this.date1 = this.date1 * 1
       this.date2 = this.date2 * 1
 
@@ -218,62 +229,75 @@ export default {
         this.fillData1()
       } else {
         for (let i = 0; i < this.usageGraphList.length; i++) {
-          if (datePayment < this.dayRange1) {
+          var datePayment1 = new Date(this.usageGraphList[i].paymentDate)
+          if (this.dayRange1 < datePayment1 && datePayment1 < this.dayRange2) {
             this.value1 += this.usageGraphList[i].totalAmount
           } else if (
-            this.dayRange1 < datePayment &&
-            datePayment < this.dayRange2
+            this.dayRange2 < datePayment1 &&
+            datePayment1 < this.dayRange3
           ) {
             this.value2 += this.usageGraphList[i].totalAmount
           } else if (
-            this.dayRange2 < datePayment &&
-            datePayment < this.dayRange3
+            this.dayRange3 < datePayment1 &&
+            datePayment1 < this.dayRange4
           ) {
             this.value3 += this.usageGraphList[i].totalAmount
           } else if (
-            this.dayRange3 < datePayment &&
-            datePayment < this.dayRange4
+            this.dayRange4 < datePayment1 &&
+            datePayment1 < this.dayRange5
           ) {
             this.value4 += this.usageGraphList[i].totalAmount
           } else if (
-            this.dayRange4 < datePayment &&
-            datePayment < this.dayRange5
+            this.dayRange5 < datePayment1 &&
+            datePayment1 < this.dayRange6
           ) {
             this.value5 += this.usageGraphList[i].totalAmount
           } else if (
-            this.dayRange5 < datePayment &&
-            datePayment < this.dayRange6
+            this.dayRange6 < datePayment1 &&
+            datePayment1 < this.dayRange7
           ) {
             this.value6 += this.usageGraphList[i].totalAmount
           } else if (
-            this.dayRange6 < datePayment &&
-            datePayment < this.dayRange7
+            this.dayRange7 < datePayment1 &&
+            datePayment1 < this.dayRange8
           ) {
             this.value7 += this.usageGraphList[i].totalAmount
           } else if (
-            this.dayRange7 < datePayment &&
-            datePayment < this.dayRange8
+            this.dayRange8 < datePayment1 &&
+            datePayment1 < this.dayRange9
           ) {
             this.value8 += this.usageGraphList[i].totalAmount
           } else if (
-            this.dayRange8 < datePayment &&
-            datePayment < this.dayRange9
+            this.dayRange9 < datePayment1 &&
+            datePayment1 < this.dayRange10
           ) {
             this.value9 += this.usageGraphList[i].totalAmount
           } else if (
-            this.dayRange9 < datePayment &&
-            datePayment < this.dayRange10
+            this.dayRange10 < datePayment1 &&
+            datePayment1 < this.dayRange11
           ) {
             this.value10 += this.usageGraphList[i].totalAmount
           } else if (
-            this.dayRange10 < datePayment &&
-            datePayment < this.dayRange11
+            this.dayRange11 < datePayment1 &&
+            datePayment1 < this.dayRange12
           ) {
             this.value11 += this.usageGraphList[i].totalAmount
           } else {
             this.value12 += this.usageGraphList[i].totalAmount
           }
         }
+        console.log(this.dayRange1)
+        console.log(this.dayRange2)
+        console.log(this.dayRange3)
+        console.log(this.dayRange4)
+        console.log(this.dayRange5)
+        console.log(this.dayRange6)
+        console.log(this.dayRange7)
+        console.log(this.dayRange8)
+        console.log(this.dayRange9)
+        console.log(this.dayRange10)
+        console.log(this.dayRange11)
+        console.log(this.dayRange12)
         this.fillData2()
       }
     },
@@ -326,24 +350,35 @@ export default {
         type: "bar",
         data: {
           labels: [
-            this.yyyyMMdd(this.date1) + "~" + this.yyyyMMdd(this.dayRange1),
-            this.yyyyMMdd(this.dayRange1) + "~" + this.yyyyMMdd(this.dayRange2),
-            this.yyyyMMdd(this.dayRange2) + "~" + this.yyyyMMdd(this.dayRange3),
-            this.yyyyMMdd(this.dayRange3) + "~" + this.yyyyMMdd(this.dayRange4),
-            this.yyyyMMdd(this.dayRange4) + "~" + this.yyyyMMdd(this.dayRange5),
-            this.yyyyMMdd(this.dayRange5) + "~" + this.yyyyMMdd(this.dayRange6),
-            this.yyyyMMdd(this.dayRange6) + "~" + this.yyyyMMdd(this.dayRange7),
-            this.yyyyMMdd(this.dayRange7) + "~" + this.yyyyMMdd(this.dayRange8),
-            this.yyyyMMdd(this.dayRange8) + "~" + this.yyyyMMdd(this.dayRange9),
-            this.yyyyMMdd(this.dayRange9) +
-              "~" +
-              this.yyyyMMdd(this.dayRange10),
-            this.yyyyMMdd(this.dayRange10) +
-              "~" +
-              this.yyyyMMdd(this.dayRange11),
-            this.yyyyMMdd(this.dayRange11) +
-              "~" +
-              this.yyyyMMdd(this.dayRange12),
+            "1월",
+            "2월",
+            "3월",
+            "4월",
+            "5월",
+            "6월",
+            "7월",
+            "8월",
+            "9월",
+            "10월",
+            "11월",
+            "12월",
+            // this.yyyyMMdd(this.dayRange1) + "~" + this.yyyyMMdd(this.dayRange2),
+            // this.yyyyMMdd(this.dayRange2) + "~" + this.yyyyMMdd(this.dayRange3),
+            // this.yyyyMMdd(this.dayRange3) + "~" + this.yyyyMMdd(this.dayRange4),
+            // this.yyyyMMdd(this.dayRange4) + "~" + this.yyyyMMdd(this.dayRange5),
+            // this.yyyyMMdd(this.dayRange5) + "~" + this.yyyyMMdd(this.dayRange6),
+            // this.yyyyMMdd(this.dayRange6) + "~" + this.yyyyMMdd(this.dayRange7),
+            // this.yyyyMMdd(this.dayRange7) + "~" + this.yyyyMMdd(this.dayRange8),
+            // this.yyyyMMdd(this.dayRange8) + "~" + this.yyyyMMdd(this.dayRange9),
+            // this.yyyyMMdd(this.dayRange9) +
+            //   "~" +
+            //   this.yyyyMMdd(this.dayRange10),
+            // this.yyyyMMdd(this.dayRange10) +
+            //   "~" +
+            //   this.yyyyMMdd(this.dayRange11),
+            // this.yyyyMMdd(this.dayRange11) +
+            //   "~" +
+            //   this.yyyyMMdd(this.dayRange12),
           ],
           datasets: [
             {
@@ -403,19 +438,6 @@ export default {
         },
       })
     },
-    // resetCanvas() {
-    //   $("#results-graph").remove() // this is my <canvas> element
-    //   $("#graph-container").append('<canvas id="results-graph"><canvas>')
-    //   canvas = document.querySelector("#results-graph")
-    //   ctx = canvas.getContext("2d")
-    //   ctx.canvas.width = $("#graph").width() // resize to parent width
-    //   ctx.canvas.height = $("#graph").height() // resize to parent height
-    //   var x = canvas.width / 2
-    //   var y = canvas.height / 2
-    //   ctx.font = "10pt Verdana"
-    //   ctx.textAlign = "center"
-    //   ctx.fillText("This text is centered on the canvas", x, y)
-    // },
   },
 }
 </script>
