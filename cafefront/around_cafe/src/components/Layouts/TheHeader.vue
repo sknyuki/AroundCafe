@@ -16,10 +16,10 @@
                   </router-link>
                 </h1>
                 <v-btn
-                  class="gnb-icon-button is-menu sm-only"
-                  icon
                   @click="toggleDrawerMenu"
+                  class="gnb-icon-button is-menu sm-only"
                   type="button"
+                  icon
                   aria-label="메뉴 열기 버튼"
                 >
                   <i class="icMenu" aria-hidden="true"></i>
@@ -40,9 +40,9 @@
 
                 <div class="button-group">
                   <v-btn
-                    icon
                     class="gnb-icon-button is-search lg-hidden"
                     type="button"
+                    icon
                     aria-label="검색창 열기 버튼"
                   >
                     <i class="icSearch" aria-hidden="true"></i>
@@ -66,8 +66,8 @@
                   <div class="gnb-login sm-hidden">
                     <div class="gnb-login-content">
                       <button
-                        class="gnb-login-btn"
                         @click="toggleMyMenu"
+                        class="gnb-login-btn"
                         type="button"
                         aria-label="로그인 메뉴"
                       >
@@ -77,7 +77,10 @@
 
                         <div class="avatar-32">
                           <template v-if="userInfo.memImg == null">
-                            <img src="@/assets/images/avatar.webp" alt="" />
+                            <img
+                              src="@/assets/images/avatar.webp"
+                              alt="기본 이미지"
+                            />
                           </template>
                           <template
                             v-if="
@@ -85,7 +88,10 @@
                               userInfo.memImg != null
                             "
                           >
-                            <img :src="userInfo.memImg" alt="" />
+                            <img
+                              :src="userInfo.memImg"
+                              alt="소셜로그인 이미지"
+                            />
                           </template>
                           <template
                             v-if="
@@ -97,7 +103,7 @@
                               v-bind:src="
                                 require(`@/assets/images/memberImg/${userInfo.memImg}`)
                               "
-                              alt=""
+                              alt="로그인 이미지"
                             />
                           </template>
                         </div>
