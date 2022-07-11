@@ -130,7 +130,7 @@ export default {
 
       // axios
       //   .post(
-      //     `http://localhost:7777/cafe/like/${this.review.reviewNo}/${this.membNo}`),
+      //     `http://localhost:7777/members/${this.membNo}`),
       //     {},
       //     {
       //       headers: {
