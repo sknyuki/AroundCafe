@@ -68,10 +68,6 @@ export default {
   name: "CafeLike",
 
   props: {
-    index: {
-      type: Number,
-      require: true,
-    },
     cafeItem: {
       type: Object,
       require: true,

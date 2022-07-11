@@ -65,7 +65,7 @@ export default {
           id: 3,
           icon: "mdi-format-list-bulleted",
           title: "주문 리스트",
-          link: "/",
+          link: "/cafe/order/list",
         },
         {
           id: 4,
