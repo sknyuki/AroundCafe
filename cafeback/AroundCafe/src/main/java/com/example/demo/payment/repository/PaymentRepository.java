@@ -1,7 +1,7 @@
 package com.example.demo.payment.repository;
 
 import com.example.demo.member.entity.Member;
-import com.example.demo.payment.dto.PaymentSalesMenuResponse1;
+import com.example.demo.payment.dto.PaymentSalesMenuResponse;
 import com.example.demo.payment.entity.Payment;
 import com.example.demo.payment.entity.PaymentStatus;
 import io.lettuce.core.dynamic.annotation.Param;
@@ -11,7 +11,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -59,10 +58,10 @@ public interface PaymentRepository extends JpaRepository<Payment,Long> {
 
     @Query(value = "select o.itemName as itemName, sum(o.amount) as sum, count(o.orderItemNo) as count from OrderItem o where o.payment in " +
             "(select p.paymentNo from Payment p where cafeNo=:cafeNo) group by o.itemName order by sum(o.amount) desc")
-    public List<PaymentSalesMenuResponse1> findByMenuList(Long cafeNo);
+    public List<PaymentSalesMenuResponse> findByMenuList(Long cafeNo);
 
     @Query(value = "select p.cafeNo as itemName, sum(p.totalAmount) as sum, count(p.paymentNo) as count from Payment p group by p.cafeNo order by sum(p.totalAmount) desc")
-    public List<PaymentSalesMenuResponse1> findByEachCafeSalesList();
+    public List<PaymentSalesMenuResponse> findByEachCafeSalesList();
 
     @Query("select m from Payment m join fetch m.member c where c.memNo= :memNo and m.paymentDate >=:date1 and m.paymentDate<=:date2")
             public List<Payment> findAllByMember(@Param("memNo") Long memNo, @Param("date1") Date date1, @Param("date2") Date date2);
