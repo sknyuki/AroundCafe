@@ -29,7 +29,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 
-import java.time.LocalDate;
 import java.util.*;
 
 @Service
@@ -275,6 +274,13 @@ public class PaymentServiceImpl implements PaymentService {
             }
             return salesDetail;
         }else return null;
+    }
+
+    @Override
+    public void setMemberNull(Long memNo) {
+        Member member = memberRepository.findByMemNo(memNo)
+                        .orElseThrow(() -> new UsernameNotFoundException("No User"));
+        paymentRepository.setMemberNull(member);
     }
 
     @Override

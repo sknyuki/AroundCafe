@@ -224,7 +224,7 @@ export default {
   methods: {
     useAllPoint() {
       let myPoint = this.userInfo.memPoint
-      if (myPoint >= this.paymentInfo.totalPointAmount) {
+      if (myPoint >= this.paymentInfo.totalAmount) {
         this.paymentInfo.totalPointAmount = this.paymentInfo.totalAmount
       } else {
         this.paymentInfo.totalPointAmount = myPoint

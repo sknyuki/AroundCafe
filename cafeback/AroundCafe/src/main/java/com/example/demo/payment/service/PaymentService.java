@@ -28,4 +28,6 @@ public interface PaymentService {
     public List<PaymentSalesResponse> getPaymentCafeSalesList();
 
     public List<PaymentSalesDetailResponse> getPaymentCafeSalesDetailListByAdmin(Long cafeNo);
+
+    public void setMemberNull(Long memNo);
 }

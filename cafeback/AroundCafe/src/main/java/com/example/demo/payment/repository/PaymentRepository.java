@@ -28,6 +28,10 @@ public interface PaymentRepository extends JpaRepository<Payment,Long> {
     @Query("select m from Payment m where m.cafeNo = :cafeNo order by m.paymentDate desc")
     public List<Payment> findAllByCafeNo(@Param("cafeNo") Long cafeNo);
 
+    @Transactional
+    @Query("update Payment p set p.member = null where p.member= :member")
+    @Modifying
+    public void setMemberNull(@Param("member") Member member);
 
     @Transactional
     public void deleteByPaymentNo(@Param("paymentNo")Long paymentNo);
