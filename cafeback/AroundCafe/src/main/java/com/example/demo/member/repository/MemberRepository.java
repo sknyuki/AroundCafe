@@ -32,4 +32,7 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     Optional<Member> findByIdFromCafeNo(@Param("received_no") Long received_no);
     @Query("select m from Member m where m.memBirth like %:nowDay% ")
     List<Member> findByMemBirthLike(@Param("nowDay") String nowDay);
+
+    @Query("select m from Member m join fetch m.payment p where m.memNo = :memNo")
+    Optional<Member> findMemberByMemNoWithPayment(@Param("memNo") Long memNo);
 }
