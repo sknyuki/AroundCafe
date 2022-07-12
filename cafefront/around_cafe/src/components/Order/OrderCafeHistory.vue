@@ -5,14 +5,14 @@
         <div class="order-history-filter list">
           <ul class="order-history-filter left">
             <li class="order-history-filter item">
-              <!-- <button type="button" aria-label="기간">
-                기간
-                <i class="icCaret"></i>
-              </button>
-              <button type="button" aria-label="주문상태">
-                주문상태
-                <i class="icCaret"></i>
-              </button> -->
+              <v-select
+                class="selectDate"
+                v-model="findList2"
+                :items="selectPeriod"
+                label="기간"
+                style="width: 200px"
+                @change="findPeriod"
+              ></v-select>
             </li>
             <li class="order-history-filter item">
               <v-select
@@ -24,25 +24,16 @@
                 @change="findStatus"
               ></v-select>
             </li>
-            <li class="order-history-filter item">
-              <v-select
-                class="selectDate"
-                v-model="findList2"
-                :items="selectPeriod"
-                label="기간"
-                style="width: 200px"
-                @change="findPeriod"
-              ></v-select>
-            </li>
           </ul>
         </div>
       </div>
       <div v-if="this.selectPart == 'select'">
-        <OrderSelect :orderStatuslists="orderStatuslists" />
-      </div>
-      <div v-if="this.selectPart == 'select'">
         <OrderPeriod :orderPeriodlists="orderPeriodlists" @click="getPeriod" />
       </div>
+      <div v-if="this.selectPart == 'select'">
+        <OrderSelect :orderStatuslists="orderStatuslists" />
+      </div>
+
       <div v-else>
         <section v-for="order in orderCafeLists" :key="order.payment_no">
           <!-- 상태 -->
@@ -66,7 +57,17 @@
                   <div class="order-history-image">
                     <picture>
                       <source />
-                      <img src="@/assets/images/cold.jpg" alt="" />
+                      <img
+                        v-if="order.orderItems[0].imageUrl == null"
+                        :src="require(`@/assets/cafe/cafeMenu/imgNull.png`)"
+                      />
+
+                      <img
+                        v-else
+                        :src="
+                          require(`@/assets/cafe/cafeMenu/${order.orderItems[0].imageUrl}`)
+                        "
+                      />
                     </picture>
                   </div>
                   <div class="order-history-text">
@@ -149,7 +150,7 @@ export default {
         "PAYMENT_CANCELED",
         "PAYMENT_READY",
       ],
-      selectPeriod: ["전체보기", "1달", "3달", "6달", "1년", "2년"],
+      selectPeriod: ["전체보기", "1달", "3달", "6달", "1년"],
       newStatusArr: [],
       newPeriodArr: [],
       selectPart: ["all", "select"],
@@ -160,23 +161,6 @@ export default {
   },
 
   methods: {
-    findStatus() {
-      this.orderPeriodlists = []
-      this.orderStatuslists = []
-      this.newStatusArr = new Array()
-      if (this.findList == "전체보기") {
-        return (this.selectPart = "all")
-      } else {
-        for (let i = 0; i < this.orderCafeLists.length; i++) {
-          if (this.orderCafeLists[i].paymentStatus == this.findList) {
-            this.orderStatuslists.push(this.orderCafeLists[i])
-          } else {
-            continue
-          }
-          this.selectPart = "select"
-        }
-      }
-    },
     findPeriod() {
       this.orderStatuslists = []
       this.orderPeriodlists = []
@@ -197,6 +181,10 @@ export default {
           this.getPeriod(6)
 
           break
+        case "1년":
+          this.getPeriod(12)
+
+          break
       }
 
       if (this.findList2 == "전체보기") {
@@ -205,6 +193,23 @@ export default {
         for (let i = 0; i < this.orderCafeLists.length; i++) {
           if (new Date(this.orderCafeLists[i].paymentDate) >= this.dateStart) {
             this.orderPeriodlists.push(this.orderCafeLists[i])
+          } else {
+            continue
+          }
+          this.selectPart = "select"
+        }
+      }
+    },
+    findStatus() {
+      this.orderPeriodlists = []
+      this.orderStatuslists = []
+      this.newStatusArr = new Array()
+      if (this.findList == "전체보기") {
+        return (this.selectPart = "all")
+      } else {
+        for (let i = 0; i < this.orderCafeLists.length; i++) {
+          if (this.orderCafeLists[i].paymentStatus == this.findList) {
+            this.orderStatuslists.push(this.orderCafeLists[i])
           } else {
             continue
           }
@@ -221,11 +226,6 @@ export default {
           today.getDate() + 1
         )
       )
-      // this.orderCafeLists.forEach((item) => {
-      //   if (this.dateStart <= item.paymentDate) {
-      //     orderPeriodlists.push(item)
-      //   }
-      // })
     },
   },
 }
@@ -236,5 +236,6 @@ export default {
 .selectDate {
   width: 90px;
   height: 20px;
+  margin: 20px;
 }
 </style>
