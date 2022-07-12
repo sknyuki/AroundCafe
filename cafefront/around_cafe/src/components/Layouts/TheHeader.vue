@@ -8,15 +8,18 @@
               <div class="gnb-left">
                 <h1 class="logo">
                   <router-link :to="{ name: 'MainPage' }"
-                    ><img src="@/assets/images/Logo.png" alt="로고" />
+                    ><img
+                      src="@/assets/images/Logo.png"
+                      alt="어라운드카페 로고"
+                    />
                     <span class="sm-hidden">Around Cafe</span>
                   </router-link>
                 </h1>
                 <v-btn
+                  @click="toggleDrawerMenu"
                   class="gnb-icon-button is-menu sm-only"
-                  icon
-                  @click="drawer = true"
                   type="button"
+                  icon
                   aria-label="메뉴 열기 버튼"
                 >
                   <i class="icMenu" aria-hidden="true"></i>
@@ -37,9 +40,9 @@
 
                 <div class="button-group">
                   <v-btn
-                    icon
                     class="gnb-icon-button is-search lg-hidden"
                     type="button"
+                    icon
                     aria-label="검색창 열기 버튼"
                   >
                     <i class="icSearch" aria-hidden="true"></i>
@@ -63,8 +66,8 @@
                   <div class="gnb-login sm-hidden">
                     <div class="gnb-login-content">
                       <button
-                        class="gnb-login-btn"
                         @click="toggleMyMenu"
+                        class="gnb-login-btn"
                         type="button"
                         aria-label="로그인 메뉴"
                       >
@@ -74,7 +77,10 @@
 
                         <div class="avatar-32">
                           <template v-if="userInfo.memImg == null">
-                            <img src="@/assets/images/avatar.webp" alt="" />
+                            <img
+                              src="@/assets/images/avatar.webp"
+                              alt="기본 이미지"
+                            />
                           </template>
                           <template
                             v-if="
@@ -82,7 +88,10 @@
                               userInfo.memImg != null
                             "
                           >
-                            <img :src="userInfo.memImg" alt="" />
+                            <img
+                              :src="userInfo.memImg"
+                              alt="소셜로그인 이미지"
+                            />
                           </template>
                           <template
                             v-if="
@@ -94,14 +103,14 @@
                               v-bind:src="
                                 require(`@/assets/images/memberImg/${userInfo.memImg}`)
                               "
-                              alt=""
+                              alt="로그인 이미지"
                             />
                           </template>
                         </div>
                       </button>
                     </div>
                     <MyMenuModal
-                      :class="{ active: isActive }"
+                      :class="toggleMyMenuModal"
                       :isActive="isActive"
                       @sumbit="closeDialog()"
                     />
@@ -113,7 +122,7 @@
         </div>
       </div>
     </div>
-    <v-navigation-drawer width="240" v-model="drawer" fixed temporary>
+    <v-navigation-drawer width="240" v-model="onDrawer" fixed temporary>
       <TheNavBarList />
     </v-navigation-drawer>
     <TheNavBar />
@@ -124,29 +133,23 @@ import TheNavBar from "@/components/Layouts/TheNavBar.vue"
 import TheNavBarList from "@/components/Layouts/TheNavBarList.vue"
 import MyMenuModal from "@/components/MyMenuModal.vue"
 import { mapState, mapActions } from "vuex"
-//v-show="showSearchResult"
 export default {
   components: { TheNavBarList, TheNavBar, MyMenuModal },
   name: "TheHeader",
 
   data() {
     return {
-      drawer: false,
+      onDrawer: false,
       isActive: false,
       showSearchResult: false,
     }
   },
-  // watch: {
-  //   showSearchResult() {
-  //     if (this.isActive == false) {
-  //       window.removeEventListener("click", this.onClick)
-  //     } else {
-  //       window.addEventListener("click", this.onClick1)
-  //     }
-  //   },
-  // },
+
   computed: {
     ...mapState(["user", "userInfo", "myLikes"]),
+    toggleMyMenuModal() {
+      return this.isActive ? "is-active" : null
+    },
   },
   async mounted() {
     await this.fetchUserInfo()
@@ -154,9 +157,12 @@ export default {
   },
   methods: {
     ...mapActions(["fetchUser", "fetchUserInfo", "fetchMyLikesList"]),
+
+    toggleDrawerMenu() {
+      this.onDrawer = !this.onDrawer
+    },
     toggleMyMenu() {
       this.isActive = !this.isActive
-      //this.showSearchResult = !this.showSearchResult
     },
     closeDialog(payload) {
       console.log(payload)
@@ -177,28 +183,4 @@ export default {
 @import "~@/assets/scss/components/my-menu";
 @import "~@/assets/scss/layouts/HeaderLayout";
 @import "~@/assets/scss/layouts/NavLayout";
-
-.v-navigation-drawer--temporary {
-  z-index: 80;
-}
-
-.gnb-login {
-  &-content {
-    button {
-      @include flexbox(start);
-      border: 1px solid $border;
-      padding: 5px 5px 5px 12px;
-      border-radius: 21px;
-
-      &:hover {
-        box-shadow: 0 1px 2px rgb(0 0 0 / 12%), 0 4px 12px rgb(0 0 0 / 12%);
-      }
-    }
-
-    .icMenu {
-      font-size: 18px;
-      margin-right: 8px;
-    }
-  }
-}
 </style>

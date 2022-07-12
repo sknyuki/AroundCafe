@@ -1,5 +1,5 @@
 <template>
-  <nav class="lnb" :class="{ 'nav-hidden': !showNavbar }">
+  <nav class="lnb" :class="onNavBarList">
     <div class="container">
       <div class="row">
         <div class="col-sm-12">
@@ -54,6 +54,11 @@ export default {
         },
       ],
     }
+  },
+  computed: {
+    onNavBarList() {
+      return !this.showNavbar ? "nav-hidden" : null
+    },
   },
   mounted() {
     window.addEventListener("scroll", this.onScroll)
