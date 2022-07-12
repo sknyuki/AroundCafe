@@ -4,6 +4,7 @@ import {
   FETCH_ORDER_CAFE_LIST,
   FETCH_MENU_LISTS,
   FETCH_CAFE_IMG_LISTS,
+  FETCH_CAFE_IMG,
   FETCH_REVIEW_LIST,
   FETCH_USER_REVIEW_LIST,
   FETCH_CAFE_REVIEW_LIST,
@@ -202,5 +203,10 @@ export default {
         // console.log("멤버 소비 리스트 출력")
         // console.log(res.data)
       })
+  },
+  fetchCafeImg({ commit }, cafeNo) {
+    return axios.get(`http://localhost:7777/cafe/img/${cafeNo}`).then((res) => {
+      commit(FETCH_CAFE_IMG, res.data)
+    })
   },
 }

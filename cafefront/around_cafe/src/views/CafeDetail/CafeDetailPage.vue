@@ -1,9 +1,5 @@
 <template>
-  <CafeDetailForm
-    :cafeBoard="cafeBoard"
-    :reviewList="reviewList"
-    :cafeNo="cafeNo"
-  />
+  <CafeDetailForm :cafeBoard="cafeBoard" :cafeNo="cafeNo" />
 </template>
 
 <script>
@@ -21,17 +17,13 @@ export default {
     },
   },
   data() {
-    return {
-      membNo: this.$store.state.user.memNo,
-      reviewList: [],
-    }
+    return {}
   },
   computed: {
     ...mapState(["cafeBoard", "myHelps"]),
   },
   mounted() {
     this.fetchcafeBoard(this.cafeNo)
-    this.fetchReviewList(this.cafeNo, this.membNo)
   },
 
   methods: {

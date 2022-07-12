@@ -4,6 +4,7 @@ import {
   FETCH_ORDER_CAFE_LIST,
   FETCH_MENU_LISTS,
   FETCH_CAFE_IMG_LISTS,
+  FETCH_CAFE_IMG,
   FETCH_REVIEW_LIST,
   FETCH_USER_REVIEW_LIST,
   FETCH_CAFE_REVIEW_LIST,
@@ -58,6 +59,9 @@ export default {
 
   [FETCH_CAFE_IMG_LISTS](state, cafeImgLists) {
     state.cafeImgLists = cafeImgLists
+  },
+  [FETCH_CAFE_IMG](state, cafeImg) {
+    state.cafeImg = cafeImg
   },
 
   [FETCH_REVIEW_LIST](state, reviews) {

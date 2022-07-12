@@ -18,15 +18,15 @@ import userService from "@/services/userService"
 Vue.use(VueRouter)
 
 // 로그인 권한 여부
-const authLogin = (to, from, next) => {
-  let validate = userService.getUserInfo("USER")
-  if (validate == "USER") {
-    next()
-  } else {
-    next("/")
-    alert("로그인이 필요합니다")
-  }
-}
+// const authLogin = (to, from, next) => {
+//   let validate = userService.getUserInfo("USER")
+//   if (validate == "USER") {
+//     next()
+//   } else {
+//     next("/")
+//     alert("로그인이 필요합니다")
+//   }
+// }
 // 관리자 권한 여부
 const authAdmin = (to, from, next) => {
   let validate = userService.getUserInfo("ADMIN")
@@ -276,13 +276,13 @@ const routes = [
     path: "/user/order",
     name: "UserOrderListPage",
     component: () => import("@/views/User/UserOrderListPage"),
-    beforeEnter: (to, from, next) => authLogin(to, from, next),
+    //beforeEnter: (to, from, next) => authLogin(to, from, next),
   },
   {
     path: "/user/history",
     name: "UserOrderHistoryPage",
     component: () => import("@/views/User/UserOrderHistoryPage"),
-    beforeEnter: (to, from, next) => authLogin(to, from, next),
+    //beforeEnter: (to, from, next) => authLogin(to, from, next),
   },
   {
     path: "/user/history/detail/:paymentNo",
@@ -290,7 +290,7 @@ const routes = [
     components: {
       default: () => import("@/views/User/UserOrderHistoryDetailPage"),
     },
-    beforeEnter: (to, from, next) => authLogin(to, from, next),
+    //beforeEnter: (to, from, next) => authLogin(to, from, next),
 
     props: {
       default: true,
@@ -300,25 +300,25 @@ const routes = [
     path: "/user/pw",
     name: "UserPasswordPage",
     component: () => import("@/views/User/UserPasswordPage"),
-    beforeEnter: (to, from, next) => authLogin(to, from, next),
+    //beforeEnter: (to, from, next) => authLogin(to, from, next),
   },
   {
     path: "/user/modify",
     name: "UserModifyPage",
     component: () => import("@/views/User/UserModifyPage"),
-    beforeEnter: (to, from, next) => authLogin(to, from, next),
+    //beforeEnter: (to, from, next) => authLogin(to, from, next),
   },
   {
     path: "/user/like",
     name: "UserLikePage",
     component: () => import("@/views/User/UserLikePage"),
-    beforeEnter: (to, from, next) => authLogin(to, from, next),
+    //beforeEnter: (to, from, next) => authLogin(to, from, next),
   },
   {
     path: "/user/review",
     name: "UserReviewListPage",
     component: () => import("@/views/User/UserReviewListPage.vue"),
-    beforeEnter: (to, from, next) => authLogin(to, from, next),
+    //beforeEnter: (to, from, next) => authLogin(to, from, next),
   },
 
   //CafeDetail
