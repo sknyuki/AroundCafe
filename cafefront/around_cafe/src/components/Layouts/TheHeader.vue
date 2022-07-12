@@ -40,6 +40,7 @@
 
                 <div class="button-group">
                   <v-btn
+                    @click="onSearchModal"
                     class="gnb-icon-button is-search lg-hidden"
                     type="button"
                     icon
@@ -130,6 +131,7 @@
     />
 
     <TheOverLay :class="onSidebar" @submit="offSidebar()" />
+    <TheSearchModal :class="onSearchModals" @submit="offSearchModal()" />
     <TheNavBar />
   </header>
 </template>
@@ -137,16 +139,26 @@
 import TheSidebar from "@/components/Layouts/TheSidebar.vue"
 import TheOverLay from "@/components/Layouts/TheOverLay.vue"
 import TheNavBar from "@/components/Layouts/TheNavBar.vue"
+import TheSearchModal from "@/components/Layouts/TheSearchModal.vue"
+
 import MyMenuModal from "@/components/MyMenuModal.vue"
 import { mapState, mapActions } from "vuex"
 export default {
-  components: { TheSidebar, TheNavBar, MyMenuModal, TheOverLay },
+  components: {
+    TheSidebar,
+    TheNavBar,
+    MyMenuModal,
+    TheOverLay,
+    TheSearchModal,
+  },
   name: "TheHeader",
 
   data() {
     return {
       isActive: false,
       showSearchResult: false,
+      activeSearchModal: false,
+      activeSidebar: false,
     }
   },
 
@@ -156,7 +168,10 @@ export default {
       return this.isActive ? "is-active" : false
     },
     onSidebar() {
-      return this.isActive ? "is-active" : false
+      return this.activeSidebar ? "is-active" : false
+    },
+    onSearchModals() {
+      return this.activeSearchModal ? "is-active" : false
     },
   },
   async mounted() {
@@ -166,11 +181,17 @@ export default {
   methods: {
     ...mapActions(["fetchUser", "fetchUserInfo", "fetchMyLikesList"]),
     toggleSidebar() {
-      this.isActive = !this.isActive
+      this.activeSidebar = !this.activeSidebar
+    },
+    onSearchModal() {
+      this.activeSearchModal = !this.activeSearchModal
+    },
+    offSearchModal() {
+      this.activeSearchModal = false
     },
 
     offSidebar() {
-      this.isActive = false
+      this.activeSidebar = false
     },
     toggleMyMenu() {
       this.isActive = !this.isActive
