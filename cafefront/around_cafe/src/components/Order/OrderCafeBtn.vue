@@ -125,9 +125,10 @@ export default {
 .btn-group {
   .v-btn {
     width: 70px;
+    margin: 5px;
     &:nth-child(1) {
-      background-color: $white;
-      color: $red;
+      background-color: $red;
+      color: $white;
     }
     &:nth-child(2) {
       background-color: $white;

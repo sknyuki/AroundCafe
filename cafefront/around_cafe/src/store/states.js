@@ -38,4 +38,8 @@ export default {
 
   //유저 이용 현황
   userSpendList: [],
+
+  //카페 주문 현황
+  orderStatuslists: [],
+  orderPeriodlists: [],
 }

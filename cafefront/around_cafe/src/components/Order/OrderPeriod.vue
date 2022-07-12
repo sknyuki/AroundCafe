@@ -28,7 +28,17 @@
                 <div class="order-history-image">
                   <picture>
                     <source />
-                    <img src="@/assets/images/cold.jpg" alt="" />
+                    <img
+                      v-if="order.orderItems[0].imageUrl == null"
+                      :src="require(`@/assets/cafe/cafeMenu/imgNull.png`)"
+                    />
+
+                    <img
+                      v-else
+                      :src="
+                        require(`@/assets/cafe/cafeMenu/${order.orderItems[0].imageUrl}`)
+                      "
+                    />
                   </picture>
                 </div>
                 <div class="order-history-text">
