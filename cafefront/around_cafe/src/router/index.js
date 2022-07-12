@@ -10,6 +10,9 @@ import NotFoundPage from "@/views/NotFoundPage.vue"
 //관리자 시스템
 import NoticeReadPage from "@/views/Admin/AdminNotice/NoticeReadPage"
 import NoticeModifyPage from "@/views/Admin/AdminNotice/NoticeModifyPage"
+
+//메인 공지사항
+import MainNoticeReadPage from "@/views/MainNoticeBoard/MainNoticeReadPage.vue"
 //CafeMyPage
 import TestTest from "../views/CafeMyPageViews/TestTest.vue"
 import CafeReviewRegisterPage from "../views/Cafe/CafeReviewRegisterPage.vue"
@@ -63,6 +66,25 @@ const routes = [
     path: "/main",
     name: "MainPage",
     component: () => import("@/views/MainPage.vue"),
+  },
+
+  //메인 공지사항
+  {
+    path: "/main/noticeList",
+    name: "MainNoticeListPage",
+    component: () => import("@/views/MainNoticeBoard/MainNoticeListPage.vue"),
+  },
+
+  {
+    path: "/main/noticeRead/:boardNo",
+    name: "MainNoticeReadPage",
+    components: {
+      default: MainNoticeReadPage,
+    },
+
+    props: {
+      default: true,
+    },
   },
 
   // Account 계정페이지
