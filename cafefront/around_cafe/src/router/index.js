@@ -19,8 +19,8 @@ Vue.use(VueRouter)
 
 // 로그인 권한 여부
 const authLogin = (to, from, next) => {
-  let validate = userService.getUserInfo("USER")
-  if (validate == "USER") {
+  let validate = userService.getUserInfo()["role"]
+  if (validate === "USER") {
     next()
   } else {
     next("/")
@@ -29,8 +29,8 @@ const authLogin = (to, from, next) => {
 }
 // 관리자 권한 여부
 const authAdmin = (to, from, next) => {
-  let validate = userService.getUserInfo("ADMIN")
-  if (validate == "ADMIN") {
+  let validate = userService.getUserInfo()["role"]
+  if (validate === "ADMIN") {
     next()
   } else {
     next("/")
@@ -40,8 +40,8 @@ const authAdmin = (to, from, next) => {
 
 // 카페 권한 여부
 const authCafe = (to, from, next) => {
-  let validate = userService.getUserInfo("CAFE")
-  if (validate == "CAFE") {
+  let validate = userService.getUserInfo()["role"]
+  if (validate === "CAFE") {
     next()
   } else {
     next("/")
