@@ -30,6 +30,30 @@ export default {
       user: [],
     }
   },
+  async beforeCreate() {
+    console.log("beforeCreate")
+    const members = await axios.get("http://localhost:7777/members/1")
+    console.log("beforeCreate")
+    console.log(members)
+  },
+  async created() {
+    console.log("created")
+    const members = await axios.get("http://localhost:7777/members/1")
+    console.log("created")
+    console.log(members)
+  },
+  async beforeMount() {
+    console.log("beforeMount")
+    const members = await axios.get("http://localhost:7777/members/1")
+    console.log("beforeMount")
+    console.log(members)
+  },
+  async mounted() {
+    console.log("mount")
+    const members = await axios.get("http://localhost:7777/members/1")
+    console.log("mount")
+    console.log(members)
+  },
   computed: {
     // ...mapState(["loginCallback"]),
     timeString: {

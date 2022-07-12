@@ -27,6 +27,7 @@ import {
   FETCH_MAIN_LIST,
   FETCH_PAYMENT_DETAIL,
   FETCH_USER_SPEND_LIST,
+  FETCH_PAYMENT_LIST,
 } from "./mutation-types"
 
 import axios from "axios"
@@ -40,6 +41,14 @@ export default {
     return axios.get("http://localhost:7777/members").then((res) => {
       commit(FETCH_USER_INFO, res.data)
     })
+  },
+
+  fetchPaymentList({ commit }, memNo) {
+    return axios
+      .get(`http://localhost:7777/payment/list/${memNo}`)
+      .then((res) => {
+        commit(FETCH_PAYMENT_LIST, res.data)
+      })
   },
 
   fetchPaymentDetail({ commit }, paymentNo) {

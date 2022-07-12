@@ -1,25 +1,41 @@
 <template>
-  <div class="btn-group">
-    <v-btn
-      type="button"
-      class="btn-40"
-      @click="cancel(order.paymentNo, order.paymentStatus)"
-      >취소</v-btn
-    >
+  <div>
+    <div class="btn-group" v-if="role === 'CAFE'">
+      <v-btn
+        type="button"
+        class="btn-40"
+        @click="cancel(order.paymentNo, order.paymentStatus)"
+        >취소</v-btn
+      >
 
-    <v-btn
-      type="button"
-      class="btn-40"
-      @click="ready(order.paymentNo, order.paymentStatus)"
-      >준비중</v-btn
-    >
+      <v-btn
+        type="button"
+        class="btn-40"
+        @click="ready(order.paymentNo, order.paymentStatus)"
+        >준비중</v-btn
+      >
 
-    <v-btn
-      type="button"
-      class="btn-indigo btn-40"
-      @click="completed(order.paymentNo, order.paymentStatus)"
-      >완료</v-btn
-    >
+      <v-btn
+        type="button"
+        class="btn-indigo btn-40"
+        @click="completed(order.paymentNo, order.paymentStatus)"
+        >완료</v-btn
+      >
+    </div>
+    <div class="btn-group" v-if="role === 'USER'">
+      <v-btn
+        type="button"
+        class="btn-40"
+        @click="cancel(order.paymentNo, order.paymentStatus)"
+        >취소</v-btn
+      >
+      <v-btn
+        type="button"
+        class="btn-40"
+        @click="goDetails(order.paymentNo)"
+        >상세보기</v-btn
+      >
+    </div>
   </div>
 </template>
 
@@ -32,6 +48,10 @@ export default {
   props: {
     order: {
       type: Object,
+      required: true,
+    },
+    role: {
+      type: String,
       required: true,
     },
   },
@@ -115,6 +135,12 @@ export default {
             alert("주문취소 실패")
           })
       }
+    },
+    goDetails(paymentNo) {
+      this.$router.push({
+        name: "UserOrderHistoryDetailPage",
+        params: { paymentNo: paymentNo },
+      })
     },
   },
 }

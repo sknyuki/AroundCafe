@@ -12,7 +12,11 @@
           <header>
             <h1>주문 내역</h1>
           </header>
-          <OrderHistory :orderList="orderList" />
+          <OrderCafeHistory
+            :orderCafeLists="paymentList"
+            :user="user"
+            role="USER"
+          />
         </div>
       </div>
     </div>
@@ -22,50 +26,26 @@
 <script>
 import ImgBox from "@/components/ImgBox.vue"
 import UserSidebar from "@/components/User/UserSidebar.vue"
-import OrderHistory from "../OrderHistory.vue"
+import { mapActions, mapState } from "vuex"
+import OrderCafeHistory from "@/components/Order/OrderCafeHistory"
 
 export default {
-  components: { ImgBox, UserSidebar, OrderHistory },
+  components: { OrderCafeHistory, ImgBox, UserSidebar },
   name: "UserOrderHistory",
-
   data() {
-    return {
-      orderList: [
-        {
-          orderNo: "19292999",
-          orderDay: "2022-06-21",
-          orderStatus: "주문완료",
-          orderTime: "18:30",
-          orderName: "스타벅스",
-          orderMenu: "콜드브루",
-          orderLocation: "서울 강북구",
-          orderPrice: "5000",
-          orderQuantity: "1",
-        },
-        {
-          orderNo: "19299923",
-          orderDay: "2022-06-22",
-          orderStatus: "주문완료",
-          orderTime: "14:30",
-          orderName: "스타벅스",
-          orderMenu: "콜드브루",
-          orderLocation: "서울 성북구",
-          orderPrice: "10000",
-          orderQuantity: "2",
-        },
-        {
-          orderNo: "19292999",
-          orderDay: "2022-07-05",
-          orderStatus: "주문완료",
-          orderTime: "11:30",
-          orderName: "스타벅스",
-          orderMenu: "콜드브루",
-          orderLocation: "서울 강남구",
-          orderPrice: "20000",
-          orderQuantity: "4",
-        },
-      ],
-    }
+    return {}
+  },
+  async mounted() {
+    await this.fetchUser()
+    console.log(this.user)
+    await this.fetchPaymentList(this.user.memNo)
+    console.log(this.paymentList)
+  },
+  computed: {
+    ...mapState(["paymentList", "user"]),
+  },
+  methods: {
+    ...mapActions(["fetchPaymentList", "fetchUser"]),
   },
 }
 </script>
