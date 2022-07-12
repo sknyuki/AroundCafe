@@ -13,40 +13,44 @@
             <header class="member-list-header">
               <h2>메뉴 별 매출</h2>
             </header>
-
-            <table class="member-list-table">
-              <thead>
-                <tr>
-                  <th scope="col" align="center" style="width: 40px">No</th>
-                  <th scope="col" align="center" style="width: 120px">
-                    메뉴 이름
-                  </th>
-                  <th scope="col" align="center" style="width: 120px">
-                    판매 수량
-                  </th>
-                  <th scope="col" align="center" style="width: 100px">
-                    판매 금액
-                  </th>
-                </tr>
-              </thead>
-              <tbody v-for="(item, index) in listData" :key="index">
-                <tr v-if="item != null">
-                  <td align="center">{{ index + 1 }}</td>
-                  <td align="center">{{ item.itemName }}</td>
-                  <td align="center">{{ item.count }}</td>
-                  <td align="center">{{ item.sum | pricePoint }} 원</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <PaginationForm
-            :pageSetting="pageDataSetting(total, limit, block, this.page)"
-            @paging="pagingMethod"
-          />
-          <div>
-            <v-btn>
-              <router-link :to="'/admin/cafe/sales'">목록</router-link>
-            </v-btn>
+            <template v-if="loading">
+              <LoadingSpinner :loading="loading" />
+            </template>
+            <template v-else>
+              <table class="member-list-table">
+                <thead>
+                  <tr>
+                    <th scope="col" align="center" style="width: 40px">No</th>
+                    <th scope="col" align="center" style="width: 120px">
+                      메뉴 이름
+                    </th>
+                    <th scope="col" align="center" style="width: 120px">
+                      판매 수량
+                    </th>
+                    <th scope="col" align="center" style="width: 100px">
+                      판매 금액
+                    </th>
+                  </tr>
+                </thead>
+                <tbody v-for="(item, index) in listData" :key="index">
+                  <tr v-if="item != null">
+                    <td align="center">{{ index + 1 }}</td>
+                    <td align="center">{{ item.itemName }}</td>
+                    <td align="center">{{ item.count }}</td>
+                    <td align="center">{{ item.sum | pricePoint }} 원</td>
+                  </tr>
+                </tbody>
+              </table>
+              <PaginationForm
+                :pageSetting="pageDataSetting(total, limit, block, this.page)"
+                @paging="pagingMethod"
+              />
+              <div>
+                <v-btn>
+                  <router-link :to="'/admin/cafe/sales'">목록</router-link>
+                </v-btn>
+              </div>
+            </template>
           </div>
         </div>
       </div>
@@ -58,9 +62,11 @@ import axios from "axios"
 import PaginationForm from "../PaginationForm.vue"
 import ImgBox from "@/components/ImgBox.vue"
 import AdminSidebar from "./AdminSidebar.vue"
+import LoadingSpinner from "../LoadingSpinner.vue"
+
 export default {
   name: "AdminCafeSalesMenuList",
-  components: { PaginationForm, ImgBox, AdminSidebar },
+  components: { PaginationForm, ImgBox, AdminSidebar, LoadingSpinner },
   props: {
     cafeNo: {
       type: Number,
@@ -76,15 +82,20 @@ export default {
       block: 5,
       pageNo: "",
       total: "",
+      loading: false,
     }
   },
   created() {
     let cafeNo = this.cafeNo
+    this.loading = true
     axios
       .get(`http://localhost:7777/payment/sales/menu/${cafeNo}`)
       .then((res) => {
         this.salesMenuList = res.data
         this.pagingMethod(this.page)
+        setTimeout(() => {
+          this.loading = false
+        }, 800)
       })
   },
   methods: {

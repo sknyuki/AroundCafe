@@ -31,12 +31,22 @@
       </header>
       <ul>
         <li class="mysidebar-list" v-for="item in sidebarTwo" :key="item.id">
-          <router-link class="mysidebar-link" :to="item.link">
-            <div class="mysidebar-test">
-              <v-icon aria-hidden="true">{{ item.icon }}</v-icon>
-              <p>{{ item.title }}</p>
-            </div>
-          </router-link>
+          <template v-if="item.id == 3">
+            <router-link class="mysidebar-link" :to="item.link" target="_blank">
+              <div class="mysidebar-test">
+                <v-icon aria-hidden="true">{{ item.icon }}</v-icon>
+                <p>{{ item.title }}</p>
+              </div>
+            </router-link>
+          </template>
+          <template v-else>
+            <router-link class="mysidebar-link" :to="item.link" target="_blank">
+              <div class="mysidebar-test">
+                <v-icon aria-hidden="true">{{ item.icon }}</v-icon>
+                <p>{{ item.title }}</p>
+              </div>
+            </router-link>
+          </template>
         </li>
       </ul>
     </div>
@@ -103,7 +113,7 @@ export default {
           id: 3,
           icon: "mdi-email-outline",
           title: "문의사항",
-          link: "/",
+          link: "/admin/chat",
         },
       ],
       infoOne: "카페 정보",

@@ -154,9 +154,6 @@ export default {
         }
         this.pagingMethod(this.page)
         this.loading = false
-        // setTimeout(() => {
-
-        // }, 250)
       })
   },
   computed: {
