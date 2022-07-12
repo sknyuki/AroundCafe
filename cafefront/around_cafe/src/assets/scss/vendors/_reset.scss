@@ -73,6 +73,9 @@ address {
     padding-left: 0;
   }
 }
+.v-navigation-drawer--temporary {
+  z-index: 80;
+}
 
 .swiper-pagination-bullet {
   background: $white !important;
