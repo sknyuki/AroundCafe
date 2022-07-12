@@ -16,7 +16,7 @@
                   </router-link>
                 </h1>
                 <v-btn
-                  @click="toggleDrawerMenu"
+                  @click="toggleSidebar"
                   class="gnb-icon-button is-menu sm-only"
                   type="button"
                   icon
@@ -122,24 +122,24 @@
         </div>
       </div>
     </div>
-    <v-navigation-drawer width="240" v-model="onDrawer" fixed temporary>
-      <TheNavBarList />
-    </v-navigation-drawer>
+    <TheSidebar :class="onSidebar" />
+
+    <TheOverLay :class="onSidebar" @submit="offSidebar()" />
     <TheNavBar />
   </header>
 </template>
 <script>
+import TheSidebar from "@/components/Layouts/TheSidebar.vue"
+import TheOverLay from "@/components/Layouts/TheOverLay.vue"
 import TheNavBar from "@/components/Layouts/TheNavBar.vue"
-import TheNavBarList from "@/components/Layouts/TheNavBarList.vue"
 import MyMenuModal from "@/components/MyMenuModal.vue"
 import { mapState, mapActions } from "vuex"
 export default {
-  components: { TheNavBarList, TheNavBar, MyMenuModal },
+  components: { TheSidebar, TheNavBar, MyMenuModal, TheOverLay },
   name: "TheHeader",
 
   data() {
     return {
-      onDrawer: false,
       isActive: false,
       showSearchResult: false,
     }
@@ -148,7 +148,10 @@ export default {
   computed: {
     ...mapState(["user", "userInfo", "myLikes"]),
     toggleMyMenuModal() {
-      return this.isActive ? "is-active" : null
+      return this.isActive ? "is-active" : false
+    },
+    onSidebar() {
+      return this.isActive ? "is-active" : false
     },
   },
   async mounted() {
@@ -157,9 +160,12 @@ export default {
   },
   methods: {
     ...mapActions(["fetchUser", "fetchUserInfo", "fetchMyLikesList"]),
+    toggleSidebar() {
+      this.isActive = !this.isActive
+    },
 
-    toggleDrawerMenu() {
-      this.onDrawer = !this.onDrawer
+    offSidebar() {
+      this.isActive = false
     },
     toggleMyMenu() {
       this.isActive = !this.isActive
@@ -183,4 +189,5 @@ export default {
 @import "~@/assets/scss/components/my-menu";
 @import "~@/assets/scss/layouts/HeaderLayout";
 @import "~@/assets/scss/layouts/NavLayout";
+@import "~@/assets/scss/layouts/OverLay";
 </style>
