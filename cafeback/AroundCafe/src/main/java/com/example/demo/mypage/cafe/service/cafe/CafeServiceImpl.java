@@ -105,15 +105,6 @@ public class CafeServiceImpl implements CafeService {
         log.info("cafe table is deleted!" + cafeNo);
     }
 
-
-//    @Override
-//    public Cafe cafeMypageread(Integer membNo) {
-//        Optional<Cafe> findCafe = repository.findByMemberNo(Long.valueOf(membNo));
-//        Cafe cafe = findCafe.get();
-//
-//        return cafe;
-//    }
-
     @Transactional
     @Override
     public Cafe read(Integer cafeNo) {
@@ -167,5 +158,11 @@ public class CafeServiceImpl implements CafeService {
             cafeStarAverResponses.add(cafeStarAverResponse);
         }
         return cafeStarAverResponses;
+    }
+
+    @Override
+    public String img(Integer cafeNo) {
+        Member member = memberRepository.findByIdFromCafeNo(Long.valueOf(cafeNo)).orElse(null);
+        return member.getMemImg();
     }
 }

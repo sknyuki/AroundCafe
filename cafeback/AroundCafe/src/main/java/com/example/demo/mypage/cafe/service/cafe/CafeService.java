@@ -26,4 +26,5 @@ public interface CafeService {
 
     public List<CafeStarAverResponse> list();
 
+    public String img(Integer cafeNo);
 }
