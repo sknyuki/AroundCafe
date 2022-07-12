@@ -1,5 +1,7 @@
 package com.example.demo.qNa.controller;
 
+import com.example.demo.member.entity.Member;
+import com.example.demo.member.repository.MemberRepository;
 import com.example.demo.qNa.dto.QnACommentDto;
 import com.example.demo.qNa.dto.QnADto;
 import com.example.demo.qNa.dto.QnAResponse;
@@ -26,6 +28,7 @@ public class QnAController {
     @Autowired
     QnAService service;
 
+
     @ResponseBody
     @PostMapping(value = "/register", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
     public String qnaRegister(
@@ -34,6 +37,7 @@ public class QnAController {
         log.info("member no :" + info.getMemNo());
         log.info("qna info : " +info.getReceived_no()+"/" +
                 info.getContent());
+
 
         if(fileList != null) {
             try {
@@ -59,22 +63,18 @@ public class QnAController {
 
     @GetMapping("/memberRead/{checkQnaNo}")
     public List<QnAComment> readListPage(@PathVariable("checkQnaNo") Integer checkQnaNo) {
-        log.info("qna comment read list");
-
         return service.readQnA(checkQnaNo);
     }
 
-//    @GetMapping("/memberList/{membNo}")
-//    public List<QnA> memberListPage(@PathVariable("membNo") Integer membNo) {
-//        log.info("MEMBER QNA list");
-//
-//        return service.QnAList(membNo);
-//    }
 
     @GetMapping("/memberList/{membNo}")
     public List<QnAResponse> readQnaComment(@PathVariable("membNo") Integer membNo) {
-        log.info("read recently qna list pls");
         return service.responseQnAList(membNo);
+    }
+
+    @GetMapping("/admin/memberList/{membNo}")
+    public List<QnAResponse> readAdminQnaComment(@PathVariable("membNo") Integer membNo) {
+        return service.responseAdminQnAList(membNo);
     }
 
     @DeleteMapping("/delete/{qnaNo}")

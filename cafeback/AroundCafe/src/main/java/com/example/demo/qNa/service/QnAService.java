@@ -22,4 +22,7 @@ public interface QnAService {
 
     public void deleteQna(Integer qnaNo);
 
+    public QnAComment test(Integer qnaNo);
+
+    public List<QnAResponse> responseAdminQnAList(Integer membNo);
 }

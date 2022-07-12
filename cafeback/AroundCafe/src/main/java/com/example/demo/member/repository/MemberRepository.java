@@ -35,4 +35,9 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
     @Query("select m from Member m join fetch m.payment p where m.memNo = :memNo")
     Optional<Member> findMemberByMemNoWithPayment(@Param("memNo") Long memNo);
+
+    @Query("select m from Member m join fetch m.role r where r.name = 'ROLE_ADMIN'")
+    Optional<Member> findByAdmin();
+
+    //@Query(value = "select * from members where mem_no in (select id from member_role where name = 'ROLE_ADMIN')",nativeQuery = true)
 }
