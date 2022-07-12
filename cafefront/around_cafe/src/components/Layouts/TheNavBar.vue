@@ -29,8 +29,8 @@ export default {
         },
         {
           id: 2,
-          title: "커피",
-          link: "/main",
+          title: "공지사항",
+          link: "/noticeBoard",
         },
         {
           id: 3,
