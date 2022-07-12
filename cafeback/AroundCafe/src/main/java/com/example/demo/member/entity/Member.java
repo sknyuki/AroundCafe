@@ -4,6 +4,7 @@ import com.example.demo.mypage.cafe.entity.Cafe;
 import com.example.demo.common.entity.BaseDateTime;
 import com.example.demo.mypage.cafe.entity.CafeLike;
 import com.example.demo.payment.entity.Payment;
+import com.example.demo.qNa.entity.QnA;
 import com.example.demo.review.entity.Review;
 import com.example.demo.review.entity.ReviewLike;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -60,6 +61,10 @@ public class Member extends BaseDateTime {
 
     @OneToMany(mappedBy = "memberInfo",fetch = FetchType.EAGER,orphanRemoval = true)
     private List<Review> review = new ArrayList<>();
+
+
+    @OneToMany(mappedBy = "memberInfo",fetch = FetchType.EAGER,orphanRemoval = true)
+    private Set<QnA> qna = new HashSet<>();
 
     @JsonManagedReference
     @EqualsAndHashCode.Exclude

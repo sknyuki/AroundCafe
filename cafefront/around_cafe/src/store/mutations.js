@@ -4,6 +4,7 @@ import {
   FETCH_ORDER_CAFE_LIST,
   FETCH_MENU_LISTS,
   FETCH_CAFE_IMG_LISTS,
+  FETCH_CAFE_IMG,
   FETCH_REVIEW_LIST,
   FETCH_USER_REVIEW_LIST,
   FETCH_CAFE_REVIEW_LIST,
@@ -11,6 +12,7 @@ import {
   FETCH_HELPS_LIST,
   FETCH_QNA_LIST,
   FETCH_QNA_LISTS,
+  FETCH_ADMIN_QNA_LISTS,
   FETCH_USER,
   FETCH_USER_INFO,
   FETCH_HELP,
@@ -59,6 +61,9 @@ export default {
   [FETCH_CAFE_IMG_LISTS](state, cafeImgLists) {
     state.cafeImgLists = cafeImgLists
   },
+  [FETCH_CAFE_IMG](state, cafeImg) {
+    state.cafeImg = cafeImg
+  },
 
   [FETCH_REVIEW_LIST](state, reviews) {
     state.reviews = reviews
@@ -89,6 +94,9 @@ export default {
 
   [FETCH_QNA_LISTS](state, qnaLists) {
     state.qnaLists = qnaLists
+  },
+  [FETCH_ADMIN_QNA_LISTS](state, adminQnaLists) {
+    state.adminQnaLists = adminQnaLists
   },
 
   //공지사항

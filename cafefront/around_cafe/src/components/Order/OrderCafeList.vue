@@ -12,7 +12,12 @@
           <header>
             <h1>주문 내역</h1>
           </header>
-          <OrderCafeHistory :orderCafeLists="orderCafeLists" :user="user" />
+          <template v-if="loading">
+            <LoadingSpinner :loading="loading" />
+          </template>
+          <template v-else>
+            <OrderCafeHistory :orderCafeLists="orderCafeLists" :user="user" />
+          </template>
         </div>
       </div>
     </div>
@@ -24,22 +29,27 @@ import ImgBox from "@/components/ImgBox.vue"
 import OrderCafeHistory from "@/components/Order/OrderCafeHistory.vue"
 import { mapState, mapActions } from "vuex"
 import CafeSidebar from "../Cafe/CafeSidebar.vue"
+import LoadingSpinner from "../LoadingSpinner.vue"
 
 export default {
-  components: { ImgBox, OrderCafeHistory, CafeSidebar },
+  components: { ImgBox, OrderCafeHistory, CafeSidebar, LoadingSpinner },
   name: "OrderCafeList",
 
   data() {
     return {
-      // orderCafeLists: [],
+      loading: false,
     }
   },
   computed: {
     ...mapState(["orderCafeLists", "user"]),
   },
 
-  mounted() {
-    this.fetchOrderCafeList(this.user.cafeNo)
+  async mounted() {
+    this.loading = true
+    await this.fetchOrderCafeList(this.user.cafeNo)
+    await setTimeout(() => {
+      this.loading = false
+    }, 1500)
   },
 
   methods: {

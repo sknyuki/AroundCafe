@@ -29,6 +29,7 @@ export default {
         (visibleHeader = to.path === "/login") ||
         (visibleHeader = to.path === "/sign") ||
         (visibleHeader = to.path === "/chat") ||
+        (visibleHeader = to.path === "/admin/chat") ||
         (visibleHeader = to.path === "/login/callback") ||
         (visibleHeader = to.path === "/cafe/PurchasePopUp") ||
         (visibleHeader = to.path === "/cafe/purchase/popup")
@@ -44,6 +45,7 @@ export default {
         (visibleFooter = to.path === "/login") ||
         (visibleFooter = to.path === "/sign") ||
         (visibleFooter = to.path === "/chat") ||
+        (visibleHeader = to.path === "/admin/chat") ||
         (visibleFooter = to.path === "/login/callback") ||
         (visibleFooter = to.path === "/cafe/PurchasePopUp") ||
         (visibleFooter = to.path === "/map/main") ||

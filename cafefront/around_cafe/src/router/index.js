@@ -16,20 +16,20 @@ import MainNoticeReadPage from "@/views/MainNoticeBoard/MainNoticeReadPage.vue"
 //CafeMyPage
 import TestTest from "../views/CafeMyPageViews/TestTest.vue"
 import CafeReviewRegisterPage from "../views/Cafe/CafeReviewRegisterPage.vue"
-import userService from "@/services/userService"
+//import userService from "@/services/userService"
 
 Vue.use(VueRouter)
 
-// 로그인 권한 여부
-const authLogin = (to, from, next) => {
-  let validate = userService.getUserInfo()["role"]
-  if (validate === "USER") {
-    next()
-  } else {
-    next("/")
-    alert("로그인이 필요합니다")
-  }
-}
+// const authLogin = (to, from, next) => {
+//   let validate = userService.getUserInfo("USER")
+//   if (validate == "USER") {
+//     next()
+//   } else {
+//     next("/")
+//     alert("로그인이 필요합니다")
+//   }
+// }
+
 // 관리자 권한 여부
 
 const authAdmin = (to, from, next) => {
@@ -44,15 +44,15 @@ const authAdmin = (to, from, next) => {
 
 
 // 카페 권한 여부
-const authCafe = (to, from, next) => {
-  let validate = userService.getUserInfo()["role"]
-  if (validate === "CAFE") {
-    next()
-  } else {
-    next("/")
-    alert("카페사업자만 가능합니다.")
-  }
-}
+// const authCafe = (to, from, next) => {
+//   let validate = userService.getUserInfo("CAFE")
+//   if (validate == "CAFE") {
+//     next()
+//   } else {
+//     next("/")
+//     alert("카페사업자만 가능합니다.")
+//   }
+// }
 
 const routes = [
   // Main 메인페이지
@@ -192,6 +192,12 @@ const routes = [
     },
   },
   {
+    path: "/admin/chat",
+    name: "ChatPageAdmin",
+    component: () => import("@/views/Chat/ChatPageAdmin.vue"),
+    // beforeEnter: (to, from, next) => authAdmin(to, from, next),
+  },
+  {
     path: "/admin/cafe/sales/menu",
     name: "AdminCafeSalesMenuPage",
     components: {
@@ -240,31 +246,31 @@ const routes = [
     path: "/cafe/register",
     name: "CafeRegisterPage",
     component: () => import("@/views/Cafe/CafeRegisterPage.vue"),
-    beforeEnter: (to, from, next) => authCafe(to, from, next),
+    //beforeEnter: (to, from, next) => authCafe(to, from, next),
   },
   {
     path: "/cafe/review",
     name: "CafeReviewListPage",
     component: () => import("@/views/Cafe/CafeReviewListPage.vue"),
-    beforeEnter: (to, from, next) => authCafe(to, from, next),
+    //beforeEnter: (to, from, next) => authCafe(to, from, next),
   },
   {
     path: "/cafe/modify",
     name: "CafeUserModifyPage",
     component: () => import("@/views/Cafe/CafeUserModifyPage"),
-    beforeEnter: (to, from, next) => authCafe(to, from, next),
+    //beforeEnter: (to, from, next) => authCafe(to, from, next),
   },
   {
     path: "/cafe/pw",
     name: "CafePasswordPage",
     component: () => import("@/views/Cafe/CafePasswordPage"),
-    beforeEnter: (to, from, next) => authCafe(to, from, next),
+    //beforeEnter: (to, from, next) => authCafe(to, from, next),
   },
   {
     path: "/cafe/menu",
     name: "CafeRegisterMenuPage",
     component: () => import("@/views/Cafe/CafeRegisterMenuPage"),
-    beforeEnter: (to, from, next) => authCafe(to, from, next),
+    //beforeEnter: (to, from, next) => authCafe(to, from, next),
   },
 
   //CafeSite
@@ -300,13 +306,13 @@ const routes = [
     path: "/user/order",
     name: "UserOrderListPage",
     component: () => import("@/views/User/UserOrderListPage"),
-    beforeEnter: (to, from, next) => authLogin(to, from, next),
+    //beforeEnter: (to, from, next) => authLogin(to, from, next),
   },
   {
     path: "/user/history",
     name: "UserOrderHistoryPage",
     component: () => import("@/views/User/UserOrderHistoryPage"),
-    beforeEnter: (to, from, next) => authLogin(to, from, next),
+    //beforeEnter: (to, from, next) => authLogin(to, from, next),
   },
   {
     path: "/user/history/detail/:paymentNo",
@@ -314,7 +320,7 @@ const routes = [
     components: {
       default: () => import("@/views/User/UserOrderHistoryDetailPage"),
     },
-    beforeEnter: (to, from, next) => authLogin(to, from, next),
+    //beforeEnter: (to, from, next) => authLogin(to, from, next),
 
     props: {
       default: true,
@@ -324,25 +330,25 @@ const routes = [
     path: "/user/pw",
     name: "UserPasswordPage",
     component: () => import("@/views/User/UserPasswordPage"),
-    beforeEnter: (to, from, next) => authLogin(to, from, next),
+    //beforeEnter: (to, from, next) => authLogin(to, from, next),
   },
   {
     path: "/user/modify",
     name: "UserModifyPage",
     component: () => import("@/views/User/UserModifyPage"),
-    beforeEnter: (to, from, next) => authLogin(to, from, next),
+    //beforeEnter: (to, from, next) => authLogin(to, from, next),
   },
   {
     path: "/user/like",
     name: "UserLikePage",
     component: () => import("@/views/User/UserLikePage"),
-    beforeEnter: (to, from, next) => authLogin(to, from, next),
+    //beforeEnter: (to, from, next) => authLogin(to, from, next),
   },
   {
     path: "/user/review",
     name: "UserReviewListPage",
     component: () => import("@/views/User/UserReviewListPage.vue"),
-    beforeEnter: (to, from, next) => authLogin(to, from, next),
+    //beforeEnter: (to, from, next) => authLogin(to, from, next),
   },
 
   //CafeDetail

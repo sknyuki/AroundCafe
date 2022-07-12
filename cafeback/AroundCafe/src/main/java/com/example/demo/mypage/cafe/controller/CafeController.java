@@ -92,5 +92,9 @@ public class CafeController {
         log.info("/main/list ");
         return service.list();
     }
-
+    @GetMapping("/img/{cafeNo}")
+    public String cafeImg(@PathVariable("cafeNo") Integer cafeNo) {
+        log.info("read cafe img list");
+        return service.img(cafeNo);
+    }
 }

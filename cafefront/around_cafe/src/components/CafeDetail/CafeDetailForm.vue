@@ -228,6 +228,7 @@ import CafeSiteMenuList from "../CafeSite/CafeSiteMenuList.vue"
 import MapKakaoFind from "@/components/Map/MapKakaoFind.vue"
 import StarRating from "vue-star-rating"
 import { mapState, mapActions } from "vuex"
+import axios from "axios"
 
 export default {
   name: "CafeDetailForm",
@@ -241,10 +242,6 @@ export default {
     CafeDetailQnaForm,
   },
   props: {
-    reviewList: {
-      type: Array,
-      required: true,
-    },
     cafeBoard: {
       type: Object,
       required: true,
@@ -273,6 +270,8 @@ export default {
       StarPoint3Persent: 0,
       StarPoint4Persent: 0,
       StarPoint5Persent: 0,
+      reviewList: [],
+      memNo: this.$store.state.user.memNo,
     }
   },
 
@@ -294,10 +293,18 @@ export default {
       return `width:${this.StarPoint5Persent}%`
     },
   },
-  mounted() {
+  created() {
     this.fetchMenuLists(this.cafeNo)
-    setTimeout(this.calculateStarAver, 300)
-    setTimeout(this.calculatePersentage, 500)
+    if (this.memNo == null) this.memNo = 0
+    axios
+      .get(
+        `http://localhost:7777/cafe/review/list/${this.cafeNo}/${this.memNo}`
+      )
+      .then((res) => {
+        this.reviewList = res.data
+        this.calculateStarAver()
+        this.calculatePersentage()
+      })
   },
 
   methods: {

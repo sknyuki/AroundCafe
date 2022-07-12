@@ -73,26 +73,20 @@ public class QnAServiceImpl implements QnAService {
     @Override
     public void exceptImgRegister(QnADto info) {
         Member member = memberRepository.findById(Long.valueOf(info.getMemNo())).orElseGet(null);
-        Member revceivedNo = memberRepository.findByIdFromCafeNo(info.getReceived_no()).orElseGet(null);
-        QnA qnA = null;
-
-        if(info.getReceived_no() != 0){
-            qnA = QnA.builder()
-                    .received_no(revceivedNo.getMemNo())
-                    .member(member)
-                    .type(info.getType())
-                    .build();
-
-            repository.save(qnA);
+        Member orderMem = null;
+        if(info.getReceived_no() == null){
+            orderMem = memberRepository.findByAdmin().orElseGet(null);
         }else {
-            qnA = QnA.builder()
-                    .received_no(revceivedNo.getMemNo())
-                    .member(member)
-                    .type(info.getType())
-                    .received_name("관리자")
-                    .build();
-            repository.save(qnA);
+            orderMem = memberRepository.findByIdFromCafeNo(info.getReceived_no()).orElseGet(null);
         }
+        QnA qnA = null;
+        qnA = QnA.builder()
+                .received_no(orderMem.getMemNo())
+                .member(member)
+                .type(info.getType())
+                .received_name(orderMem.getMemNick())
+                .build();
+        repository.save(qnA);
 
 
         QnAComment comment = QnAComment.builder()
@@ -120,51 +114,68 @@ public class QnAServiceImpl implements QnAService {
     public List<QnAResponse> responseQnAList(Integer membNo) {
         Member member = memberRepository.findById(Long.valueOf(membNo)).orElseGet(null);
         String role = member.getRole().getName().getValue();
-        log.info("role = " + role);
-        List<QnAResponse> comments = new ArrayList<>();
+
         List<QnA> qnAS = null;
 
-        if(role.equals("CAFE")){
-            qnAS = repository.findByReceived_no(Long.valueOf(membNo));
-        }else if (role.equals("USER")){
+        if(role.equals("USER")){
             qnAS = repository.findByMemberInfo(member);
+        }else{
+            qnAS = repository.findByReceived_no(Long.valueOf(membNo));
         }
 
-        if(qnAS.size() == 0){
-            return null;
-        }else
-        for(QnA findQna : qnAS) { //qna에 대한 리스트에서 for문을 돌면서 내용을 찾음
-            Member orderMem = null;
-            if(role.equals("CAFE")){
-                orderMem = memberRepository.findById(findQna.getMemberInfo().getMemNo()).orElseGet(null);
-            }else if (role.equals("USER")){
-                orderMem  = memberRepository.findById(findQna.getReceived_no()).orElseGet(null);
-            }
-
-            List<QnAComment> qnAComments = commentRepository.findByRecentComment(Math.toIntExact(findQna.getQna_no()));
-            QnAComment comment = qnAComments.get(0); //0번째가 desc라서 제일 최신것임.
-
-            QnAResponse response = QnAResponse.builder()
-                    .qna_no(findQna.getQna_no())
-                    .type(findQna.getType())
-                    .received_no(orderMem.getMemNo())
-                    .received_name(orderMem.getMemNick())
-                    .received_img(orderMem.getMemImg())
-                    .received_socialType(orderMem.getSocialType().getName())
-                    .writer(Long.valueOf(membNo))
-                    .writer_name(member.getMemNick())
-                    .writerImg(member.getMemImg())
-                    .content(comment.getContent())
-                    .regTime(comment.getRegTime())
-                    .regYear(comment.getRegYear())
-
-                    .build();
-
-            comments.add(response);
-        }
-        return comments;
+        return getQnaList(qnAS, member);
     }
 
+    @Override
+    public List<QnAResponse> responseAdminQnAList(Integer membNo) {
+        Member member = memberRepository.findById(Long.valueOf(membNo)).orElseGet(null);
+        Member admin = memberRepository.findByAdmin().orElseGet(null);
+        String role = member.getRole().getName().getValue();
+
+        List<QnA> qnAS = null;
+
+        if(role.equals("ADMIN")){
+            qnAS = repository.findByMemberInfoByAdmin(Long.valueOf(membNo));
+        }else{
+            qnAS = repository.findByReceived_noByAdmin(member, admin.getMemNo());
+        }
+
+        return getQnaList(qnAS, member);
+    }
+
+    private List<QnAResponse> getQnaList(List<QnA> qnAS, Member member) {
+        List<QnAResponse> comments = new ArrayList<>();
+
+        if(qnAS.size() > 0){
+            for(QnA findQna : qnAS) { //qna에 대한 리스트에서 for문을 돌면서 내용을 찾음
+                Member orderMem = null;
+                if(findQna.getReceived_no() == member.getMemNo()){
+                    orderMem = memberRepository.findById(findQna.getMemberInfo().getMemNo()).orElseGet(null);
+                }else {
+                    orderMem = memberRepository.findById(findQna.getReceived_no()).orElseGet(null);
+                }
+
+                QnAComment comment = commentRepository.findByRecentComment(findQna).orElseGet(null);
+
+                QnAResponse response = QnAResponse.builder()
+                        .qna_no(findQna.getQna_no())
+                        .type(findQna.getType())
+                        .received_no(orderMem.getMemNo())
+                        .received_name(orderMem.getMemNick())
+                        .received_img(orderMem.getMemImg())
+                        .received_socialType(orderMem.getSocialType().getName())
+                        .writer(member.getMemNo())
+                        .writer_name(member.getMemNick())
+                        .writerImg(member.getMemImg())
+                        .content(comment.getContent())
+
+                        .build();
+
+                comments.add(response);
+            }
+            return comments;
+        }else return null;
+    }
 
 
     @Override
@@ -175,6 +186,12 @@ public class QnAServiceImpl implements QnAService {
         repository.deleteAllById(Long.valueOf(qnaNo));
         log.info("delete qna no : " + qnaNo);
 
+    }
+
+    @Override
+    public QnAComment test(Integer qnaNo) {
+        QnA qnA = repository.findById(Long.valueOf(qnaNo)).orElseGet(null);
+        return commentRepository.findByRecentComment(qnA).orElseGet(null);
     }
 
 }

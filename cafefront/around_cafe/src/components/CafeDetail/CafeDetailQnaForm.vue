@@ -8,16 +8,14 @@
         </div>
         <div class="avatar-48">
           <img
-            v-if="
-              !userInfo || (Array.isArray(userInfo) && userInfo.length === 0)
-            "
+            v-if="!cafeImg && cafeImg.length === 0"
             src="@/assets/images/avatar.webp"
             alt=""
           />
-          <!-- <img
+          <img
             v-else
-            v-bind:src="require(`@/assets/images/memberImg/${userInfo.memImg}`)"
-          /> -->
+            v-bind:src="require(`@/assets/images/memberImg/${cafeImg}`)"
+          />
         </div>
       </div>
     </section>
@@ -75,6 +73,7 @@ export default {
       ],
       content: "",
       findQna: "",
+      cafeImg: "",
     }
   },
   computed: {
@@ -82,6 +81,7 @@ export default {
   },
   mounted() {
     this.fetchUserInfo()
+    this.fetchCafeImg(this.cafeNo)
   },
   methods: {
     ...mapActions(["fetchUserInfo"]),
@@ -114,6 +114,11 @@ export default {
         .catch(() => {
           alert("문의사항 등록에 실패하였습니다.")
         })
+    },
+    fetchCafeImg(cafeNo) {
+      axios.get(`http://localhost:7777/cafe/img/${cafeNo}`).then((res) => {
+        this.cafeImg = res.data
+      })
     },
   },
 }

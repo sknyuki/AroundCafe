@@ -4,6 +4,7 @@ import {
   FETCH_ORDER_CAFE_LIST,
   FETCH_MENU_LISTS,
   FETCH_CAFE_IMG_LISTS,
+  FETCH_CAFE_IMG,
   FETCH_REVIEW_LIST,
   FETCH_USER_REVIEW_LIST,
   FETCH_CAFE_REVIEW_LIST,
@@ -11,6 +12,7 @@ import {
   FETCH_HELPS_LIST,
   FETCH_QNA_LIST,
   FETCH_QNA_LISTS,
+  FETCH_ADMIN_QNA_LISTS,
 
   //공지사항
   FETCH_NOTICE_BOARD_LIST,
@@ -136,6 +138,13 @@ export default {
         commit(FETCH_QNA_LISTS, res.data)
       })
   },
+  fetchAdminQnALists({ commit }, membNo) {
+    return axios
+      .get(`http://localhost:7777/qna/admin/memberList/${membNo}`)
+      .then((res) => {
+        commit(FETCH_ADMIN_QNA_LISTS, res.data)
+      })
+  },
 
   //공지사항
 
@@ -202,5 +211,10 @@ export default {
         // console.log("멤버 소비 리스트 출력")
         // console.log(res.data)
       })
+  },
+  fetchCafeImg({ commit }, cafeNo) {
+    return axios.get(`http://localhost:7777/cafe/img/${cafeNo}`).then((res) => {
+      commit(FETCH_CAFE_IMG, res.data)
+    })
   },
 }

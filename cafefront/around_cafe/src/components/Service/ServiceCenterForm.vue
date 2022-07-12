@@ -36,7 +36,10 @@
                     <strong>1611-0828</strong>
                   </p>
                   <div class="btn-group">
-                    <v-btn class="btn-indigo btn-40" type="button"
+                    <v-btn
+                      class="btn-indigo btn-40"
+                      type="button"
+                      @click="goToQna"
                       >1:1 상담하기</v-btn
                     >
                     <v-btn class="btn-outlined btn-40" type="button">
@@ -109,6 +112,8 @@
   </div>
 </template>
 <script>
+import axios from "axios"
+
 export default {
   name: "ServiceCenterForm",
 
@@ -168,6 +173,37 @@ export default {
         } else {
           this.serviceNavs[index].isActive = true
         }
+      }
+    },
+    goToQna() {
+      if (this.$store.state.user == null) {
+        alert("로그인을 해주세요!")
+      } else {
+        let formData = new FormData()
+
+        let fileInfo = {
+          memNo: this.$store.state.user.memNo,
+          content: "관리자에게 문의글을 작성해주세요!",
+        }
+
+        formData.append(
+          "info",
+          new Blob([JSON.stringify(fileInfo)], { type: "application/json" })
+        )
+
+        axios
+          .post(`http://localhost:7777/qna/register`, formData)
+          .then((res) => {
+            alert(res.data)
+            if (this.$store.state.user.role == "CAFE") {
+              window.open("http://localhost:8080/admin/chat", "_blank")
+            } else if (this.$store.state.user.role == "USER") {
+              window.open("http://localhost:8080/chat", "_blank")
+            }
+          })
+          .catch(() => {
+            alert("문의사항 등록에 실패하였습니다.")
+          })
       }
     },
   },
