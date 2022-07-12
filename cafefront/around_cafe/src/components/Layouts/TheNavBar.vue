@@ -29,28 +29,28 @@ export default {
         },
         {
           id: 2,
-          title: "공지사항",
-          link: "/noticeBoard",
-        },
-        {
-          id: 3,
           title: "베스트",
           link: "/main",
         },
         {
-          id: 4,
+          id: 3,
           title: "뉴스",
           link: "/main",
         },
         {
-          id: 5,
+          id: 4,
           title: "지도",
           link: "/map/main",
         },
         {
-          id: 6,
+          id: 5,
           title: "고객센터",
           link: "/service",
+        },
+        {
+          id: 6,
+          title: "공지사항",
+          link: "/main/noticelist",
         },
       ],
     }
