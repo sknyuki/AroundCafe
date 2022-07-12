@@ -21,7 +21,7 @@
                 <div>
                   <v-text-field
                     rounded
-                    style="width: 150px"
+                    style="width: 100px"
                     readonly
                     :value="noticeBoard.writer"
                   />
@@ -37,7 +37,7 @@
                 </div>
 
                 <div>
-                  <div class="test mt-3">
+                  <div class="test mt-4">
                     <v-icon> mdi-account-eye</v-icon>
                     <span>{{ noticeBoard.viewCount }}</span>
                   </div>
@@ -140,12 +140,7 @@ export default {
       dialogDelete: false,
     }
   },
-  created() {
-    if (this.$store.state.session != null) {
-      this.loginAuth = this.$store.state.auth.auth
-      this.userId = this.$store.state.session.userId
-    }
-  },
+
   methods: {
     goList() {
       this.$router.push("/admin/noticelist")
@@ -189,7 +184,7 @@ export default {
 }
 .edit {
   margin-top: 15px;
-  margin-left: 400px;
+  margin-left: 300px;
 }
 .deleteBtn {
   margin-top: 9px;
