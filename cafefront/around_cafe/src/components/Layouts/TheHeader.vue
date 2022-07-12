@@ -122,7 +122,12 @@
         </div>
       </div>
     </div>
-    <TheSidebar :class="onSidebar" />
+    <TheSidebar
+      :class="onSidebar"
+      :isActive="isActive"
+      @submit="closeSidebar"
+      :userInfo="userInfo"
+    />
 
     <TheOverLay :class="onSidebar" @submit="offSidebar()" />
     <TheNavBar />
@@ -174,12 +179,10 @@ export default {
       console.log(payload)
       this.isActive = false
     },
-    onClick() {
-      this.isActive = false
-    },
-    onClick1() {
-      this.isActive = true
-    },
+    // closeSidebar(payload) {
+    //   console.log(payload)
+    //   this.isActive = false
+    // },
   },
 }
 </script>

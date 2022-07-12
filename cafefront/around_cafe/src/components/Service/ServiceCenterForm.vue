@@ -36,7 +36,10 @@
                     <strong>1611-0828</strong>
                   </p>
                   <div class="btn-group">
-                    <v-btn class="btn-indigo btn-40" type="button"
+                    <v-btn
+                      class="btn-indigo btn-40"
+                      type="button"
+                      @click="goToQna"
                       >1:1 상담하기</v-btn
                     >
                     <v-btn class="btn-outlined btn-40" type="button">
@@ -169,6 +172,12 @@ export default {
           this.serviceNavs[index].isActive = true
         }
       }
+    },
+    goToQna() {
+      if (this.$store.state.user == null) {
+        alert("로그인을 해주세요!")
+      }
+      //let memNo = this.$store.state.user.memNo
     },
   },
 }

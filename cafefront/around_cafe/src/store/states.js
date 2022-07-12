@@ -10,6 +10,7 @@ export default {
   reviews: [],
   review: {},
   helps: [],
+  cafeImg: null,
 
   qnaList: [],
   qnaLists: [],

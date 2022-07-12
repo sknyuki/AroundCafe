@@ -11,9 +11,24 @@
     <div class="sidebar-user">
       <a href="/">
         <div class="avatar-32">
-          <img src="@/assets/images/avatar.webp" alt="유저 기본이미지" />
+          <img
+            v-if="userInfo.memImg == null"
+            src="@/assets/images/avatar.webp"
+            alt="유저 기본이미지"
+          />
+          <img
+            v-if="userInfo.memImg != null && userInfo.socialType == 'LOCAL'"
+            v-bind:src="require(`@/assets/images/memberImg/${userInfo.memImg}`)"
+          />
+          <img
+            v-if="userInfo.memImg != null && userInfo.socialType != 'LOCAL'"
+            :src="userInfo.memImg"
+          />
         </div>
-        <strong class="username">유저네임</strong>
+        <strong v-if="userInfo.memImg == null" class="username"
+          >로그인을 해주세요!</strong
+        >
+        <strong v-else class="username">{{ userInfo.memNick }}</strong>
       </a>
     </div>
     <nav class="sidebar-nav">
@@ -21,7 +36,7 @@
       <div class="sidebar-user-menu">
         <ul class="user-menu-list">
           <li v-for="item in sidebarList" :key="item.id" class="user-menu-item">
-            <router-link :to="item.link">
+            <router-link :to="item.link" @click.native="closeSidebar">
               {{ item.title }}
             </router-link>
           </li>
@@ -56,7 +71,16 @@ import { mapState, mapActions } from "vuex"
 
 export default {
   name: "TheSidebar",
-
+  props: {
+    isActive: {
+      type: Boolean,
+      require: true,
+    },
+    userInfo: {
+      type: Object,
+      required: true,
+    },
+  },
   data() {
     return {
       sidebarList: [
@@ -118,6 +142,9 @@ export default {
         .catch((err) => {
           alert(err)
         })
+    },
+    closeSidebar() {
+      this.$emit("sumbit", { isActive: this.isActive })
     },
   },
 }
