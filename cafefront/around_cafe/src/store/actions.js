@@ -12,6 +12,7 @@ import {
   FETCH_HELPS_LIST,
   FETCH_QNA_LIST,
   FETCH_QNA_LISTS,
+  FETCH_ADMIN_QNA_LISTS,
 
   //공지사항
   FETCH_NOTICE_BOARD_LIST,
@@ -135,6 +136,13 @@ export default {
       .get(`http://localhost:7777/qna/memberList/${membNo}`)
       .then((res) => {
         commit(FETCH_QNA_LISTS, res.data)
+      })
+  },
+  fetchAdminQnALists({ commit }, membNo) {
+    return axios
+      .get(`http://localhost:7777/qna/admin/memberList/${membNo}`)
+      .then((res) => {
+        commit(FETCH_ADMIN_QNA_LISTS, res.data)
       })
   },
 

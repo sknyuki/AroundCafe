@@ -14,6 +14,7 @@ export default {
 
   qnaList: [],
   qnaLists: [],
+  adminQnaLists: [],
 
   user: {},
   userInfo: {},

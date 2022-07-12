@@ -112,6 +112,8 @@
   </div>
 </template>
 <script>
+import axios from "axios"
+
 export default {
   name: "ServiceCenterForm",
 
@@ -176,8 +178,33 @@ export default {
     goToQna() {
       if (this.$store.state.user == null) {
         alert("로그인을 해주세요!")
+      } else {
+        let formData = new FormData()
+
+        let fileInfo = {
+          memNo: this.$store.state.user.memNo,
+          content: "관리자에게 문의글을 작성해주세요!",
+        }
+
+        formData.append(
+          "info",
+          new Blob([JSON.stringify(fileInfo)], { type: "application/json" })
+        )
+
+        axios
+          .post(`http://localhost:7777/qna/register`, formData)
+          .then((res) => {
+            alert(res.data)
+            if (this.$store.state.user.role == "CAFE") {
+              window.open("http://localhost:8080/admin/chat", "_blank")
+            } else if (this.$store.state.user.role == "USER") {
+              window.open("http://localhost:8080/chat", "_blank")
+            }
+          })
+          .catch(() => {
+            alert("문의사항 등록에 실패하였습니다.")
+          })
       }
-      //let memNo = this.$store.state.user.memNo
     },
   },
 }

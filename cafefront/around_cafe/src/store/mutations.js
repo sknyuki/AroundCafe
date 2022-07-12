@@ -12,6 +12,7 @@ import {
   FETCH_HELPS_LIST,
   FETCH_QNA_LIST,
   FETCH_QNA_LISTS,
+  FETCH_ADMIN_QNA_LISTS,
   FETCH_USER,
   FETCH_USER_INFO,
   FETCH_HELP,
@@ -93,6 +94,9 @@ export default {
 
   [FETCH_QNA_LISTS](state, qnaLists) {
     state.qnaLists = qnaLists
+  },
+  [FETCH_ADMIN_QNA_LISTS](state, adminQnaLists) {
+    state.adminQnaLists = adminQnaLists
   },
 
   //공지사항
