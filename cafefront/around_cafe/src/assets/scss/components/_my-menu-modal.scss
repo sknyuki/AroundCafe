@@ -1,7 +1,7 @@
 .my-menu {
   position: relative;
 
-  &.active {
+  &.is-active {
     .my-menu-content {
       opacity: 1;
       visibility: visible;
