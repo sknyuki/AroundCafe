@@ -32,7 +32,7 @@
                 </tr>
               </thead>
               <tbody v-for="(member, index) in listData" :key="index">
-                <tr v-if="member.name != ADMIN">
+                <tr v-if="member.name !== 'ADMIN'">
                   <td align="center">{{ member.memNo }}</td>
                   <td align="center">{{ member.memId }}</td>
                   <td align="center">{{ member.memNick }}</td>
@@ -40,7 +40,7 @@
                   <td align="center">{{ member.phoneNum }}</td>
                   <td align="center">{{ member.name }}</td>
                   <td align="center">
-                    <div v-if="!member.isblack">
+                    <div v-if="!member.isMemberOnBlacklist">
                       <v-btn class="btn-red" @click="ToBlackList(index)">
                         <v-icon>mdi-account-remove </v-icon>BlackList
                       </v-btn>
@@ -78,6 +78,7 @@ export default {
     return {
       adminlist: [],
       listData: [],
+      membNo: 0,
       page: 1,
       limit: 10,
       block: 5,
@@ -124,26 +125,37 @@ export default {
     ToBlackList(index) {
       var result = confirm("블랙리스틀로 등록하시겠습니까?")
       if (result) {
-        this.adminlist[index].isblack = true
-      }
-      this.$router.go()
+        console.log("블랙리스트 설정")
+        console.log()
+        this.membNo = this.adminlist[index].memNo
 
-      // axios
-      //   .post(
-      //     `http://localhost:7777/members/${this.membNo}`),
-      //     {},
-      //     {
-      //       headers: {
-      //         "Content-Type": "application/json",
-      //       },
-      //     }
+        axios
+          .post(`http://localhost:7777/members/black/${this.membNo}`)
+          .then((res) => {
+            alert(res.data)
+            this.$router.go()
+          })
+          .catch(() => {
+            alert("등록실패!")
+          })
+      }
     },
+
     TakeBack(index) {
       var result = confirm("블랙리스트를 해제 하겠습니까?")
       if (result) {
-        this.adminlist[index].isblack = false
+        this.membNo = this.adminlist[index].memNo
+
+        axios
+          .post(`http://localhost:7777/members/black/${this.membNo}`)
+          .then((res) => {
+            alert(res.data)
+            this.$router.go()
+          })
+          .catch(() => {
+            alert("등록실패!")
+          })
       }
-      this.$router.go()
     },
   },
 }

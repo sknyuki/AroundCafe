@@ -28,15 +28,15 @@ Vue.use(VueRouter)
 //   }
 // }
 // 관리자 권한 여부
-const authAdmin = (to, from, next) => {
-  let validate = userService.getUserInfo("ADMIN")
-  if (validate == "ADMIN") {
-    next()
-  } else {
-    next("/")
-    alert("AroundCafe관리자만 가능합니다.")
-  }
-}
+// const authAdmin = (to, from, next) => {
+//   let validate = userService.getUserInfo("ADMIN")
+//   if (validate == "ADMIN") {
+//     next()
+//   } else {
+//     next("/")
+//     alert("AroundCafe관리자만 가능합니다.")
+//   }
+// }
 
 // 카페 권한 여부
 const authCafe = (to, from, next) => {
@@ -112,26 +112,26 @@ const routes = [
     path: "/admin/pw",
     name: "AdminPasswordPage",
     component: () => import("@/views/Admin/AdminPasswordPage.vue"),
-    beforeEnter: (to, from, next) => authAdmin(to, from, next),
+    // beforeEnter: (to, from, next) => authAdmin(to, from, next),
   },
   {
     path: "/admin/AdminUserModifyPage",
     name: "AdminUserModifyPage",
     component: () => import("@/views/Admin/AdminUserModifyPage.vue"),
-    beforeEnter: (to, from, next) => authAdmin(to, from, next),
+    // beforeEnter: (to, from, next) => authAdmin(to, from, next),
   },
   {
     path: "/admin/AdminUsageMemberListPage",
     name: "AdminUsageMemberListPage",
     component: () => import("@/views/Admin/AdminUsageMemberListPage.vue"),
-    beforeEnter: (to, from, next) => authAdmin(to, from, next),
+    // beforeEnter: (to, from, next) => authAdmin(to, from, next),
   },
   {
     path: "/admin/",
     name: "AdminUsageMemberPage",
     components: {
       default: () => import("@/views/Admin/AdminUsageMemberPage.vue"),
-      beforeEnter: (to, from, next) => authAdmin(to, from, next),
+      // beforeEnter: (to, from, next) => authAdmin(to, from, next),
     },
     props: {
       default: true,
@@ -141,19 +141,19 @@ const routes = [
     path: "/admin/member",
     name: "AdminMemberListPage",
     component: () => import("@/views/Admin/AdminMemberListPage.vue"),
-    beforeEnter: (to, from, next) => authAdmin(to, from, next),
+    // beforeEnter: (to, from, next) => authAdmin(to, from, next),
   },
   {
     path: "/admin/cafe",
     name: "AdminCafeListPage",
     component: () => import("@/views/Admin/AdminCafeListPage.vue"),
-    beforeEnter: (to, from, next) => authAdmin(to, from, next),
+    // beforeEnter: (to, from, next) => authAdmin(to, from, next),
   },
   {
     path: "/admin/cafe/sales",
     name: "AdminCafeSalesPage",
     component: () => import("@/views/Admin/AdminCafeSalesPage.vue"),
-    beforeEnter: (to, from, next) => authAdmin(to, from, next),
+    // beforeEnter: (to, from, next) => authAdmin(to, from, next),
   },
   {
     path: "/admin/cafe/sales/detail",
@@ -161,7 +161,7 @@ const routes = [
     components: {
       default: () => import("@/views/Admin/AdminCafeSalesDetailPage.vue"),
     },
-    beforeEnter: (to, from, next) => authAdmin(to, from, next),
+    // beforeEnter: (to, from, next) => authAdmin(to, from, next),
 
     props: {
       default: true,
@@ -173,7 +173,7 @@ const routes = [
     components: {
       default: () => import("@/views/Admin/AdminCafeSalesMenuPage.vue"),
     },
-    beforeEnter: (to, from, next) => authAdmin(to, from, next),
+    // beforeEnter: (to, from, next) => authAdmin(to, from, next),
 
     props: {
       default: true,
@@ -183,7 +183,7 @@ const routes = [
     path: "/admin/noticelist",
     name: "NoticelistPage",
     component: () => import("@/views/Admin/AdminNotice/NoticeListPage.vue"),
-    beforeEnter: (to, from, next) => authAdmin(to, from, next),
+    // beforeEnter: (to, from, next) => authAdmin(to, from, next),
   },
 
   {
@@ -192,7 +192,7 @@ const routes = [
     components: {
       default: NoticeReadPage,
     },
-    beforeEnter: (to, from, next) => authAdmin(to, from, next),
+    // beforeEnter: (to, from, next) => authAdmin(to, from, next),
 
     props: {
       default: true,
@@ -204,7 +204,7 @@ const routes = [
     components: {
       default: NoticeModifyPage,
     },
-    beforeEnter: (to, from, next) => authAdmin(to, from, next),
+    // beforeEnter: (to, from, next) => authAdmin(to, from, next),
 
     props: {
       default: true,

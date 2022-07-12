@@ -106,7 +106,7 @@ public class MemberServiceImpl implements MemberService {
 
         //수정한 디테일에 이미지가 있고 + 기존에 저장한 이미지가 있다면, 기존 이미지 삭제 후 수정 이미지를 저장한다.
         //추가, 카톡 이미지는 http형식이기 때문에 삭제하지 않고 덮어씌우기 한다.
-        if(member.getMemImg() != null && member.getMemImg().indexOf("k.kakaocdn.net") < 5) {
+        if (member.getMemImg() != null && member.getMemImg().indexOf("k.kakaocdn.net") < 5) {
             Path filePath = Paths.get("../../cafefront/around_cafe/src/assets/images/memberImg/" + member.getMemImg());
             Files.delete(filePath);
             log.info("file delete complete");
@@ -146,15 +146,30 @@ public class MemberServiceImpl implements MemberService {
             memberBlackResponse.setName(member.getRole().getName().getValue());
             memberBlackResponses.add(memberBlackResponse);
 
-            }
+        }
 
         return memberBlackResponses;
     }
 
     @Override
-    public boolean balckToTrue(Long membNo) {
-        return false;
+    public String blackChange(Long membNo) {
+        MemberRole memberRole = memberRoleRepository.findById(membNo).orElseGet(null);
+        if (!memberRole.getIsMemberOnBlacklist()) {
+            log.info("멤버롤 블랙 확인"+memberRole.getIsMemberOnBlacklist());
+            memberRole.setIsMemberOnBlacklist(true);
+            memberRoleRepository.save(memberRole);
+            return "블랙리스트로 등록하였습니다.";
+        } else {
+            memberRole.setIsMemberOnBlacklist(false);
+            log.info("멤버롤 블랙 확인"+memberRole.getIsMemberOnBlacklist());
+            memberRoleRepository.save(memberRole);
+            return "블랙리스트를 해체하였습니다.";
+        }
     }
+
+
+
+
 
 //    @Override
 //    public boolean balckToTrue (Long membNo){

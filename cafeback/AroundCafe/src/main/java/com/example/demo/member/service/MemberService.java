@@ -27,5 +27,5 @@ public interface MemberService {
     public List<Member> findMembersByRoleType(MemberRoleType name);
     public void changeMemberPassword(Member member, String password);
     public List<MemberBlackResponse> list();
-    public boolean balckToTrue (Long membNo);
+    public String blackChange (Long membNo);
 }
