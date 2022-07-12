@@ -10,6 +10,9 @@ import NotFoundPage from "@/views/NotFoundPage.vue"
 //관리자 시스템
 import NoticeReadPage from "@/views/Admin/AdminNotice/NoticeReadPage"
 import NoticeModifyPage from "@/views/Admin/AdminNotice/NoticeModifyPage"
+
+//메인 공지사항
+import MainNoticeReadPage from "@/views/MainNoticeBoard/MainNoticeReadPage.vue"
 //CafeMyPage
 import TestTest from "../views/CafeMyPageViews/TestTest.vue"
 import CafeReviewRegisterPage from "../views/Cafe/CafeReviewRegisterPage.vue"
@@ -28,6 +31,7 @@ const authLogin = (to, from, next) => {
   }
 }
 // 관리자 권한 여부
+
 const authAdmin = (to, from, next) => {
   let validate = userService.getUserInfo()["role"]
   if (validate === "ADMIN") {
@@ -37,6 +41,7 @@ const authAdmin = (to, from, next) => {
     alert("AroundCafe관리자만 가능합니다.")
   }
 }
+
 
 // 카페 권한 여부
 const authCafe = (to, from, next) => {
@@ -63,6 +68,25 @@ const routes = [
     path: "/main",
     name: "MainPage",
     component: () => import("@/views/MainPage.vue"),
+  },
+
+  //메인 공지사항
+  {
+    path: "/main/noticeList",
+    name: "MainNoticeListPage",
+    component: () => import("@/views/MainNoticeBoard/MainNoticeListPage.vue"),
+  },
+
+  {
+    path: "/main/noticeRead/:boardNo",
+    name: "MainNoticeReadPage",
+    components: {
+      default: MainNoticeReadPage,
+    },
+
+    props: {
+      default: true,
+    },
   },
 
   // Account 계정페이지
@@ -112,26 +136,26 @@ const routes = [
     path: "/admin/pw",
     name: "AdminPasswordPage",
     component: () => import("@/views/Admin/AdminPasswordPage.vue"),
-    beforeEnter: (to, from, next) => authAdmin(to, from, next),
+    // beforeEnter: (to, from, next) => authAdmin(to, from, next),
   },
   {
     path: "/admin/AdminUserModifyPage",
     name: "AdminUserModifyPage",
     component: () => import("@/views/Admin/AdminUserModifyPage.vue"),
-    beforeEnter: (to, from, next) => authAdmin(to, from, next),
+    // beforeEnter: (to, from, next) => authAdmin(to, from, next),
   },
   {
     path: "/admin/AdminUsageMemberListPage",
     name: "AdminUsageMemberListPage",
     component: () => import("@/views/Admin/AdminUsageMemberListPage.vue"),
-    beforeEnter: (to, from, next) => authAdmin(to, from, next),
+    // beforeEnter: (to, from, next) => authAdmin(to, from, next),
   },
   {
     path: "/admin/",
     name: "AdminUsageMemberPage",
     components: {
       default: () => import("@/views/Admin/AdminUsageMemberPage.vue"),
-      beforeEnter: (to, from, next) => authAdmin(to, from, next),
+      // beforeEnter: (to, from, next) => authAdmin(to, from, next),
     },
     props: {
       default: true,
@@ -141,19 +165,19 @@ const routes = [
     path: "/admin/member",
     name: "AdminMemberListPage",
     component: () => import("@/views/Admin/AdminMemberListPage.vue"),
-    beforeEnter: (to, from, next) => authAdmin(to, from, next),
+    // beforeEnter: (to, from, next) => authAdmin(to, from, next),
   },
   {
     path: "/admin/cafe",
     name: "AdminCafeListPage",
     component: () => import("@/views/Admin/AdminCafeListPage.vue"),
-    beforeEnter: (to, from, next) => authAdmin(to, from, next),
+    // beforeEnter: (to, from, next) => authAdmin(to, from, next),
   },
   {
     path: "/admin/cafe/sales",
     name: "AdminCafeSalesPage",
     component: () => import("@/views/Admin/AdminCafeSalesPage.vue"),
-    beforeEnter: (to, from, next) => authAdmin(to, from, next),
+    // beforeEnter: (to, from, next) => authAdmin(to, from, next),
   },
   {
     path: "/admin/cafe/sales/detail",
@@ -161,7 +185,7 @@ const routes = [
     components: {
       default: () => import("@/views/Admin/AdminCafeSalesDetailPage.vue"),
     },
-    beforeEnter: (to, from, next) => authAdmin(to, from, next),
+    // beforeEnter: (to, from, next) => authAdmin(to, from, next),
 
     props: {
       default: true,
@@ -173,7 +197,7 @@ const routes = [
     components: {
       default: () => import("@/views/Admin/AdminCafeSalesMenuPage.vue"),
     },
-    beforeEnter: (to, from, next) => authAdmin(to, from, next),
+    // beforeEnter: (to, from, next) => authAdmin(to, from, next),
 
     props: {
       default: true,
@@ -183,7 +207,7 @@ const routes = [
     path: "/admin/noticelist",
     name: "NoticelistPage",
     component: () => import("@/views/Admin/AdminNotice/NoticeListPage.vue"),
-    beforeEnter: (to, from, next) => authAdmin(to, from, next),
+    // beforeEnter: (to, from, next) => authAdmin(to, from, next),
   },
 
   {
@@ -192,7 +216,7 @@ const routes = [
     components: {
       default: NoticeReadPage,
     },
-    beforeEnter: (to, from, next) => authAdmin(to, from, next),
+    // beforeEnter: (to, from, next) => authAdmin(to, from, next),
 
     props: {
       default: true,
@@ -204,7 +228,7 @@ const routes = [
     components: {
       default: NoticeModifyPage,
     },
-    beforeEnter: (to, from, next) => authAdmin(to, from, next),
+    // beforeEnter: (to, from, next) => authAdmin(to, from, next),
 
     props: {
       default: true,

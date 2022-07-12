@@ -24,17 +24,10 @@ export default {
   mounted() {
     this.fetchNoticeBoardList()
   },
-  created() {
-    if (this.$store.state.session != null) {
-      this.loginAuth = this.$store.state.auth.auth
-      this.userId = this.$store.state.session.userId
-    }
-  },
+
   methods: {
     ...mapActions(["fetchNoticeBoardList"]),
-    writeBoard() {
-      this.$router.push("/NoticeRegisterPage")
-    },
+
     onSubmit(payload) {
       const { title, content, writer } = payload
       axios
