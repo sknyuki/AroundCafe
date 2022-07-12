@@ -20,7 +20,6 @@ import CafeReviewRegisterPage from "../views/Cafe/CafeReviewRegisterPage.vue"
 
 Vue.use(VueRouter)
 
-// 로그인 권한 여부
 // const authLogin = (to, from, next) => {
 //   let validate = userService.getUserInfo("USER")
 //   if (validate == "USER") {
@@ -30,16 +29,19 @@ Vue.use(VueRouter)
 //     alert("로그인이 필요합니다")
 //   }
 // }
+
 // 관리자 권한 여부
-// const authAdmin = (to, from, next) => {
-//   let validate = userService.getUserInfo("ADMIN")
-//   if (validate == "ADMIN") {
-//     next()
-//   } else {
-//     next("/")
-//     alert("AroundCafe관리자만 가능합니다.")
-//   }
-// }
+
+const authAdmin = (to, from, next) => {
+  let validate = userService.getUserInfo()["role"]
+  if (validate === "ADMIN") {
+    next()
+  } else {
+    next("/")
+    alert("AroundCafe관리자만 가능합니다.")
+  }
+}
+
 
 // 카페 권한 여부
 // const authCafe = (to, from, next) => {
