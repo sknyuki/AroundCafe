@@ -18,7 +18,7 @@
                 <template v-if="index < 5">
                   <img
                     :src="require(`@/assets/cafe/cafeMypage/${img.cafe_img}`)"
-                    :alt="`Image${img.cafeImgNo}`"
+                    :alt="`이미지${img.cafeImgNo}`"
                   />
                 </template>
               </picture>
