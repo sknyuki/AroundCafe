@@ -232,58 +232,7 @@
                         class="chat-box opponent"
                       >
                         <div class="avatar-48">
-                          <img
-                            v-if="
-                              index == 0 &&
-                              adminQnaLists[selectQna].received_socialType ==
-                                'LOCAL'
-                            "
-                            v-bind:src="
-                              require(`@/assets/images/memberImg/${adminQnaLists[selectQna].received_img}`)
-                            "
-                          />
-                          <img
-                            v-if="
-                              index == 0 &&
-                              adminQnaLists[selectQna].received_socialType !=
-                                'LOCAL'
-                            "
-                            v-bind:src="adminQnaLists[selectQna].received_img"
-                          />
-                          <img
-                            v-if="adminQnaLists[selectQna].received_img == null"
-                            src="@/assets/images/avatar.webp"
-                            alt=""
-                          />
-                          <img
-                            v-if="
-                              index > 0 &&
-                              qnaList[index].writer !=
-                                qnaList[index - 1].writer &&
-                              adminQnaLists[selectQna].received_socialType ==
-                                'LOCAL'
-                            "
-                            v-bind:src="
-                              require(`@/assets/images/memberImg/${adminQnaLists[selectQna].received_img}`)
-                            "
-                          />
-                          <img
-                            v-if="
-                              index > 0 &&
-                              qnaList[index].writer !=
-                                qnaList[index - 1].writer &&
-                              adminQnaLists[selectQna].received_socialType !=
-                                'LOCAL'
-                            "
-                            v-bind:src="adminQnaLists[selectQna].received_img"
-                          />
-                          <img
-                            v-if="
-                              index > 0 &&
-                              qnaList[index].writer == qnaList[index - 1].writer
-                            "
-                            v-bind:src="require(`@/assets/qna/whiteImg.jpg`)"
-                          />
+                          <img src="@/assets/images/avatar.webp" alt="" />
                         </div>
                         <div v-if="item.content != null">
                           <p class="chat-box-contents opponent">
