@@ -185,7 +185,6 @@
                             </dl>
                           </div>
                         </div>
-
                         <CafeReviewForm :cafeNo="cafeNo" />
                       </section>
                     </div>
