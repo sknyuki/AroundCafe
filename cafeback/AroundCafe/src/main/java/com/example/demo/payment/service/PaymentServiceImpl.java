@@ -115,27 +115,31 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     public PaymentResponse payment2PaymentResponse(Payment payment) {
-        PaymentResponse paymentResponse = PaymentResponseMapStruct.instance.toDto(payment);
-        Cafe cafe = cafeRepository.findByCafeNo2(payment.getCafeNo()).orElseThrow(()
-                -> new ResourceNotFoundException("cafe", "cafeNo", payment.getCafeNo()));
+        if(payment.getPaymentStatus() != PaymentStatus.PAYMENT_CANCELED) {
+            PaymentResponse paymentResponse = PaymentResponseMapStruct.instance.toDto(payment);
+            Cafe cafe = cafeRepository.findByCafeNo2(payment.getCafeNo()).orElseThrow(()
+                    -> new ResourceNotFoundException("cafe", "cafeNo", payment.getCafeNo()));
 
-        if (payment.getMember() != null) {
-            paymentResponse.setMemNo(payment.getMember().getMemNo());
+            if (payment.getMember() != null) {
+                paymentResponse.setMemNo(payment.getMember().getMemNo());
+            } else {
+                paymentResponse.setMemNo(null);
+            }
+            paymentResponse.setCafeName(cafe.getCafe_name());
+
+            List<OrderItemResponse> orderItemList = new ArrayList<>();
+            for (OrderItem orderItem : payment.getOrderItem()) {
+                OrderItemResponse orderItemResponse = OrderItemResponseMapStruct.instance.toDto(orderItem);
+                CafeMenu cafeMenu = menuRepository.findById(orderItem.getCafeMenuNo()).orElseGet(null);
+                orderItemResponse.setImageUrl(cafeMenu.getMenu_img());
+                orderItemList.add(orderItemResponse);
+            }
+            paymentResponse.setOrderItems(orderItemList);
+
+            return paymentResponse;
         } else {
-            paymentResponse.setMemNo(null);
+            return null;
         }
-        paymentResponse.setCafeName(cafe.getCafe_name());
-
-        List<OrderItemResponse> orderItemList = new ArrayList<>();
-        for(OrderItem orderItem : payment.getOrderItem()) {
-            OrderItemResponse orderItemResponse = OrderItemResponseMapStruct.instance.toDto(orderItem);
-            CafeMenu cafeMenu = menuRepository.findById(orderItem.getCafeMenuNo()).orElseGet(null);
-            orderItemResponse.setImageUrl(cafeMenu.getMenu_img());
-            orderItemList.add(orderItemResponse);
-        }
-        paymentResponse.setOrderItems(orderItemList);
-
-        return paymentResponse;
     }
 
     @Override
