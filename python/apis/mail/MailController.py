@@ -13,3 +13,11 @@ def verifyEmail():
     data = {'code': code}
 
     return jsonify(data)
+
+
+@mailBp.route("/sendInfo", methods=['POST'])
+def sendInfo():
+    info = request.json
+    MailService().send_payment_status(info)
+
+    return 200

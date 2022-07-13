@@ -38,7 +38,7 @@
                 <span>{{ order.paymentNo }} | </span
                 >{{ order.paymentDate | yyyyMMdd }}
               </div>
-              <OrderCafeBtn v-if="order" :order="order" :role="role" />
+              <OrderCafeBtn v-if="order" :order="order" :role="role" :user="user" />
             </div>
             <!-- 내용 -->
             <div>
