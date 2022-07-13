@@ -92,10 +92,10 @@
                         </div>
                         <div class="order-history-text price">
                           <span>
-                            {{ order.totalAmount | pricePoint }}|{{
-                              order.totalPointAmount | pricePoint
-                            }}
-                            | {{ order.totalQuantity }}개</span
+                            {{ order.totalAmount | pricePoint }} |
+                            {{ order.totalPointAmount | pricePoint
+                            }}<span class="point">P</span> |
+                            {{ order.totalQuantity }}개</span
                           >
                         </div>
                       </div>
@@ -148,7 +148,6 @@ export default {
         "CAFE_READY",
         "PICK_UP_FINISHED",
         "PAYMENT_CANCELED",
-        "PAYMENT_READY",
       ],
       selectPeriod: ["전체보기", "1달", "3달", "6달", "1년"],
       newStatusArr: [],
@@ -176,11 +175,11 @@ export default {
     getPeriod(changeMonth) {
       let today = new Date()
       const newDate = new Date(
-          new Date().setFullYear(
-              today.getFullYear(),
-              today.getMonth() - changeMonth,
-              today.getDate() + 1
-          )
+        new Date().setFullYear(
+          today.getFullYear(),
+          today.getMonth() - changeMonth,
+          today.getDate() + 1
+        )
       )
       return newDate
     },
@@ -206,5 +205,9 @@ export default {
   width: 90px;
   height: 20px;
   margin: 20px;
+}
+.point {
+  color: $red;
+  font-weight: 700;
 }
 </style>
