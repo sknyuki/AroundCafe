@@ -25,7 +25,7 @@
             </div>
           </v-col>
         </v-row>
-        <v-row class="map_searchResult">
+        <!-- <v-row class="map_searchResult">
           <v-col cols="11">
             <div class="radio">
               <div>최대 검색 거리 선택</div>
@@ -34,7 +34,7 @@
               </label>
             </div>
           </v-col>
-        </v-row>
+        </v-row> -->
 
         <v-row class="map_searchResult">
           <v-col cols="11">
