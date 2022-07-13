@@ -29,10 +29,7 @@
         @click="cancel(order.paymentNo, order.paymentStatus)"
         >취소</v-btn
       >
-      <v-btn
-        type="button"
-        class="btn-40"
-        @click="goDetails(order.paymentNo)"
+      <v-btn type="button" class="btn-40" @click="goDetails(order.paymentNo)"
         >상세보기</v-btn
       >
     </div>
@@ -46,6 +43,10 @@ export default {
   name: "OrderCafeBtn",
 
   props: {
+    user: {
+      type: Object,
+      required: true,
+    },
     order: {
       type: Object,
       required: true,
@@ -79,44 +80,44 @@ export default {
       }
     },
 
-    ready(paymentNo, paymentStatus) {
+    async ready(paymentNo, paymentStatus) {
       let status = this.transfer(paymentStatus) + 1
       const data = {
         paymentStatus: status,
       }
-
-      if (paymentStatus == "PAYMENT_CONFIRMED") {
-        axios
-          .put(`http://localhost:7777/payment/order/status/${paymentNo}`, data)
-          .then(() => {
-            alert("주문이 준비중입니다")
-            this.$router.go()
-          })
-          .catch(() => {
-            alert("수정 실패!")
-          })
-      } else {
-        alert("이미 준비중입니다")
+      try{
+        if (paymentStatus === "PAYMENT_CONFIRMED") {
+          await axios.put(`http://localhost:7777/payment/order/status/${paymentNo}`, data)
+          await this.sendEmail("CAFE_READY")
+          alert("주문이 준비중입니다")
+          this.$router.go()
+        } else {
+          alert("이미 준비중입니다")
+        }
+      } catch {
+        alert("수정 실패!")
       }
     },
 
-    completed(paymentNo, paymentStatus) {
+    async completed(paymentNo, paymentStatus) {
       let tmp = paymentStatus
       tmp = "PICK_UP_FINISHED"
       const data = {
         paymentStatus: tmp,
       }
-      axios
-        .put(`http://localhost:7777/payment/order/status/${paymentNo}`, data)
-        .then(() => {
-          alert("음료가 준비되었습니다")
-          this.$router.go()
-        })
-        .catch(() => {
-          alert("준비중 실패")
-        })
+      try {
+        await axios.put(
+          `http://localhost:7777/payment/order/status/${paymentNo}`,
+          data
+        )
+        await this.sendEmail(tmp)
+        alert("음료가 준비되었습니다")
+        this.$router.go()
+      } catch {
+        alert("준비중 실패")
+      }
     },
-    cancel(paymentNo, paymentStatus) {
+    async cancel(paymentNo, paymentStatus) {
       let tmp = paymentStatus
       tmp = "PAYMENT_CANCELED"
 
@@ -124,16 +125,18 @@ export default {
       const data = {
         paymentStatus: status,
       }
-      if (paymentStatus == "PAYMENT_CONFIRMED") {
-        axios
-          .put(`http://localhost:7777/payment/order/status/${paymentNo}`, data)
-          .then(() => {
-            alert("주문이 취소되었습니다")
-            this.$router.go()
-          })
-          .catch(() => {
-            alert("주문취소 실패")
-          })
+      if (paymentStatus === "PAYMENT_CONFIRMED") {
+        try {
+          await axios.put(
+            `http://localhost:7777/payment/order/status/${paymentNo}`,
+            data
+          )
+          await this.sendEmail(tmp)
+        } catch {
+          alert("주문취소 실패")
+        }
+        alert("주문이 취소되었습니다")
+        this.$router.go()
       }
     },
     goDetails(paymentNo) {
@@ -141,6 +144,15 @@ export default {
         name: "UserOrderHistoryDetailPage",
         params: { paymentNo: paymentNo },
       })
+    },
+    async sendEmail(paymentStatus) {
+      const sendInfo = {
+        role: this.role,
+        mem_no: this.user.memNo,
+        cafe_no: this.order.cafeNo,
+        status: paymentStatus,
+      }
+      await axios.post("http://localhost:5000/mail/sendInfo", sendInfo)
     },
   },
 }

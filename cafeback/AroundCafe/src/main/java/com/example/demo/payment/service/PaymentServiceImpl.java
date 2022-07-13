@@ -83,7 +83,10 @@ public class PaymentServiceImpl implements PaymentService {
         List<Payment> paymentList =  paymentRepository.findAllByMember(member);
         List<PaymentResponse> paymentDtoList = new ArrayList<>();
         for(Payment payment : paymentList) {
-            paymentDtoList.add(payment2PaymentResponse(payment));
+            PaymentResponse paymentResponse = payment2PaymentResponse(payment);
+            if(paymentResponse !=null){
+                paymentDtoList.add(paymentResponse);
+            }
         }
         return paymentDtoList;
     }
@@ -94,7 +97,10 @@ public class PaymentServiceImpl implements PaymentService {
         List<Payment> paymentList =  paymentRepository.findAllByCafeNo(cafeNo);
         List<PaymentResponse> paymentDtoList = new ArrayList<>();
         for(Payment payment : paymentList) {
-            paymentDtoList.add(payment2PaymentResponse(payment));
+            PaymentResponse paymentResponse = payment2PaymentResponse(payment);
+            if(paymentResponse != null){
+                paymentDtoList.add(paymentResponse);
+            }
         }
         return paymentDtoList;
     }
@@ -115,7 +121,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     public PaymentResponse payment2PaymentResponse(Payment payment) {
-        if(payment.getPaymentStatus() != PaymentStatus.PAYMENT_CANCELED) {
+        if(payment.getPaymentStatus() != PaymentStatus.PAYMENT_READY) {
             PaymentResponse paymentResponse = PaymentResponseMapStruct.instance.toDto(payment);
             Cafe cafe = cafeRepository.findByCafeNo2(payment.getCafeNo()).orElseThrow(()
                     -> new ResourceNotFoundException("cafe", "cafeNo", payment.getCafeNo()));
