@@ -11,7 +11,7 @@
         <div class="col-sm-4 col-md-9 col-lg-9">
           <div class="member-list">
             <header class="member-list-header">
-              <h2>카페 별 매출 조회</h2>
+              <h2>카페 매출</h2>
             </header>
             <template v-if="loading">
               <LoadingSpinner :loading="loading" />
