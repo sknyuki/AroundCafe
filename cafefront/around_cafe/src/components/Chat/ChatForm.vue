@@ -230,36 +230,25 @@
                       >
                         <div class="avatar-48">
                           <img
-                            v-if="
-                              index == 0 &&
-                              qnaLists[selectQna].received_socialType == 'LOCAL'
-                            "
-                            v-bind:src="
-                              require(`@/assets/images/memberImg/${qnaLists[selectQna].received_img}`)
-                            "
-                          />
-                          <img
-                            v-if="
-                              index == 0 &&
-                              qnaLists[selectQna].received_socialType != 'LOCAL'
-                            "
-                            v-bind:src="qnaLists[selectQna].received_img"
-                          />
-                          <img
                             v-if="qnaLists[selectQna].received_img == null"
                             src="@/assets/images/avatar.webp"
                             alt=""
                           />
                           <img
                             v-if="
-                              index > 0 &&
-                              qnaList[index].writer !=
-                                qnaList[index - 1].writer &&
+                              qnaLists[selectQna].received_img != null &&
                               qnaLists[selectQna].received_socialType == 'LOCAL'
                             "
                             v-bind:src="
                               require(`@/assets/images/memberImg/${qnaLists[selectQna].received_img}`)
                             "
+                          />
+                          <img
+                            v-if="
+                              qnaLists[selectQna].received_img != null &&
+                              qnaLists[selectQna].received_socialType != 'LOCAL'
+                            "
+                            v-bind:src="qnaLists[selectQna].received_img"
                           />
                           <img
                             v-if="

@@ -45,7 +45,7 @@
             </router-link>
           </template>
           <template v-else>
-            <router-link class="mysidebar-link" :to="item.link" target="_blank">
+            <router-link class="mysidebar-link" :to="item.link">
               <div class="mysidebar-test">
                 <v-icon>{{ item.icon }}</v-icon>
                 <p>{{ item.title }}</p>

@@ -74,9 +74,7 @@ export default {
     //await this.fetchcafeBoardList()
     this.loading = true
     await this.fetchMyLikesList(this.membNo)
-    setTimeout(() => {
-      this.loading = false
-    }, 1500)
+    this.loading = false
     // await Promise.all((resolve) => {
     //   resolve(this.fetchcafeBoardList(), this.fetchMyLikesList(this.membNo))
     // })

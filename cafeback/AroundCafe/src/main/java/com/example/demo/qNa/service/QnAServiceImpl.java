@@ -145,7 +145,6 @@ public class QnAServiceImpl implements QnAService {
 
     private List<QnAResponse> getQnaList(List<QnA> qnAS, Member member) {
         List<QnAResponse> comments = new ArrayList<>();
-
         if(qnAS.size() > 0){
             for(QnA findQna : qnAS) { //qna에 대한 리스트에서 for문을 돌면서 내용을 찾음
                 Member orderMem = null;
@@ -154,7 +153,6 @@ public class QnAServiceImpl implements QnAService {
                 }else {
                     orderMem = memberRepository.findById(findQna.getReceived_no()).orElseGet(null);
                 }
-
                 QnAComment comment = commentRepository.findByRecentComment(findQna).orElseGet(null);
 
                 QnAResponse response = QnAResponse.builder()
@@ -168,9 +166,7 @@ public class QnAServiceImpl implements QnAService {
                         .writer_name(member.getMemNick())
                         .writerImg(member.getMemImg())
                         .content(comment.getContent())
-
                         .build();
-
                 comments.add(response);
             }
             return comments;
