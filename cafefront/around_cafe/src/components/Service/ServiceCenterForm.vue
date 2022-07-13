@@ -201,9 +201,7 @@ export default {
               window.open("http://localhost:8080/chat", "_blank")
             }
           })
-          .catch(() => {
-            alert("문의사항 등록에 실패하였습니다.")
-          })
+          .catch(() => {})
       }
     },
   },

@@ -1,86 +1,90 @@
 <template>
   <form class="cafe-review">
-    <LoadingSpinner :loading="loading" />
-    <div
-      v-for="(review, index) in listData"
-      :key="index"
-      class="cafe-review-content"
-    >
-      <ol class="cafe-review-list">
-        <li class="cafe-review-item">
-          <article class="cafe-review-card">
-            <header class="cafe-review-header">
-              <h3 class="visually-hidden">{{ review.reviewNo }}</h3>
+    <template v-if="loading">
+      <LoadingSpinner :loading="loading" />
+    </template>
+    <template v-else>
+      <div
+        v-for="(review, index) in listData"
+        :key="index"
+        class="cafe-review-content"
+      >
+        <ol class="cafe-review-list">
+          <li class="cafe-review-item">
+            <article class="cafe-review-card">
+              <header class="cafe-review-header">
+                <h3 class="visually-hidden">{{ review.reviewNo }}</h3>
 
-              <a class="avatar-24">
-                <img
-                  v-if="review.memImg == null"
-                  src="@/assets/images/img-user-default.png"
-                  alt=""
-                />
-                <img
-                  v-if="review.socialType != 'LOCAL' && review.memImg != null"
-                  :src="review.memImg"
-                  alt=""
-                />
-                <img
-                  v-if="review.socialType == 'LOCAL' && review.memImg != null"
-                  :src="require(`@/assets/images/memberImg/${review.memImg}`)"
-                  alt=""
-                />
-              </a>
-
-              <div class="inf">
-                <a class="username">
-                  <strong> {{ review.memNick }}</strong>
+                <a class="avatar-24">
+                  <img
+                    v-if="review.memImg == null"
+                    src="@/assets/images/img-user-default.png"
+                    alt=""
+                  />
+                  <img
+                    v-if="review.socialType != 'LOCAL' && review.memImg != null"
+                    :src="review.memImg"
+                    alt=""
+                  />
+                  <img
+                    v-if="review.socialType == 'LOCAL' && review.memImg != null"
+                    :src="require(`@/assets/images/memberImg/${review.memImg}`)"
+                    alt=""
+                  />
                 </a>
 
-                <div class="detail">
-                  <div class="star-rating-13">
-                    <StarRating
-                      :inline="true"
-                      :read-only="true"
-                      :star-size="10"
-                      :show-rating="false"
-                      v-model="review.star_score"
-                      :incremane="0.1"
-                      active-color="#fee500"
-                      :star-points="[
-                        23, 2, 14, 17, 0, 19, 10, 34, 7, 50, 23, 43, 38, 50, 36,
-                        34, 46, 19, 31, 17,
-                      ]"
-                    />
-                  </div>
-                  <div class="misc">
-                    <span>{{ review.updDate }}</span>
+                <div class="inf">
+                  <a class="username">
+                    <strong> {{ review.memNick }}</strong>
+                  </a>
+
+                  <div class="detail">
+                    <div class="star-rating-13">
+                      <StarRating
+                        :inline="true"
+                        :read-only="true"
+                        :star-size="10"
+                        :show-rating="false"
+                        v-model="review.star_score"
+                        :incremane="0.1"
+                        active-color="#fee500"
+                        :star-points="[
+                          23, 2, 14, 17, 0, 19, 10, 34, 7, 50, 23, 43, 38, 50,
+                          36, 34, 46, 19, 31, 17,
+                        ]"
+                      />
+                    </div>
+                    <div class="misc">
+                      <span>{{ review.updDate }}</span>
+                    </div>
                   </div>
                 </div>
+              </header>
+              <div class="cafe-review-body">
+                <div class="review-image" v-if="review.fileName !== null">
+                  <img :src="require(`@/assets/review/${review.fileName}`)" />
+                </div>
+
+                <p>{{ review.review_content }}</p>
               </div>
-            </header>
-            <div class="cafe-review-body">
-              <div class="review-image" v-if="review.fileName !== null">
-                <img :src="require(`@/assets/review/${review.fileName}`)" />
-              </div>
 
-              <p>{{ review.review_content }}</p>
-            </div>
+              <CafeReviewLike v-if="review" :review="review" :index="index" />
+              <CafeReviewDelete v-if="role == 'USER'" :review="review" />
 
-            <CafeReviewLike v-if="review" :review="review" :index="index" />
-            <CafeReviewDelete v-if="role == 'USER'" :review="review" />
-
-            <CafeReviewModify
-              v-if="role == 'USER'"
-              :review="review"
-              @submit="onModify"
-            />
-          </article>
-        </li>
-      </ol>
-    </div>
-    <PaginationForm
-      :pageSetting="pageDataSetting(total, limit, block, this.page)"
-      @paging="pagingMethod"
-    />
+              <CafeReviewModify
+                v-if="role == 'USER'"
+                :review="review"
+                @submit="onModify"
+              />
+            </article>
+          </li>
+        </ol>
+      </div>
+      <PaginationForm
+        :pageSetting="pageDataSetting(total, limit, block, this.page)"
+        @paging="pagingMethod"
+      />
+    </template>
   </form>
 </template>
 <script>

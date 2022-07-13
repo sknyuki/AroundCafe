@@ -99,21 +99,13 @@ export default {
         "info",
         new Blob([JSON.stringify(fileInfo)], { type: "application/json" })
       )
-
-      // let membNo
-      // if (this.role == "ADMIN") {
-      //   membNo = 0
-      // } else membNo = this.memNo
-
       axios
         .post(`http://localhost:7777/qna/register`, formData)
         .then((res) => {
           alert(res.data)
           window.open("http://localhost:8080/chat", "_blank")
         })
-        .catch(() => {
-          alert("문의사항 등록에 실패하였습니다.")
-        })
+        .catch(() => {})
     },
     fetchCafeImg(cafeNo) {
       axios.get(`http://localhost:7777/cafe/img/${cafeNo}`).then((res) => {
