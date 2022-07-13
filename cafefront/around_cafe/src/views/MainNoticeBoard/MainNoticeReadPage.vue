@@ -1,9 +1,9 @@
 <template>
-  <v-container>
+  <div class="container">
     <v-row>
       <notice-read-form v-if="noticeBoard" :noticeBoard="noticeBoard" />
     </v-row>
-  </v-container>
+  </div>
 </template>
 
 <script>

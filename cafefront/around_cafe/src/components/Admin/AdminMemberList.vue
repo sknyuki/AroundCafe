@@ -26,7 +26,7 @@
                   </th>
                   <th scope="col" align="center" style="width: 70px">연락처</th>
                   <th scope="col" align="center" style="width: 40px">권한</th>
-                  <th scope="col" align="center" style="width: 40px">
+                  <th scope="col" align="center" style="width: 50px">
                     블랙여부
                   </th>
                 </tr>

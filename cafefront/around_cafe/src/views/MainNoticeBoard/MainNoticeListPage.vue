@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <v-row justify="center">
       <notice-board-list :noticeBoards="noticeBoards" />
       <!-- <div v-if="noticeBoards.length == 0"><p>등록된 공지사항이 없습니다.</p></div>
