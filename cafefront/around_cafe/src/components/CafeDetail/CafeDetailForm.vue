@@ -18,7 +18,7 @@
                 <template v-if="index < 5">
                   <img
                     :src="require(`@/assets/cafe/cafeMypage/${img.cafe_img}`)"
-                    :alt="`Image${img.cafeImgNo}`"
+                    :alt="`이미지${img.cafeImgNo}`"
                   />
                 </template>
               </picture>
@@ -121,7 +121,7 @@
                                   </div>
                                   <strong
                                     class="count"
-                                    :aria-label="this.StartPoint5"
+                                    :aria-label="this.StarPoint5"
                                     >{{ this.StarPoint5 }}</strong
                                   >
                                 </dd>
@@ -135,7 +135,7 @@
                                   </div>
                                   <strong
                                     class="count"
-                                    :aria-label="this.StartPoint4"
+                                    :aria-label="this.StarPoint4"
                                     >{{ this.StarPoint4 }}</strong
                                   >
                                 </dd>
@@ -149,7 +149,7 @@
                                   </div>
                                   <strong
                                     class="count"
-                                    :aria-label="this.StartPoint3"
+                                    :aria-label="this.StarPoint3"
                                     >{{ this.StarPoint3 }}</strong
                                   >
                                 </dd>
@@ -163,7 +163,7 @@
                                   </div>
                                   <strong
                                     class="count"
-                                    :aria-label="this.StartPoint2"
+                                    :aria-label="this.StarPoint2"
                                     >{{ this.StarPoint2 }}</strong
                                   >
                                 </dd>
@@ -177,7 +177,7 @@
                                   </div>
                                   <strong
                                     class="count"
-                                    :aria-label="this.StartPoint1"
+                                    :aria-label="this.StarPoint1"
                                     >{{ this.StarPoint1 }}</strong
                                   >
                                 </dd>
@@ -185,7 +185,6 @@
                             </dl>
                           </div>
                         </div>
-
                         <CafeReviewForm :cafeNo="cafeNo" />
                       </section>
                     </div>
