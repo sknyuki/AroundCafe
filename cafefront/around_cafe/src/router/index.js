@@ -32,16 +32,15 @@ Vue.use(VueRouter)
 
 // 관리자 권한 여부
 
-const authAdmin = (to, from, next) => {
-  let validate = userService.getUserInfo()["role"]
-  if (validate === "ADMIN") {
-    next()
-  } else {
-    next("/")
-    alert("AroundCafe관리자만 가능합니다.")
-  }
-}
-
+// const authAdmin = (to, from, next) => {
+//   let validate = userService.getUserInfo()["role"]
+//   if (validate === "ADMIN") {
+//     next()
+//   } else {
+//     next("/")
+//     alert("AroundCafe관리자만 가능합니다.")
+//   }
+// }
 
 // 카페 권한 여부
 // const authCafe = (to, from, next) => {
