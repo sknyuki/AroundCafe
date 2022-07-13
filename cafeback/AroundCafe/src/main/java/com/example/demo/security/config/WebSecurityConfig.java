@@ -74,7 +74,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     // Preflight Request 접근 가능
                     .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                     // 권한 없이 접근 가능한 패턴
-                    .antMatchers("/auth/**", "/members", "/cafe/main/list/**", "/cafe/likes/list/**", "/menu/list/**", "/cafe/mypage/read/**", "/cafe/review/list/**").permitAll()
+                    .antMatchers("/auth/**", "/members", "/cafe/main/list/**", "/cafe/likes/list/**", "/menu/list/**", "/cafe/mypage/read/**", "/cafe/review/list/**", "/cafe/img/**","/cafe/list","/noticeBoard/**").permitAll()
                     // ADMIN 권한이 필요한 패턴
                     //.antMatchers("/admin/**").hasAnyRole("ADMIN")
                     // cafe, admin 권한이 필요한 패턴

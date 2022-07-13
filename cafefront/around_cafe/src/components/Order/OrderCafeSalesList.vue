@@ -12,17 +12,22 @@
           <header>
             <h1>매출 확인</h1>
           </header>
-          <select @change="showMenu($event)">
-            <option
-              v-for="(item, index) in selectSales"
-              :key="index"
-              :value="item.id"
-            >
-              {{ item.name }}
-            </option>
-          </select>
-          <OrderCafeSalesDays v-if="salesDays" />
-          <OrderCafeSalesMenu v-if="salesMenu" />
+          <template v-if="loading">
+            <LoadingSpinner :loading="loading" />
+          </template>
+          <template v-else>
+            <select @change="showMenu($event)">
+              <option
+                v-for="(item, index) in selectSales"
+                :key="index"
+                :value="item.id"
+              >
+                {{ item.name }}
+              </option>
+            </select>
+            <OrderCafeSalesDays v-if="salesDays" />
+            <OrderCafeSalesMenu v-if="salesMenu" />
+          </template>
         </div>
       </div>
     </div>
@@ -34,9 +39,17 @@ import CafeSidebar from "@/components/Cafe/CafeSidebar.vue"
 import ImgBox from "@/components/ImgBox.vue"
 import OrderCafeSalesDays from "./OrderCafeSalesDays.vue"
 import OrderCafeSalesMenu from "./OrderCafeSalesMenu.vue"
+import LoadingSpinner from "../LoadingSpinner.vue"
+
 export default {
   name: "OrderCafeSalesList",
-  components: { ImgBox, CafeSidebar, OrderCafeSalesDays, OrderCafeSalesMenu },
+  components: {
+    ImgBox,
+    CafeSidebar,
+    OrderCafeSalesDays,
+    OrderCafeSalesMenu,
+    LoadingSpinner,
+  },
 
   data() {
     return {
@@ -46,7 +59,14 @@ export default {
       ],
       salesDays: true,
       salesMenu: false,
+      loading: false,
     }
+  },
+  created() {
+    this.loading = true
+    setTimeout(() => {
+      this.loading = false
+    }, 800)
   },
   methods: {
     showMenu(event) {

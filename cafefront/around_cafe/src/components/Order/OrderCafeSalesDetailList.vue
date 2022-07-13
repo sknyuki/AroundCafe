@@ -13,49 +13,55 @@
             <header class="member-list-header">
               <h2>매출 상세 현황</h2>
             </header>
-
-            <table class="member-list-table">
-              <thead>
-                <tr>
-                  <th scope="col" align="center" style="width: 100px">
-                    주문 번호
-                  </th>
-                  <th scope="col" align="center" style="width: 160px">
-                    회원 정보
-                  </th>
-                  <th scope="col" align="center" style="width: 160px">
-                    메뉴 이름
-                  </th>
-                  <th scope="col" align="center" style="width: 80px">수량</th>
-                  <th scope="col" align="center" style="width: 100px">가격</th>
-                  <th scope="col" align="center" style="width: 160px">
-                    구매 일자
-                  </th>
-                </tr>
-              </thead>
-              <tbody v-for="(item, index) in listData" :key="index">
-                <tr v-if="item != null">
-                  <td align="center">{{ item.paymentNo }}</td>
-                  <td align="center">{{ item.memNick }}</td>
-                  <td align="center">{{ item.itemName }}</td>
-                  <td align="center">{{ item.quantity }}</td>
-                  <td align="center">{{ item.amount | pricePoint }}원</td>
-                  <td align="center">
-                    {{ item.paymentDate | yyyyMMdd }}
-                    {{ item.paymentDate | HHmm }}
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <PaginationForm
-            :pageSetting="pageDataSetting(total, limit, block, this.page)"
-            @paging="pagingMethod"
-          />
-          <div>
-            <v-btn>
-              <router-link :to="'/cafe/sales'">목록</router-link>
-            </v-btn>
+            <template v-if="loading">
+              <LoadingSpinner :loading="loading" />
+            </template>
+            <template v-else>
+              <table class="member-list-table">
+                <thead>
+                  <tr>
+                    <th scope="col" align="center" style="width: 100px">
+                      주문 번호
+                    </th>
+                    <th scope="col" align="center" style="width: 160px">
+                      회원 정보
+                    </th>
+                    <th scope="col" align="center" style="width: 160px">
+                      메뉴 이름
+                    </th>
+                    <th scope="col" align="center" style="width: 80px">수량</th>
+                    <th scope="col" align="center" style="width: 100px">
+                      가격
+                    </th>
+                    <th scope="col" align="center" style="width: 160px">
+                      구매 일자
+                    </th>
+                  </tr>
+                </thead>
+                <tbody v-for="(item, index) in listData" :key="index">
+                  <tr v-if="item != null">
+                    <td align="center">{{ item.paymentNo }}</td>
+                    <td align="center">{{ item.memNick }}</td>
+                    <td align="center">{{ item.itemName }}</td>
+                    <td align="center">{{ item.quantity }}</td>
+                    <td align="center">{{ item.amount | pricePoint }}원</td>
+                    <td align="center">
+                      {{ item.paymentDate | yyyyMMdd }}
+                      {{ item.paymentDate | HHmm }}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <PaginationForm
+                :pageSetting="pageDataSetting(total, limit, block, this.page)"
+                @paging="pagingMethod"
+              />
+              <div>
+                <v-btn>
+                  <router-link :to="'/cafe/sales'">목록</router-link>
+                </v-btn>
+              </div>
+            </template>
           </div>
         </div>
       </div>
@@ -68,9 +74,10 @@ import axios from "axios"
 import CafeSidebar from "@/components/Cafe/CafeSidebar.vue"
 import ImgBox from "@/components/ImgBox.vue"
 import PaginationForm from "../PaginationForm.vue"
+import LoadingSpinner from "../LoadingSpinner.vue"
 
 export default {
-  components: { ImgBox, CafeSidebar, PaginationForm },
+  components: { ImgBox, CafeSidebar, PaginationForm, LoadingSpinner },
   name: "OrderCafeSalesDetailList",
   data() {
     return {
@@ -82,6 +89,7 @@ export default {
       pageNo: "",
       total: "",
       cafeNo: this.$store.state.user.cafeNo,
+      loading: false,
     }
   },
   props: {
@@ -91,6 +99,7 @@ export default {
     },
   },
   created() {
+    this.loading = true
     axios
       .get(
         `http://localhost:7777/payment/sales/${this.$store.state.user.cafeNo}/${this.findDate}`
@@ -98,6 +107,9 @@ export default {
       .then((res) => {
         this.salesDetailList = res.data
         this.pagingMethod(this.page)
+        setTimeout(() => {
+          this.loading = false
+        }, 500)
       })
   },
   methods: {
