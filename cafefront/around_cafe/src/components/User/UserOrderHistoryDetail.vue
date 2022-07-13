@@ -9,7 +9,10 @@
           <UserSidebar />
         </div>
         <div class="col-sm-8 col-md-9 col-lg-9">
-          <OrderHistoryDetail :paymentDetail="paymentDetail" :totalCashUsed="totalCashUsed" />
+          <OrderHistoryDetail
+            :paymentDetail="paymentDetail"
+            :totalCashUsed="totalCashUsed"
+          />
         </div>
       </div>
     </div>
@@ -17,34 +20,35 @@
 </template>
 
 <script>
-import OrderHistoryDetail from "@/components/OrderHistoryDetail";
-import UserSidebar from "@/components/User/UserSidebar";
-import ImgBox from "@/components/ImgBox";
-import { mapActions, mapState } from "vuex";
+import OrderHistoryDetail from "@/components/OrderHistoryDetail"
+import UserSidebar from "@/components/User/UserSidebar"
+import ImgBox from "@/components/ImgBox"
+import { mapActions, mapState } from "vuex"
+
 export default {
   name: "UserOrderHistoryDetail",
   components: { ImgBox, UserSidebar, OrderHistoryDetail },
-  data () {
+  data() {
     return {
-      totalCashUsed: 0
+      totalCashUsed: 0,
     }
   },
   props: {
-    paymentNo : { Type: Number, required: true }
+    paymentNo: { Type: Number, required: true },
   },
   computed: {
     ...mapState(["paymentDetail"]),
   },
   methods: {
-      ...mapActions(["fetchPaymentDetail"])
+    ...mapActions(["fetchPaymentDetail"]),
   },
   async created() {
     await this.fetchPaymentDetail(this.paymentNo)
-    this.totalCashUsed = parseInt(this.paymentDetail.totalAmount) - parseInt(this.paymentDetail.totalPointAmount)
+    this.totalCashUsed =
+      parseInt(this.paymentDetail.totalAmount) -
+      parseInt(this.paymentDetail.totalPointAmount)
   },
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

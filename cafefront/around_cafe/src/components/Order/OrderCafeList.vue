@@ -16,7 +16,7 @@
             <LoadingSpinner :loading="loading" />
           </template>
           <template v-else>
-            <OrderCafeHistory :orderCafeLists="orderCafeLists" :user="user" />
+            <OrderCafeHistory :orderCafeLists="orderCafeLists" :user="user" role="CAFE"/>
           </template>
         </div>
       </div>

@@ -19,6 +19,7 @@ export default {
   user: {},
   userInfo: {},
 
+  paymentList: {},
   paymentDetail: {},
 
   help: {},

@@ -119,7 +119,11 @@ public class PaymentServiceImpl implements PaymentService {
         Cafe cafe = cafeRepository.findByCafeNo2(payment.getCafeNo()).orElseThrow(()
                 -> new ResourceNotFoundException("cafe", "cafeNo", payment.getCafeNo()));
 
-        paymentResponse.setMemNo(payment.getMember().getMemNo());
+        if (payment.getMember() != null) {
+            paymentResponse.setMemNo(payment.getMember().getMemNo());
+        } else {
+            paymentResponse.setMemNo(null);
+        }
         paymentResponse.setCafeName(cafe.getCafe_name());
 
         List<OrderItemResponse> orderItemList = new ArrayList<>();
@@ -307,7 +311,5 @@ public class PaymentServiceImpl implements PaymentService {
 
 
     }
-
-
 }
 
