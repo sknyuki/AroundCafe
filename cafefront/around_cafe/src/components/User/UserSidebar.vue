@@ -84,12 +84,6 @@ export default {
       social: this.$store.state.user.socialType,
       sidebarOne: [
         {
-          id: 1,
-          icon: "mdi-coffee-outline",
-          title: "주문현황",
-          link: "/user/order",
-        },
-        {
           id: 2,
           icon: "mdi-format-list-bulleted",
           title: "주문내역",
