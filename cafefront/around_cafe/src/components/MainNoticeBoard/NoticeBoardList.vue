@@ -115,7 +115,7 @@ export default {
 .cardStyle {
   font-family: "Ubuntu", sans-serif;
   margin: 5% 5% 5% 5%;
-  width: 1100px;
+  width: 100%;
 }
 .v-data-table::v-deep th {
   font-size: 15px !important;

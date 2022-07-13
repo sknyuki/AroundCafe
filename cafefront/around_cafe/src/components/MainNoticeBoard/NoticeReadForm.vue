@@ -28,7 +28,7 @@
         </div>
 
         <div>
-          <div class="test mt-3">
+          <div class="test mt-4">
             <v-icon> mdi-account-eye</v-icon>
             <span>{{ noticeBoard.viewCount }}</span>
           </div>
@@ -51,7 +51,7 @@
       </v-row>
 
       <v-row>
-        <v-btn @click="goList" class="listBtn" dark> 목록으로 </v-btn>
+        <v-btn @click="goList" class="btn-indigo btn-48" dark> 목록으로 </v-btn>
       </v-row>
     </v-card>
   </v-container>
@@ -93,6 +93,7 @@ export default {
   padding: 5% 10% 5% 10%;
   margin-left: auto;
   margin-right: auto;
+  width: 100%;
 }
 .modifyBtn {
   color: rgba(214, 86, 103, 0.596);
