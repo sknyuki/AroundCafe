@@ -21,7 +21,7 @@ public interface PaymentRepository extends JpaRepository<Payment,Long> {
     @Query("select m from Payment m where m.member = :member")
     public List<Payment> findAllByMember(@Param("member") Member member);
 
-    @Query("select m from Payment m where m.paymentNo = :paymentNo")
+    @Query("select m from Payment m where m.paymentNo = :paymentNo order by m.paymentDate desc")
     public Optional<Payment> findByPaymentNo(@Param("paymentNo") Long paymentNo);
 
     @Query("select m from Payment m where m.cafeNo = :cafeNo order by m.paymentDate desc")
@@ -34,6 +34,7 @@ public interface PaymentRepository extends JpaRepository<Payment,Long> {
 
     @Transactional
     public void deleteByPaymentNo(@Param("paymentNo")Long paymentNo);
+
     @Modifying
     @Transactional
     @Query("delete from Payment p where p.paymentDate is null")
