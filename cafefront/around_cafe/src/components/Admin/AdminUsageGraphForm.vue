@@ -161,19 +161,8 @@ export default {
         this.dayRange10 = new Date(date.getFullYear(), 9, 1)
         this.dayRange11 = new Date(date.getFullYear(), 10, 1)
         this.dayRange12 = new Date(date.getFullYear(), 11, 1)
-
-        // this.dayRange4 = new Date(date.getFullYear(), date.getMonth() - 7, 1)
-        // this.dayRange5 = new Date(date.getFullYear(), date.getMonth() - 6, 1)
-        // this.dayRange6 = new Date(date.getFullYear(), date.getMonth() - 5, 1)
-        // this.dayRange7 = new Date(date.getFullYear(), date.getMonth() - 4, 1)
-        // this.dayRange8 = new Date(date.getFullYear(), date.getMonth() - 3, 1)
-        // this.dayRange9 = new Date(date.getFullYear(), date.getMonth() - 2, 1)
-        // this.dayRange10 = new Date(date.getFullYear(), date.getMonth() - 1, 1)
-        // this.dayRange11 = new Date(date.getFullYear(), date.getMonth(), 1)
-        // this.dayRange12 = this.date2
       }
-      // this.date1 = this.dates[0] + "T00:00:00.000+00:00"
-      // this.date2 = this.dates[1] + "T00:00:00.000+00:00"
+
       console.log(this.date1)
       console.log(this.date2)
       console.log("--")
@@ -286,18 +275,7 @@ export default {
             this.value12 += this.usageGraphList[i].totalAmount
           }
         }
-        console.log(this.dayRange1)
-        console.log(this.dayRange2)
-        console.log(this.dayRange3)
-        console.log(this.dayRange4)
-        console.log(this.dayRange5)
-        console.log(this.dayRange6)
-        console.log(this.dayRange7)
-        console.log(this.dayRange8)
-        console.log(this.dayRange9)
-        console.log(this.dayRange10)
-        console.log(this.dayRange11)
-        console.log(this.dayRange12)
+
         this.fillData2()
       }
     },
@@ -362,23 +340,6 @@ export default {
             "10월",
             "11월",
             "12월",
-            // this.yyyyMMdd(this.dayRange1) + "~" + this.yyyyMMdd(this.dayRange2),
-            // this.yyyyMMdd(this.dayRange2) + "~" + this.yyyyMMdd(this.dayRange3),
-            // this.yyyyMMdd(this.dayRange3) + "~" + this.yyyyMMdd(this.dayRange4),
-            // this.yyyyMMdd(this.dayRange4) + "~" + this.yyyyMMdd(this.dayRange5),
-            // this.yyyyMMdd(this.dayRange5) + "~" + this.yyyyMMdd(this.dayRange6),
-            // this.yyyyMMdd(this.dayRange6) + "~" + this.yyyyMMdd(this.dayRange7),
-            // this.yyyyMMdd(this.dayRange7) + "~" + this.yyyyMMdd(this.dayRange8),
-            // this.yyyyMMdd(this.dayRange8) + "~" + this.yyyyMMdd(this.dayRange9),
-            // this.yyyyMMdd(this.dayRange9) +
-            //   "~" +
-            //   this.yyyyMMdd(this.dayRange10),
-            // this.yyyyMMdd(this.dayRange10) +
-            //   "~" +
-            //   this.yyyyMMdd(this.dayRange11),
-            // this.yyyyMMdd(this.dayRange11) +
-            //   "~" +
-            //   this.yyyyMMdd(this.dayRange12),
           ],
           datasets: [
             {

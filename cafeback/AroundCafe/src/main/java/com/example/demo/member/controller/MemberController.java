@@ -103,10 +103,10 @@ public class MemberController {
 
     //블랙 리스트 설정
 
-    @PostMapping("/{memNo}")
-    public boolean balckToTrue (@PathVariable("memNo") Long membNo) {
+    @PostMapping("/black/{memNo}")
+    public String blackChange (@PathVariable("memNo") Long membNo) {
         log.info ("black check" );
-        return memberService.balckToTrue(membNo);
+        return memberService.blackChange(membNo);
     }
 
 }

@@ -3,12 +3,14 @@ package com.example.demo.member.entity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
 @Getter
 @RequiredArgsConstructor
 @Entity
+@Setter
 @Table(name = "member_role")
 public class MemberRole {
 
@@ -19,7 +21,7 @@ public class MemberRole {
     @Enumerated(EnumType.STRING)
     private MemberRoleType name;
 
-    @Column(name = "blacklist")
+    @Column(name = "blacklist" ,columnDefinition = "boolean default false")
     private Boolean isMemberOnBlacklist;
 
 
@@ -33,5 +35,6 @@ public class MemberRole {
         this.isMemberOnBlacklist = isMemberOnBlacklist;
         this.member = member;
     }
+
 
 }
