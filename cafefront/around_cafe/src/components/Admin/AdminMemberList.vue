@@ -26,7 +26,7 @@
                   </th>
                   <th scope="col" align="center" style="width: 70px">연락처</th>
                   <th scope="col" align="center" style="width: 40px">권한</th>
-                  <th scope="col" align="center" style="width: 50px">
+                  <th scope="col" align="center" style="width: 60px">
                     블랙여부
                   </th>
                 </tr>
@@ -123,7 +123,7 @@ export default {
       return { first, end, list, currentPage }
     },
     ToBlackList(index) {
-      var result = confirm("블랙리스틀로 등록하시겠습니까?")
+      var result = confirm("블랙리스트로 등록하시겠습니까?")
       if (result) {
         console.log("블랙리스트 설정")
         console.log()
@@ -142,7 +142,7 @@ export default {
     },
 
     TakeBack(index) {
-      var result = confirm("블랙리스트를 해제 하겠습니까?")
+      var result = confirm("블랙리스트를 해체 하겠습니까?")
       if (result) {
         this.membNo = this.adminlist[index].memNo
 
